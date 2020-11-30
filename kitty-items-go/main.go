@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/dapperlabs/kitty-items-be/controllers"
+	"github.com/dapperlabs/kitty-items-go/controllers"
 	"github.com/gorilla/mux"
 )
 

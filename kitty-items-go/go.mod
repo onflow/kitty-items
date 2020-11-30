@@ -1,4 +1,4 @@
-module github.com/dapperlabs/kitty-items-be
+module github.com/dapperlabs/kitty-items-go
 
 go 1.15
 
