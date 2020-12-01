@@ -9,7 +9,7 @@ type KibblesService struct {
 	*client.Client
 }
 
-func New(flowClient *client.Client) *KibblesService {
+func NewKibbles(flowClient *client.Client) *KibblesService {
 	return &KibblesService{flowClient}
 }
 

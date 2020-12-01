@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
@@ -8,7 +9,9 @@ import (
 	"github.com/dapperlabs/kitty-items-go/services"
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
+	"github.com/onflow/flow-go-sdk"
 	"github.com/onflow/flow-go-sdk/client"
+	"github.com/onflow/flow-go-sdk/crypto"
 	"google.golang.org/grpc"
 )
 
@@ -24,7 +27,28 @@ func main() {
 		log.Fatalf("error connecting to flow node = %s", err)
 	}
 
-	kibblesService := services.New(c)
+	ctx := context.Background()
+
+	// retrieve minterPrivKeyHex + minterSigAlgoName from config.
+	minterPrivKeyHex := ""
+	minterSigAlgoName := ""
+
+	minterSigAlgo := crypto.StringToSignatureAlgorithm(minterSigAlgoName)
+	minterPrivKey, err := crypto.DecodePrivateKeyHex(minterSigAlgo, minterPrivKeyHex)
+	if err != nil {
+		panic(err)
+	}
+
+	var minterAddress flow.Address
+	minterAccount, err := c.GetAccount(ctx, minterAddress)
+	minterAccountKey := minterAccount.Keys[0]
+
+	signer := crypto.NewInMemorySigner(minterPrivKey, minterAccountKey.HashAlgo)
+
+	flowService := services.NewFlow(c, signer, &minterAddress, minterAccountKey)
+	log.Printf("flowService = %+v", flowService)
+
+	kibblesService := services.NewKibbles(c)
 
 	r := mux.NewRouter()
 
