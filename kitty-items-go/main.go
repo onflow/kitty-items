@@ -29,21 +29,20 @@ func main() {
 
 	ctx := context.Background()
 
-	// retrieve minterPrivKeyHex + minterSigAlgoName from config.
-	minterPrivKeyHex := ""
-	minterSigAlgoName := ""
-
-	minterSigAlgo := crypto.StringToSignatureAlgorithm(minterSigAlgoName)
-	minterPrivKey, err := crypto.DecodePrivateKeyHex(minterSigAlgo, minterPrivKeyHex)
+	minterPrivateKey, err := crypto.DecodePrivateKeyHex(crypto.StringToSignatureAlgorithm(conf.MinterSigAlgoName), conf.MinterPrivateKeyHex)
 	if err != nil {
-		panic(err)
+		log.Fatalf("error decoding minter private key = %s", err)
 	}
 
-	var minterAddress flow.Address
+	minterAddress := flow.HexToAddress(conf.MinterFlowAddressHex)
 	minterAccount, err := c.GetAccount(ctx, minterAddress)
+	if err != nil {
+		log.Fatalf("error retrieving minter account = %s", err)
+	}
+
 	minterAccountKey := minterAccount.Keys[0]
 
-	signer := crypto.NewInMemorySigner(minterPrivKey, minterAccountKey.HashAlgo)
+	signer := crypto.NewInMemorySigner(minterPrivateKey, minterAccountKey.HashAlgo)
 
 	flowService := services.NewFlow(c, signer, &minterAddress, minterAccountKey)
 	log.Printf("flowService = %+v", flowService)
