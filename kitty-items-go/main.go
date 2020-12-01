@@ -25,14 +25,14 @@ func main() {
 		log.Fatalf("error processing configuration = %s", err)
 	}
 
-	c, err := client.New(conf.FlowNode, grpc.WithInsecure())
+	flowClient, err := client.New(conf.FlowNode, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("error connecting to flow node = %s", err)
 	}
 
 	ctx := context.Background()
 
-	minterAccount, err := c.GetAccount(ctx, conf.MinterFlowAddress)
+	minterAccount, err := flowClient.GetAccount(ctx, conf.MinterFlowAddress)
 	if err != nil {
 		log.Fatalf("error retrieving minter account = %s", err)
 	}
@@ -40,10 +40,10 @@ func main() {
 	minterAccountKey := minterAccount.Keys[0]
 	signer := crypto.NewInMemorySigner(conf.MinterPrivateKey, minterAccountKey.HashAlgo)
 
-	flowService := services.NewFlow(c, signer, &conf.MinterFlowAddress, minterAccountKey)
+	flowService := services.NewFlow(flowClient, signer, &conf.MinterFlowAddress, minterAccountKey)
 	log.Printf("flowService = %+v", flowService)
 
-	kibblesService := services.NewKibbles(c)
+	kibblesService := services.NewKibbles(flowClient)
 
 	r := mux.NewRouter()
 
