@@ -37,13 +37,11 @@ func main() {
 		log.Fatalf("error retrieving minter account = %s", err)
 	}
 
-	minterAccountKey := minterAccount.Keys[0]
+	minterAccountKey := minterAccount.Keys[conf.MinterAccountKeyIndex]
 	signer := crypto.NewInMemorySigner(conf.MinterPrivateKey, minterAccountKey.HashAlgo)
 
-	flowService := services.NewFlow(flowClient, signer, &conf.MinterFlowAddress, minterAccountKey)
-	log.Printf("flowService = %+v", flowService)
-
-	kibblesService := services.NewKibbles(flowClient)
+	flowService := services.NewFlow(flowClient, signer, conf.MinterFlowAddress, minterAccountKey)
+	kibblesService := services.NewKibbles(flowService)
 
 	r := mux.NewRouter()
 

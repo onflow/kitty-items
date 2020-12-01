@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/dapperlabs/kitty-items-go/services"
@@ -33,15 +32,13 @@ func (k *kibblesController) HandleMintKibbles(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	flowAddress := flow.HexToAddress(body.FlowAddress)
-
-	transactionID, err := k.kibblesService.Mint(flowAddress, body.Amount)
+	flowDestinationAddress := flow.HexToAddress(body.FlowAddress)
+	transactionID, err := k.kibblesService.Mint(r.Context(), flowDestinationAddress, body.Amount)
 
 	if err != nil {
 		http.Error(w, "error minting tokens", http.StatusInternalServerError)
 	}
 
-	fmt.Printf("transactionId = %s", transactionID)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&MintKibblesResponse{transactionID})
 }

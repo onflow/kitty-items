@@ -8,11 +8,12 @@ import (
 )
 
 type Config struct {
-	FlowNode             string `default:"localhost:3569"`
-	MinterFlowAddressHex string `required:"true"`
-	MinterPrivateKeyHex  string `required:"true"`
-	MinterSigAlgoName    string `default:"ECDSA_P256"`
-	MinterHashAlgoName   string `default:"SHA3_256"`
+	FlowNode              string `default:"localhost:3569"`
+	MinterFlowAddressHex  string `required:"true"`
+	MinterPrivateKeyHex   string `required:"true"`
+	MinterSigAlgoName     string `default:"ECDSA_P256"`
+	MinterHashAlgoName    string `default:"SHA3_256"`
+	MinterAccountKeyIndex int    `default:"1"`
 
 	// These are computed variables based on the env variables above
 	MinterFlowAddress flow.Address      `ignored:"true"`

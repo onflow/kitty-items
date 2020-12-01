@@ -10,13 +10,13 @@ import (
 
 type FlowService struct {
 	signer           crypto.Signer
-	minterAddress    *flow.Address
+	minterAddress    flow.Address
 	minterAccountKey *flow.AccountKey
 	client           *client.Client
 }
 
-func NewFlow(client *client.Client, signer crypto.Signer, minterAddress *flow.Address, minterAccountKey *flow.AccountKey) FlowService {
-	return FlowService{
+func NewFlow(client *client.Client, signer crypto.Signer, minterAddress flow.Address, minterAccountKey *flow.AccountKey) *FlowService {
+	return &FlowService{
 		signer:           signer,
 		minterAddress:    minterAddress,
 		minterAccountKey: minterAccountKey,
@@ -24,9 +24,9 @@ func NewFlow(client *client.Client, signer crypto.Signer, minterAddress *flow.Ad
 	}
 }
 
+// Send will submit a transaction on the blockchain with the given minterAddress
 func (f *FlowService) Send(ctx context.Context, tx *flow.Transaction) (string, error) {
-	// account that is signing the envelope, the reference to the key signing it, and a signer per-se
-	err := tx.SignEnvelope(*f.minterAddress, f.minterAccountKey.Index, f.signer)
+	err := tx.SignEnvelope(f.minterAddress, f.minterAccountKey.Index, f.signer)
 	if err != nil {
 		return "", err
 	}
@@ -37,4 +37,13 @@ func (f *FlowService) Send(ctx context.Context, tx *flow.Transaction) (string, e
 	}
 
 	return tx.ID().String(), nil
+}
+
+func (f *FlowService) GetMinterAddressSequenceNumber(ctx context.Context) (uint64, error) {
+	flowAccount, err := f.client.GetAccount(ctx, f.minterAddress)
+	if err != nil {
+		return -1, err
+	}
+
+	return flowAccount.Keys[f.minterAccountKey.Index].SequenceNumber, nil
 }
