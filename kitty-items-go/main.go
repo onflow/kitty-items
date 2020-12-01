@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/dapperlabs/kitty-items-go/controllers"
+	"github.com/dapperlabs/kitty-items-go/services"
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/onflow/flow-go-sdk/client"
@@ -18,14 +19,16 @@ func main() {
 		log.Fatalf("error parsing configuration = %s", err)
 	}
 
-	_, err := client.New(conf.FlowNode, grpc.WithInsecure())
+	c, err := client.New(conf.FlowNode, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("error connecting to flow node = %s", err)
 	}
 
+	kibblesService := services.New(c)
+
 	r := mux.NewRouter()
 
-	kibblesC := controllers.NewKibbles()
+	kibblesC := controllers.NewKibbles(kibblesService)
 
 	r.HandleFunc("/kibbles/new", kibblesC.HandleMintKibbles).Methods(http.MethodPost)
 
