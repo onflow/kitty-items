@@ -9,7 +9,6 @@ import (
 	"github.com/dapperlabs/kitty-items-go/services"
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/onflow/flow-go-sdk"
 	"github.com/onflow/flow-go-sdk/client"
 	"github.com/onflow/flow-go-sdk/crypto"
 	"google.golang.org/grpc"
@@ -22,6 +21,10 @@ func main() {
 		log.Fatalf("error parsing configuration = %s", err)
 	}
 
+	if err := conf.Compute(); err != nil {
+		log.Fatalf("error processing configuration = %s", err)
+	}
+
 	c, err := client.New(conf.FlowNode, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("error connecting to flow node = %s", err)
@@ -29,22 +32,15 @@ func main() {
 
 	ctx := context.Background()
 
-	minterPrivateKey, err := crypto.DecodePrivateKeyHex(crypto.StringToSignatureAlgorithm(conf.MinterSigAlgoName), conf.MinterPrivateKeyHex)
-	if err != nil {
-		log.Fatalf("error decoding minter private key = %s", err)
-	}
-
-	minterAddress := flow.HexToAddress(conf.MinterFlowAddressHex)
-	minterAccount, err := c.GetAccount(ctx, minterAddress)
+	minterAccount, err := c.GetAccount(ctx, conf.MinterFlowAddress)
 	if err != nil {
 		log.Fatalf("error retrieving minter account = %s", err)
 	}
 
 	minterAccountKey := minterAccount.Keys[0]
+	signer := crypto.NewInMemorySigner(conf.MinterPrivateKey, minterAccountKey.HashAlgo)
 
-	signer := crypto.NewInMemorySigner(minterPrivateKey, minterAccountKey.HashAlgo)
-
-	flowService := services.NewFlow(c, signer, &minterAddress, minterAccountKey)
+	flowService := services.NewFlow(c, signer, &conf.MinterFlowAddress, minterAccountKey)
 	log.Printf("flowService = %+v", flowService)
 
 	kibblesService := services.NewKibbles(c)
