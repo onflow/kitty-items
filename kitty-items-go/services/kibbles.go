@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/onflow/cadence"
 	"github.com/onflow/flow-go-sdk"
@@ -33,17 +34,20 @@ func NewKibbles(service *FlowService) *KibblesService {
 func (k *KibblesService) Mint(ctx context.Context, destinationAddress flow.Address, amount uint) (string, error) {
 	sequenceNumber, err := k.flowService.GetMinterAddressSequenceNumber(ctx)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("error getting sequence number = %w", err)
 	}
 
-	block, err := k.flowService.client.GetLatestBlock(ctx, true)
+	referenceBlock, err := k.flowService.client.GetLatestBlock(ctx, true)
+	if err != nil {
+		return "", fmt.Errorf("error getting reference block = %w", err)
+	}
 
 	tx := flow.NewTransaction().
 		SetScript([]byte(mintKibblesTemplate)).
 		AddAuthorizer(k.flowService.minterAddress).
 		SetProposalKey(k.flowService.minterAddress, k.flowService.minterAccountKey.Index, sequenceNumber).
 		SetPayer(k.flowService.minterAddress).
-		SetReferenceBlockID(block.ID).
+		SetReferenceBlockID(referenceBlock.ID).
 		SetGasLimit(10000)
 
 	if err := tx.AddArgument(cadence.NewAddress(destinationAddress)); err != nil {
