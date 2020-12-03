@@ -44,7 +44,6 @@ func (k *KibblesService) Mint(ctx context.Context, destinationAddress flow.Addre
 
 	tx := flow.NewTransaction().
 		SetScript([]byte(mintKibblesTemplate)).
-		AddAuthorizer(k.flowService.minterAddress).
 		SetProposalKey(k.flowService.minterAddress, k.flowService.minterAccountKey.Index, sequenceNumber).
 		SetPayer(k.flowService.minterAddress).
 		SetReferenceBlockID(referenceBlock.ID).
