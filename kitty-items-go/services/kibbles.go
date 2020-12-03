@@ -5,23 +5,10 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/dapperlabs/kitty-items-go/templates"
 	"github.com/onflow/cadence"
 	"github.com/onflow/flow-go-sdk"
 )
-
-const mintKibblesTemplate = `
-import DietKibbles from 0x06f65a4f32bba850
-import FungibleToken from 0x9a0766d93b6608b7
-
-transaction(to: Address, amount: UInt) {
-  prepare() {
-    getAccount(to)
-      .getCapability<&{FungibleToken.Receiver}>(DietKibbles.publicPath)!
-      .borrow()!
-      .deposit(from: <- DietKibbles.mintTenDietKibbles())
-  }
-}
-`
 
 type KibblesService struct {
 	flowService *FlowService
@@ -45,7 +32,7 @@ func (k *KibblesService) Mint(ctx context.Context, destinationAddress flow.Addre
 	}
 
 	tx := flow.NewTransaction().
-		SetScript([]byte(mintKibblesTemplate)).
+		SetScript([]byte(templates.MintKibblesTemplate)).
 		SetProposalKey(k.flowService.minterAddress, k.flowService.minterAccountKey.Index, sequenceNumber).
 		SetPayer(k.flowService.minterAddress).
 		SetReferenceBlockID(referenceBlock.ID).
