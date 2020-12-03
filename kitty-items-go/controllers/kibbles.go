@@ -20,7 +20,7 @@ type MintKibblesRequest struct {
 }
 
 type MintKibblesResponse struct {
-	transactionID string `json:"transactionId"`
+	TransactionID string `json:"transactionId"`
 }
 
 func NewKibbles(k *services.KibblesService) *kibblesController {
@@ -45,5 +45,6 @@ func (k *kibblesController) HandleMintKibbles(w http.ResponseWriter, r *http.Req
 
 	log.Printf("minted kibbles txId=%s", transactionID)
 
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(&MintKibblesResponse{transactionID})
 }
