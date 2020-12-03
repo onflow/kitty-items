@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"log"
 
@@ -33,6 +34,13 @@ func (k *kibblesController) HandleMintKibbles(w http.ResponseWriter, r *http.Req
 		http.Error(w, "invalid request", http.StatusBadRequest)
 		return
 	}
+
+	if strings.HasPrefix(body.FlowAddress, "0x") {
+		http.Error(w, "invalid flow address: remove 0x", http.StatusBadRequest)
+		return
+	}
+
+	log.Printf("minting kibbles request = %+v", *body)
 
 	flowDestinationAddress := flow.HexToAddress(body.FlowAddress)
 	transactionID, err := k.kibblesService.Mint(r.Context(), flowDestinationAddress, body.Amount)

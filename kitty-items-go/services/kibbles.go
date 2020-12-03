@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/onflow/cadence"
 	"github.com/onflow/flow-go-sdk"
@@ -32,6 +33,7 @@ func NewKibbles(service *FlowService) *KibblesService {
 
 // Mint sends a transaction to the Flow blockchain and returns the generated transactionID as a string.
 func (k *KibblesService) Mint(ctx context.Context, destinationAddress flow.Address, amount uint) (string, error) {
+	log.Printf("minting kibbles to address=%s", destinationAddress.String())
 	sequenceNumber, err := k.flowService.GetMinterAddressSequenceNumber(ctx)
 	if err != nil {
 		return "", fmt.Errorf("error getting sequence number = %w", err)
