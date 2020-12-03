@@ -42,7 +42,7 @@ func (f *FlowService) Send(ctx context.Context, tx *flow.Transaction) (string, e
 func (f *FlowService) GetMinterAddressSequenceNumber(ctx context.Context) (uint64, error) {
 	flowAccount, err := f.client.GetAccount(ctx, f.minterAddress)
 	if err != nil {
-		return -1, err
+		return 0, err
 	}
 
 	return flowAccount.Keys[f.minterAccountKey.Index].SequenceNumber, nil
