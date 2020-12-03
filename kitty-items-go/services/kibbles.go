@@ -48,7 +48,7 @@ func (k *KibblesService) Mint(ctx context.Context, destinationAddress flow.Addre
 		SetProposalKey(k.flowService.minterAddress, k.flowService.minterAccountKey.Index, sequenceNumber).
 		SetPayer(k.flowService.minterAddress).
 		SetReferenceBlockID(referenceBlock.ID).
-		SetGasLimit(10000)
+		SetGasLimit(100)
 
 	if err := tx.AddArgument(cadence.NewAddress(destinationAddress)); err != nil {
 		return "", err

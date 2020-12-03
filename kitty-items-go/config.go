@@ -13,7 +13,7 @@ type Config struct {
 	MinterPrivateKeyHex   string `required:"true"`
 	MinterSigAlgoName     string `default:"ECDSA_P256"`
 	MinterHashAlgoName    string `default:"SHA3_256"`
-	MinterAccountKeyIndex int    `default:"1"`
+	MinterAccountKeyIndex int    `default:"0"`
 
 	// These are computed variables based on the env variables above
 	MinterFlowAddress flow.Address      `ignored:"true"`

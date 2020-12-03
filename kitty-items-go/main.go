@@ -37,6 +37,8 @@ func main() {
 		log.Fatalf("error retrieving minter account = %s", err)
 	}
 
+	log.Printf("Minter Account = %+v", minterAccount.Address)
+
 	minterAccountKey := minterAccount.Keys[conf.MinterAccountKeyIndex]
 	signer := crypto.NewInMemorySigner(conf.MinterPrivateKey, minterAccountKey.HashAlgo)
 
@@ -48,6 +50,8 @@ func main() {
 	kibblesC := controllers.NewKibbles(kibblesService)
 
 	r.HandleFunc("/kibbles/new", kibblesC.HandleMintKibbles).Methods(http.MethodPost)
+
+	log.Printf("listening")
 
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatalf("error starting server = %s", err)

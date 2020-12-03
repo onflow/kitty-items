@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"log"
+
 	"github.com/dapperlabs/kitty-items-go/services"
 	"github.com/onflow/flow-go-sdk"
 )
@@ -36,9 +38,12 @@ func (k *kibblesController) HandleMintKibbles(w http.ResponseWriter, r *http.Req
 	transactionID, err := k.kibblesService.Mint(r.Context(), flowDestinationAddress, body.Amount)
 
 	if err != nil {
+		log.Printf("error minting tokens = %s", err)
 		http.Error(w, "error minting tokens", http.StatusInternalServerError)
+		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	log.Printf("minted kibbles txId=%s", transactionID)
+
 	json.NewEncoder(w).Encode(&MintKibblesResponse{transactionID})
 }
