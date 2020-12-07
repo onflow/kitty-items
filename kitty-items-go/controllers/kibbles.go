@@ -2,28 +2,57 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"strings"
+
+	"log"
+
+	"github.com/dapperlabs/kitty-items-go/services"
+	"github.com/onflow/flow-go-sdk"
 )
 
 type kibblesController struct {
+	kibblesService *services.KibblesService
 }
 
-type MintKibblesBody struct {
+type MintKibblesRequest struct {
 	FlowAddress string `json:"flowAddress"`
 	Amount      uint   `json:"amount"`
 }
 
-func NewKibbles() *kibblesController {
-	return &kibblesController{}
+type MintKibblesResponse struct {
+	TransactionID string `json:"transactionId"`
+}
+
+func NewKibbles(k *services.KibblesService) *kibblesController {
+	return &kibblesController{k}
 }
 
 func (k *kibblesController) HandleMintKibbles(w http.ResponseWriter, r *http.Request) {
-	body := &MintKibblesBody{}
+	body := &MintKibblesRequest{}
 	if err := json.NewDecoder(r.Body).Decode(body); err != nil {
 		http.Error(w, "invalid request", http.StatusBadRequest)
 		return
 	}
-	fmt.Printf("body = %+v", body)
-	w.WriteHeader(http.StatusOK)
+
+	if strings.HasPrefix(body.FlowAddress, "0x") {
+		http.Error(w, "invalid flow address: remove 0x", http.StatusBadRequest)
+		return
+	}
+
+	log.Printf("minting kibbles request = %+v", *body)
+
+	flowDestinationAddress := flow.HexToAddress(body.FlowAddress)
+	transactionID, err := k.kibblesService.Mint(r.Context(), flowDestinationAddress, body.Amount)
+
+	if err != nil {
+		log.Printf("error minting tokens = %s", err)
+		http.Error(w, "error minting tokens", http.StatusInternalServerError)
+		return
+	}
+
+	log.Printf("minted kibbles txId=%s", transactionID)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(&MintKibblesResponse{transactionID})
 }
