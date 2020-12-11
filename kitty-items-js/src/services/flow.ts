@@ -5,10 +5,16 @@ import * as fcl from "@onflow/fcl";
 const ec: EC = new EC("p256");
 
 class FlowService {
-  authorize = (addr: string, keyIdx: string, privateKey: string) => {
+  constructor(
+    private readonly minterFlowAddress: string,
+    private readonly minterPrivateKeyHex: string,
+    private readonly minterAccountIndex: string
+  ) {}
+
+  authorizeMinter = () => {
     return async (account: any = {}) => {
-      const user = await this.getAccount(addr);
-      const key = user.keys[keyIdx];
+      const user = await this.getAccount(this.minterFlowAddress);
+      const key = user.keys[this.minterAccountIndex];
       let sequenceNum;
       if (account.role.proposer) {
         sequenceNum = key.sequenceNumber;
@@ -17,7 +23,7 @@ class FlowService {
         return {
           addr: user.address,
           keyId: key.index,
-          signature: this.signWithKey(privateKey, data.message),
+          signature: this.signWithKey(this.minterPrivateKeyHex, data.message),
         };
       };
       return {

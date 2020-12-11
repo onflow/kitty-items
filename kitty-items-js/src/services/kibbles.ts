@@ -9,7 +9,7 @@ class KibblesService {
     destinationAddress: t.Address,
     amount: string
   ): Promise<string> {
-    const authorization = this.flowService.authorize(
+    const authorization = this.flowService.authorizeMinter(
       process.env.MINTER_FLOW_ADDRESS!,
       process.env.MINTER_ACCOUNT_KEY_IDX!,
       process.env.MINTER_PRIVATE_KEY!
