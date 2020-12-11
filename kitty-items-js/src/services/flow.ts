@@ -44,7 +44,7 @@ class FlowService {
     return account;
   };
 
-  signWithKey = (privateKey: string, msg: string) => {
+  private signWithKey = (privateKey: string, msg: string) => {
     const key = ec.keyFromPrivate(Buffer.from(privateKey, "hex"));
     const sig = key.sign(this.hashMsg(msg));
     const n = 32;
@@ -53,7 +53,7 @@ class FlowService {
     return Buffer.concat([r, s]).toString("hex");
   };
 
-  hashMsg = (msg: string) => {
+  private hashMsg = (msg: string) => {
     const sha = new SHA3(256);
     sha.update(Buffer.from(msg, "hex"));
     return sha.digest();
