@@ -9,8 +9,6 @@ const V1 = "/v1/";
 const initApp = (kibblesService: KibblesService) => {
   const app = express();
 
-  app.use(validateRequest);
-
   app.use(V1, initKibblesRouter(kibblesService));
 
   app.all("*", async (req: Request, res: Response) => {
