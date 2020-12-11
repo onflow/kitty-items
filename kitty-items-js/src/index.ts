@@ -1,10 +1,19 @@
-import express from "express";
-import kibblesRouter from "./routes/kibbles";
+import initApp from "./app";
+import { KibblesService } from "./services/kibbles";
+import { FlowService } from "./services/flow";
 
-const app = express();
+async function run() {
+  const flowService = new FlowService();
+  const kibblesService = new KibblesService(flowService);
 
-app.use("/v1/", kibblesRouter);
+  const app = initApp(kibblesService);
 
-app.listen(3000, () => {
-  console.log("Listening on port 3000!");
+  app.listen(3000, () => {
+    console.log("Listening on port 3000!");
+  });
+}
+
+run().catch((e) => {
+  console.error("error", e);
+  process.exit(1);
 });

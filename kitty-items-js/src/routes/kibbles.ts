@@ -1,9 +1,14 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, Router } from "express";
+import { KibblesService } from "../services/kibbles";
 
-const router = express.Router();
+function initKibblesRouter(kibblesService: KibblesService): Router {
+  const router = express.Router();
 
-router.post("/kibbles", async (req: Request, res: Response) => {
-  res.send("ok");
-});
+  router.post("/kibbles", async (req: Request, res: Response) => {
+    res.send("ok");
+  });
 
-export default router;
+  return router;
+}
+
+export default initKibblesRouter;

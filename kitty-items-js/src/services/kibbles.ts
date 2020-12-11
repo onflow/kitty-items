@@ -27,3 +27,5 @@ class KibblesService {
     return await fcl.tx(response).onceExecuted();
   }
 }
+
+export { KibblesService };
