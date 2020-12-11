@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "ts-node-dev src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "tsnd --respawn src/index.ts",
+    "start": "node dist/src/index.js",
+    "build": "tsc",
+    "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "npm run format -- -c",
+    "format:write": "npm run format -- --write"
   },
   "author": "",
   "license": "ISC",
