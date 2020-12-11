@@ -1,6 +1,5 @@
 import * as dotenv from "dotenv";
 import * as fcl from "@onflow/fcl";
-import initApp from "./app";
 import { FlowService } from "./services/flow";
 import { DeployerService } from "./services/deployer";
 
@@ -16,11 +15,11 @@ async function run() {
     flowService,
     process.env.FUNGIBLE_TOKEN_ADDRESS!
   );
-  const app = initApp(deployerService);
-
-  app.listen(3000, () => {
-    console.log("Listening on port 3000!");
-  });
+  const result = await deployerService.deploy();
+  console.log()
+  console.log('address', result.account.addr);
+  console.log('private key', result.account.privateKey);
+  process.exit();
 }
 
 run().catch((e) => {
