@@ -1,9 +1,11 @@
+import * as dotenv from "dotenv";
+import * as fcl from "@onflow/fcl";
 import initApp from "./app";
 import { KibblesService } from "./services/kibbles";
 import { FlowService } from "./services/flow";
-import * as fcl from "@onflow/fcl";
 
 async function run() {
+  dotenv.config();
   fcl.config().put("accessNode.api", process.env.FLOW_NODE);
   const flowService = new FlowService(
     process.env.MINTER_FLOW_ADDRESS!,
