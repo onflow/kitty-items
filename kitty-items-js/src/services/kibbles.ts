@@ -6,7 +6,7 @@ import { mintKibblesTemplate } from "../templates";
 class KibblesService {
   constructor(private readonly flowService: FlowService) {}
   async mintKibblesToAddress(
-    destinationAddress: t.Address,
+    destinationAddress: string,
     amount: string
   ): Promise<string> {
     const authorization = this.flowService.authorizeMinter();
@@ -16,7 +16,7 @@ class KibblesService {
       `,
       fcl.args([
         fcl.arg(destinationAddress, t.Address),
-        fcl.arg(amount, t.UFix64),
+        fcl.arg(amount, t.UInt),
       ]),
       fcl.proposer(authorization),
       fcl.payer(authorization),
