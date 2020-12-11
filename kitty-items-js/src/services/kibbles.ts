@@ -9,11 +9,7 @@ class KibblesService {
     destinationAddress: t.Address,
     amount: string
   ): Promise<string> {
-    const authorization = this.flowService.authorizeMinter(
-      process.env.MINTER_FLOW_ADDRESS!,
-      process.env.MINTER_ACCOUNT_KEY_IDX!,
-      process.env.MINTER_PRIVATE_KEY!
-    );
+    const authorization = this.flowService.authorizeMinter();
     const response = await fcl.send([
       fcl.transaction`
         ${mintKibblesTemplate}
