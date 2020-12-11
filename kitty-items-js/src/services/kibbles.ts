@@ -5,7 +5,10 @@ import { mintKibblesTemplate } from "../templates";
 
 class KibblesService {
   constructor(private readonly flowService: FlowService) {}
-  async mintKibblesToAddress(destinationAddress: t.Address, amount: string) {
+  async mintKibblesToAddress(
+    destinationAddress: t.Address,
+    amount: string
+  ): Promise<string> {
     const authorization = this.flowService.authorize(
       process.env.MINTER_FLOW_ADDRESS!,
       process.env.MINTER_ACCOUNT_KEY_IDX!,

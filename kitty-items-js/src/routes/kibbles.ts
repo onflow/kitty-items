@@ -16,7 +16,14 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-      res.send("ok");
+      const { flowAddress, amount } = req.body;
+      const txId = await kibblesService.mintKibblesToAddress(
+        flowAddress,
+        amount
+      );
+      return res.send({
+        transactionId: txId,
+      });
     }
   );
 
