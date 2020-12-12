@@ -4,6 +4,7 @@ import initApp from "./app";
 import { KibblesService } from "./services/kibbles";
 import { FlowService } from "./services/flow";
 import { KittyItemsService } from "./services/kittyItems";
+import { MarketService } from "./services/market";
 
 async function run() {
   dotenv.config();
@@ -16,11 +17,18 @@ async function run() {
   const kibblesService = new KibblesService(flowService);
   const kittyItemsService = new KittyItemsService(
     flowService,
-    process.env.FUNGIBLE_TOKEN_ADDRESS!,
     process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
     process.env.MINTER_FLOW_ADDRESS!,
+  );
+  const marketService = new MarketService(
+    flowService,
+    process.env.FUNGIBLE_TOKEN_ADDRESS!,
+    process.env.MINTER_FLOW_ADDRESS!,
+    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
+    process.env.MINTER_FLOW_ADDRESS!,
+    process.env.MINTER_FLOW_ADDRESS!
   )
-  const app = initApp(kibblesService, kittyItemsService);
+  const app = initApp(kibblesService, kittyItemsService, marketService);
 
   app.listen(3000, () => {
     console.log("Listening on port 3000!");
