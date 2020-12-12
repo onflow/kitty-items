@@ -58,6 +58,28 @@ class FlowService {
     sha.update(Buffer.from(msg, "hex"));
     return sha.digest();
   };
+
+  sendTx = async ({transaction , args , proposer, authorizations, payer}): Promise<any> => {
+    const response = await fcl.send([
+      fcl.transaction`
+        ${transaction}
+      `,
+      fcl.args(args),
+      fcl.proposer(proposer),
+      fcl.authorizations(authorizations),
+      fcl.payer(payer),
+      fcl.limit(9999)
+    ]);
+    return await fcl.tx(response).onceSealed();
+  }
+
+  async executeScript<T>({script, args}): Promise<T> {
+    const response = await fcl.send([
+      fcl.script`${script}`,
+      fcl.args(args)
+    ]);
+    return await fcl.decode(response);
+  }
 }
 
 export { FlowService };
