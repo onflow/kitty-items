@@ -44,7 +44,7 @@ class MarketService {
     return this.flowService.executeScript<number[]>({ script, args: [fcl.arg(account, t.Address)]});
   }
 
-  buyItem = (account: string, itemId: number) => {
+  buy = (account: string, itemId: number) => {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
       .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/buy_market_item.cdc`), 'utf8')
@@ -62,7 +62,7 @@ class MarketService {
     });
   }
 
-  sellItem = (itemId: number, price: number) => {
+  sell = (itemId: number, price: number) => {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
       .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/sell_market_item.cdc`), 'utf8')

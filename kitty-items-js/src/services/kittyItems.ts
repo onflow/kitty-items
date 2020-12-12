@@ -28,7 +28,7 @@ class KittyItemsService {
     });
   }
 
-  mintKittyItem = async (recipient: string, typeId: number) => {
+  mint = async (recipient: string, typeId: number) => {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
       .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItems/transactions/mint_kitty_item.cdc`), 'utf8')
@@ -46,7 +46,7 @@ class KittyItemsService {
     });
   }
 
-  transferKittyItem = async (recipient: string, itemId: number) => {
+  transfer = async (recipient: string, itemId: number) => {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
       .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItems/transactions/transfer_kitty_item.cdc`), 'utf8')
@@ -81,7 +81,7 @@ class KittyItemsService {
     return this.flowService.executeScript<number>({ script, args: [fcl.arg(itemId, t.UInt64)]});
   }
 
-  getKittyItemsSupply = async (): Promise<number> => {
+  getSupply = async (): Promise<number> => {
     const script = fs
       .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItems/scripts/read_kitty_items_supply.cdc`), 'utf8')
       .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`);

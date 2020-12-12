@@ -15,12 +15,12 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, typeId } = req.body;
-      const txId = await kittyItemsService.mintKittyItem(
+      const tx = await kittyItemsService.mint(
         recipient,
         typeId
       );
       return res.send({
-        transactionId: txId,
+        transaction: tx,
       });
     }
   );
@@ -34,12 +34,12 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, itemId } = req.body;
-      const txId = await kittyItemsService.transferKittyItem(
+      const tx = await kittyItemsService.transfer(
         recipient,
         itemId
       );
       return res.send({
-        transactionId: txId,
+        transaction: tx,
       });
     }
   );
@@ -47,9 +47,9 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
   router.get(
     "/kitty-items/collection/:account",
     async (req: Request, res: Response) => {
-      const response = await kittyItemsService.getCollectionIds(req.params.account);
+      const collection = await kittyItemsService.getCollectionIds(req.params.account);
       return res.send({
-        response
+        collection
       });
     }
   );
@@ -57,9 +57,9 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
   router.get(
     "/kitty-items/item/:itemId",
     async (req: Request, res: Response) => {
-      const response = await kittyItemsService.getKittyItemType(parseInt(req.params.itemId));
+      const item = await kittyItemsService.getKittyItemType(parseInt(req.params.itemId));
       return res.send({
-        response
+        item
       });
     }
   );
@@ -67,9 +67,9 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
   router.get(
     "/kitty-items/supply",
     async (req: Request, res: Response) => {
-      const totalSupply = await kittyItemsService.getKittyItemsSupply();
+      const supply = await kittyItemsService.getSupply();
       return res.send({
-        totalSupply
+        supply
       });
     }
   );
