@@ -9,7 +9,8 @@
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",
-    "format:write": "npm run format -- --write"
+    "format:write": "npm run format -- --write",
+    "migrate:make": "knex migrate:make -x ts"
   },
   "author": "",
   "license": "ISC",
