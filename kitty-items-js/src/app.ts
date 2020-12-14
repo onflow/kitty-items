@@ -4,10 +4,10 @@ import Knex from "knex";
 import { Model } from "objection";
 import { json, urlencoded } from "body-parser";
 import { KibblesService } from "./services/kibbles";
-import { KittyItemsService } from "./services/kittyItems";
+import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 import initKibblesRouter from "./routes/kibbles";
-import initKittyItemsRouter from "./routes/kittyItems";
+import initKittyItemsRouter from "./routes/kitty-items";
 import initMarketRouter from "./routes/market";
 
 const V1 = "/v1/";

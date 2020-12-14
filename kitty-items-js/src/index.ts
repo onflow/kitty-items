@@ -4,7 +4,7 @@ import initApp from "./app";
 import Knex from "knex";
 import { KibblesService } from "./services/kibbles";
 import { FlowService } from "./services/flow";
-import { KittyItemsService } from "./services/kittyItems";
+import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 
 let knexInstance: Knex;
