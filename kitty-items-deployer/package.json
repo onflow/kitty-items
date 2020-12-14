@@ -1,0 +1,29 @@
+{
+  "name": "kitty-items-deployer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsnd src/index.ts",
+    "start": "node dist/src/index.js",
+    "build": "tsc",
+    "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "npm run format -- -c",
+    "format:write": "npm run format -- --write"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@onflow/fcl": "0.0.66",
+    "@onflow/sdk": "0.0.43",
+    "dotenv": "^8.2.0",
+    "elliptic": "^6.5.3",
+    "sha3": "^2.1.3",
+    "typescript": "^4.1.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1",
+    "ts-node-dev": "^1.1.1",
+    "@onflow/types": "0.0.4"
+  }
+}

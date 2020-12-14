@@ -44,7 +44,7 @@ class FlowService {
     return account;
   };
 
-  signWithKey = (privateKey: string, msg: string) => {
+  private signWithKey = (privateKey: string, msg: string) => {
     const key = ec.keyFromPrivate(Buffer.from(privateKey, "hex"));
     const sig = key.sign(this.hashMsg(msg));
     const n = 32;
@@ -53,11 +53,33 @@ class FlowService {
     return Buffer.concat([r, s]).toString("hex");
   };
 
-  hashMsg = (msg: string) => {
+  private hashMsg = (msg: string) => {
     const sha = new SHA3(256);
     sha.update(Buffer.from(msg, "hex"));
     return sha.digest();
   };
+
+  sendTx = async ({transaction , args , proposer, authorizations, payer}): Promise<any> => {
+    const response = await fcl.send([
+      fcl.transaction`
+        ${transaction}
+      `,
+      fcl.args(args),
+      fcl.proposer(proposer),
+      fcl.authorizations(authorizations),
+      fcl.payer(payer),
+      fcl.limit(9999)
+    ]);
+    return await fcl.tx(response).onceSealed();
+  }
+
+  async executeScript<T>({script, args}): Promise<T> {
+    const response = await fcl.send([
+      fcl.script`${script}`,
+      fcl.args(args)
+    ]);
+    return await fcl.decode(response);
+  }
 }
 
 export { FlowService };
