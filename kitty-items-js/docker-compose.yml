@@ -1,0 +1,10 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=kitty_items
+      - POSTGRES_USER=kitty_user
+      - POSTGRES_PASSWORD=kitty_password
