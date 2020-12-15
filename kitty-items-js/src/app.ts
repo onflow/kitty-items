@@ -1,20 +1,24 @@
 import "express-async-errors";
 import express, { Request, Response } from "express";
-import { KibblesService } from "./services/kibbles";
-import initKibblesRouter from "./routes/kibbles";
-import { KittyItemsService } from "./services/kittyItems";
-import initKittyItemsRouter from './routes/KittyItems';
+import Knex from "knex";
+import { Model } from "objection";
 import { json, urlencoded } from "body-parser";
+import { KibblesService } from "./services/kibbles";
+import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
-import initMarketRouter from './routes/market';
+import initKibblesRouter from "./routes/kibbles";
+import initKittyItemsRouter from "./routes/kitty-items";
+import initMarketRouter from "./routes/market";
 
 const V1 = "/v1/";
 
 const initApp = (
+  knex: Knex,
   kibblesService: KibblesService,
   kittyItemsService: KittyItemsService,
   marketService: MarketService
 ) => {
+  Model.knex(knex);
   const app = express();
 
   app.use(json());

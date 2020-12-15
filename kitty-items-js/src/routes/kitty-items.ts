@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import { KittyItemsService } from "../services/kittyItems";
+import { KittyItemsService } from "../services/kitty-items";
 import { body } from "express-validator";
 import { validateRequest } from "../middlewares/validate-request";
 

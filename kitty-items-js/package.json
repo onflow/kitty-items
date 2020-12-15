@@ -9,7 +9,8 @@
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",
-    "format:write": "npm run format -- --write"
+    "format:write": "npm run format -- --write",
+    "migrate:make": "knex migrate:make -x ts"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,9 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.8.0",
+    "knex": "^0.21.13",
+    "objection": "^2.2.3",
+    "pg": "^8.5.1",
     "sha3": "^2.1.3",
     "typescript": "^4.1.2"
   },
