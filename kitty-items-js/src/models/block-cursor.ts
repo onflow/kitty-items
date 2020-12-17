@@ -9,3 +9,5 @@ class BlockCursor extends BaseModel {
     return "block_cursor";
   }
 }
+
+export { BlockCursor };
