@@ -3,7 +3,7 @@ import { SaleOffer } from "./sale-offer";
 
 class KittyItem extends BaseModel {
   id!: number;
-  typeId!: number;
+  type_id!: number;
 
   saleOffers?: SaleOffer[];
 

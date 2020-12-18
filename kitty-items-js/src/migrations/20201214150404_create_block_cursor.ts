@@ -3,7 +3,7 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<void> {
   await knex.raw('create extension if not exists "uuid-ossp"');
   await knex.schema.createTable("block_cursor", async (table) => {
-    table.uuid("id").defaultTo(knex.raw("uuid_generate_v4()"));
+    table.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
     table.text("flow_event_name").unique().notNullable();
     table.bigInteger("current_block_height");
     table.timestamps(true, true);

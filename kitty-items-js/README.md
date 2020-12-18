@@ -5,6 +5,26 @@ API that sends transactions to the Flow Blockchain:
 - Mint Kibbles
 - Mint Kitty Items
 
+### Running API
+
+- Install npm dependencies:
+
+```
+npm install
+```
+
+- Run docker:
+```
+docker-compose up -d
+```
+
+- Start app:
+
+```
+npm run start:dev
+```
+
+
 ### Creating a new database migration:
 
 ```shell

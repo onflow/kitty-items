@@ -2,13 +2,17 @@ import { BaseModel } from "./base";
 import { KittyItem } from "./kitty-item";
 
 class SaleOffer extends BaseModel {
-  id!: number;
+  id!: string;
   price!: number;
   seller_address!: string;
   is_complete!: boolean;
   tx_hash!: string;
 
   kittyItem?: KittyItem;
+
+  static get tableName() {
+    return "sale_offers";
+  }
 
   static relationMappings = {
     kitty_item: {
