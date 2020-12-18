@@ -4,7 +4,11 @@ import { KittyItem } from "./kitty-item";
 class SaleOffer extends BaseModel {
   id!: number;
   price!: number;
-  flowAddress!: string
+  seller_address!: string;
+  is_complete!: boolean;
+  tx_hash!: string;
+
+  kittyItem?: KittyItem;
 
   static relationMappings = {
     kitty_item: {

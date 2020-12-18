@@ -5,6 +5,8 @@ class KittyItem extends BaseModel {
   id!: number;
   typeId!: number;
 
+  saleOffers?: SaleOffer[];
+
   static get tableName() {
     return "kitty_items";
   }

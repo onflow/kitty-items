@@ -4,6 +4,10 @@ import { SaleOffer } from "./sale-offer";
 
 class Purchase extends BaseModel {
   id!: number;
+  buyer_address!: string;
+  tx_hash!: string;
+
+  saleOffer?: SaleOffer;
 
   static relationMappings = {
     kitty_item: {
