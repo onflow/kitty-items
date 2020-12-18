@@ -69,6 +69,9 @@ func KittyItemsDeployContracts(b *emulator.Blockchain, t *testing.T) (flow.Addre
 	_, err = b.CommitBlock()
 	assert.NoError(t, err)
 
+	// Simplify the workflow by having the contract address also be our initial test collection.
+	KittyItemsSetupAccount(t, b, kittyItemsAddr, kittyItemsSigner, nftAddr, kittyItemsAddr)
+
 	return nftAddr, kittyItemsAddr, kittyItemsSigner
 }
 

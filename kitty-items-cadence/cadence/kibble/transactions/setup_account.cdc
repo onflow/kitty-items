@@ -10,22 +10,22 @@ transaction {
 
     prepare(signer: AuthAccount) {
 
-        if signer.borrow<&Kibble.Vault>(from: /storage/KibbleVault) == nil {
+        if signer.borrow<&Kibble.Vault>(from: Kibble.VaultStoragePath) == nil {
             // Create a new Kibble Vault and put it in storage
-            signer.save(<-Kibble.createEmptyVault(), to: /storage/KibbleVault)
+            signer.save(<-Kibble.createEmptyVault(), to: Kibble.VaultStoragePath)
 
             // Create a public capability to the Vault that only exposes
             // the deposit function through the Receiver interface
             signer.link<&Kibble.Vault{FungibleToken.Receiver}>(
-                /public/KibbleReceiver,
-                target: /storage/KibbleVault
+                Kibble.ReceiverPublicPath,
+                target: Kibble.VaultStoragePath
             )
 
             // Create a public capability to the Vault that only exposes
             // the balance field through the Balance interface
             signer.link<&Kibble.Vault{FungibleToken.Balance}>(
-                /public/KibbleBalance,
-                target: /storage/KibbleVault
+                Kibble.BalancePublicPath,
+                target: Kibble.VaultStoragePath
             )
         }
     }
