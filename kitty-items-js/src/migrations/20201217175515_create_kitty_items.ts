@@ -4,6 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("kitty_items", async (table) => {
     table.integer("id").primary();
     table.integer("type_id");
+    table.text("owner_adress");
     table.timestamps(true, true);
   });
 }
