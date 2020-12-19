@@ -1,22 +1,58 @@
 import { BlockCursorService } from "../services/block-cursor";
+import { FlowService } from "../services/flow";
 
 class SaleOfferHandler {
   private eventName: string = "A.877931736ee77cff.TopShot.Deposit";
-  constructor(private readonly blockCursorService: BlockCursorService) {}
+  private stepSize: number = 1000;
+  private stepTimeMs: number = 3000;
+  constructor(
+    private readonly blockCursorService: BlockCursorService,
+    private readonly flowService: FlowService
+  ) {}
 
   async run() {
+    console.log("fetching latest block height");
+    const latestBlockHeight = await this.flowService.getLatestBlockHeight();
     // create a cursor on the database
-    const blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(
+    let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(
       this.eventName,
-      18000000
+      latestBlockHeight.height
     );
-    console.log("retrieved blockcursor = ", blockCursor);
+
+    if (!blockCursor) {
+      throw new Error(
+        `invalid state, no block cursor defined for event_name=${this.eventName}`
+      );
+    }
+
     // loop
-    // grab latest block
-    // calculate fromBlock, toBlock
-    // we go step by step
-    // do our processing
-    // update cursor
+    let fromBlock, toBlock;
+
+    setInterval(async () => {
+      // grab latest block
+      // calculate fromBlock, toBlock
+      fromBlock = blockCursor.current_block_height;
+      toBlock = blockCursor.current_block_height + this.stepSize;
+      if (toBlock > latestBlockHeight.height) {
+        toBlock = latestBlockHeight.height;
+      }
+
+      if (fromBlock === toBlock) {
+        return;
+      }
+
+      console.log(
+        `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${latestBlockHeight.height}`
+      );
+
+      // do our processing
+      // update cursor
+
+      blockCursor = await this.blockCursorService.updateBlockCursorById(
+        blockCursor.id,
+        toBlock
+      );
+    }, this.stepTimeMs);
   }
 }
 

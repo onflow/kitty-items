@@ -5,15 +5,22 @@ class BlockCursorService {
     eventName: string,
     latestBlockHeight: number
   ) {
-    const blockCursor = await BlockCursor.query().findOne({
+    let blockCursor = await BlockCursor.query().findOne({
       flow_event_name: eventName,
     });
     if (!blockCursor) {
-      return BlockCursor.query().insertAndFetch({
+      blockCursor = await BlockCursor.query().insertAndFetch({
         flow_event_name: eventName,
         current_block_height: latestBlockHeight,
       });
     }
+    return blockCursor;
+  }
+
+  async updateBlockCursorById(id: string, currentBlockHeight: number) {
+    return BlockCursor.query().updateAndFetchById(id, {
+      current_block_height: currentBlockHeight,
+    });
   }
 }
 
