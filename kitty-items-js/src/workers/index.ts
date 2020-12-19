@@ -1,5 +1,6 @@
 import { SaleOfferHandler } from "./sale-offer";
 import { Model } from "objection";
+import pg from "pg";
 import Knex from "knex";
 import * as dotenv from "dotenv";
 import * as fcl from "@onflow/fcl";
@@ -8,6 +9,8 @@ import { FlowService } from "../services/flow";
 
 async function run() {
   dotenv.config();
+  // Workaround for pg considering bigint as 'text': https://github.com/knex/knex/issues/387
+  pg.types.setTypeParser(20, "text", parseInt);
   const knexInstance = Knex({
     client: "postgresql",
     connection: process.env.DATABASE_URL!,
