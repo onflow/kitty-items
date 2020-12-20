@@ -33,7 +33,8 @@ async function run() {
   await new SaleOfferHandler(
     blockCursorService,
     flowService,
-    saleOfferService
+    saleOfferService,
+    "A.f79ee844bfa76528.KittyItemsMarket.SaleOfferCreated"
   ).run();
 }
 

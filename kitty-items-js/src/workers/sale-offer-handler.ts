@@ -5,14 +5,13 @@ import { SaleOffersService } from "../services/sale-offers";
 import { SaleOffer } from "../models/sale-offer";
 
 class SaleOfferHandler extends BaseEventHandler {
-  eventName: string = "A.f79ee844bfa76528.KittyItemsMarket.SaleOfferCreated";
-
   constructor(
     blockCursorService: BlockCursorService,
     flowService: FlowService,
-    private readonly saleOfferService: SaleOffersService
+    private readonly saleOfferService: SaleOffersService,
+    eventName: string
   ) {
-    super(blockCursorService, flowService);
+    super(blockCursorService, flowService, eventName);
   }
 
   async onEvent(details: EventDetails, payload: any): Promise<void> {

@@ -9,12 +9,12 @@ interface EventDetails {
 }
 
 abstract class BaseEventHandler {
-  abstract eventName: string;
   private stepSize: number = 1000;
   private stepTimeMs: number = 500;
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
-    private readonly flowService: FlowService
+    private readonly flowService: FlowService,
+    private readonly eventName: string
   ) {}
 
   async run() {
