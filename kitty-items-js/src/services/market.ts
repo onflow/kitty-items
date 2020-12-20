@@ -1,53 +1,81 @@
 import * as t from "@onflow/types";
 import * as fcl from "@onflow/fcl";
 import { FlowService } from "./flow";
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
 class MarketService {
-
   constructor(
     private readonly flowService: FlowService,
     private readonly fungibleTokenAddress: string,
     private readonly kibbleAddress: string,
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
-    private readonly marketAddress: string,
-  ) {
-  }
+    private readonly marketAddress: string
+  ) {}
 
   setupAccount = () => {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/setup_account.cdc`), 'utf8')
+      .readFileSync(
+        path.join(
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/setup_account.cdc`
+        ),
+        "utf8"
+      )
       .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [],
       authorizations: [authorization],
       payer: authorization,
-      proposer: authorization
+      proposer: authorization,
     });
-  }
+  };
 
   getItem = (account: string, itemId: number) => {
     const script = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`), 'utf8')
+      .readFileSync(
+        path.join(
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+        ),
+        "utf8"
+      )
       .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
-    return this.flowService.executeScript<any[]>({ script, args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)]});
-  }
+    return this.flowService.executeScript<any[]>({
+      script,
+      args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
+    });
+  };
 
   getItems = (account: string) => {
     const script = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`), 'utf8')
+      .readFileSync(
+        path.join(
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+        ),
+        "utf8"
+      )
       .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
-    return this.flowService.executeScript<number[]>({ script, args: [fcl.arg(account, t.Address)]});
-  }
+    return this.flowService.executeScript<number[]>({
+      script,
+      args: [fcl.arg(account, t.Address)],
+    });
+  };
 
   buy = (account: string, itemId: number) => {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/buy_market_item.cdc`), 'utf8')
+      .readFileSync(
+        path.join(
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/buy_market_item.cdc`
+        ),
+        "utf8"
+      )
       .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`)
       .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
       .replace(/0xKIBBLE/gi, `0x${this.kibbleAddress}`)
@@ -58,14 +86,20 @@ class MarketService {
       args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
-      proposer: authorization
+      proposer: authorization,
     });
-  }
+  };
 
   sell = (itemId: number, price: number) => {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/sell_market_item.cdc`), 'utf8')
+      .readFileSync(
+        path.join(
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/sell_market_item.cdc`
+        ),
+        "utf8"
+      )
       .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`)
       .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
       .replace(/0xKIBBLE/gi, `0x${this.kibbleAddress}`)
@@ -76,10 +110,9 @@ class MarketService {
       args: [fcl.arg(itemId, t.UInt64), fcl.arg(price.toString(), t.UFix64)],
       authorizations: [authorization],
       payer: authorization,
-      proposer: authorization
+      proposer: authorization,
     });
-  }
-
+  };
 }
 
-export {MarketService};
+export { MarketService };

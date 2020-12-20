@@ -34,7 +34,7 @@ async function run() {
     blockCursorService,
     flowService,
     saleOfferService,
-    process.env.SALE_OFFER_EVENT_NAME!,
+    process.env.SALE_OFFER_EVENT_NAME!
   ).run();
 }
 

@@ -8,17 +8,11 @@ function initMarketRouter(marketService: MarketService): Router {
 
   router.post(
     "/market/buy",
-    [
-      body("account").exists(),
-      body("itemId").isInt(),
-    ],
+    [body("account").exists(), body("itemId").isInt()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { account, itemId } = req.body;
-      const tx = await marketService.buy(
-        account,
-        itemId
-      );
+      const tx = await marketService.buy(account, itemId);
       return res.send({
         transactionId: tx,
       });
@@ -27,17 +21,11 @@ function initMarketRouter(marketService: MarketService): Router {
 
   router.post(
     "/market/sell",
-    [
-      body("itemId").isInt(),
-      body("price").isFloat(),
-    ],
+    [body("itemId").isInt(), body("price").isFloat()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { itemId, price } = req.body;
-      const tx = await marketService.sell(
-        itemId,
-        price
-      );
+      const tx = await marketService.sell(itemId, price);
       return res.send({
         transactionId: tx,
       });
@@ -49,7 +37,7 @@ function initMarketRouter(marketService: MarketService): Router {
     async (req: Request, res: Response) => {
       const items = await marketService.getItems(req.params.account);
       return res.send({
-        items
+        items,
       });
     }
   );
@@ -57,9 +45,12 @@ function initMarketRouter(marketService: MarketService): Router {
   router.get(
     "/market/collection/:account/:item",
     async (req: Request, res: Response) => {
-      const item = await marketService.getItem(req.params.account, parseInt(req.params.item));
+      const item = await marketService.getItem(
+        req.params.account,
+        parseInt(req.params.item)
+      );
       return res.send({
-        item
+        item,
       });
     }
   );
