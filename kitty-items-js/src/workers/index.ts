@@ -34,7 +34,7 @@ async function run() {
     blockCursorService,
     flowService,
     saleOfferService,
-    "A.f79ee844bfa76528.KittyItemsMarket.SaleOfferCreated"
+    process.env.SALE_OFFER_EVENT_NAME!,
   ).run();
 }
 
