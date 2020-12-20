@@ -1,4 +1,4 @@
-import { SaleOfferHandler } from "./sale-offer";
+import { SaleOfferHandler } from "./sale-offer-handler";
 import { Model } from "objection";
 import pg from "pg";
 import Knex from "knex";
@@ -6,6 +6,8 @@ import * as dotenv from "dotenv";
 import * as fcl from "@onflow/fcl";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
+import { BaseEventHandler } from "./base-event-handler";
+import { SaleOffersService } from "../services/sale-offers";
 
 async function run() {
   dotenv.config();
@@ -27,7 +29,12 @@ async function run() {
     process.env.MINTER_PRIVATE_KEY!,
     process.env.MINTER_ACCOUNT_KEY_IDX!
   );
-  new SaleOfferHandler(blockCursorService, flowService).run();
+  const saleOfferService = new SaleOffersService();
+  await new SaleOfferHandler(
+    blockCursorService,
+    flowService,
+    saleOfferService
+  ).run();
 }
 
 run().catch((e) => console.error("error", e));

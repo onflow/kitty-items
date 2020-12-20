@@ -3,15 +3,16 @@ import { FlowService } from "../services/flow";
 import * as fcl from "@onflow/fcl";
 import { send } from "@onflow/sdk-send";
 import { getEvents } from "@onflow/sdk-build-get-events";
-import { SaleOffer } from "../models/sale-offer";
 
-class SaleOfferHandler {
-  // private eventName: string = "A.877931736ee77cff.TopShot.Deposit";
-  private eventName: string =
-    "A.f79ee844bfa76528.KittyItemsMarket.SaleOfferCreated";
+interface EventDetails {
+  blockHeight: number;
+}
+
+abstract class BaseEventHandler {
+  abstract eventName: string;
   private stepSize: number = 1000;
   private stepTimeMs: number = 500;
-  constructor(
+  protected constructor(
     private readonly blockCursorService: BlockCursorService,
     private readonly flowService: FlowService
   ) {}
@@ -67,6 +68,10 @@ class SaleOfferHandler {
           "payload=",
           eventList[i].data
         );
+        await this.onEvent(
+          { blockHeight: getEventsResult.events[i].blockHeight },
+          eventList[i].data
+        );
       }
 
       // update cursor
@@ -77,9 +82,11 @@ class SaleOfferHandler {
     }
   }
 
+  abstract onEvent(details: EventDetails, payload: any): Promise<void>;
+
   private sleep(ms = 5000) {
     return new Promise((resolve, reject) => setTimeout(resolve, ms));
   }
 }
 
-export { SaleOfferHandler };
+export { BaseEventHandler, EventDetails };

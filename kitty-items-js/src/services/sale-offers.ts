@@ -5,3 +5,5 @@ class SaleOffersService {
     return SaleOffer.query().orderBy("created_at", "desc").limit(20);
   }
 }
+
+export { SaleOffersService };
