@@ -12,19 +12,19 @@ transaction(saleItemID: UInt64, marketCollectionAddress: Address) {
     prepare(acct: AuthAccount) {
         self.marketCollection = getAccount(marketCollectionAddress)
             .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(
-                /public/KittyItemsMarketCollection
+                KittyItemsMarket.CollectionPublicPath
             )
             .borrow()
             ?? panic("Could not borrow market collection from market address")
 
         let price = self.marketCollection.borrowSaleItem(saleItemID: saleItemID).salePrice
 
-        let mainKibbleVault = acct.borrow<&Kibble.Vault>(from: /storage/KibbleVault)
+        let mainKibbleVault = acct.borrow<&Kibble.Vault>(from: Kibble.VaultStoragePath)
             ?? panic("Cannot borrow Kibble vault from acct storage")
         self.paymentVault <- mainKibbleVault.withdraw(amount: price)
 
         self.kittyItemsCollection = acct.borrow<&KittyItems.Collection{NonFungibleToken.Receiver}>(
-            from: /storage/KittyItemsCollection
+            from: KittyItems.CollectionStoragePath
         ) ?? panic("Cannot borrow KittyItems collection receiver from acct")
     }
 

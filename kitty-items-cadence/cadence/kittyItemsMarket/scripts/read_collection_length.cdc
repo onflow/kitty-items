@@ -4,13 +4,13 @@ import KittyItemsMarket from 0xKITTYMARKET
 
 pub fun main(account: Address): Int {
     let acct = getAccount(account)
-    let collectionRefself.marketCollection = getAccount(marketCollectionAddress)
+    let marketCollectionRef = getAccount(marketCollectionAddress)
         .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(
-             /public/KittyItemsMarketCollection
+             KittyItemsMarket.CollectionPublicPath
         )
         .borrow()
         ?? panic("Could not borrow market collection from market address")
     
-    return collectionRef.getSaleOfferIDs().length
+    return marketCollectionRef.getSaleOfferIDs().length
 }
  

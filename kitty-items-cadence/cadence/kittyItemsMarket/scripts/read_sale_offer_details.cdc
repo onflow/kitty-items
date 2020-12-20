@@ -6,7 +6,7 @@ pub fun main(account: Address, saleItemID: UInt64): [UInt64] {
     let acct = getAccount(account)
     let marketCollectionRef = getAccount(marketCollectionAddress)
          .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(
-            /public/KittyItemsMarketCollection
+            KittyItemsMarket.CollectionPublicPath
         )
         .borrow()
         ?? panic("Could not borrow market collection from market address")

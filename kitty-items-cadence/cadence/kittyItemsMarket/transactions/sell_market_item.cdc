@@ -10,16 +10,21 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     let marketCollection: &KittyItemsMarket.Collection
 
     prepare(acct: AuthAccount) {
+        // We need a provider capability, but one is not provided by default so we create one.
+        let KittyItemsCollectionProviderPrivatePath = /private/KittyItemsCollectionProvider2wertwertwertwertwertwert
 
-        self.kibbleVault = acct.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(/public/KibbleReceiver)
+        self.kibbleVault = acct.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)
         assert(self.kibbleVault.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
 
-        self.kittyItemsCollection = acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(/private/KittyItemsCollectionProvider)
+        if acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath).check() != nil {
+            acct.link<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
+        }
+
+        self.kittyItemsCollection = acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath)
         assert(self.kittyItemsCollection.borrow() != nil, message: "Missing or mis-typed KittyItemsCollection provider")
 
-        self.marketCollection = acct.borrow<&KittyItemsMarket.Collection>(from: /storage/KittyItemsMarketCollection)
-            ?? panic("Missing or mis-typed  KittyItemsMarket Collection")
-
+        self.marketCollection = acct.borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath)
+            ?? panic("Missing or mis-typed KittyItemsMarket Collection")
     }
 
     execute {

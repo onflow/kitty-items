@@ -7,11 +7,11 @@ transaction(recipient: Address, amount: UFix64) {
 
     prepare(signer: AuthAccount) {
         self.tokenAdmin = signer
-        .borrow<&Kibble.Administrator>(from: /storage/KibbleAdmin) 
+        .borrow<&Kibble.Administrator>(from: Kibble.AdminStoragePath)
         ?? panic("Signer is not the token admin")
 
         self.tokenReceiver = getAccount(recipient)
-        .getCapability(/public/KibbleReceiver)!
+        .getCapability(Kibble.ReceiverPublicPath)!
         .borrow<&{FungibleToken.Receiver}>()
         ?? panic("Unable to borrow receiver reference")
     }
