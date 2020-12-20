@@ -3,11 +3,14 @@ import { FlowService } from "../services/flow";
 import * as fcl from "@onflow/fcl";
 import { send } from "@onflow/sdk-send";
 import { getEvents } from "@onflow/sdk-build-get-events";
+import { SaleOffer } from "../models/sale-offer";
 
 class SaleOfferHandler {
-  private eventName: string = "A.877931736ee77cff.TopShot.Deposit";
+  // private eventName: string = "A.877931736ee77cff.TopShot.Deposit";
+  private eventName: string =
+    "A.f79ee844bfa76528.KittyItemsMarket.SaleOfferCreated";
   private stepSize: number = 1000;
-  private stepTimeMs: number = 3000;
+  private stepTimeMs: number = 500;
   constructor(
     private readonly blockCursorService: BlockCursorService,
     private readonly flowService: FlowService
@@ -15,7 +18,7 @@ class SaleOfferHandler {
 
   async run() {
     console.log("fetching latest block height");
-    const latestBlockHeight = await this.flowService.getLatestBlockHeight();
+    let latestBlockHeight = await this.flowService.getLatestBlockHeight();
     console.log("latestBlockHeight =", latestBlockHeight.height);
     // create a cursor on the database
     let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(
@@ -32,9 +35,11 @@ class SaleOfferHandler {
     // loop
     let fromBlock, toBlock;
 
-    setInterval(async () => {
+    while (true) {
+      await this.sleep(this.stepTimeMs);
       // grab latest block
       // calculate fromBlock, toBlock
+      latestBlockHeight = await this.flowService.getLatestBlockHeight();
       fromBlock = blockCursor.current_block_height;
       toBlock = blockCursor.current_block_height + this.stepSize;
       if (toBlock > latestBlockHeight.height) {
@@ -54,7 +59,6 @@ class SaleOfferHandler {
         getEvents(this.eventName, fromBlock, toBlock),
       ]);
       const eventList = await fcl.decode(getEventsResult);
-      console.log("fetched event list", eventList, getEventsResult);
 
       for (let i = 0; i < eventList.length; i++) {
         console.log(
@@ -65,13 +69,16 @@ class SaleOfferHandler {
         );
       }
 
-      console.log(`update cursor id=${blockCursor.id} toBlock=${toBlock}`);
       // update cursor
       blockCursor = await this.blockCursorService.updateBlockCursorById(
         blockCursor.id,
         toBlock
       );
-    }, this.stepTimeMs);
+    }
+  }
+
+  private sleep(ms = 5000) {
+    return new Promise((resolve, reject) => setTimeout(resolve, ms));
   }
 }
 
