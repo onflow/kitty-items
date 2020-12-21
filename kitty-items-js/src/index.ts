@@ -6,6 +6,7 @@ import { KibblesService } from "./services/kibbles";
 import { FlowService } from "./services/flow";
 import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
+import { SaleOffersService } from "./services/sale-offers";
 
 let knexInstance: Knex;
 
@@ -46,11 +47,15 @@ async function run() {
     process.env.MINTER_FLOW_ADDRESS!,
     process.env.MINTER_FLOW_ADDRESS!
   );
+
+  const salesOfferService = new SaleOffersService();
+
   const app = initApp(
     knexInstance,
     kibblesService,
     kittyItemsService,
-    marketService
+    marketService,
+    salesOfferService
   );
 
   app.listen(3000, () => {

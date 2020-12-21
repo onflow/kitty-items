@@ -9,6 +9,8 @@ import { MarketService } from "./services/market";
 import initKibblesRouter from "./routes/kibbles";
 import initKittyItemsRouter from "./routes/kitty-items";
 import initMarketRouter from "./routes/market";
+import { SaleOffersService } from "./services/sale-offers";
+import initSaleOffersRouter from "./routes/sale-offers";
 
 const V1 = "/v1/";
 
@@ -16,7 +18,8 @@ const initApp = (
   knex: Knex,
   kibblesService: KibblesService,
   kittyItemsService: KittyItemsService,
-  marketService: MarketService
+  marketService: MarketService,
+  saleOffersService: SaleOffersService
 ) => {
   Model.knex(knex);
   const app = express();
@@ -26,6 +29,7 @@ const initApp = (
   app.use(V1, initKibblesRouter(kibblesService));
   app.use(V1, initKittyItemsRouter(kittyItemsService));
   app.use(V1, initMarketRouter(marketService));
+  app.use(V1, initSaleOffersRouter(saleOffersService));
 
   app.all("*", async (req: Request, res: Response) => {
     return res.sendStatus(404);
