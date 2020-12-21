@@ -13,7 +13,7 @@ transaction(saleItemID: UInt64, marketCollectionAddress: Address) {
         self.marketCollection = getAccount(marketCollectionAddress)
             .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(
                 KittyItemsMarket.CollectionPublicPath
-            )
+            )!
             .borrow()
             ?? panic("Could not borrow market collection from market address")
 
