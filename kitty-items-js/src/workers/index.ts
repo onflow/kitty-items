@@ -6,8 +6,7 @@ import * as dotenv from "dotenv";
 import * as fcl from "@onflow/fcl";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
-import { BaseEventHandler } from "./base-event-handler";
-import { SaleOffersService } from "../services/sale-offers";
+import { MarketService } from "../services/market";
 
 async function run() {
   dotenv.config();
@@ -29,11 +28,18 @@ async function run() {
     process.env.MINTER_PRIVATE_KEY!,
     process.env.MINTER_ACCOUNT_KEY_IDX!
   );
-  const saleOfferService = new SaleOffersService();
+  const marketService = new MarketService(
+    flowService,
+    process.env.FUNGIBLE_TOKEN_ADDRESS!,
+    process.env.MINTER_FLOW_ADDRESS!,
+    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
+    process.env.MINTER_FLOW_ADDRESS!,
+    process.env.MINTER_FLOW_ADDRESS!
+  );
   await new SaleOfferHandler(
     blockCursorService,
     flowService,
-    saleOfferService,
+    marketService,
     process.env.SALE_OFFER_EVENT_NAME!
   ).run();
 }
