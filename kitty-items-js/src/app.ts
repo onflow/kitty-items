@@ -9,7 +9,6 @@ import { MarketService } from "./services/market";
 import initKibblesRouter from "./routes/kibbles";
 import initKittyItemsRouter from "./routes/kitty-items";
 import initMarketRouter from "./routes/market";
-import { SaleOffersService } from "./services/sale-offers";
 
 const V1 = "/v1/";
 
@@ -17,8 +16,7 @@ const initApp = (
   knex: Knex,
   kibblesService: KibblesService,
   kittyItemsService: KittyItemsService,
-  marketService: MarketService,
-  saleOffersService: SaleOffersService
+  marketService: MarketService
 ) => {
   Model.knex(knex);
   const app = express();

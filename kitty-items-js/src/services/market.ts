@@ -3,6 +3,7 @@ import * as fcl from "@onflow/fcl";
 import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
+import { SaleOffer } from "../models/sale-offer";
 
 class MarketService {
   constructor(
@@ -112,6 +113,10 @@ class MarketService {
       payer: authorization,
       proposer: authorization,
     });
+  };
+
+  findMostRecentSales = async () => {
+    return SaleOffer.query().orderBy("created_at", "desc").limit(20);
   };
 }
 

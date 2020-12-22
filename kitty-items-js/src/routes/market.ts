@@ -55,6 +55,13 @@ function initMarketRouter(marketService: MarketService): Router {
     }
   );
 
+  router.get("/market/latest", async (req: Request, res: Response) => {
+    const latestSaleOffers = await marketService.findMostRecentSales();
+    return res.send({
+      latestSaleOffers,
+    });
+  });
+
   return router;
 }
 
