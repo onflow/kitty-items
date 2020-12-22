@@ -3,6 +3,7 @@ import { FlowService } from "../services/flow";
 import * as fcl from "@onflow/fcl";
 import { send } from "@onflow/sdk-send";
 import { getEvents } from "@onflow/sdk-build-get-events";
+import { BlockCursor } from "../models/block-cursor";
 
 interface EventDetails {
   blockHeight: number;
@@ -38,27 +39,33 @@ abstract class BaseEventHandler {
 
     while (true) {
       await this.sleep(this.stepTimeMs);
-      // grab latest block
-      // calculate fromBlock, toBlock
-      latestBlockHeight = await this.flowService.getLatestBlockHeight();
-      fromBlock = blockCursor.current_block_height;
-      toBlock = blockCursor.current_block_height + this.stepSize;
-      if (toBlock > latestBlockHeight.height) {
-        toBlock = latestBlockHeight.height;
+      try {
+        // calculate fromBlock, toBlock
+        ({ fromBlock, toBlock } = await this.getBlockRange(blockCursor));
+      } catch (e) {
+        console.warn("error retrieving block range");
+        continue;
       }
 
       if (fromBlock === toBlock) {
         return;
       }
 
-      console.log(
-        `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${latestBlockHeight.height}`
-      );
-
       // do our processing
-      const getEventsResult = await send([
-        getEvents(this.eventName, fromBlock, toBlock),
-      ]);
+      let getEventsResult;
+
+      try {
+        getEventsResult = await send([
+          getEvents(this.eventName, fromBlock, toBlock),
+        ]);
+      } catch (e) {
+        console.error(
+          `error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
+          e
+        );
+        continue;
+      }
+
       const eventList = await fcl.decode(getEventsResult);
 
       for (let i = 0; i < eventList.length; i++) {
@@ -68,10 +75,17 @@ abstract class BaseEventHandler {
           "payload=",
           eventList[i].data
         );
-        await this.onEvent(
-          { blockHeight: getEventsResult.events[i].blockHeight },
-          eventList[i].data
-        );
+        const blockHeight = getEventsResult.events[i].blockHeight;
+        try {
+          await this.onEvent({ blockHeight }, eventList[i].data);
+        } catch (e) {
+          // If we get an error, we're just continuing the loop for now, but they in a production graded app they should
+          // be handled accordingly
+          console.error(
+            `error processing event block_height=${blockHeight}`,
+            e
+          );
+        }
       }
 
       // update cursor
@@ -83,6 +97,19 @@ abstract class BaseEventHandler {
   }
 
   abstract onEvent(details: EventDetails, payload: any): Promise<void>;
+
+  private async getBlockRange(currentBlockCursor: BlockCursor) {
+    const latestBlockHeight = await this.flowService.getLatestBlockHeight();
+    const fromBlock = currentBlockCursor.current_block_height;
+    let toBlock = currentBlockCursor.current_block_height + this.stepSize;
+    if (toBlock > latestBlockHeight.height) {
+      toBlock = latestBlockHeight.height;
+    }
+    console.log(
+      `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${latestBlockHeight.height}`
+    );
+    return { fromBlock, toBlock };
+  }
 
   private sleep(ms = 5000) {
     return new Promise((resolve, reject) => setTimeout(resolve, ms));
