@@ -10,7 +10,7 @@ import { MarketService } from "../services/market";
 
 async function run() {
   dotenv.config();
-  // Workaround for pg considering bigint as 'text': https://github.com/knex/knex/issues/387
+  // Workaround for 'pg' considering bigint as 'text': https://github.com/knex/knex/issues/387
   pg.types.setTypeParser(20, "text", parseInt);
   const knexInstance = Knex({
     client: "postgresql",
@@ -19,6 +19,14 @@ async function run() {
       directory: "./src/migrations",
     },
   });
+
+  // Make sure to disconnect from DB when exiting the process
+  process.on("SIGTERM", () => {
+    knexInstance.destroy().then(() => {
+      process.exit(0);
+    });
+  });
+
   console.log("running handlers");
   Model.knex(knexInstance);
   fcl.config().put("accessNode.api", process.env.FLOW_NODE);

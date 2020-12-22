@@ -12,6 +12,7 @@ import initMarketRouter from "./routes/market";
 
 const V1 = "/v1/";
 
+// Init all routes, setup middlewares and dependencies
 const initApp = (
   knex: Knex,
   kibblesService: KibblesService,
