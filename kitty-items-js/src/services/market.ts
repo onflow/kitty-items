@@ -118,6 +118,21 @@ class MarketService {
   findMostRecentSales = async () => {
     return SaleOffer.query().orderBy("created_at", "desc").limit(20);
   };
+
+  upsertSaleOffer = async (itemId: number, price: number) => {
+    return SaleOffer.transaction(async (tx) => {
+      const saleOffers = await SaleOffer.query(tx).insertGraphAndFetch([
+        {
+          kitty_item: {
+            id: itemId,
+          },
+          price: price,
+          is_complete: false,
+        },
+      ]);
+      return saleOffers[0];
+    });
+  };
 }
 
 export { MarketService };

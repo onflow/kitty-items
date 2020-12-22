@@ -2,13 +2,13 @@ import { BaseModel } from "./base";
 import { KittyItem } from "./kitty-item";
 
 class SaleOffer extends BaseModel {
-  id!: string;
+  id?: string;
   price!: number;
-  seller_address!: string;
+  seller_address?: string;
   is_complete!: boolean;
-  tx_hash!: string;
+  tx_hash?: string;
 
-  kittyItem?: KittyItem;
+  kitty_item?: KittyItem;
 
   static get tableName() {
     return "sale_offers";

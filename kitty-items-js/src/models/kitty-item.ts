@@ -3,8 +3,8 @@ import { SaleOffer } from "./sale-offer";
 
 class KittyItem extends BaseModel {
   id!: number;
-  type_id!: number;
-  owner_address!: string;
+  type_id?: number;
+  owner_address?: string;
   saleOffers?: SaleOffer[];
 
   static get tableName() {

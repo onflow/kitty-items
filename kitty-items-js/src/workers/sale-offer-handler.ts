@@ -1,8 +1,12 @@
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 import { EventDetails, BaseEventHandler } from "./base-event-handler";
-import { SaleOffer } from "../models/sale-offer";
 import { MarketService } from "../services/market";
+
+interface SaleOfferCreated {
+  itemId: number;
+  price: number;
+}
 
 class SaleOfferHandler extends BaseEventHandler {
   constructor(
@@ -15,8 +19,12 @@ class SaleOfferHandler extends BaseEventHandler {
   }
 
   async onEvent(details: EventDetails, payload: any): Promise<void> {
-    const saleOffer = payload as SaleOffer;
-    console.log("saleOffer", saleOffer);
+    const saleOfferEvent = payload as SaleOfferCreated;
+    const saleOffer = await this.marketService.upsertSaleOffer(
+      saleOfferEvent.itemId,
+      saleOfferEvent.price
+    );
+    console.log("inserted sale offer = ", saleOffer);
   }
 }
 
