@@ -9,6 +9,8 @@ interface EventDetails {
   blockHeight: number;
 }
 
+// BaseEventHandler will iterate through a range of block_heights and then run a callback to process any events we
+// are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.
 abstract class BaseEventHandler {
   private stepSize: number = 1000;
   private stepTimeMs: number = 500;
@@ -55,6 +57,8 @@ abstract class BaseEventHandler {
       let getEventsResult, eventList;
 
       try {
+        // `getEvents` will retrieve all events of the given type within the block height range supplied.
+        // See https://docs.onflow.org/core-contracts/access-api/#geteventsforheightrange
         getEventsResult = await send([
           getEvents(this.eventName, fromBlock, toBlock),
         ]);
@@ -69,9 +73,9 @@ abstract class BaseEventHandler {
 
       for (let i = 0; i < eventList.length; i++) {
         console.log(
-          "event height=",
+          "block_height =",
           getEventsResult.events[i].blockHeight,
-          "payload=",
+          " payload =",
           eventList[i].data
         );
         const blockHeight = getEventsResult.events[i].blockHeight;
