@@ -52,12 +52,13 @@ abstract class BaseEventHandler {
       }
 
       // do our processing
-      let getEventsResult;
+      let getEventsResult, eventList;
 
       try {
         getEventsResult = await send([
           getEvents(this.eventName, fromBlock, toBlock),
         ]);
+        eventList = await fcl.decode(getEventsResult);
       } catch (e) {
         console.error(
           `error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
@@ -65,8 +66,6 @@ abstract class BaseEventHandler {
         );
         continue;
       }
-
-      const eventList = await fcl.decode(getEventsResult);
 
       for (let i = 0; i < eventList.length; i++) {
         console.log(
@@ -76,16 +75,7 @@ abstract class BaseEventHandler {
           eventList[i].data
         );
         const blockHeight = getEventsResult.events[i].blockHeight;
-        try {
-          await this.onEvent({ blockHeight }, eventList[i].data);
-        } catch (e) {
-          // If we get an error, we're just continuing the loop for now, but they in a production graded app they should
-          // be handled accordingly
-          console.error(
-            `error processing event block_height=${blockHeight}`,
-            e
-          );
-        }
+        await this.processAndCatchEvent(blockHeight, eventList, i);
       }
 
       // update cursor
@@ -93,6 +83,16 @@ abstract class BaseEventHandler {
         blockCursor.id,
         toBlock
       );
+    }
+  }
+
+  private async processAndCatchEvent(blockHeight, eventList, i: number) {
+    try {
+      await this.onEvent({ blockHeight }, eventList[i].data);
+    } catch (e) {
+      // If we get an error, we're just continuing the loop for now, but they in a production graded app they should
+      // be handled accordingly
+      console.error(`error processing event block_height=${blockHeight}`, e);
     }
   }
 
