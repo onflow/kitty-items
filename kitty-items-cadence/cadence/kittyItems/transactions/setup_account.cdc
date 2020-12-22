@@ -16,7 +16,7 @@ transaction {
             acct.save(<-collection, to: KittyItems.CollectionStoragePath)
 
             // create a public capability for the collection
-            acct.link<&{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
+            acct.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
         }
     }
 }

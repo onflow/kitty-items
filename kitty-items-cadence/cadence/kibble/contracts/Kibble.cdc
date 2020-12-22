@@ -162,17 +162,18 @@ pub contract Kibble: FungibleToken {
 
     init() {
         // Set our named paths.
-        self.VaultStoragePath = /storage/KibbleVault
-        self.ReceiverPublicPath = /public/KibbleReceiver
-        self.BalancePublicPath = /public/KibbleBalance
-        self.AdminStoragePath = /storage/KibbleAdmin
+        //FIXME: REMOVE SUFFIX BEFORE RELEASE
+        self.VaultStoragePath = /storage/KibbleVault000
+        self.ReceiverPublicPath = /public/KibbleReceiver000
+        self.BalancePublicPath = /public/KibbleBalance000
+        self.AdminStoragePath = /storage/KibbleAdmin000
 
         // Initialize contract state.
         self.totalSupply = 0.0
 
         // Create the one true Admin object and deposit it into the conttract account.
         let admin <- create Administrator()
-        self.account.save(<-admin, to: /storage/KibbleAdmin)
+        self.account.save(<-admin, to: self.AdminStoragePath)
 
         // Emit an event that shows that the contract was initialized.
         emit TokensInitialized(initialSupply: self.totalSupply)
