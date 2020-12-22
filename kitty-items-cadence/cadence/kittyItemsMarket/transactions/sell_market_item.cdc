@@ -11,16 +11,16 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
     prepare(acct: AuthAccount) {
         // We need a provider capability, but one is not provided by default so we create one.
-        let KittyItemsCollectionProviderPrivatePath = /private/KittyItemsCollectionProvider2wertwertwertwertwertwert
+        let KittyItemsCollectionProviderPrivatePath = /private/KittyItemsCollectionProvider
 
-        self.kibbleVault = acct.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)
+        self.kibbleVault = acct.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)!
         assert(self.kibbleVault.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
 
-        if acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath).check() != nil {
+        if !acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath)!.check() {
             acct.link<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
         }
 
-        self.kittyItemsCollection = acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath)
+        self.kittyItemsCollection = acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(KittyItemsCollectionProviderPrivatePath)!
         assert(self.kittyItemsCollection.borrow() != nil, message: "Missing or mis-typed KittyItemsCollection provider")
 
         self.marketCollection = acct.borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath)

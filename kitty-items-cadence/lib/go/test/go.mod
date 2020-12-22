@@ -3,7 +3,7 @@ module github.com/onflow/kitty-items/lib/go/test
 go 1.14
 
 require (
-	github.com/onflow/cadence v0.11.2
+	github.com/onflow/cadence v0.10.2
 	github.com/onflow/flow-emulator v0.12.3
 	github.com/onflow/flow-ft/lib/go/contracts v0.2.1-0.20201002112420-010719813062
 	github.com/onflow/flow-go v0.12.3 // indirect
