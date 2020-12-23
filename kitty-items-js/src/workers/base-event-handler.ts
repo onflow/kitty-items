@@ -13,7 +13,8 @@ interface EventDetails {
 // are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.
 abstract class BaseEventHandler {
   private stepSize: number = 1000;
-  private stepTimeMs: number = 500;
+  private stepTimeMs: number = 1000;
+  private blockThreshold: number = 100;
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
     private readonly flowService: FlowService,
@@ -49,8 +50,13 @@ abstract class BaseEventHandler {
         continue;
       }
 
-      if (fromBlock === toBlock) {
-        return;
+      // make sure we query the access node only when we have a substantial gap
+      // between from and to block ranges; currently if we query the access node
+      // when the gap is too narrow, it returns an error.
+      const blockDiff = toBlock - fromBlock;
+      if (blockDiff < this.blockThreshold) {
+        console.log("skipping block, blockDiff = ", blockDiff);
+        continue;
       }
 
       // do our processing
