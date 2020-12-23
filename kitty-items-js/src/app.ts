@@ -1,6 +1,7 @@
 import "express-async-errors";
 import express, { Request, Response } from "express";
 import Knex from "knex";
+import cors from "cors";
 import { Model } from "objection";
 import { json, urlencoded } from "body-parser";
 import { KibblesService } from "./services/kibbles";
@@ -22,6 +23,8 @@ const initApp = (
   Model.knex(knex);
   const app = express();
 
+  // @ts-ignore
+  app.use(cors());
   app.use(json());
   app.use(urlencoded({ extended: false }));
   app.use(V1, initKibblesRouter(kibblesService));
