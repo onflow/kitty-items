@@ -272,7 +272,8 @@ pub contract KittyItemsMarket {
     }
 
     init () {
-        self.CollectionStoragePath = /storage/KittyItemsMarketCollection
-        self.CollectionPublicPath = /public/KittyItemsMarketCollection
+        //FIXME: REMOVE SUFFIX BEFORE RELEASE
+        self.CollectionStoragePath = /storage/KittyItemsMarketCollection000
+        self.CollectionPublicPath = /public/KittyItemsMarketCollection000
     }
 }

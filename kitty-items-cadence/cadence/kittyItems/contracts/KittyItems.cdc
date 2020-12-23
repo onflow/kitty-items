@@ -162,13 +162,30 @@ pub contract KittyItems: NonFungibleToken {
 		}
 	}
 
+    // fetch
+    // Get a reference to a KittyItem from an account's Collection, if available.
+    // If an account does not have a KittyItems.Collection, panic.
+    // If it has a collection but does not contain the itemId, return nil.
+    // If it has a collection and that collection contains the itemId, retrun a reference to that.
+    //
+    pub fun fetch(_ from: Address, itemID: UInt64): &KittyItems.NFT? {
+        let collection = getAccount(from)
+            .getCapability(KittyItems.CollectionPublicPath)!
+            .borrow<&KittyItems.Collection{KittyItems.KittyItemsCollectionPublic}>()
+            ?? panic("Couldn't get collection")
+        // We trust KittyItems.Collection.borowKittyItem to get the correct itemID
+        // (it checks it before returning it).
+        return collection.borrowKittyItem(id: itemID)
+    }
+
     // initializer
     //
 	init() {
         // Set our named paths
-        self.CollectionStoragePath = /storage/KittyItemsCollection
-        self.CollectionPublicPath = /public/KittyItemsCollection
-        self.MinterStoragePath = /storage/KittyItemsMinter
+        //FIXME: REMOVE SUFFIX BEFORE RELEASE
+        self.CollectionStoragePath = /storage/KittyItemsCollection000
+        self.CollectionPublicPath = /public/KittyItemsCollection000
+        self.MinterStoragePath = /storage/KittyItemsMinter000
 
         // Initialize the total supply
         self.totalSupply = 0
