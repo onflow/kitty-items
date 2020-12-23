@@ -16,7 +16,7 @@ async function run() {
     client: "postgresql",
     connection: process.env.DATABASE_URL!,
     migrations: {
-      directory: "./src/migrations",
+      directory: process.env.MIGRATION_PATH || "./src/migrations",
     },
   });
 
