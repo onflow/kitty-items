@@ -8,21 +8,13 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
 
   router.post(
     "/kibbles/mint",
-    [
-      body("recipient").exists(),
-      body("amount").isFloat({
-        gt: 0,
-      }),
-    ],
+    [body("recipient").exists(), body("amount").isDecimal()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, amount } = req.body;
-      const transaction = await kibblesService.mint(
-        recipient,
-        amount
-      );
+      const transaction = await kibblesService.mint(recipient, amount);
       return res.send({
-        transaction
+        transaction,
       });
     }
   );
@@ -39,7 +31,7 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
       const { amount } = req.body;
       const transaction = await kibblesService.burn(amount);
       return res.send({
-        transaction
+        transaction,
       });
     }
   );
@@ -57,7 +49,7 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
       const { recipient, amount } = req.body;
       const transaction = await kibblesService.transfer(recipient, amount);
       return res.send({
-        transaction
+        transaction,
       });
     }
   );
@@ -67,20 +59,17 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
     async (req: Request, res: Response) => {
       const balance = await kibblesService.getBalance(req.params.account);
       return res.send({
-        balance
+        balance,
       });
     }
   );
 
-  router.get(
-    "/kibbles/supply",
-    async (req: Request, res: Response) => {
-      const supply = await kibblesService.getSupply();
-      return res.send({
-        supply
-      });
-    }
-  );
+  router.get("/kibbles/supply", async (req: Request, res: Response) => {
+    const supply = await kibblesService.getSupply();
+    return res.send({
+      supply,
+    });
+  });
 
   return router;
 }

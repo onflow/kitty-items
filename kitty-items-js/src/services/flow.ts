@@ -1,6 +1,7 @@
 import { ec as EC } from "elliptic";
 import { SHA3 } from "sha3";
 import * as fcl from "@onflow/fcl";
+import { latestBlock } from "@onflow/sdk-latest-block";
 
 const ec: EC = new EC("p256");
 
@@ -59,7 +60,13 @@ class FlowService {
     return sha.digest();
   };
 
-  sendTx = async ({transaction , args , proposer, authorizations, payer}): Promise<any> => {
+  sendTx = async ({
+    transaction,
+    args,
+    proposer,
+    authorizations,
+    payer,
+  }): Promise<any> => {
     const response = await fcl.send([
       fcl.transaction`
         ${transaction}
@@ -68,17 +75,18 @@ class FlowService {
       fcl.proposer(proposer),
       fcl.authorizations(authorizations),
       fcl.payer(payer),
-      fcl.limit(9999)
+      fcl.limit(9999),
     ]);
     return await fcl.tx(response).onceSealed();
+  };
+
+  async executeScript<T>({ script, args }): Promise<T> {
+    const response = await fcl.send([fcl.script`${script}`, fcl.args(args)]);
+    return await fcl.decode(response);
   }
 
-  async executeScript<T>({script, args}): Promise<T> {
-    const response = await fcl.send([
-      fcl.script`${script}`,
-      fcl.args(args)
-    ]);
-    return await fcl.decode(response);
+  async getLatestBlockHeight() {
+    return latestBlock();
   }
 }
 

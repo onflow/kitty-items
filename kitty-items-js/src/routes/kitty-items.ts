@@ -8,17 +8,11 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
 
   router.post(
     "/kitty-items/mint",
-    [
-      body("recipient").exists(),
-      body("typeId").isInt(),
-    ],
+    [body("recipient").exists(), body("typeId").isInt()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, typeId } = req.body;
-      const tx = await kittyItemsService.mint(
-        recipient,
-        typeId
-      );
+      const tx = await kittyItemsService.mint(recipient, typeId);
       return res.send({
         transaction: tx,
       });
@@ -27,17 +21,11 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
 
   router.post(
     "/kitty-items/transfer",
-    [
-      body("recipient").exists(),
-      body("itemId").isInt(),
-    ],
+    [body("recipient").exists(), body("itemId").isInt()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, itemId } = req.body;
-      const tx = await kittyItemsService.transfer(
-        recipient,
-        itemId
-      );
+      const tx = await kittyItemsService.transfer(recipient, itemId);
       return res.send({
         transaction: tx,
       });
@@ -47,9 +35,11 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
   router.get(
     "/kitty-items/collection/:account",
     async (req: Request, res: Response) => {
-      const collection = await kittyItemsService.getCollectionIds(req.params.account);
+      const collection = await kittyItemsService.getCollectionIds(
+        req.params.account
+      );
       return res.send({
-        collection
+        collection,
       });
     }
   );
@@ -57,22 +47,21 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
   router.get(
     "/kitty-items/item/:itemId",
     async (req: Request, res: Response) => {
-      const item = await kittyItemsService.getKittyItemType(parseInt(req.params.itemId));
+      const item = await kittyItemsService.getKittyItemType(
+        parseInt(req.params.itemId)
+      );
       return res.send({
-        item
+        item,
       });
     }
   );
 
-  router.get(
-    "/kitty-items/supply",
-    async (req: Request, res: Response) => {
-      const supply = await kittyItemsService.getSupply();
-      return res.send({
-        supply
-      });
-    }
-  );
+  router.get("/kitty-items/supply", async (req: Request, res: Response) => {
+    const supply = await kittyItemsService.getSupply();
+    return res.send({
+      supply,
+    });
+  });
 
   return router;
 }

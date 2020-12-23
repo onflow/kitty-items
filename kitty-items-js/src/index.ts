@@ -20,8 +20,18 @@ async function run() {
     },
   });
 
+  // Make sure to disconnect from DB when exiting the process
+  process.on("SIGTERM", () => {
+    knexInstance.destroy().then(() => {
+      process.exit(0);
+    });
+  });
+
+  // Run all database migrations
   await knexInstance.migrate.latest();
 
+  // Make sure we're pointing to the correct Flow Access node.
+  
   fcl.config().put("accessNode.api", process.env.FLOW_NODE);
   const flowService = new FlowService(
     process.env.MINTER_FLOW_ADDRESS!,
@@ -46,6 +56,7 @@ async function run() {
     process.env.MINTER_FLOW_ADDRESS!,
     process.env.MINTER_FLOW_ADDRESS!
   );
+
   const app = initApp(
     knexInstance,
     kibblesService,

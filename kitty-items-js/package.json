@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "tsnd --respawn src/index.ts",
     "start": "node dist/src/index.js",
+    "workers:dev": "tsnd --respawn src/workers/index.ts",
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",

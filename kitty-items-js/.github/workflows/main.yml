@@ -1,0 +1,57 @@
+name: Kitty Items CI/CD
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run format:check
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: format
+    container: node:12
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: kitty_items
+          POSTGRES_USER: kitty_user
+          POSTGRES_PASSWORD: kitty_password
+          POSTGRES_PORT: 5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm test
+        env:
+          DATABASE_URL: postgresql://kitty_user:kitty_password@localhost:5432/kitty_items
+#  deploy:
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/master'
+#    needs: integration-tests
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Deploy to Heroku (API)
+#        uses: AkhileshNS/heroku-deploy@v3.2.6
+#        with:
+#          appdir: ./api
+#          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+#          heroku_app_name: ${{secrets.HEROKU_CLIENT_API}}
+#          heroku_email: ${{secrets.HEROKU_EMAIL}}
+#          usedocker: true
+#          docker_heroku_process_type: web
