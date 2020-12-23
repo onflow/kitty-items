@@ -8,12 +8,7 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
 
   router.post(
     "/kibbles/mint",
-    [
-      body("recipient").exists(),
-      body("amount").isFloat({
-        gt: 0,
-      }),
-    ],
+    [body("recipient").exists(), body("amount").isDecimal()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, amount } = req.body;

@@ -21,7 +21,7 @@ function initMarketRouter(marketService: MarketService): Router {
 
   router.post(
     "/market/sell",
-    [body("itemId").isInt(), body("price").isFloat()],
+    [body("itemId").isInt(), body("price").isDecimal()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { itemId, price } = req.body;

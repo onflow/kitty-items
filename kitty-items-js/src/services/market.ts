@@ -109,7 +109,7 @@ class MarketService {
       .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(itemId, t.UInt64), fcl.arg(price.toString(), t.UFix64)],
+      args: [fcl.arg(itemId, t.UInt64), fcl.arg(price.toFixed(8).toString(), t.UFix64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
