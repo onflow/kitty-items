@@ -35,6 +35,6 @@
     "@onflow/types": "0.0.4",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.9",
-    "prettier": "^2.2.1",
+    "prettier": "^2.2.1"
   }
 }
