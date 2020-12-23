@@ -1,2 +1,2 @@
-web: npm run start:dev
+web: npm run start
 worker: npm run workers:dev
