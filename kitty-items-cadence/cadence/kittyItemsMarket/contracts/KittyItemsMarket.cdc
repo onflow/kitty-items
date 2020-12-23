@@ -127,6 +127,8 @@ pub contract KittyItemsMarket {
 
             self.sellerPaymentReceiver = sellerPaymentReceiver
             self.salePrice = salePrice
+
+            emit SaleOfferCreated(itemID: self.saleItemID, price: self.salePrice)
         }
     }
 
