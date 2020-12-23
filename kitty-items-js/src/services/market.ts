@@ -4,6 +4,7 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 import { SaleOffer } from "../models/sale-offer";
+import { KittyItem } from "../models/kitty-item";
 
 class MarketService {
   constructor(

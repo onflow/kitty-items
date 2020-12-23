@@ -4,7 +4,7 @@ import { EventDetails, BaseEventHandler } from "./base-event-handler";
 import { MarketService } from "../services/market";
 
 interface SaleOfferCreated {
-  itemId: number;
+  itemID: number;
   price: number;
 }
 
@@ -21,7 +21,7 @@ class SaleOfferHandler extends BaseEventHandler {
   async onEvent(details: EventDetails, payload: any): Promise<void> {
     const saleOfferEvent = payload as SaleOfferCreated;
     const saleOffer = await this.marketService.upsertSaleOffer(
-      saleOfferEvent.itemId,
+      saleOfferEvent.itemID,
       saleOfferEvent.price
     );
     console.log("inserted sale offer = ", saleOffer);
