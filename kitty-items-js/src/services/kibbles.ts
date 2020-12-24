@@ -16,8 +16,8 @@ class KibblesService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kibble/transactions/setup_account.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kibble/transactions/setup_account.cdc`
         ),
         "utf8"
       )
@@ -37,8 +37,8 @@ class KibblesService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kibble/transactions/mint_tokens.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kibble/transactions/mint_tokens.cdc`
         ),
         "utf8"
       )
@@ -61,8 +61,8 @@ class KibblesService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kibble/transactions/burn_tokens.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kibble/transactions/burn_tokens.cdc`
         ),
         "utf8"
       )
@@ -82,8 +82,8 @@ class KibblesService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kibble/transactions/burn_tokens.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kibble/transactions/burn_tokens.cdc`
         ),
         "utf8"
       )
@@ -105,8 +105,8 @@ class KibblesService {
     const script = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kibble/scripts/get_balance.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kibble/scripts/get_balance.cdc`
         ),
         "utf8"
       )
@@ -122,8 +122,8 @@ class KibblesService {
     const script = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kibble/scripts/get_supply.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kibble/scripts/get_supply.cdc`
         ),
         "utf8"
       )

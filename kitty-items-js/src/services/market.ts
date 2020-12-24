@@ -21,8 +21,8 @@ class MarketService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/setup_account.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItemsMarket/transactions/setup_account.cdc`
         ),
         "utf8"
       )
@@ -40,8 +40,8 @@ class MarketService {
     const script = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -56,8 +56,8 @@ class MarketService {
     const script = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -73,8 +73,8 @@ class MarketService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/buy_market_item.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItemsMarket/transactions/buy_market_item.cdc`
         ),
         "utf8"
       )
@@ -97,8 +97,8 @@ class MarketService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/sell_market_item.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItemsMarket/transactions/sell_market_item.cdc`
         ),
         "utf8"
       )

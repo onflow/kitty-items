@@ -16,8 +16,8 @@ class KittyItemsService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/transactions/setup_account.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItems/transactions/setup_account.cdc`
         ),
         "utf8"
       )
@@ -37,8 +37,8 @@ class KittyItemsService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/transactions/mint_kitty_item.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItems/transactions/mint_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -58,8 +58,8 @@ class KittyItemsService {
     const transaction = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/transactions/transfer_kitty_item.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItems/transactions/transfer_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -78,8 +78,8 @@ class KittyItemsService {
     const script = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/scripts/read_collection_ids.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItems/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -96,8 +96,8 @@ class KittyItemsService {
     const script = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/scripts/read_kitty_item_type_id.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItems/scripts/read_kitty_item_type_id.cdc`
         ),
         "utf8"
       )
@@ -113,8 +113,8 @@ class KittyItemsService {
     const script = fs
       .readFileSync(
         path.join(
-          __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/scripts/read_kitty_items_supply.cdc`
+          process.env.CADENCE_PATH || __dirname,
+          `../../cadence/kittyItems/scripts/read_kitty_items_supply.cdc`
         ),
         "utf8"
       )
