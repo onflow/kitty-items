@@ -31,7 +31,7 @@ async function run() {
   await knexInstance.migrate.latest();
 
   // Make sure we're pointing to the correct Flow Access node.
-  
+
   fcl.config().put("accessNode.api", process.env.FLOW_NODE);
   const flowService = new FlowService(
     process.env.MINTER_FLOW_ADDRESS!,
@@ -64,8 +64,9 @@ async function run() {
     marketService
   );
 
-  app.listen(3000, () => {
-    console.log("Listening on port 3000!");
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Listening on port ${port}!`);
   });
 }
 
