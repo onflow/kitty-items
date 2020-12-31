@@ -46,10 +46,5 @@ func (k *KibblesService) Mint(ctx context.Context, destinationAddress flow.Addre
 		return "", err
 	}
 
-	txID, err := k.flowService.Send(ctx, tx)
-	if err != nil {
-		return "", err
-	}
-
-	return txID, nil
+	return k.flowService.Send(ctx, tx)
 }

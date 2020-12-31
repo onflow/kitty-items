@@ -26,13 +26,11 @@ func NewFlow(client *client.Client, signer crypto.Signer, minterAddress flow.Add
 
 // Send will submit a transaction on the blockchain with the given minterAddress
 func (f *FlowService) Send(ctx context.Context, tx *flow.Transaction) (string, error) {
-	err := tx.SignEnvelope(f.minterAddress, f.minterAccountKey.Index, f.signer)
-	if err != nil {
+	if err := tx.SignEnvelope(f.minterAddress, f.minterAccountKey.Index, f.signer); err != nil {
 		return "", err
 	}
 
-	err = f.client.SendTransaction(ctx, *tx)
-	if err != nil {
+	if err := f.client.SendTransaction(ctx, *tx); err != nil {
 		return "", err
 	}
 

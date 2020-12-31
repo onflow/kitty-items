@@ -23,9 +23,9 @@ type Config struct {
 // Compute sanitizes and converts configurations to their proper types for flow
 func (c *Config) Compute() (err error) {
 	c.MinterFlowAddress = flow.HexToAddress(c.MinterFlowAddressHex)
-	c.MinterPrivateKey, err = crypto.DecodePrivateKeyHex(crypto.StringToSignatureAlgorithm(c.MinterSigAlgoName), c.MinterPrivateKeyHex)
-	if err != nil {
+	if c.MinterPrivateKey, err = crypto.DecodePrivateKeyHex(crypto.StringToSignatureAlgorithm(c.MinterSigAlgoName), c.MinterPrivateKeyHex); err != nil {
 		return fmt.Errorf("error decrypting private key: %w", err)
 	}
+
 	return nil
 }
