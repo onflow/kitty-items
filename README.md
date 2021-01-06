@@ -24,6 +24,11 @@ Items are hats for your cats but underneath the hood they are non-fungible token
 3. Take from it as needed.
 4. Play around with our testnet [dApp](https://fancy-water-0426.on.fleek.co/#/wip/qvvg)
 
+
+# Questions?
+1. Join discord: https://discord.gg/xUdZxs82Rz
+
+
 ## Back End
 
 On [https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-js](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-js) you will find a backend API written in Typescript / Node.js. This backend has a few purposes:
