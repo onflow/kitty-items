@@ -20,6 +20,7 @@ const (
 	kittyItemsMarketSetupAccountPath     = kittyItemsMarketRootPath + "/transactions/setup_account.cdc"
 	kittyItemsMarketSellItemPath         = kittyItemsMarketRootPath + "/transactions/sell_market_item.cdc"
 	kittyItemsMarketBuyItemPath          = kittyItemsMarketRootPath + "/transactions/buy_market_item.cdc"
+	kittyItemsMarketRemoveItemPath       = kittyItemsMarketRootPath + "/transactions/remove_market_item.cdc"
 )
 
 const (
@@ -157,6 +158,32 @@ func KittyItemsMarketPurchaseItem(
 	)
 }
 
+func KittyItemsMarketRemoveItem(
+	b *emulator.Blockchain,
+	t *testing.T,
+	contracts TestContractsInfo,
+	userAddress sdk.Address,
+	userSigner crypto.Signer,
+	marketCollectionAddress sdk.Address,
+	tokenID uint64,
+	shouldFail bool,
+) {
+	tx := flow.NewTransaction().
+		SetScript(kittyItemsMarketGenerateRemoveItemScript(contracts)).
+		SetGasLimit(100).
+		SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
+		SetPayer(b.ServiceKey().Address).
+		AddAuthorizer(userAddress)
+	tx.AddArgument(cadence.NewUInt64(tokenID))
+
+	signAndSubmit(
+		t, b, tx,
+		[]flow.Address{b.ServiceKey().Address, userAddress},
+		[]crypto.Signer{b.ServiceKey().Signer(), userSigner},
+		shouldFail,
+	)
+}
+
 func TestKittyItemsMarketDeployContracts(t *testing.T) {
 	b := newEmulator()
 	KittyItemsMarketDeployContracts(b, t)
@@ -178,8 +205,45 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 
 	contracts := KittyItemsMarketDeployContracts(b, t)
 
-	t.Run("Should be able to create a sale offer, list it, and have it accepted", func(t *testing.T) {
+	t.Run("Should be able to create a sale offer and list it", func(t *testing.T) {
 		tokenToList := uint64(0)
+		tokenPrice := "1.11"
+		userAddress, userSigner := KittyItemsMarketCreateAccount(b, t, contracts)
+		// Contract mints item
+		KittyItemsMintItem(
+			b,
+			t,
+			contracts.NFTAddr,
+			contracts.KittyItemsAddr,
+			contracts.KittyItemsSigner,
+			typeID1337,
+		)
+		// Contract transfers item to another seller account (we don't need to do this)
+		KittyItemsTransferItem(
+			b,
+			t,
+			contracts.NFTAddr,
+			contracts.KittyItemsAddr,
+			contracts.KittyItemsSigner,
+			tokenToList,
+			userAddress,
+			false,
+		)
+		// Other seller account lists the item
+		KittyItemsMarketListItem(
+			b,
+			t,
+			contracts,
+			userAddress,
+			userSigner,
+			tokenToList,
+			tokenPrice,
+			false,
+		)
+	})
+
+	t.Run("Should be able to accept a sale offer", func(t *testing.T) {
+		tokenToList := uint64(1)
 		tokenPrice := "1.11"
 		userAddress, userSigner := KittyItemsMarketCreateAccount(b, t, contracts)
 		// Contract mints item
@@ -237,6 +301,54 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 			false,
 		)
 	})
+
+	t.Run("Should be able to remove a sale offer", func(t *testing.T) {
+		tokenToList := uint64(2)
+		tokenPrice := "1.11"
+		userAddress, userSigner := KittyItemsMarketCreateAccount(b, t, contracts)
+		// Contract mints item
+		KittyItemsMintItem(
+			b,
+			t,
+			contracts.NFTAddr,
+			contracts.KittyItemsAddr,
+			contracts.KittyItemsSigner,
+			typeID1337,
+		)
+		// Contract transfers item to another seller account (we don't need to do this)
+		KittyItemsTransferItem(
+			b,
+			t,
+			contracts.NFTAddr,
+			contracts.KittyItemsAddr,
+			contracts.KittyItemsSigner,
+			tokenToList,
+			userAddress,
+			false,
+		)
+		// Other seller account lists the item
+		KittyItemsMarketListItem(
+			b,
+			t,
+			contracts,
+			userAddress,
+			userSigner,
+			tokenToList,
+			tokenPrice,
+			false,
+		)
+		// Make the purchase
+		KittyItemsMarketRemoveItem(
+			b,
+			t,
+			contracts,
+			userAddress,
+			userSigner,
+			userAddress,
+			tokenToList,
+			false,
+		)
+	})
 }
 
 func replaceKittyItemsMarketAddressPlaceholders(codeBytes []byte, contracts TestContractsInfo) []byte {
@@ -280,6 +392,13 @@ func kittyItemsMarketGenerateSellItemScript(contracts TestContractsInfo) []byte 
 func kittyItemsMarketGenerateBuyItemScript(contracts TestContractsInfo) []byte {
 	return replaceKittyItemsMarketAddressPlaceholders(
 		readFile(kittyItemsMarketBuyItemPath),
+		contracts,
+	)
+}
+
+func kittyItemsMarketGenerateRemoveItemScript(contracts TestContractsInfo) []byte {
+	return replaceKittyItemsMarketAddressPlaceholders(
+		readFile(kittyItemsMarketRemoveItemPath),
 		contracts,
 	)
 }
