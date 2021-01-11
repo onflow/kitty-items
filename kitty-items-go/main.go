@@ -55,7 +55,7 @@ func main() {
 	kibblesC := controllers.NewKibbles(kibblesService)
 	r.HandleFunc("/kibbles/new", kibblesC.HandleMintKibbles).Methods(http.MethodPost)
 
-	log.Printf("listening")
+	log.Printf("listening port on 8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatalf("error starting server = %s", err)
 	}

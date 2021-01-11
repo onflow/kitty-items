@@ -16,12 +16,12 @@ type kibblesController struct {
 }
 
 type MintKibblesRequest struct {
-	FlowAddress string `json:"flowAddress"`
+	FlowAddress string `json:"flow_address"`
 	Amount      uint   `json:"amount"`
 }
 
 type MintKibblesResponse struct {
-	TransactionID string `json:"transactionId"`
+	TransactionID string `json:"transaction_id"`
 }
 
 func NewKibbles(k *services.KibblesService) *kibblesController {
@@ -44,7 +44,6 @@ func (k *kibblesController) HandleMintKibbles(w http.ResponseWriter, r *http.Req
 
 	flowDestinationAddress := flow.HexToAddress(body.FlowAddress)
 	transactionID, err := k.kibblesService.Mint(r.Context(), flowDestinationAddress, body.Amount)
-
 	if err != nil {
 		log.Printf("error minting tokens = %s", err)
 		http.Error(w, "error minting tokens", http.StatusInternalServerError)
