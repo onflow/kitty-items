@@ -137,6 +137,7 @@ class FlowService {
   }
 
   addContract = async ({name , code , proposer, authorizations, payer}): Promise<any> => {
+    console.log('add contract name:', name)
     const CODE = Buffer.from(code, "utf8").toString("hex");
     //deploy the code
     const response = await fcl.send([
@@ -163,7 +164,7 @@ class FlowService {
       fcl.payer(payer),
       fcl.limit(9999)
     ]);
-    return await fcl.tx(response).onceExecuted();
+    return await fcl.tx(response).onceSealed();
   }
 
   sendTx = async ({transaction , args , proposer, authorizations, payer}): Promise<any> => {

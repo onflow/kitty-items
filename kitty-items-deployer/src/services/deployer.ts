@@ -1,84 +1,83 @@
-import { FlowService } from "./flow";
+import {FlowService} from "./flow";
 import * as fs from 'fs';
 import * as path from 'path';
 
 class DeployerService {
 
-  constructor(
-    private readonly flowService: FlowService,
-    private readonly fungibleTokenAddress: string,
-  ) {}
+    constructor(
+        private readonly flowService: FlowService,
+        private readonly fungibleTokenAddress: string,
+        private readonly nonFungibleTokenAddress: string,
+        private readonly contractFlowAddress: string,
+        private readonly contractAccountIndex: string,
+        private readonly contractPrivateKeyHex: string,
+    ) {
+    }
 
-  deploy = async () => {
-    const account = await this.flowService.createFlowAccount();
-    // build the authorization
-    const authorization = this.flowService.authorize({ 
-      accountAddress: account.addr,
-      keyIdx: account.keyIdx,
-      privateKey: account.privateKey
-    });
-    const payer = this.flowService.authorizeAccount();
+    deploy = async () => {
+        // build the authorization
+        const authorization = this.flowService.authorize({
+            accountAddress: this.contractFlowAddress,
+            keyIdx: this.contractAccountIndex,
+            privateKey: this.contractPrivateKeyHex
+        });
+        const payer = this.flowService.authorizeAccount();
 
-    // Deploy Kibble
-    let contract = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kibble/contracts/Kibble.cdc`), 'utf8')
-      .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`);
-    
-    const kibble = await this.flowService.addContract({
-      name: 'Kibble',
-      code: contract,
-      authorizations: [authorization],
-      proposer: authorization,
-      payer
-    });
+        // Deploy Kibble
+        let contract = fs
+            .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kibble/contracts/Kibble.cdc`), 'utf8')
+            .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`);
 
-    // Deploy Non fungible token contract (to be removed)
-    // Ask if the nft contract is considered a core contract
+        console.log('deploying...')
 
-    contract = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItems/contracts/NonFungibleToken.cdc`), 'utf8');
-      
-    await this.flowService.addContract({
-      name: 'NonFungibleToken',
-      code: contract,
-      authorizations: [authorization],
-      proposer: authorization,
-      payer
-    });
+        console.log('deploying kibbles contract...')
+        const kibble = await this.flowService.addContract({
+            name: 'Kibble',
+            code: contract,
+            authorizations: [authorization],
+            proposer: authorization,
+            payer
+        });
+        console.log('deployed kibbles contract')
 
-    // Deploy Kitty items
+        // Deploy Kitty items
 
-    contract = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItems/contracts/KittyItems.cdc`), 'utf8')
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${account.addr}`);
-    
-    const kittyItems = await this.flowService.addContract({
-      name: 'KittyItems',
-      code: contract,
-      authorizations: [authorization],
-      proposer: authorization,
-      payer
-    });
+        contract = fs
+            .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItems/contracts/KittyItems.cdc`), 'utf8')
+            .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`);
 
-    // Deploy kitty items market
+        console.log('deploying kitty items contract...')
 
-    contract = fs
-      .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/contracts/kittyItemsMarket.cdc`), 'utf8')
-      .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`)
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${account.addr}`)
-      .replace(/0xKIBBLE/gi, `0x${account.addr}`)
-      .replace(/0xKITTYITEMS/gi, `0x${account.addr}`);
+        const kittyItems = await this.flowService.addContract({
+            name: 'KittyItems',
+            code: contract,
+            authorizations: [authorization],
+            proposer: authorization,
+            payer
+        });
 
-    const kittyItemsMarket = await this.flowService.addContract({
-      name: 'KittyItemsMarket',
-      code: contract,
-      authorizations: [authorization],
-      proposer: authorization,
-      payer
-    });
+        console.log('deployed kitty items contract')
 
-    return { account, kibble, kittyItems, kittyItemsMarket };
-  }
+        // Deploy kitty items market
+        contract = fs
+            .readFileSync(path.join(__dirname, `../../../kitty-items-cadence/cadence/kittyItemsMarket/contracts/kittyItemsMarket.cdc`), 'utf8')
+            .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`)
+            .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
+            .replace(/0xKIBBLE/gi, `0x${this.contractFlowAddress}`)
+            .replace(/0xKITTYITEMS/gi, `0x${this.contractFlowAddress}`);
+
+        console.log('deploying kitty items marketplace...')
+        const kittyItemsMarket = await this.flowService.addContract({
+            name: 'KittyItemsMarket',
+            code: contract,
+            authorizations: [authorization],
+            proposer: authorization,
+            payer
+        });
+        console.log('deployed kitty items marketplace')
+
+        return {kibble, kittyItems, kittyItemsMarket};
+    }
 }
 
-export { DeployerService };
+export {DeployerService};
