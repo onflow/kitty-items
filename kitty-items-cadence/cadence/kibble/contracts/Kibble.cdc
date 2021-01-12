@@ -31,11 +31,6 @@ pub contract Kibble: FungibleToken {
     // The event that is emitted when a new minter resource is created
     pub event MinterCreated(allowedAmount: UFix64)
 
-    // BurnerCreated
-    //
-    // The event that is emitted when a new burner resource is created
-    pub event BurnerCreated()
-
     // Named paths
     //
     pub let VaultStoragePath: Path
@@ -103,7 +98,9 @@ pub contract Kibble: FungibleToken {
 
         destroy() {
             Kibble.totalSupply = Kibble.totalSupply - self.balance
-            emit TokensBurned(amount: self.balance)
+            if(self.balance > 0.0) {
+                emit TokensBurned(amount: self.balance)
+            }
         }
     }
 
