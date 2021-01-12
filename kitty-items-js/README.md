@@ -21,8 +21,8 @@ npm install
 docker-compose up -d
 ```
 
-- Create a `.env` file based out of `.env.example`. Refer to `Creating a new Flow Account on Testnet` section below in order to
-  setup your private key for the `MINTER_PRIVATE_KEY` variable.
+- Create a `.env` file based out of `.env.example`. Refer to `Creating a new Flow Account on Testnet` section below in
+  order to setup your private key for the `MINTER_PRIVATE_KEY` variable.
 
 - Start app:
 
@@ -40,10 +40,19 @@ npm run workers:dev
 
 ### Creating a new Flow Account on Testnet
 
-In order to create an account on Testnet to deploy the smart contracts and mint Kibbles or Kitty Items, follow these steps:
+In order to create an account on Testnet to deploy the smart contracts and mint Kibbles or Kitty Items, follow these
+steps:
 
 - Head to https://testnet-faucet.onflow.org/
-- Sign up for `Creating an account`
+- Generate a Public / Private Key Pair using the following command from [Flow CLI](https://docs.onflow.org/flow-cli/):
+  ```shell
+  flow keys generate
+  ```
+  Make sure to save these keys in a safe place. The private key will be used as the environment
+  variable `MINTER_PRIVATE_KEY`.
+- Sign up for `Creating an account` with the public key generated from the previous step.
+- When the account is approved, you will receive an e-mail with your newly created Flow account ID. This account ID will
+  be used as the environment variable for `MINTER_FLOW_ADDRESS`.
 
 ### Creating a new database migration:
 
