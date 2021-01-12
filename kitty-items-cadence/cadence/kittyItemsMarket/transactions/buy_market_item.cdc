@@ -17,7 +17,9 @@ transaction(saleItemID: UInt64, marketCollectionAddress: Address) {
             .borrow()
             ?? panic("Could not borrow market collection from market address")
 
-        let price = self.marketCollection.borrowSaleItem(saleItemID: saleItemID).salePrice
+        let saleItem = self.marketCollection.borrowSaleItem(saleItemID: saleItemID)
+                    ?? panic("No item with that ID")
+        let price = saleItem.salePrice
 
         let mainKibbleVault = acct.borrow<&Kibble.Vault>(from: Kibble.VaultStoragePath)
             ?? panic("Cannot borrow Kibble vault from acct storage")

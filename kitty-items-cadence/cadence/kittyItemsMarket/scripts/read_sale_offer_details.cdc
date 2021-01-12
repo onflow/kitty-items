@@ -11,6 +11,7 @@ pub fun main(account: Address, saleItemID: UInt64): [UInt64] {
         .borrow()
         ?? panic("Could not borrow market collection from market address")
     let saleOffer = marketCollectionRef.borrowSaleItem(saleItemID: saleItemID)
+        ?? panic("No item with that ID")
     
     return [
         saleOffer.saleCompleted,

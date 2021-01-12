@@ -176,7 +176,7 @@ pub contract KittyItemsMarket {
     //
     pub resource interface CollectionPublic {
         pub fun getSaleOfferIDs(): [UInt64]
-        pub fun borrowSaleItem(saleItemID: UInt64): &SaleOffer{SaleOfferPublicView}
+        pub fun borrowSaleItem(saleItemID: UInt64): &SaleOffer{SaleOfferPublicView}?
         pub fun purchase(
             saleItemID: UInt64,
             buyerCollection: &KittyItems.Collection{NonFungibleToken.Receiver},
@@ -244,13 +244,15 @@ pub contract KittyItemsMarket {
         }
 
         // borrowSaleItem
-        // Returns a read-only view of the SaleItem for the given saleItemID if it is contained by this collection.
+        // Returns an Optional read-only view of the SaleItem for the given saleItemID if it is contained by this collection.
+        // The optional will be nil if the provided saleItemID is not present in the collection.
         //
-        pub fun borrowSaleItem(saleItemID: UInt64): &SaleOffer{SaleOfferPublicView} {
-            pre {
-                self.saleOffers[saleItemID] != nil: "SaleOffer does not exist in the collection!"
+        pub fun borrowSaleItem(saleItemID: UInt64): &SaleOffer{SaleOfferPublicView}? {
+            if self.saleOffers[saleItemID] == nil {
+                return nil
+            } else {
+                return &self.saleOffers[saleItemID] as &SaleOffer{SaleOfferPublicView}
             }
-            return &self.saleOffers[saleItemID] as &SaleOffer{SaleOfferPublicView}
         }
 
         // destructor
