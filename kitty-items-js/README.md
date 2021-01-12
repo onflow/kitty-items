@@ -24,6 +24,9 @@ docker-compose up -d
 - Create a `.env` file based out of `.env.example`. Refer to `Creating a new Flow Account on Testnet` section below in
   order to setup your private key for the `MINTER_PRIVATE_KEY` variable.
 
+- Deploy contracts to the Flow Testnet to the Flow account obtained from the previous step. Follow the instructions
+  available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
+
 - Start app:
 
 ```
@@ -31,6 +34,12 @@ npm run start:dev
 ```
 
 Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url.
+
+- Run docker:
+
+```
+docker-compose up -d
+```
 
 - Start workers / flow event handlers:
 
