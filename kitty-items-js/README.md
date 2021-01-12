@@ -41,6 +41,11 @@ Note that when the API starts, it will automatically run the database migrations
 docker-compose up -d
 ```
 
+- Configure the value `SALE_OFFER_EVENT_NAME` on the `.env`, following the Flow event
+  format (`A.ContractAddress.Contract.EventName`). For example:
+  `A.fcceff21d9532b58.KittyItemsMarket.SaleOfferCreated`, where the address where the contracts have been deployed
+  is `fcceff21d9532b58`.
+
 - Start workers / flow event handlers:
 
 ```
