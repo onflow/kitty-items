@@ -13,16 +13,27 @@ async function run() {
   );
   const deployerService = new DeployerService(
     flowService,
-    process.env.FUNGIBLE_TOKEN_ADDRESS!
+    process.env.FUNGIBLE_TOKEN_ADDRESS!,
+    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
+    process.env.ACCOUNT_ADDRESS!,
+    process.env.ACCOUNT_KEY_IDX!,
+    process.env.ACCOUNT_PRIVATE_KEY!
+  );
+  console.log(
+    "starting deployment of contracts, accessNode:",
+    process.env.FLOW_NODE,
+    " address:",
+    process.env.ACCOUNT_ADDRESS
   );
   const result = await deployerService.deploy();
-  console.log()
-  console.log('address', result.account.addr);
-  console.log('private key', result.account.privateKey);
+  console.log("result", result);
+  console.log(
+    `https://flow-view-source.com/testnet/account/0x${process.env.ACCOUNT_ADDRESS}`
+  );
   process.exit();
 }
 
 run().catch((e) => {
-  console.error("error", e);
+  console.error("error", e, e.stack);
   process.exit(1);
 });

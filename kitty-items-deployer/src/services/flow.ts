@@ -1,17 +1,16 @@
 import { ec as EC } from "elliptic";
 import { SHA3 } from "sha3";
 import * as fcl from "@onflow/fcl";
-import * as rlp from '@onflow/rlp';
-import * as t from '@onflow/types';
+import * as rlp from "@onflow/rlp";
+import * as t from "@onflow/types";
 
 const ec: EC = new EC("p256");
 
 class FlowService {
-
   constructor(
     private readonly accountAddress: string,
     private readonly accountIndex: string,
-    private readonly accountPrivateKeyHex: string, 
+    private readonly accountPrivateKeyHex: string
   ) {}
 
   authorize = ({ accountAddress, keyIdx, privateKey }) => {
@@ -44,11 +43,11 @@ class FlowService {
 
   authorizeAccount = () => {
     return this.authorize({
-      accountAddress: this.accountAddress, 
+      accountAddress: this.accountAddress,
       keyIdx: this.accountIndex,
-      privateKey: this.accountPrivateKeyHex
+      privateKey: this.accountPrivateKeyHex,
     });
-  }
+  };
 
   getAccount = async (addr: string) => {
     const { account } = await fcl.send([fcl.getAccount(addr)]);
@@ -70,27 +69,22 @@ class FlowService {
     return sha.digest();
   };
 
-  genKeys = (): {publicKey: string, privateKey: string, flowKey: string} => {
-    const keys = ec.genKeyPair()
-    const privateKey = keys.getPrivate('hex');
-    const publicKey = keys.getPublic('hex').replace(/^04/, '');
+  genKeys = (): { publicKey: string; privateKey: string; flowKey: string } => {
+    const keys = ec.genKeyPair();
+    const privateKey = keys.getPrivate("hex");
+    const publicKey = keys.getPublic("hex").replace(/^04/, "");
     return {
       publicKey,
       privateKey,
-      flowKey: this.encodePublicKey(publicKey)
-    }
-  }
+      flowKey: this.encodePublicKey(publicKey),
+    };
+  };
 
   private encodePublicKey = (publicKey: string): string => {
     return rlp
-      .encode([
-        Buffer.from(publicKey, 'hex'),
-        2,
-        3,
-        1000,
-      ])
-      .toString('hex')
-  }
+      .encode([Buffer.from(publicKey, "hex"), 2, 3, 1000])
+      .toString("hex");
+  };
 
   createFlowAccount = async (): Promise<any> => {
     const keys = this.genKeys();
@@ -108,35 +102,45 @@ class FlowService {
           }
         }
       `,
-      fcl.args([
-        fcl.arg(keys.flowKey, t.String),
-      ]),
+      fcl.args([fcl.arg(keys.flowKey, t.String)]),
       fcl.proposer(authorization),
       fcl.authorizations([authorization]),
       fcl.payer(authorization),
     ]);
-    const {events} = await fcl.tx(response).onceSealed();
-    const accountCreatedEvent = events.find(d => d.type === "flow.AccountCreated");
-    if (!accountCreatedEvent) throw new Error('No flow.AccountCreated found')
-    let addr = accountCreatedEvent.data.address
+    const { events } = await fcl.tx(response).onceSealed();
+    const accountCreatedEvent = events.find(
+      (d) => d.type === "flow.AccountCreated"
+    );
+    if (!accountCreatedEvent) throw new Error("No flow.AccountCreated found");
+    let addr = accountCreatedEvent.data.address;
     // a standardized string format for addresses is coming soon
     // our aim is to make them as small as possible while making them unambiguous
-    addr = addr.replace(/^0x/, "")
-    if (!addr) throw new Error('An address is required')
-  
-    const account = await this.getAccount(addr)
-    const key = account.keys.find(d => d.publicKey === keys.publicKey)
-    if (!key) throw new Error('Could not find provided public key in on-chain flow account keys')
-    
+    addr = addr.replace(/^0x/, "");
+    if (!addr) throw new Error("An address is required");
+
+    const account = await this.getAccount(addr);
+    const key = account.keys.find((d) => d.publicKey === keys.publicKey);
+    if (!key)
+      throw new Error(
+        "Could not find provided public key in on-chain flow account keys"
+      );
+
     return {
       addr,
       publicKey: keys.publicKey,
       privateKey: keys.privateKey,
       keyIdx: key.index,
-    }
-  }
+    };
+  };
 
-  addContract = async ({name , code , proposer, authorizations, payer}): Promise<any> => {
+  addContract = async ({
+    name,
+    code,
+    proposer,
+    authorizations,
+    payer,
+  }): Promise<any> => {
+    console.log("add contract name:", name);
     const CODE = Buffer.from(code, "utf8").toString("hex");
     //deploy the code
     const response = await fcl.send([
@@ -154,19 +158,22 @@ class FlowService {
           }
         }
       `,
-      fcl.args([
-        fcl.arg(name, t.String),
-        fcl.arg(CODE, t.String),
-      ]),
+      fcl.args([fcl.arg(name, t.String), fcl.arg(CODE, t.String)]),
       fcl.proposer(proposer),
       fcl.authorizations(authorizations),
       fcl.payer(payer),
-      fcl.limit(9999)
+      fcl.limit(9999),
     ]);
-    return await fcl.tx(response).onceExecuted();
-  }
+    return await fcl.tx(response).onceSealed();
+  };
 
-  sendTx = async ({transaction , args , proposer, authorizations, payer}): Promise<any> => {
+  sendTx = async ({
+    transaction,
+    args,
+    proposer,
+    authorizations,
+    payer,
+  }): Promise<any> => {
     const response = await fcl.send([
       fcl.transaction`
         ${transaction}
@@ -175,19 +182,15 @@ class FlowService {
       fcl.proposer(proposer),
       fcl.authorizations(authorizations),
       fcl.payer(payer),
-      fcl.limit(9999)
+      fcl.limit(9999),
     ]);
     return await fcl.tx(response).onceSealed();
-  }
+  };
 
-  async executeScript<T>({script, args}): Promise<T> {
-    const response = await fcl.send([
-      fcl.script`${script}`,
-      fcl.args(args)
-    ]);
+  async executeScript<T>({ script, args }): Promise<T> {
+    const response = await fcl.send([fcl.script`${script}`, fcl.args(args)]);
     return await fcl.decode(response);
   }
-
 }
 
 export { FlowService };
