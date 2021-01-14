@@ -69,6 +69,62 @@ steps:
 - Sign up for `Creating an account` with the public key generated from the previous step.
 - When the account is approved, you will receive an e-mail with your newly created Flow account ID. This account ID will
   be used as the environment variable for `MINTER_FLOW_ADDRESS`.
+  
+
+### Sample endpoints
+
+For a list of endpoints available on the API, look into the `routes` folder. Here are a few examples to get started:
+
+- **POST /v1/kibbles/mint** - mints Kibbles (fungible token) to the specified Flow Address.
+
+  Payload: 
+  ```
+  {
+	"recipient": "0xafad45913fb07dba",
+	"amount": 2.0
+  }
+  ```
+  - Example:
+```
+curl --request POST \
+--url http://localhost:3000/v1/kibbles/mint \
+--header 'Content-Type: application/json' \
+--data '{
+"recipient": "0xafad45913fb07dba",
+"amount": 2.0
+}'
+```
+
+- **POST /v1/kitty-items/mint** : Mints a Kitty Item (NFT) to the `recipient` account.
+
+  - Example: 
+
+```
+curl --request POST \
+  --url http://localhost:3000/v1/kitty-items/mint \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"recipient": "0xba1132bc08f82fe2",
+	"typeId": 1
+}'
+```
+
+- **POST /v1/market/sell** : Puts a Kitty Item for sale
+  - Example:
+
+```
+curl --request POST \
+--url http://localhost:3000/v1/market/sell \
+--header 'Content-Type: application/json' \
+--data '{
+"itemId": 5,
+"price": 7.9
+}
+'
+```
+
+
+## Etc
 
 ### Creating a new database migration:
 
