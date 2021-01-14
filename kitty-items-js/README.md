@@ -7,7 +7,7 @@ This API currently supports:
 - Minting Kitty Items (non-fungible token)
 - Creating Sale Offers for Kitty Items
 
-### Setup
+### Setup / Running the API
 
 - Install npm dependencies:
 
@@ -34,6 +34,8 @@ npm run start:dev
 ```
 
 Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url.
+
+### Running Worker / Event consumer
 
 - Run docker:
 
@@ -74,4 +76,4 @@ steps:
 npm run migrate:make
 ```
 
-Migrations are run automatically when the app initializes
+Migrations are run automatically when the app initializes.
