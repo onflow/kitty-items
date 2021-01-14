@@ -37,5 +37,8 @@
     "@types/express": "^4.17.9",
     "prettier": "^2.2.1",
     "ts-node-dev": "^1.1.1"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }
