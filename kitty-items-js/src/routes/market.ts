@@ -19,6 +19,13 @@ function initMarketRouter(marketService: MarketService): Router {
     }
   );
 
+  router.post("/market/setup", async (req: Request, res: Response) => {
+    const tx = await marketService.setupAccount();
+    return res.send({
+      transactionId: tx,
+    });
+  });
+
   router.post(
     "/market/sell",
     [body("itemId").isInt(), body("price").isDecimal()],
