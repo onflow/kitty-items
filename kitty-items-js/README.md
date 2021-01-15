@@ -7,7 +7,7 @@ This API currently supports:
 - Minting Kitty Items (non-fungible token)
 - Creating Sale Offers for Kitty Items
 
-### Setup / Running the API
+## Setup / Running the API
 
 - Install npm dependencies:
 
@@ -34,8 +34,9 @@ npm run start:dev
 ```
 
 Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url.
+Try out the endpoints at the `Sample Endpoints` section. Note that in order to
 
-### Running Worker / Event consumer
+## Running Worker / Event consumer
 
 - Run docker:
 
@@ -54,7 +55,7 @@ docker-compose up -d
 npm run workers:dev
 ```
 
-### Creating a new Flow Account on Testnet
+## Creating a new Flow Account on Testnet
 
 In order to create an account on Testnet to deploy the smart contracts and mint Kibbles or Kitty Items, follow these
 steps:
@@ -69,22 +70,58 @@ steps:
 - Sign up for `Creating an account` with the public key generated from the previous step.
 - When the account is approved, you will receive an e-mail with your newly created Flow account ID. This account ID will
   be used as the environment variable for `MINTER_FLOW_ADDRESS`.
+
+## Sample endpoints
+
+For a list of endpoints available on the API, look into the `routes` folder.
+
+### Setup Resources
+
+Before you can mint Kibbles and Kitty Items, you should run the requests in this section. They will initialize the
+collections and vaults that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible
+tokens.
+
+- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account. 
   
+  - Example:
+  
+```
+  curl --request POST \
+  --url http://localhost:3000/v1/kibbles/setup \
+  --header 'Content-Type: application/json'
+```  
 
-### Sample endpoints
+- **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
+  - Example:
+  
+```
+  curl --request POST \
+  --url http://localhost:3000/v1/kitty-items/setup \
+  --header 'Content-Type: application/json'
+```  
 
-For a list of endpoints available on the API, look into the `routes` folder. Here are a few examples to get started:
+- **POST /v1/market/setup**: Creates a resource that allows the `MINTER_FLOW_ADDRESS` to hold sale offers for Kitty Items.
+  - Example:
+
+```
+  curl --request POST \
+  --url http://localhost:3000/v1/market/setup \
+  --header 'Content-Type: application/json'
+  ```
+
+### Mint Kibbles and Kitty Items
 
 - **POST /v1/kibbles/mint** - mints Kibbles (fungible token) to the specified Flow Address.
 
-  Payload: 
+  Payload:
   ```
   {
 	"recipient": "0xafad45913fb07dba",
 	"amount": 2.0
   }
   ```
-  - Example:
+    - Example:
+
 ```
 curl --request POST \
 --url http://localhost:3000/v1/kibbles/mint \
@@ -97,7 +134,7 @@ curl --request POST \
 
 - **POST /v1/kitty-items/mint** : Mints a Kitty Item (NFT) to the `recipient` account.
 
-  - Example: 
+    - Example:
 
 ```
 curl --request POST \
@@ -110,7 +147,7 @@ curl --request POST \
 ```
 
 - **POST /v1/market/sell** : Puts a Kitty Item for sale
-  - Example:
+    - Example:
 
 ```
 curl --request POST \
@@ -123,7 +160,6 @@ curl --request POST \
 '
 ```
 
-
 ## Etc
 
 ### Creating a new database migration:
@@ -131,5 +167,3 @@ curl --request POST \
 ```shell
 npm run migrate:make
 ```
-
-Migrations are run automatically when the app initializes.
