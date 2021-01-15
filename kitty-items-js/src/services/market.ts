@@ -21,8 +21,8 @@ class MarketService {
     const transaction = fs
       .readFileSync(
         path.join(
-          process.env.CADENCE_PATH || __dirname,
-          `../../cadence/kittyItemsMarket/transactions/setup_account.cdc`
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/setup_account.cdc`
         ),
         "utf8"
       )
@@ -40,8 +40,8 @@ class MarketService {
     const script = fs
       .readFileSync(
         path.join(
-          process.env.CADENCE_PATH || __dirname,
-          `../../cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -56,8 +56,8 @@ class MarketService {
     const script = fs
       .readFileSync(
         path.join(
-          process.env.CADENCE_PATH || __dirname,
-          `../../cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -73,8 +73,8 @@ class MarketService {
     const transaction = fs
       .readFileSync(
         path.join(
-          process.env.CADENCE_PATH || __dirname,
-          `../../cadence/kittyItemsMarket/transactions/buy_market_item.cdc`
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/buy_market_item.cdc`
         ),
         "utf8"
       )
@@ -97,8 +97,8 @@ class MarketService {
     const transaction = fs
       .readFileSync(
         path.join(
-          process.env.CADENCE_PATH || __dirname,
-          `../../cadence/kittyItemsMarket/transactions/sell_market_item.cdc`
+          __dirname,
+          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/sell_market_item.cdc`
         ),
         "utf8"
       )
@@ -109,7 +109,10 @@ class MarketService {
       .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(itemId, t.UInt64), fcl.arg(price.toFixed(8).toString(), t.UFix64)],
+      args: [
+        fcl.arg(itemId, t.UInt64),
+        fcl.arg(price.toFixed(8).toString(), t.UFix64),
+      ],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
