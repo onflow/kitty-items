@@ -19,6 +19,13 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     }
   );
 
+  router.post("/kitty-items/setup", async (req: Request, res: Response) => {
+    const transaction = await kittyItemsService.setupAccount();
+    return res.send({
+      transaction,
+    });
+  });
+
   router.post(
     "/kitty-items/transfer",
     [body("recipient").exists(), body("itemId").isInt()],

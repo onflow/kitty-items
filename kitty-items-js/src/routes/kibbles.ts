@@ -19,6 +19,13 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
     }
   );
 
+  router.post("/kibbles/setup", async (req: Request, res: Response) => {
+    const transaction = await kibblesService.setupAccount();
+    return res.send({
+      transaction,
+    });
+  });
+
   router.post(
     "/kibbles/burn",
     [
