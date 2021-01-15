@@ -103,7 +103,7 @@ KittyItemsMarket is a simple first-sale marketplace contract that sells KittyIte
 
 [kitty-items-web]: https://github.com/onflow/kitty-items-web
 
-[dApp]: https://fancy-water-0426.on.fleek.co/#/wip/qvvg
+[dApp]: https://kitty-items.on.fleek.co
 
 [Flow Docs]: https://docs.onflow.org/
 
