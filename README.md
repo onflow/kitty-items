@@ -1,17 +1,22 @@
 ![kitty-items](https://user-images.githubusercontent.com/37638382/103047804-e0b7c080-4549-11eb-81a3-8abd8cb12809.png)
 
-# What is Kitty Items
+# What is Kitty Items?
 
-This repository contains Kitty Items, a project that demonstrates current best practice for structuring and writing
-dapps for deployment to the Flow mainnet using  [Cadence](https://github.com/onflow/cadence)
-, [Flow Client Library](https://github.com/onflow/flow-js-sdk/tree/master/packages/fclhttps://github.com/onflow/flow-js-sdk/tree/master/packages/fcl) (
-FCL) and Flow [JS](https://github.com/onflow/flow-js-sdk) SDK.
+This repository contains Kitty Items, a project that demonstrates the current best practices for building decentralized app (dapps) on Flow.
 
-Items are hats for your cats but underneath the hood they are non-fungible tokens that exist on the Flow blockchain.
-Items can be purchased in the front-end marketplace with fungible tokens and eventually applied to ethereum
-CryptoKitties with ownership validation from an oracle.
+This project uses [Cadence](https://github.com/onflow/cadence), [Flow Client Library](https://github.com/onflow/flow-js-sdk/tree/master/packages/fclhttps://github.com/onflow/flow-js-sdk/tree/master/packages/fcl) (
+FCL) and the [Flow JavaScript SDK](https://github.com/onflow/flow-js-sdk).
 
-[Demo][dApp]
+Items are hats for your cats, but underneath the hood they are non-fungible tokens stored on the Flow blockchain.
+
+Items can be purchased from the front-end marketplace with fungible tokens.
+Eventually you'll be able to apply them to Ethereum CryptoKitties with ownership validated by an oracle.
+
+## Live demo
+
+Here's a [live demo of Kitty Items][demo], deployed on IPFS and the Flow Testnet.
+
+# Project structure
 
 The project is composed of:
 
@@ -37,26 +42,30 @@ The project is composed of:
 
 # How to use this repo
 
-- If you are new to Flow, welcome! You can get started by reading our documentation at [Flow Docs][] and
-  on [Flow Forum][].
+Welcome to Flow! You can get started by [reading the documentation][Flow Docs] and browsing the [Flow Forum][].
 
-- As a general guideline, we suggest that you explore Kitty Items by following this order:
-    1. [kitty-items-cadence][] - How to create smart contracts for Flow.
-    1. [kitty-items-web][] - How Flow interacts with users, like signing-in and sending transactions.
-    1. After reading on the previous steps, you should have a better understanding on how Cadence works and how to
+As a general guideline, we suggest that you explore Kitty Items in this order:
+
+1. [kitty-items-cadence][] - How to create smart contracts for Flow.
+1. [kitty-items-web][] - How Flow interacts with users, like signing-in and sending transactions.
+1. After reading on the previous steps, you should have a better understanding on how Cadence works and how to
        interact with the Flow blockchain. The following steps will help you to run your own experiments with Flow by
        creating an account on the testnet and using it to send transactions and deploy contracts.
-    1. [kitty-items-js][] - How to send transactions to the Flow blockchain with a backend API, as well as reading
+1. [kitty-items-js][] - How to send transactions to the Flow blockchain with a backend API, as well as reading
        events from the blockchain.
-    1. [kitty-items-deployer][] - Explore how to deploy contracts to the Flow blockchain.
+1. [kitty-items-deployer][] - Explore how to deploy contracts to the Flow blockchain.
 
-- Fork it and make your own NFT or FT. Use it as a case study/learning experience!
+Fork it and make your own NFT or fungible token. Use it as a case study or as part of your overall Flow learning experience!
 
 # Questions?
 
-1. Join discord: https://discord.gg/xUdZxs82Rz
+- Chat with the team on the Flow Discord: https://discord.gg/xUdZxs82Rz
 
-## Back End
+- Ask questions on the Flow community forum: https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5
+
+# Extra reading 
+
+## Backend
 
 On [kitty-items-js][] you will find a backend API written in Typescript / Node.js. This backend has a few purposes:
 
@@ -92,18 +101,17 @@ KittyItems are NFTs based on the Flow Non-Fungible Token standard.
 
 KittyItemsMarket is a simple first-sale marketplace contract that sells KittyItems in exchange for Kibble.
 
-
-[kitty-items]: https://github.com/onflow/kitty-items/tree/master/kitty-items-web
+[kitty-items]: https://github.com/onflow/kitty-items
 
 [kitty-items-js]: https://github.com/onflow/kitty-items/tree/master/kitty-items-js
+
+[kitty-items-web]: https://github.com/onflow/kitty-items/tree/master/kitty-items-web
 
 [kitty-items-cadence]: https://github.com/onflow/kitty-items/tree/master/kitty-items-cadence
 
 [kitty-items-deployer]: https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer
 
-[kitty-items-web]: https://github.com/onflow/kitty-items-web
-
-[dApp]: https://kitty-items.on.fleek.co
+[demo]: https://kitty-items.on.fleek.co
 
 [Flow Docs]: https://docs.onflow.org/
 
