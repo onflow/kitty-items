@@ -93,7 +93,7 @@ KittyItems are NFTs based on the Flow Non-Fungible Token standard.
 KittyItemsMarket is a simple first-sale marketplace contract that sells KittyItems in exchange for Kibble.
 
 
-[kitty-items]: https://github.com/onflow/kitty-items
+[kitty-items]: https://github.com/onflow/kitty-items/tree/master/kitty-items-web
 
 [kitty-items-js]: https://github.com/onflow/kitty-items/tree/master/kitty-items-js
 
