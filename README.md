@@ -14,7 +14,7 @@ Eventually you'll be able to apply them to Ethereum CryptoKitties with ownership
 
 ## Live demo
 
-Here's a [live demo of Kitty Items][demo], deployed on IPFS and the Flow Testnet.
+Check out the [live demo of Kitty Items][demo], deployed on IPFS and the Flow Testnet.
 
 # Project structure
 
