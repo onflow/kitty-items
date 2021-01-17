@@ -4,87 +4,95 @@
 
 This repository contains Kitty Items, a project that demonstrates the current best practices for building decentralized app (dapps) on Flow.
 
-This project uses [Cadence](https://github.com/onflow/cadence), [Flow Client Library](https://github.com/onflow/flow-js-sdk/tree/master/packages/fclhttps://github.com/onflow/flow-js-sdk/tree/master/packages/fcl) (
-FCL) and the [Flow JavaScript SDK](https://github.com/onflow/flow-js-sdk).
+This project uses [Cadence][cadence], [Flow Client Library](https://github.com/onflow/flow-js-sdk/tree/master/packages/fclhttps://github.com/onflow/flow-js-sdk/tree/master/packages/fcl) (FCL) and the [Flow JavaScript SDK][flow-js-sdk].
 
-Items are hats for your cats, but underneath the hood they are non-fungible tokens stored on the Flow blockchain.
+Items are hats for your cats, but under the hood they're non-fungible tokens stored on the Flow blockchain.
 
-Items can be purchased from the front-end marketplace with fungible tokens.
-Eventually you'll be able to apply them to Ethereum CryptoKitties with ownership validated by an oracle.
+Items can be purchased from the marketplace with fungible tokens.
+In the future you'll be able to add them to Ethereum CryptoKitties with ownership validated by an oracle.
 
 ## Live demo
 
-Check out the [live demo of Kitty Items][demo], deployed on IPFS and the Flow Testnet.
+Check out the [live demo of Kitty Items][kitty-items-demo], deployed on IPFS and the Flow Testnet.
 
-# Project structure
+# What's included?
 
-The project is composed of:
+### Cadence Smart Contracts ([kitty-items-cadence][])
 
-- [kitty-items-cadence][] - Smart contracts & backend services
-    - Source code for Cadence contracts. In this repo you will find out how to create Fungible and Non Fungible Smart
-      Contract implementations, as well as sending scripts and transactions to interact with them.
-- [kitty-items-deployer][] - Smart Contract deployer
-    - Source Code for a job that deploys Cadence contracts to the Flow Testnet / Emulator. Here you will learn how you
-      can deploy your own set of Smart Contracts.
-- [kitty-items-js][] - Backend API
-    - Source code for an API that sends transactions to the Flow Blockchain. Here you can learn how to use the Flow JS
-      SDK to build and send transactions and scripts in a backend setting. For this project, this means minting
-      Kibbles (fungible tokens) and Kitty Items (non-fungible tokens).
-- [kitty-items-web][] - Front-end React application
-    - Source code for a Front-end application that allows you to interact with the Flow blockchain. Here you will learn
-      how to:
-        - Authenticate Flow accounts in your dapp
-        - Authorization & transaction signing
-        - Query data with FCL scripts
-- kitty-items-oracle - coming soon:tm:
-    - Account linker
-    - Oracle service
+[kitty-items-cadence][] contains the source code for the Cadence contracts that power Kitty Items. 
+You will find examples of fungible and non-fungible token (NFT) smart contract implementations, 
+as well as the scripts and transactions that interact with them.
 
-# How to use this repo
+### Frontend Web App ([kitty-items-web][])
 
-Welcome to Flow! You can get started by [reading the documentation][Flow Docs] and browsing the [Flow Forum][].
+[kitty-items-web][] contains the source code for a frontend application that interacts with the Flow blockchain.
+Here you can learn how to:
+  - Authenticate Flow accounts in your dapp
+  - Sign transactions
+  - Query data with FCL scripts
 
-As a general guideline, we suggest that you explore Kitty Items in this order:
+### Backend API ([kitty-items-js][])
 
-1. [kitty-items-cadence][] - How to create smart contracts for Flow.
-1. [kitty-items-web][] - How Flow interacts with users, like signing-in and sending transactions.
-1. After reading on the previous steps, you should have a better understanding on how Cadence works and how to
+[kitty-items-js][] contains the source code for an API that sends transactions to the Flow Blockchain.
+Here you can learn how to use the [Flow JavaScript SDK](https://github.com/onflow/flow-js-sdk) 
+to build and send both transactions and scripts in a backend setting. 
+For this project, this means minting Kibbles (fungible tokens) and Kitty Items (non-fungible tokens).
+
+### Contract Auto-Deployer ([kitty-items-deployer][])
+
+[kitty-items-deployer][] is a tool that deploys Cadence contracts to the Flow Testnet or FLow Emulator. 
+Here you will learn how you can deploy your own set of smart contracts.
+
+### Ethereum Oracle (Coming soon!)
+
+- Account linker
+- Oracle service
+
+# How do I use this repo?
+
+Welcome to Flow! You can get started by [reading the documentation][flow-docs] and browsing the [Flow community forum][flow-forum].
+
+As a general guideline, it's best to explore Kitty Items in this order:
+
+1. [kitty-items-cadence][] - Learn how to create smart contracts for Flow.
+1. [kitty-items-web][] - Learn how a dapp interacts with Flow users, like signing-in and sending transactions.
+1. After reading the previous steps, you should have a better understanding on how Cadence works and how to
        interact with the Flow blockchain. The following steps will help you to run your own experiments with Flow by
        creating an account on the testnet and using it to send transactions and deploy contracts.
 1. [kitty-items-js][] - How to send transactions to the Flow blockchain with a backend API, as well as reading
        events from the blockchain.
 1. [kitty-items-deployer][] - Explore how to deploy contracts to the Flow blockchain.
 
-Fork it and make your own NFT or fungible token. Use it as a case study or as part of your overall Flow learning experience!
+Fork this repository to make your own dapp or use it as a case study in part of your overall Flow learning experience!
 
 # Questions?
 
-- Chat with the team on the Flow Discord: https://discord.gg/xUdZxs82Rz
+- Chat with the team on the [Flow Discord server][flow-discord]
 
-- Ask questions on the Flow community forum: https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5
+- Ask questions on the [Flow community forum](https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5)
 
 # Extra reading 
 
-## Backend
+## Backend API
 
-On [kitty-items-js][] you will find a backend API written in Typescript / Node.js. This backend has a few purposes:
+In [kitty-items-js][] you will find a backend API written in Typescript / Node.js. This backend has a few purposes:
 
 - Demonstrate how the Flow Javascript SDK can be used to send transactions to the Flow blockchain
-- Fetch events from the Flow blockchain and process them such as saving information to a database
+- Fetch events from the Flow blockchain, process them, and the save the information to a database
 
-In order to accomplish this, we have both a Restful API component as well as a worker.
+In order to accomplish this, there is a RESTful API component and a separate worker service.
 
-In the Restful API, you will find several routes that send transactions to the blockchain by using the Flow JS. These
-transactions are sent by loading a Flow account using a private key from an environment variable.
+In the RESTful API, you will find several routes that send transactions to the blockchain by using the [Flow JavaScript SDK][flow-js-sdk]. 
+These transactions are sent by loading a Flow account using a private key from an environment variable.
 
-In the worker, we detect events from the Flow blockchain by running a continuous loop over a set of block ranges. When
-we detect an event that we’re interested in, we just then run some logic that will further process the data, such as
-persisting it to a database. In a production setting, we could further augment this data processing by posting a message
-to a separate message queue so another more specialized worker can work on top of the emitted blockchain event.
+The worker detects events from the Flow blockchain by running a continuous loop over a set of block ranges. When
+it detect an event related to Kitty Items, it then runs some logic that will further process the data, such as
+persisting it to a database. In a production setting, it could further augment this data processing by posting a message
+to a separate message queue so another more specialized worker could work from the emitted blockchain event.
 
 ## Smart Contracts
 
-The KittyItems smart contracts are written in Cadence, Flow's resource-oriented programming language.
+The KittyItems smart contracts are written in [Cadence][cadence], Flow's resource-oriented programming language.
 
 They are used to manage payment, ownership, and selling of items. To ensure composability with other projects on the
 Flow blockchain they are based on existing standards.
@@ -111,8 +119,14 @@ KittyItemsMarket is a simple first-sale marketplace contract that sells KittyIte
 
 [kitty-items-deployer]: https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer
 
-[demo]: https://kitty-items.on.fleek.co
+[kitty-items-demo]: https://kitty-items.on.fleek.co
 
-[Flow Docs]: https://docs.onflow.org/
+[cadence]: https://github.com/onflow/cadence
 
-[Flow Forum]: https://forum.onflow.org/
+[flow-js-sdk]: https://github.com/onflow/flow-js-sdk
+
+[flow-docs]: https://docs.onflow.org/
+
+[flow-discord]: https://discord.gg/xUdZxs82Rz
+
+[flow-forum]: https://forum.onflow.org/
