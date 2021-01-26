@@ -40,7 +40,7 @@ For this project, this means minting Kibbles (fungible tokens) and Kitty Items (
 
 ### Contract Auto-Deployer ([kitty-items-deployer][])
 
-[kitty-items-deployer][] is a tool that deploys Cadence contracts to the Flow Testnet or FLow Emulator. 
+[kitty-items-deployer][] is a tool that deploys Cadence contracts to the Flow Testnet or Flow Emulator. 
 Here you will learn how you can deploy your own set of smart contracts.
 
 ### Ethereum Oracle (Coming soon!)
