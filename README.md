@@ -4,7 +4,7 @@
 
 This repository contains Kitty Items, a project that demonstrates the current best practices for building decentralized app (dapps) on Flow.
 
-This project uses [Cadence][cadence], [Flow Client Library](https://github.com/onflow/flow-js-sdk/tree/master/packages/fclhttps://github.com/onflow/flow-js-sdk/tree/master/packages/fcl) (FCL) and the [Flow JavaScript SDK][flow-js-sdk].
+This project uses [Cadence][cadence], [Flow Client Library](https://github.com/onflow/flow-js-sdk/tree/master/packages/fcl) (FCL) and the [Flow JavaScript SDK][flow-js-sdk].
 
 Items are hats for your cats, but under the hood they're non-fungible tokens stored on the Flow blockchain.
 
