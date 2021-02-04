@@ -1,4 +1,4 @@
-![kitty-items-outline](https://user-images.githubusercontent.com/901466/106842068-24790c00-6658-11eb-8491-eb625432443e.png)<!-- .element width="100%" -->
+![kitty-items-overview](https://user-images.githubusercontent.com/901466/106943245-0eac2b00-66da-11eb-960e-a1db5b1d028d.png)<!-- .element width="100%" -->
 
 # Welcome to the Kitty Items demo application!
 
