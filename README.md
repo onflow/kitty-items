@@ -15,16 +15,16 @@ Legend:
     - The hero of our story. Flow is a next-generation blockchain platform that is designed to be fast and easy to use. If you're new to Flow, consider reading more about it. Read the [Flow Primer](https://www.onflow.org/primer), or go to the [Flow developer documentation](https://docs.onflow.org/) to get some more context before diving into this application.
 
 2) Web App (Static website) [kitty-items-web](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-web)
-    - A true Dapp, client-only web app. This is a complete web application built with React that demonstrates how to build a static website that can be deployed to an environment like IPFS and connects directly to the Flow blockchain using `@onflow/fcl`. No servers required. `@onflow/fcl` even handles all of the authentication.
+    - A true Dapp, client-only web app. This is a complete web application built with React that demonstrates how to build a static website that can be deployed to an environment like IPFS and connects directly to the Flow blockchain using `@onflow/fcl`. No servers required. `@onflow/fcl` handles authentication of Flow accounts, signing transactions, and querying data using using Cadence.
 
 3) Look Ma, a Web Server! [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js)
-    - We love decentralization, but servers are still very useful, and this one's no exception. The code in this project demonstrates how to connect to Flow using `@onflow/fcl` from NodeJS environments. It's also chalk-full of handy patterns you'll proabably want to use for more complex and feature-rich blockchain applications, like storing and querying events using a SQL database (Postgres).
+    - We love decentralization, but servers are still very useful, and this one's no exception. The code in this project demonstrates how to connect to Flow using [Flow JavaScript SDK](https://github.com/onflow/flow-js-sdk) from a NodeJS backend. It's also chalk-full of handy patterns you'll proabably want to use for more complex and feature-rich blockchain applications, like storing and querying events using a SQL database (Postgres). The API demonstrates how to send transactions to the Flow Blockchain, specifically for minting Kibbles (fungible tokens usd in this app) and Kitty Items (non-fungible tokens used in this app).
 
-4) [kitty-items-cadence](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-cadence)
-    - Cadence contracts, scripts & transactions for your viewing pleasure. This folder contains all of the blockchain logic for the marketplace application. 
+4) ### Cadence Code [kitty-items-cadence](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-cadence)
+    - Cadence smart contracts, scripts & transactions for your viewing pleasure. This folder contains all of the blockchain logic for the marketplace application. Here you will find examples of [fungible](https://github.com/onflow/flow-ft) and [non-fungible token (NFT)](https://github.com/onflow/flow-nft) smart contract implementations, as well as the scripts and transactions that interact with them. 
 
 5) [kitty-items-deployer](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-deployer)
-    - Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts. Look through this project for an idea of what it's like to bootstrap your Flow accounts and Cadence smart contracts onto Flow testnet.
+    - Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts. Look through this project for an idea of what it's like to bootstrap your Flow accounts and Cadence smart contracts onto the [Flow Emulator](https://github.com/onflow/flow-emulator) or Flow testnet.
 
 6) An `@onflow/fcl` compatible wallet service that performs authentication and authorization. (Implementation is not a part of this app).
 
@@ -40,42 +40,8 @@ In the future you'll be able to add them to Ethereum CryptoKitties with ownershi
 
 Check out the [live demo of Kitty Items][kitty-items-demo], deployed on IPFS and the Flow Testnet.
 
-# What's included?
-
-### Cadence Smart Contracts ([kitty-items-cadence][])
-
-[kitty-items-cadence][] contains the source code for the Cadence contracts that power Kitty Items. 
-You will find examples of fungible and non-fungible token (NFT) smart contract implementations, 
-as well as the scripts and transactions that interact with them.
-
-### Frontend Web App ([kitty-items-web][])
-
-[kitty-items-web][] contains the source code for a frontend application that interacts with the Flow blockchain.
-Here you can learn how to:
-  - Authenticate Flow accounts in your dapp
-  - Sign transactions
-  - Query data with FCL scripts
-
-### Backend API ([kitty-items-js][])
-
-[kitty-items-js][] contains the source code for an API that sends transactions to the Flow Blockchain.
-Here you can learn how to use the [Flow JavaScript SDK](https://github.com/onflow/flow-js-sdk) 
-to build and send both transactions and scripts in a backend setting. 
-For this project, this means minting Kibbles (fungible tokens) and Kitty Items (non-fungible tokens).
-
-### Contract Auto-Deployer ([kitty-items-deployer][])
-
-[kitty-items-deployer][] is a tool that deploys Cadence contracts to the Flow Testnet or Flow Emulator. 
-Here you will learn how you can deploy your own set of smart contracts.
-
-### Ethereum Oracle (Coming soon!)
-
-- Account linker
-- Oracle service
 
 # How do I use this repo?
-
-Welcome to Flow! You can get started by [reading the documentation][flow-docs] and browsing the [Flow community forum][flow-forum].
 
 As a general guideline, it's best to explore Kitty Items in this order:
 
@@ -134,24 +100,11 @@ KittyItems are NFTs based on the Flow Non-Fungible Token standard.
 
 KittyItemsMarket is a simple first-sale marketplace contract that sells KittyItems in exchange for Kibble.
 
-[kitty-items]: https://github.com/onflow/kitty-items
+## Useful Links
 
-[kitty-items-js]: https://github.com/onflow/kitty-items/tree/master/kitty-items-js
-
-[kitty-items-web]: https://github.com/onflow/kitty-items/tree/master/kitty-items-web
-
-[kitty-items-cadence]: https://github.com/onflow/kitty-items/tree/master/kitty-items-cadence
-
-[kitty-items-deployer]: https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer
-
-[kitty-items-demo]: https://kitty-items.on.fleek.co
-
-[cadence]: https://github.com/onflow/cadence
-
-[flow-js-sdk]: https://github.com/onflow/flow-js-sdk
-
-[flow-docs]: https://docs.onflow.org/
-
-[flow-discord]: https://discord.gg/xUdZxs82Rz
-
-[flow-forum]: https://forum.onflow.org/
+[kitty-items-demo](https://kitty-items.on.fleek.co)
+[cadence](https://github.com/onflow/cadence)
+[flow-js-sdk](https://github.com/onflow/flow-js-sdk)
+[flow-docs](https://docs.onflow.org/)
+[flow-discord](https://discord.gg/xUdZxs82Rz)
+[flow-forum](https://forum.onflow.org/)
