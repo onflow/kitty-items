@@ -38,7 +38,7 @@ Above is a basic diagram of the parts of this project contained in each folder, 
 Items are hats for your cats, but under the hood they're non-fungible tokens stored on the Flow blockchain.
 
 Items can be purchased from the marketplace with fungible tokens.
-In the future you'll be able to add them to Ethereum CryptoKitties with ownership validated by an oracle.
+In the future you'll be able to add them to [Ethereum CryptoKitties](https://www.cryptokitties.co/) with ownership validated by an oracle.
 
 
 ## How To Use This Repo
