@@ -57,5 +57,5 @@ TODO
 - Ask questions on the [Flow community forum](https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5)
 
 ---
-🚀 Happy Hacking!  
+🚀  Happy Hacking!  
 
