@@ -14,15 +14,17 @@ Legend:
 1) The Flow Blockchain
     - The hero of our story. Flow is a next-generation blockchain platform that is designed to be fast and easy to use. If you're new to Flow, consider reading more about it. Read the [Flow Primer](https://www.onflow.org/primer), or go to the [Flow developer documentation](https://docs.onflow.org/) to get some more context before diving into this application.
 
-2) Web App (Static website)
+2) Web App (Static website) [kitty-items-web](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-web)
     - A true Dapp, client-only web app. This is a complete web application built with React that demonstrates how to build a static website that can be deployed to an environment like IPFS and connects directly to the Flow blockchain using `@onflow/fcl`. No servers required. `@onflow/fcl` even handles all of the authentication.
 
-3) Look Ma, a Web Server!
+3) Look Ma, a Web Server! [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js)
     - We love decentralization, but servers are still very useful, and this one's no exception. The code in this project demonstrates how to connect to Flow using `@onflow/fcl` from NodeJS environments. It's also chalk-full of handy patterns you'll proabably want to use for more complex and feature-rich blockchain applications, like storing and querying events using a SQL database (Postgres).
 
-4) Cadence contracts, scripts & transactions for your viewing pleasure. This folder contains all of the blockchain logic for the marketplace application. 
+4) [kitty-items-cadence](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-cadence)
+    - Cadence contracts, scripts & transactions for your viewing pleasure. This folder contains all of the blockchain logic for the marketplace application. 
 
-5) Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts. Look through this project for an idea of what it's like to bootstrap your Flow accounts and Cadence smart contracts onto Flow testnet.
+5) [kitty-items-deployer](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-deployer)
+    - Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts. Look through this project for an idea of what it's like to bootstrap your Flow accounts and Cadence smart contracts onto Flow testnet.
 
 6) An `@onflow/fcl` compatible wallet service that performs authentication and authorization. (Implementation is not a part of this app).
 
