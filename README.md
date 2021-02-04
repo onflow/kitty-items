@@ -59,9 +59,9 @@ TODO
 
 ## Useful Links
 
-[kitty-items-demo](https://kitty-items.on.fleek.co)
-[cadence](https://github.com/onflow/cadence)
-[flow-js-sdk](https://github.com/onflow/flow-js-sdk)
-[flow-docs](https://docs.onflow.org/)
-[flow-discord](https://discord.gg/xUdZxs82Rz)
-[flow-forum](https://forum.onflow.org/)
+[kitty-items-demo](https://kitty-items.on.fleek.co)<br/>
+[cadence](https://github.com/onflow/cadence)<br/>
+[flow-js-sdk](https://github.com/onflow/flow-js-sdk)<br/>
+[flow-docs](https://docs.onflow.org/)<br/>
+[flow-discord](https://discord.gg/xUdZxs82Rz)<br/>
+[flow-forum](https://forum.onflow.org/)<br/>
