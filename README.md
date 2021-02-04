@@ -5,7 +5,7 @@
 ### This app was created to help you learn how to build on Flow 
 
 - It demonstrates how to interact with Flow using the Flow client library (**@onflow/fcl**) from different areas of your application.
-- It's a **complete smart contract powered NFT marketplace** that showcases how to use Flow's resource-oriented smart contract programming language: Cadence.
+- It's a **complete smart contract powered NFT marketplace** that showcases how to use Flow's resource-oriented smart contract programming language: [Cadence](https://docs.onflow.org/cadence).
 
 
 ## Live demo
