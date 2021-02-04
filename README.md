@@ -53,8 +53,7 @@ TODO
 
 ## Questions?
 
-- Chat with the team on the [Flow Discord server][flow-discord]
-
+- Chat with the team on the [Flow Discord server](https://discord.gg/xUdZxs82Rz)
 - Ask questions on the [Flow community forum](https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5)
 
 ## Useful Links
