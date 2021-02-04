@@ -1,4 +1,4 @@
-![kitty-items](https://user-images.githubusercontent.com/37638382/103047804-e0b7c080-4549-11eb-81a3-8abd8cb12809.png)
+![kitty-items-outline](https://user-images.githubusercontent.com/901466/106842068-24790c00-6658-11eb-8491-eb625432443e.png)
 
 # What is Kitty Items?
 
