@@ -56,11 +56,6 @@ TODO
 - Chat with the team on the [Flow Discord server](https://discord.gg/xUdZxs82Rz)
 - Ask questions on the [Flow community forum](https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5)
 
-## Useful Links
+---
+🚀 Happy Hacking!  
 
-[kitty-items-demo](https://kitty-items.on.fleek.co)<br/>
-[cadence](https://github.com/onflow/cadence)<br/>
-[flow-js-sdk](https://github.com/onflow/flow-js-sdk)<br/>
-[flow-docs](https://docs.onflow.org/)<br/>
-[flow-discord](https://discord.gg/xUdZxs82Rz)<br/>
-[flow-forum](https://forum.onflow.org/)<br/>
