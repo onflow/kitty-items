@@ -7,9 +7,13 @@
 - It demonstrates how to interact with Flow using the Flow client library (**@onflow/fcl**) from different areas of your application.
 - It's a **complete smart contract powered NFT marketplace** that showcases how to use Flow's resource-oriented smart contract programming language: Cadence.
 
-Above is a basic diagram of the parts of this project in each folder, and how each part interacts with the others. 
 
-Legend: 
+## Live demo
+
+#### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on IPFS and the Flow Testnet.
+
+### Legend: 
+Above is a basic diagram of the parts of this project in each folder, and how each part interacts with the others.
 
 1) ### The Flow Blockchain
     - The hero of our story. Flow is a next-generation blockchain platform that is designed to be fast and easy to use. If you're new to Flow, consider reading more about it. Read the [Flow Primer](https://www.onflow.org/primer), or go to the [Flow developer documentation](https://docs.onflow.org/) to get some more context before diving into this application.
@@ -35,10 +39,6 @@ Items are hats for your cats, but under the hood they're non-fungible tokens sto
 
 Items can be purchased from the marketplace with fungible tokens.
 In the future you'll be able to add them to Ethereum CryptoKitties with ownership validated by an oracle.
-
-## Live demo
-
-#### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on IPFS and the Flow Testnet.
 
 
 ## How do I use this repo?
