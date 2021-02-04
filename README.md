@@ -1,10 +1,28 @@
 ![kitty-items-outline](https://user-images.githubusercontent.com/901466/106842068-24790c00-6658-11eb-8491-eb625432443e.png)<!-- .element width="100%" -->
 
-# What is Kitty Items?
+# Welcome to the Kitty Items demo application!
 
-This repository contains Kitty Items, a project that demonstrates the current best practices for building decentralized app (dapps) on Flow.
+### This app was created to help you learn how to build on Flow 
 
-This project uses [Cadence][cadence], [Flow Client Library](https://github.com/onflow/flow-js-sdk/tree/master/packages/fcl) (FCL) and the [Flow JavaScript SDK][flow-js-sdk].
+- It demonstrates how to interact with Flow using the Flow client library (**@onflow/fcl**) from different areas of your application.
+- It's a **complete smart contract powered NFT marketplace** that showcases how to use Flow's resource-oriented smart contract programming language: Cadence.
+
+Above is a basic diagram of the parts of this project in each folder, and how each part interacts with the others. 
+
+Legend: 
+
+1) The Flow Blockchain
+    - The hero of our story. Flow is a next-generation blockchain platform that is designed to be fast and easy to use. If you're new to Flow, consider readin more about it here, and here to get some more context before diving into this application.
+2) Web App (Static website)
+    - A true Dapp, client-only web app. This code demonstrates how to build a static website that can be deployed to an environment like IPFS that connects to the Flow blockchain using `@onflow/fcl`. No servers required. `@onfloe/fcl` even handles all of the authentication.
+3) Look Ma, a Web Server!
+    - We love decentralization, but we built one anyways. Servers are still very useful, and this one's no exception. The code in this project demonstrates how to connect to Flow using `@onflow.fcl` from Node environments. It's also chalk-full of handy patters you'll proabably want to use for more complex and feature-rich blockchain applications, like storing and querying events.
+4) Cadence contracts, scripts & transactions for your viewing pleasure.
+5) Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts.
+6) An `@onflow/fcl` compatible wallet service that performs authentication and authorization. (Implementation is not a part of this app)
+
+
+## What are Kitty Items?
 
 Items are hats for your cats, but under the hood they're non-fungible tokens stored on the Flow blockchain.
 
