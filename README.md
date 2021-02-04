@@ -12,8 +12,8 @@
 
 #### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on IPFS and the Flow Testnet.
 
-## Legend: 
-Above is a basic diagram of the parts of this project in each folder, and how each part interacts with the others.
+## Legend 
+Above is a basic diagram of the parts of this project contained in each folder, and how each part interacts with the others.
 
 1) ### The Flow Blockchain
     - The hero of our story. Flow is a next-generation blockchain platform that is designed to be fast and easy to use. If you're new to Flow, consider reading more about it. Read the [Flow Primer](https://www.onflow.org/primer), or go to the [Flow developer documentation](https://docs.onflow.org/) to get some more context before diving into this application.
