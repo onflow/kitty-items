@@ -1,8 +1,4 @@
-![kitty-items-outline](https://user-images.githubusercontent.com/901466/106842068-24790c00-6658-11eb-8491-eb625432443e.png) {
-  max-width: 100%;
-  border: none;
-  background: none;
-}
+![kitty-items-outline](https://user-images.githubusercontent.com/901466/106842068-24790c00-6658-11eb-8491-eb625432443e.png)<!-- .element width="100%" -->
 
 # What is Kitty Items?
 
