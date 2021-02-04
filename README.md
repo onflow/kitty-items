@@ -12,7 +12,7 @@
 
 #### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on IPFS and the Flow Testnet.
 
-### Legend: 
+## Legend: 
 Above is a basic diagram of the parts of this project in each folder, and how each part interacts with the others.
 
 1) ### The Flow Blockchain
