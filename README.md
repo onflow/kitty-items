@@ -1,6 +1,6 @@
 ![kitty-items-overview](https://user-images.githubusercontent.com/901466/106943245-0eac2b00-66da-11eb-960e-a1db5b1d028d.png)<!-- .element width="100%" -->
 
-# Welcome to the Kitty Items demo application!
+# Welcome to the Kitty Items Demo Application
 
 ### This app was created to help you learn how to build on Flow 
 
@@ -41,20 +41,15 @@ Items can be purchased from the marketplace with fungible tokens.
 In the future you'll be able to add them to Ethereum CryptoKitties with ownership validated by an oracle.
 
 
-## How do I use this repo?
+## How To Use This Repo
 
-As a general guideline, it's best to explore Kitty Items in this order:
+### Install the Project Locally
 
-1. [kitty-items-cadence][] - Learn how to create smart contracts for Flow.
-1. [kitty-items-web][] - Learn how a dapp interacts with Flow users, like signing-in and sending transactions.
-1. After reading the previous steps, you should have a better understanding on how Cadence works and how to
-       interact with the Flow blockchain. The following steps will help you to run your own experiments with Flow by
-       creating an account on the testnet and using it to send transactions and deploy contracts.
-1. [kitty-items-js][] - How to send transactions to the Flow blockchain with a backend API, as well as reading
-       events from the blockchain.
-1. [kitty-items-deployer][] - Explore how to deploy contracts to the Flow blockchain.
+TODO
 
-Fork this repository to make your own dapp or use it as a case study in part of your overall Flow learning experience!
+### Explore
+
+TODO
 
 ## Questions?
 
