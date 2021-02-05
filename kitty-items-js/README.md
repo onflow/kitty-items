@@ -53,7 +53,7 @@ The event worker script will help us capture events coming from Flow and save th
 npm run workers:dev
 ```
 
-## Setup Accounts
+## Setup Flow Accounts
 
 Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
 Follow the instructions available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
