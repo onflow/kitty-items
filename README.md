@@ -10,7 +10,7 @@
 
 ## Live demo
 
-### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on <a href="https://docs.ipfs.io/concepts/case-study-fleek/"><img height="28px" src="https://docs.ipfs.io/assets/img/logo-fleek.5aed66a3.png" /></a> and the Flow Testnet.
+### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on <a href="https://docs.ipfs.io/concepts/case-study-fleek/"><img height="28px" src="https://docs.ipfs.io/assets/img/logo-fleek.5aed66a3.png" /></a> and the <img height="28px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" /> Testnet.
 ---
 
 ## Legend 
