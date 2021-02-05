@@ -1,11 +1,6 @@
 # kitty-items-js
 
 API that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
-This API currently supports:
-
-- Minting Kibbles (fungible token)
-- Minting Kitty Items (non-fungible token)
-- Creating Sale Offers for Kitty Items
 
 ## Setup / Running the API
 
@@ -21,8 +16,19 @@ npm install
 docker-compose up -d
 ```
 
-- Create a `.env` file based out of `.env.example`. Refer to `Creating a new Flow Account on Testnet` section below in
-  order to setup your private key for the `MINTER_PRIVATE_KEY` variable.
+### Use your Flow Testnet Account
+You'll need the **account keys** and **account** ID for your Flow Testnet account to complete these setup steps.
+If you haven't created an account read the [Getting Started Guide](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme#-get-started)
+
+### Configure .`env`
+- In this project, rename `env.local` to `.env`
+- Open `.env` and replace these values with values for your Flow account.
+```
+MINTER_FLOW_ADDRESS="Flow account ID"  
+MINTER_PRIVATE_KEY="Flow account private key"
+```
+
+## Setup Accounts
 
 - Deploy contracts to the Flow Testnet to the Flow account obtained from the previous step. Follow the instructions
   available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
@@ -33,8 +39,8 @@ docker-compose up -d
 npm run start:dev
 ```
 
-Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url.
-Try out the endpoints at the `Sample Endpoints` section. Note that in order to
+(Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
+
 
 ## Running Worker / Event consumer
 
@@ -55,31 +61,10 @@ docker-compose up -d
 npm run workers:dev
 ```
 
-## Creating a new Flow Account on Testnet
+## Setup Resources
 
-In order to create an account on Testnet to deploy the smart contracts and mint Kibbles or Kitty Items, follow these
-steps:
-
-- Head to https://testnet-faucet.onflow.org/
-- Generate a Public / Private Key Pair using the following command from [Flow CLI](https://docs.onflow.org/flow-cli/):
-  ```shell
-  flow keys generate
-  ```
-  Make sure to save these keys in a safe place. The private key will be used as the environment
-  variable `MINTER_PRIVATE_KEY`.
-- Sign up for `Creating an account` with the public key generated from the previous step.
-- When the account is approved, you will receive an e-mail with your newly created Flow account ID. This account ID will
-  be used as the environment variable for `MINTER_FLOW_ADDRESS`.
-
-## Sample endpoints
-
-For a list of endpoints available on the API, look into the `routes` folder.
-
-### Setup Resources
-
-Before you can mint Kibbles and Kitty Items, you should run the requests in this section. They will initialize the
-collections and vaults that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible
-tokens.
+Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the required Cadence contracts to  Flow 
+Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens!
 
 - **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account. 
   
@@ -160,10 +145,4 @@ curl --request POST \
 '
 ```
 
-## Etc
-
-### Creating a new database migration:
-
-```shell
-npm run migrate:make
-```
+Once you've made these requests, all of the contracts required for this application have been deployed, and all your account has been configured as the marketplace admin!
