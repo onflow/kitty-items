@@ -44,7 +44,7 @@ In the future you'll be able to add them to [Ethereum CryptoKitties](https://www
 
 ## ✨ Get Started
 
-1) Create a Flow Testnet account <br/>
+1) ### Create a Flow Testnet account <br/>
 To deploy the smart contracts and mint Kibbles or Kitty Items you'll need to create your account on the Flow Testnet:
 
     - Generate your new Flow account keys using the following command from [Flow CLI](https://docs.onflow.org/flow-cli/): `flow keys generate` ⚠️ Make sure to           save these keys in a safe place, you'll need them later.
@@ -52,14 +52,14 @@ To deploy the smart contracts and mint Kibbles or Kitty Items you'll need to cre
     - Click "Submit". After a short time, you'll receive an e-mail with your newly created **Flow account ID**.
     
 
-2) Follow [these instructions](https://github.com/onflow/flow-cli) to install Flow (command-line tools)
+2) ### Follow [these instructions](https://github.com/onflow/flow-cli) to install Flow (command-line tools)
 
 <img width="22px" src="https://user-images.githubusercontent.com/674621/71187801-14e60a80-2280-11ea-94c9-e56576f76baf.png" /> Using VSCode? Before cloning this project download and install the [Cadence VSCode Extension](https://github.com/onflow/vscode-flow). 
 ```
 flow cadence install-vscode-extension
 ```
 
-3) Clone the project
+3) ### Clone the project
 
 ```
 git clone git@github.com:onflow/kitty-items.git
@@ -68,7 +68,7 @@ git clone git@github.com:onflow/kitty-items.git
 Once you have the project files, you'll find setup instructions int the `README.md` files inside each folder. 
 The Cadence code is also well commented to help you understand how they function and how to use them. 
 
-4) Start by installing [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md) 
+4) ### Start by installing [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md) 
 
 ## 
 
