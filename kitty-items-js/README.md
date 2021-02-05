@@ -30,6 +30,7 @@ MINTER_PRIVATE_KEY="Flow account private key"
 
 
 ### Start the Database
+🚧  You'll need to have Docker installed to complete this demo.
 
 ```
 docker-compose up -d
@@ -46,7 +47,7 @@ npm run start:dev
 
 ### Start the Event Worker
 
-The event worker script will help us capture events coming from Flow and save them in the events database we started in the first step, making those evenbts available to consumers of the REST API.
+The event worker script will help us capture events coming from Flow and save them in the events database we started using `docker-compose`, making those evenbts available to consumers of our RESTful API.
 
 ```
 npm run workers:dev
