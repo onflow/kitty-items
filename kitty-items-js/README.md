@@ -129,8 +129,7 @@ curl --request POST \
 --data '{
 	"itemId": 5,
 	"price": 7.9
-}
-'
+}'
 ```
 
 ## Finish Up
