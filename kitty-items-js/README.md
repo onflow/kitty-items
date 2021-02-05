@@ -63,19 +63,16 @@ Follow the instructions available on [kitty-items-deployer](https://github.com/d
 Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the required Cadence contracts to  Flow 
 Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens!
 
-- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account. 
-  
-  - Example:
-  
+Run the following commands in your terminal:
+
+- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.     
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kibbles/setup \
   --header 'Content-Type: application/json'
 ```  
 
-- **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
-  - Example:
-  
+- **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.  
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kitty-items/setup \
@@ -83,8 +80,6 @@ Use the requests in this section to initialize the **collections** and **vaults*
 ```  
 
 - **POST /v1/market/setup**: Creates a resource that allows the `MINTER_FLOW_ADDRESS` to hold sale offers for Kitty Items.
-  - Example:
-
 ```
   curl --request POST \
   --url http://localhost:3000/v1/market/setup \
@@ -92,32 +87,30 @@ Use the requests in this section to initialize the **collections** and **vaults*
   ```
 
 ## Mint Kibbles and Kitty Items
+Now that the marketplace contracts and accounts are ready, you can fill the market with Kibble and Kitty items!
+
+Run the following commands in your terminal: 
 
 - **POST /v1/kibbles/mint** - mints Kibbles (fungible token) to the specified Flow Address.
 
-  Payload:
-  ```
-  {
+Payload:
+```
+{
 	"recipient": "0xafad45913fb07dba",
 	"amount": 2.0
-  }
+}
   ```
-    - Example:
-
 ```
 curl --request POST \
 --url http://localhost:3000/v1/kibbles/mint \
 --header 'Content-Type: application/json' \
 --data '{
-"recipient": "0xafad45913fb07dba",
-"amount": 2.0
+	"recipient": "0xafad45913fb07dba",
+	"amount": 2.0
 }'
 ```
 
 - **POST /v1/kitty-items/mint** : Mints a Kitty Item (NFT) to the `recipient` account.
-
-    - Example:
-
 ```
 curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
@@ -129,15 +122,13 @@ curl --request POST \
 ```
 
 - **POST /v1/market/sell** : Puts a Kitty Item for sale
-    - Example:
-
 ```
 curl --request POST \
 --url http://localhost:3000/v1/market/sell \
 --header 'Content-Type: application/json' \
 --data '{
-"itemId": 5,
-"price": 7.9
+	"itemId": 5,
+	"price": 7.9
 }
 '
 ```
