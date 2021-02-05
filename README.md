@@ -43,11 +43,11 @@ In the future you'll be able to add them to [Ethereum CryptoKitties](https://www
 
 
 ## ✨ Get Started
-To run this project:
+We invite you to clone this project and look around:
 
 1) Follow [these instructions](https://github.com/onflow/flow-cli) to install Flow (command-line tools).
 
-<img width="28px" src="https://user-images.githubusercontent.com/674621/71187801-14e60a80-2280-11ea-94c9-e56576f76baf.png" />  VSCode users are in luck! Before cloning this project download and install the [Cadence VSCode Extension](https://github.com/onflow/vscode-flow). 
+<img width="22px" src="https://user-images.githubusercontent.com/674621/71187801-14e60a80-2280-11ea-94c9-e56576f76baf.png" /> Using VSCode? Before cloning this project download and install the [Cadence VSCode Extension](https://github.com/onflow/vscode-flow). 
 ```
 flow cadence install-vscode-extension
 ```
