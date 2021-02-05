@@ -49,7 +49,7 @@ To deploy the smart contracts and mint Kibbles or Kitty Items you'll need to cre
 
 - Generate your new Flow account keys using the following command from [Flow CLI](https://docs.onflow.org/flow-cli/): ```flow keys generate``` ⚠️ Make sure to           save these keys in a safe place, you'll need them later.
 - Sign up for a Testnet account here: https://testnet-faucet.onflow.org/ by filling out the "Creating an Account" form using the **public key** generated           from the previous step.
-- Click "Submit". After a short time, you'll receive an e-mail with your newly created **Flow account ID**.
+- Click "Submit". After a short time, you'll receive an e-mail with your newly created Flow **account address**.
     
 
 2) ### Follow [these instructions](https://github.com/onflow/flow-cli) to install Flow (command-line tools)
