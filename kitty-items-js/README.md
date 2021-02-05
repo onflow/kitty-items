@@ -2,7 +2,7 @@
 
 RESTful API built with express that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
 
-## Up and Running
+## Get Started
 
 ### Install npm dependencies
 
@@ -133,4 +133,8 @@ curl --request POST \
 '
 ```
 
-Once you've made these requests, all of the contracts required for this application have been deployed, and all your account has been configured as the marketplace admin!
+## Finish Up
+
+Once you've made these requests, all of the contracts required for this application have been deployed, and your account has been configured as the marketplace admin! 
+
+Now that the backend [install and run the front-end](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-web) to start interacting with your new marketplace!
