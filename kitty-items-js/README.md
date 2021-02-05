@@ -11,14 +11,14 @@ npm install
 ```
 
 ### Use your Flow Testnet Account
-You'll need the **account keys** and **account** ID for your Flow Testnet account to complete these setup steps.
+You'll need the **account keys** and **account address** for your Flow Testnet account to complete these setup steps.
 If you haven't created an account read the [Getting Started Guide](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme#-get-started)
 
 ### Update `.env.local`
 - In this project, rename `env.local` to `.env`
 - Open `.env` and replace these values with values for your Flow account.
 ```
-MINTER_FLOW_ADDRESS="Flow account ID"  
+MINTER_FLOW_ADDRESS="Flow account address"  
 MINTER_PRIVATE_KEY="Flow account private key"
 ```
 - Configure the value `SALE_OFFER_EVENT_NAME` using the Flow event
