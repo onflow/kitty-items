@@ -47,7 +47,7 @@ npm run start:dev
 
 ### Start the Event Worker
 
-The event worker script will help us capture events coming from Flow and save them in the events database we started using `docker-compose`, making those evenbts available to consumers of our RESTful API.
+The event worker script will help us capture events coming from Flow and save them in the events database we started using `docker-compose`, making those events available to consumers of our RESTful API.
 
 ```
 npm run workers:dev
