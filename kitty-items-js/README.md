@@ -2,15 +2,15 @@
 
 API that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
 
-## Setup / Running the API
+## First Step
 
-- Install npm dependencies:
+### Install npm dependencies
 
 ```
 npm install
 ```
 
-- Run docker:
+### Start the Database
 
 ```
 docker-compose up -d
@@ -20,7 +20,7 @@ docker-compose up -d
 You'll need the **account keys** and **account** ID for your Flow Testnet account to complete these setup steps.
 If you haven't created an account read the [Getting Started Guide](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme#-get-started)
 
-### Configure .`env`
+1. ### Configure .`env`
 - In this project, rename `env.local` to `.env`
 - Open `.env` and replace these values with values for your Flow account.
 ```
@@ -28,23 +28,23 @@ MINTER_FLOW_ADDRESS="Flow account ID"
 MINTER_PRIVATE_KEY="Flow account private key"
 ```
 
-## Setup Accounts
-
-- Deploy contracts to the Flow Testnet to the Flow account obtained from the previous step. Follow the instructions
-  available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
-
-- Start app:
+## Start the API Server:
 
 ```
 npm run start:dev
 ```
-
+✨ If everyting worked the API will be available at http://localhost:3000
 (Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
 
+## Setup Accounts
 
-## Running Worker / Event consumer
+Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
+Follow the instructions available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
 
-- Run docker:
+
+## Start the Worker / Event consumer
+
+The Worker will help us capture events coming from Flow and save them in the events database we started in the first step.
 
 ```
 docker-compose up -d
