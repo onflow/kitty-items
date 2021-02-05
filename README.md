@@ -42,9 +42,23 @@ Items can be purchased from the marketplace with fungible tokens.
 In the future you'll be able to add them to [Ethereum CryptoKitties](https://www.cryptokitties.co/) with ownership validated by an oracle.
 
 
-## Get Started
+## ✨ Get Started
+To run this project:
 
-VSCode users are in luck! Before cloning this project make sure to Download the Cadence VSCode Extension to install the Cadence Language Server, Cadence syntax and the Flow emulator on VSCode.
+1) Follow [these instructions](https://github.com/onflow/flow-cli) to install Flow (command-line tools).
+
+<img width="28px" src="https://user-images.githubusercontent.com/674621/71187801-14e60a80-2280-11ea-94c9-e56576f76baf.png" />  VSCode users are in luck! Before cloning this project download and install the [Cadence VSCode Extension](https://github.com/onflow/vscode-flow). 
+```
+flow cadence install-vscode-extension
+```
+
+2) Clone the project
+
+```
+git clone git@github.com:onflow/kitty-items.git
+```
+
+## 
 
 
 ## Questions?
