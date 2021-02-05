@@ -41,18 +41,18 @@ docker-compose up -d
 npm run start:dev
 ```
 
-### Start the Worker / Event consumers
+✨ If everyting worked the API will be available at http://localhost:3000
+(Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
 
-The Worker will help us capture events coming from Flow and save them in the events database we started in the first step.
+### Start the Event Worker
+
+The event worker script will help us capture events coming from Flow and save them in the events database we started in the first step, making those evenbts available to consumers of the REST API.
 
 ```
 npm run workers:dev
 ```
 
-✨ If everyting worked the API will be available at http://localhost:3000
-(Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
-
-### Setup Accounts
+## Setup Accounts
 
 Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
 Follow the instructions available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
