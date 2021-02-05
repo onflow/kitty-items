@@ -8,12 +8,12 @@
 - It's a **complete smart contract powered NFT marketplace** that showcases how to use Flow's resource-oriented smart contract programming language: [Cadence](https://docs.onflow.org/cadence).
 
 
-## Live demo
+## 🎬 Live demo
 
 ### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on <a href="https://docs.ipfs.io/concepts/case-study-fleek/"><img height="28px" src="https://docs.ipfs.io/assets/img/logo-fleek.5aed66a3.png" /></a> and the <img height="28px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" /> Testnet.
 ---
 
-## Legend 
+## 🔎 Legend 
 Above is a basic diagram of the parts of this project contained in each folder, and how each part interacts with the others.
 
 1) ### The Flow Blockchain
@@ -34,7 +34,7 @@ Above is a basic diagram of the parts of this project contained in each folder, 
 6) An `@onflow/fcl` compatible wallet service that helps `@onflw/fcl` perform authentication and authorization of [Flow accounts](https://docs.onflow.org/concepts/accounts-and-keys/).
 
 
-## What are Kitty Items?
+## 😺 What are Kitty Items?
 
 Items are hats for your cats, but under the hood they're non-fungible tokens stored on the Flow blockchain.
 
@@ -61,7 +61,7 @@ git clone git@github.com:onflow/kitty-items.git
 ## 
 
 
-## Questions?
+## ❓ Questions?
 
 - Chat with the team on the [Flow Discord server](https://discord.gg/xUdZxs82Rz)
 - Ask questions on the [Flow community forum](https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5)
