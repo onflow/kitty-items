@@ -10,7 +10,9 @@
 
 ## Live demo
 
-#### Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on IPFS and the Flow Testnet.
+ Check out the [live demo of Kitty Items](https://kitty-items.on.fleek.co/#/), deployed on [IPFS](https://ipfs.io/) and the Flow Testnet.
+#### <img height="33px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" /> 💜's <img height="33px" src="https://upload.wikimedia.org/wikipedia/commons/c/c2/IPFS_logo.png"></img>
+
 
 ## Legend 
 Above is a basic diagram of the parts of this project contained in each folder, and how each part interacts with the others.
