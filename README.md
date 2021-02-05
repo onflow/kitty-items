@@ -45,7 +45,7 @@ In the future you'll be able to add them to [Ethereum CryptoKitties](https://www
 ## ✨ Get Started
 We invite you to clone this project and look around:
 
-1) Follow [these instructions](https://github.com/onflow/flow-cli) to install Flow (command-line tools).
+1) Follow [these instructions](https://github.com/onflow/flow-cli) to install Flow (command-line tools)
 
 <img width="22px" src="https://user-images.githubusercontent.com/674621/71187801-14e60a80-2280-11ea-94c9-e56576f76baf.png" /> Using VSCode? Before cloning this project download and install the [Cadence VSCode Extension](https://github.com/onflow/vscode-flow). 
 ```
@@ -57,6 +57,11 @@ flow cadence install-vscode-extension
 ```
 git clone git@github.com:onflow/kitty-items.git
 ```
+
+Once you have the project files, you'll find setup instructions int the `README.md` files inside each folder. 
+The Cadence code is also well commented to help you understand how they function and how to use them. 
+
+3) Start by installing [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md) 
 
 ## 
 
