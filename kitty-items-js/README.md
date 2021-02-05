@@ -60,7 +60,7 @@ Follow the instructions available on [kitty-items-deployer](https://github.com/d
 
 ## Setup Resources
 
-Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the required Cadence contracts to  Flow 
+Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the required Cadence contracts to Flow. 
 Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens!
 
 Run the following commands in your terminal:
