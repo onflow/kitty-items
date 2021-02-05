@@ -1,6 +1,6 @@
 ![kitty-items-overview](https://user-images.githubusercontent.com/901466/106943245-0eac2b00-66da-11eb-960e-a1db5b1d028d.png)<!-- .element width="100%" -->
 
-# Welcome to the Kitty Items Demo Application
+# 👋 Welcome to the Kitty Items Demo Application
 
 ### This app was created to help you learn how to build on <img height="46px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" />
 
