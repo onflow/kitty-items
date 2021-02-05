@@ -42,10 +42,10 @@ Items can be purchased from the marketplace with fungible tokens.
 In the future you'll be able to add them to [Ethereum CryptoKitties](https://www.cryptokitties.co/) with ownership validated by an oracle.
 
 
-## ✨ Get Started
+# ✨ Get Started
 
 1) ### Create a Flow Testnet account <br/>
-To deploy the smart contracts and mint Kibbles or Kitty Items you'll need to create your account on the Flow Testnet:
+To deploy the smart contracts and mint Kibbles or Kitty Items you'll need to create an account on the Flow Testnet:
 
 - Generate your new Flow account keys using the following command from [Flow CLI](https://docs.onflow.org/flow-cli/): ```flow keys generate``` ⚠️ Make sure to           save these keys in a safe place, you'll need them later.
 - Sign up for a Testnet account here: https://testnet-faucet.onflow.org/ by filling out the "Creating an Account" form using the **public key** generated           from the previous step.
@@ -69,10 +69,11 @@ flow cadence install-vscode-extension
 git clone git@github.com:onflow/kitty-items.git
 ```
 
-Once you have the project files, you'll find setup instructions int the `README.md` files inside each folder. 
+Once you have the project files, you'll find setup instructions in the `README.md` files inside each folder. 
 The Cadence code is also well commented to help you understand how they function and how to use them. 
 
 4) ### Start by installing [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md) 
+Install this project first. It will help you deploy all of the Cadence contracts, and send transactions to bootstrap the marketplace with Kibble and Kitty Items. You'll find instructions for installing and starting the marketplace [here](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md).
 
 ## 
 
