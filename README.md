@@ -44,7 +44,7 @@ The Cadence code is also well commented to help you understand how they function
 4) ### Start by installing [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md) 
 Install this project first. It will help you deploy all of the Cadence contracts, and send transactions to bootstrap the marketplace with Kibble and Kitty Items. You'll find instructions for installing and starting the marketplace [here](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md).
 
-## 
+## Project Overview
 
 ![kitty-items-overview](https://user-images.githubusercontent.com/901466/106943245-0eac2b00-66da-11eb-960e-a1db5b1d028d.png)<!-- .element width="100%" -->
 
