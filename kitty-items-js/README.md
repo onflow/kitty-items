@@ -2,7 +2,7 @@
 
 RESTful API built with express that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
 
-## First Step
+## First Steps
 
 ### Install npm dependencies
 
