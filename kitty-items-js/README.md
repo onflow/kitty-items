@@ -2,7 +2,7 @@
 
 RESTful API built with express that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
 
-## First Steps
+## Get Up and Running
 
 ### Install npm dependencies
 
@@ -10,56 +10,53 @@ RESTful API built with express that sends transactions to the Flow Blockchain, u
 npm install
 ```
 
-### Start the Database
-
-```
-docker-compose up -d
-```
-
 ### Use your Flow Testnet Account
 You'll need the **account keys** and **account** ID for your Flow Testnet account to complete these setup steps.
 If you haven't created an account read the [Getting Started Guide](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme#-get-started)
 
-1. ### Configure .`env`
+### Update `.env.local`
 - In this project, rename `env.local` to `.env`
 - Open `.env` and replace these values with values for your Flow account.
 ```
 MINTER_FLOW_ADDRESS="Flow account ID"  
 MINTER_PRIVATE_KEY="Flow account private key"
 ```
-
-## Start the API Server:
-
-```
-npm run start:dev
-```
-✨ If everyting worked the API will be available at http://localhost:3000
-(Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
-
-## Setup Accounts
-
-Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
-Follow the instructions available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
+- Configure the value `SALE_OFFER_EVENT_NAME` using the Flow event
+  format: `A.ContractAddress.Contract.EventName`. 
+  
+  For example:
+  If you have `MINTER_FLOW_ADDRESS=fcceff21d9532b58` then the value you should have in `.env` is: 
+  `SALE_OFFER_EVENT_NAME=A.fcceff21d9532b58.KittyItemsMarket.SaleOfferCreated`
 
 
-## Start the Worker / Event consumer
-
-The Worker will help us capture events coming from Flow and save them in the events database we started in the first step.
+### Start the Database
 
 ```
 docker-compose up -d
 ```
 
-- Configure the value `SALE_OFFER_EVENT_NAME` on the `.env`, following the Flow event
-  format (`A.ContractAddress.Contract.EventName`). For example:
-  `A.fcceff21d9532b58.KittyItemsMarket.SaleOfferCreated`, where the address where the contracts have been deployed
-  is `fcceff21d9532b58`.
+### Start the API Server:
 
-- Start workers / flow event handlers:
+```
+npm run start:dev
+```
+
+### Start the Worker / Event consumers
+
+The Worker will help us capture events coming from Flow and save them in the events database we started in the first step.
 
 ```
 npm run workers:dev
 ```
+
+✨ If everyting worked the API will be available at http://localhost:3000
+(Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
+
+### Setup Accounts
+
+Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
+Follow the instructions available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
+
 
 ## Setup Resources
 
@@ -94,7 +91,7 @@ Use the requests in this section to initialize the **collections** and **vaults*
   --header 'Content-Type: application/json'
   ```
 
-### Mint Kibbles and Kitty Items
+## Mint Kibbles and Kitty Items
 
 - **POST /v1/kibbles/mint** - mints Kibbles (fungible token) to the specified Flow Address.
 
