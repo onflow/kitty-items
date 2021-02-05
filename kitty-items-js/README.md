@@ -30,7 +30,7 @@ MINTER_PRIVATE_KEY="Flow account private key"
 
 
 ### Start the Database
-🚧  You'll need to have Docker installed to complete this demo.
+🚧  You'll need to have Docker installed to complete these instructions.
 
 ```
 docker-compose up -d
