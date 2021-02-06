@@ -34,7 +34,7 @@ npm run start:dev
 ```
 
 Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url.
-Try out the endpoints at the `Sample Endpoints` section. Note that in order to
+Try out the endpoints at the `Sample Endpoints` section.
 
 ## Running Worker / Event consumer
 
@@ -81,24 +81,24 @@ Before you can mint Kibbles and Kitty Items, you should run the requests in this
 collections and vaults that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible
 tokens.
 
-- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account. 
-  
+- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.
+
   - Example:
-  
+
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kibbles/setup \
   --header 'Content-Type: application/json'
-```  
+```
 
 - **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
   - Example:
-  
+
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kitty-items/setup \
   --header 'Content-Type: application/json'
-```  
+```
 
 - **POST /v1/market/setup**: Creates a resource that allows the `MINTER_FLOW_ADDRESS` to hold sale offers for Kitty Items.
   - Example:
