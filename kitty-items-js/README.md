@@ -1,82 +1,81 @@
 # kitty-items-js
 
-API that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
-This API currently supports:
+RESTful API built with express that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
 
-- Minting Kibbles (fungible token)
-- Minting Kitty Items (non-fungible token)
-- Creating Sale Offers for Kitty Items
+## Get Started
 
-## Setup / Running the API
-
-- Install npm dependencies:
+### Install npm dependencies
 
 ```
 npm install
 ```
 
-- Run docker:
+### Use your Flow Testnet Account
+You'll need the **account keys** and **account address** for your Flow Testnet account to complete these setup steps.
+If you haven't created an account read the [Getting Started Guide](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme#-get-started)
+
+### Update `.env.local`
+- In this project, rename `env.local` to `.env`
+- Open `.env` and replace these values with values for your Flow account.
+```
+MINTER_FLOW_ADDRESS="Flow account address"  
+MINTER_PRIVATE_KEY="Flow account private key"
+```
+- Configure the value `SALE_OFFER_EVENT_NAME` using the Flow event
+  format: `A.ContractAddress.Contract.EventName`. 
+  
+  For example:
+  If you have `MINTER_FLOW_ADDRESS=fcceff21d9532b58` then the value you should have in `.env` is: 
+  `SALE_OFFER_EVENT_NAME=A.fcceff21d9532b58.KittyItemsMarket.SaleOfferCreated`
+
+
+### Start the Database
+🚧  You'll need to have Docker installed to complete these instructions.
 
 ```
 docker-compose up -d
 ```
 
-- Create a `.env` file based out of `.env.example`. Refer to `Creating a new Flow Account on Testnet` section below in
-  order to setup your private key for the `MINTER_PRIVATE_KEY` variable.
-
-- Deploy contracts to the Flow Testnet to the Flow account obtained from the previous step. Follow the instructions
-  available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
-
-- Start app:
-
-```
-npm run start:dev
-```
-
+<<<<<<< HEAD
 Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url.
 Try out the endpoints at the `Sample Endpoints` section.
 
 ## Running Worker / Event consumer
 
 - Run docker:
+=======
+### Start the API Server:
+>>>>>>> 63402ec027ac8bed5a1633211825c5b1f8908101
 
 ```
-docker-compose up -d
+npm run start:dev
 ```
 
-- Configure the value `SALE_OFFER_EVENT_NAME` on the `.env`, following the Flow event
-  format (`A.ContractAddress.Contract.EventName`). For example:
-  `A.fcceff21d9532b58.KittyItemsMarket.SaleOfferCreated`, where the address where the contracts have been deployed
-  is `fcceff21d9532b58`.
+✨ If everyting worked the API will be available at http://localhost:3000
+(Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
 
-- Start workers / flow event handlers:
+### Start the Event Worker
+
+The event worker script will help us capture events coming from Flow and save them in the events database we started using `docker-compose`, making those events available to consumers of our RESTful API.
 
 ```
 npm run workers:dev
 ```
 
-## Creating a new Flow Account on Testnet
+## Setup Flow Accounts
 
-In order to create an account on Testnet to deploy the smart contracts and mint Kibbles or Kitty Items, follow these
-steps:
+Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
+Follow the instructions available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
 
-- Head to https://testnet-faucet.onflow.org/
-- Generate a Public / Private Key Pair using the following command from [Flow CLI](https://docs.onflow.org/flow-cli/):
-  ```shell
-  flow keys generate
-  ```
-  Make sure to save these keys in a safe place. The private key will be used as the environment
-  variable `MINTER_PRIVATE_KEY`.
-- Sign up for `Creating an account` with the public key generated from the previous step.
-- When the account is approved, you will receive an e-mail with your newly created Flow account ID. This account ID will
-  be used as the environment variable for `MINTER_FLOW_ADDRESS`.
 
-## Sample endpoints
+## Setup Resources
 
-For a list of endpoints available on the API, look into the `routes` folder.
+Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the required Cadence contracts to Flow. 
+Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens!
 
-### Setup Resources
+Run the following commands in your terminal:
 
+<<<<<<< HEAD
 Before you can mint Kibbles and Kitty Items, you should run the requests in this section. They will initialize the
 collections and vaults that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible
 tokens.
@@ -85,15 +84,22 @@ tokens.
 
   - Example:
 
+=======
+- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.     
+>>>>>>> 63402ec027ac8bed5a1633211825c5b1f8908101
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kibbles/setup \
   --header 'Content-Type: application/json'
 ```
 
+<<<<<<< HEAD
 - **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
   - Example:
 
+=======
+- **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.  
+>>>>>>> 63402ec027ac8bed5a1633211825c5b1f8908101
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kitty-items/setup \
@@ -101,41 +107,37 @@ tokens.
 ```
 
 - **POST /v1/market/setup**: Creates a resource that allows the `MINTER_FLOW_ADDRESS` to hold sale offers for Kitty Items.
-  - Example:
-
 ```
   curl --request POST \
   --url http://localhost:3000/v1/market/setup \
   --header 'Content-Type: application/json'
   ```
 
-### Mint Kibbles and Kitty Items
+## Mint Kibbles and Kitty Items
+Now that the marketplace contracts and accounts are ready, you can fill the market with Kibble and Kitty items!
+
+Run the following commands in your terminal: 
 
 - **POST /v1/kibbles/mint** - mints Kibbles (fungible token) to the specified Flow Address.
 
-  Payload:
-  ```
-  {
+Payload:
+```
+{
 	"recipient": "0xafad45913fb07dba",
 	"amount": 2.0
-  }
+}
   ```
-    - Example:
-
 ```
 curl --request POST \
 --url http://localhost:3000/v1/kibbles/mint \
 --header 'Content-Type: application/json' \
 --data '{
-"recipient": "0xafad45913fb07dba",
-"amount": 2.0
+	"recipient": "0xafad45913fb07dba",
+	"amount": 2.0
 }'
 ```
 
 - **POST /v1/kitty-items/mint** : Mints a Kitty Item (NFT) to the `recipient` account.
-
-    - Example:
-
 ```
 curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
@@ -147,23 +149,18 @@ curl --request POST \
 ```
 
 - **POST /v1/market/sell** : Puts a Kitty Item for sale
-    - Example:
-
 ```
 curl --request POST \
 --url http://localhost:3000/v1/market/sell \
 --header 'Content-Type: application/json' \
 --data '{
-"itemId": 5,
-"price": 7.9
-}
-'
+	"itemId": 5,
+	"price": 7.9
+}'
 ```
 
-## Etc
+## Finish Up
 
-### Creating a new database migration:
+Once you've made these requests, all of the contracts required for this application have been deployed, and your account has been configured as the marketplace admin! 
 
-```shell
-npm run migrate:make
-```
+Now that the backend [install and run the front-end](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-web) to start interacting with your new marketplace!
