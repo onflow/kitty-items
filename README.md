@@ -72,7 +72,7 @@ Above is a basic diagram of the parts of this project contained in each folder, 
 
 ## 😺 What are Kitty Items?
 
-Items are hats for your cats, but under the hood they're non-fungible tokens stored on the Flow blockchain.
+Items are hats for your cats, but under the hood they're [non-fungible tokens (NFTs)](https://github.com/onflow/flow-nft) stored on the Flow blockchain.
 
 Items can be purchased from the marketplace with fungible tokens.
 In the future you'll be able to add them to [Ethereum CryptoKitties](https://www.cryptokitties.co/) with ownership validated by an oracle.
