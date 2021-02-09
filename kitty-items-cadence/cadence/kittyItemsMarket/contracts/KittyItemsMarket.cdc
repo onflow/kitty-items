@@ -46,8 +46,8 @@ pub contract KittyItemsMarket {
 
     // Named paths
     //
-    pub let CollectionStoragePath: Path
-    pub let CollectionPublicPath: Path
+    pub let CollectionStoragePath: StoragePath
+    pub let CollectionPublicPath: PublicPath
 
     // SaleOfferPublicView
     // An interface providing a read-only view of a SaleOffer

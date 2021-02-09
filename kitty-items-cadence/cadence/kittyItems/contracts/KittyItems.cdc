@@ -14,9 +14,9 @@ pub contract KittyItems: NonFungibleToken {
 
     // Named Paths
     //
-    pub let CollectionStoragePath: Path
-    pub let CollectionPublicPath: Path
-    pub let MinterStoragePath: Path
+    pub let CollectionStoragePath: StoragePath
+    pub let CollectionPublicPath: PublicPath
+    pub let MinterStoragePath: StoragePath
 
     // totalSupply
     // The total number of KittyItems that have been minted
