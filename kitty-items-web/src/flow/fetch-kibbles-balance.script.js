@@ -6,15 +6,12 @@ const CODE = cdc`
   import Kibble from 0xKibble
 
   pub fun main(address: Address): UFix64? {
-    let cap = getAccount(address)
-      .getCapability<&Kibble.Vault{FungibleToken.Balance}>(Kibble.BalancePublicPath)!
-
-    if let vault = cap.borrow() {
+    if let vault = getAccount(address).getCapability<&{FungibleToken.Balance}>(Kibble.BalancePublicPath).borrow() {
       return vault.balance
     }
-
     return nil
   }
+
 `
 
 export function fetchKibblesBalance(address) {

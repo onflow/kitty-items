@@ -101,7 +101,7 @@ export function Page() {
         <Tabs>
           <TabList>
             <Tab>
-              For Sale{" "}
+              For Sale
               <Suspense fallback={null}>
                 <MarketItemsCount address={address} />
               </Suspense>
