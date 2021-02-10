@@ -14,9 +14,9 @@ pub contract KittyItems: NonFungibleToken {
 
     // Named Paths
     //
-    pub let CollectionStoragePath: Path
-    pub let CollectionPublicPath: Path
-    pub let MinterStoragePath: Path
+    pub let CollectionStoragePath: StoragePath
+    pub let CollectionPublicPath: PublicPath
+    pub let MinterStoragePath: StoragePath
 
     // totalSupply
     // The total number of KittyItems that have been minted
@@ -183,9 +183,9 @@ pub contract KittyItems: NonFungibleToken {
 	init() {
         // Set our named paths
         //FIXME: REMOVE SUFFIX BEFORE RELEASE
-        self.CollectionStoragePath = /storage/KittyItemsCollection000
-        self.CollectionPublicPath = /public/KittyItemsCollection000
-        self.MinterStoragePath = /storage/KittyItemsMinter000
+        self.CollectionStoragePath = /storage/kittyItemsCollection001
+        self.CollectionPublicPath = /public/kittyItemsCollection001
+        self.MinterStoragePath = /storage/kittyItemsMinter001
 
         // Initialize the total supply
         self.totalSupply = 0
