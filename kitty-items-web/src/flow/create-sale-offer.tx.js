@@ -13,17 +13,17 @@ const CODE = fcl.cdc`
     prepare(acct: AuthAccount) {
       let market = acct.borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath) ?? panic("Need the marketplace resouce")
 
-      let sellerPaymentReceiver = acct.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)!
+      let sellerPaymentReceiver = acct.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)
 
       let providerPath = /private/KittyItemsCollectionProvider
       acct.unlink(providerPath)
-      if !acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath)!.check() {
+      if !acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath).check() {
         acct.link<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath, target: KittyItems.CollectionStoragePath)
       }
-      if !acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath)!.check() {
+      if !acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath).check() {
         acct.link<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath, target: KittyItems.CollectionStoragePath)
       }
-      let itemProvider = acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath)!
+      let itemProvider = acct.getCapability<&KittyItems.Collection{NonFungibleToken.Provider}>(providerPath)
       assert(itemProvider.borrow() != nil, message: "Missing or mis-typed KittyItemsCollection provider")
 
       let offer <- KittyItemsMarket.createSaleOffer(
