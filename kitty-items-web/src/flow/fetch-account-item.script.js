@@ -19,11 +19,12 @@ pub struct Item {
 }
 
 pub fun fetch(address: Address, id: UInt64): Item? {
-  if collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
-    if item = collection.borrowKittyItem(id: id) {
+  if let col = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
+    if let item = col.borrowKittyItem(id: id) {
       return Item(id: id, type: item.typeID, owner: address)
     }
   }
+
   return nil
 }
 

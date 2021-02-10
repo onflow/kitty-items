@@ -3,7 +3,7 @@ import * as t from "@onflow/types"
 // import {batch} from "./util/batch"
 
 // const CODE = fcl.cdc`
-//   import KittyItemsMarket from 0xfcceff21d9532b58
+//   import KittyItemsMarket from 0xKittyItemsMarket
 
 //   pub struct Item {
 //     pub let id: UInt64
@@ -15,24 +15,17 @@ import * as t from "@onflow/types"
 //       self.id = id
 //       self.isCompleted = isCompleted
 //       self.price = price
-//       self.owner: owner
+//       self.owner = owner
 //     }
 //   }
 
 //   pub fun fetch(address: Address, id: UInt64): Item? {
-//     let cap = getAccount(address)
-//       .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath)!
-
-//     if let collection = cap.borrow() {
-//       // this currently throws as the collection.borrowSaleItem returns a non-optional resource
+//     if let collection = getAccount(address).getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath).borrow() {
 //       if let item = collection.borrowSaleItem(saleItemID: id) {
 //         return Item(id: id, isCompleted: item.saleCompleted, price: item.salePrice, owner: address)
-//       } else {
-//         return nil
 //       }
-//     } else {
-//       return nil
 //     }
+//     return nil
 //   }
 
 //   pub fun main(keys: [String], addresses: [Address], ids: [UInt64]): {String: Item?} {
@@ -72,6 +65,7 @@ import * as t from "@onflow/types"
 //           fcl.arg(addresses, t.Array(t.Address)),
 //           fcl.arg(ids.map(Number), t.Array(t.UInt64)),
 //         ]),
+//         fcl.limit(1000)
 //     ]).then(fcl.decode)
 // })
 
@@ -103,8 +97,9 @@ export async function fetchMarketItem(address, id) {
 
       pub fun main(address: Address, id: UInt64): Item? {
         if let collection = getAccount(address).getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath).borrow() {
-          let item = collection.borrowSaleItem(saleItemID: id)
-          return Item(id: id, isCompleted: item.saleCompleted, price: item.salePrice, owner: address)
+          if let item = collection.borrowSaleItem(saleItemID: id) {
+            return Item(id: id, isCompleted: item.saleCompleted, price: item.salePrice, owner: address)
+          }
         }
         return nil
       }
