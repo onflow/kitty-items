@@ -43,9 +43,8 @@ Try out the endpoints at the `Sample Endpoints` section.
 ## Running Worker / Event consumer
 
 - Run docker:
-=======
+
 ### Start the API Server:
->>>>>>> 63402ec027ac8bed5a1633211825c5b1f8908101
 
 ```
 npm run start:dev
@@ -75,31 +74,18 @@ Use the requests in this section to initialize the **collections** and **vaults*
 
 Run the following commands in your terminal:
 
-<<<<<<< HEAD
-Before you can mint Kibbles and Kitty Items, you should run the requests in this section. They will initialize the
-collections and vaults that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible
-tokens.
-
 - **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.
 
   - Example:
 
-=======
 - **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.     
->>>>>>> 63402ec027ac8bed5a1633211825c5b1f8908101
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kibbles/setup \
   --header 'Content-Type: application/json'
 ```
 
-<<<<<<< HEAD
-- **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
-  - Example:
-
-=======
 - **POST /v1/kitty-items/setup** : Creates a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.  
->>>>>>> 63402ec027ac8bed5a1633211825c5b1f8908101
 ```
   curl --request POST \
   --url http://localhost:3000/v1/kitty-items/setup \
