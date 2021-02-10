@@ -36,10 +36,6 @@ MINTER_PRIVATE_KEY="Flow account private key"
 docker-compose up -d
 ```
 
-<<<<<<< HEAD
-Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url.
-Try out the endpoints at the `Sample Endpoints` section.
-
 ## Running Worker / Event consumer
 
 - Run docker:
