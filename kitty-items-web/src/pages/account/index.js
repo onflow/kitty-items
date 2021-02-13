@@ -24,7 +24,12 @@ import {
   TabPanel,
   Spinner,
   Button,
+  HStack,
+  Image,
 } from "@chakra-ui/react"
+
+import Cookie from "../../svg/cookie.svg"
+import BackPack from "../../svg/backpack.svg"
 
 const STORE_ADDRESS = process.env.REACT_APP_STORE_ADDRESS
 
@@ -70,7 +75,7 @@ export function Page() {
         <AuthCluster />
         <Flex mb="4">
           <Center>
-            <Text mr="4" fontSize="3xl" color="purple.500">
+            <Text mr="4" fontSize="2xl" color="purple.500">
               Account:
             </Text>
           </Center>
@@ -98,23 +103,32 @@ export function Page() {
             </Box>
           )}
         </Flex>
-        <Tabs>
+        <Tabs colorScheme="pink">
           <TabList>
-            <Tab>
-              For Sale
+            <Tab fontSize="2xl">
+              <HStack>
+                <Image src={Cookie} />
+                <Box>Items Shop</Box>
+              </HStack>
               <Suspense fallback={null}>
                 <MarketItemsCount address={address} />
               </Suspense>
             </Tab>
-            <Tab>
-              Items
+            <Tab fontSize="2xl">
+              <HStack>
+                <Image src={BackPack} />
+                <Box>My Items</Box>
+              </HStack>
               <Suspense fallback={null}>
                 <AccountItemsCount address={address} />
               </Suspense>
             </Tab>
             {cu.addr === address && (
-              <Tab>
-                Store
+              <Tab fontSize="2xl">
+                <HStack>
+                  <Image src={BackPack} />
+                  <Box>Store</Box>
+                </HStack>
                 <Suspense fallback={null}>
                   <StoreItemsCount address={address} />
                 </Suspense>

@@ -69,7 +69,7 @@ export function BalanceCluster({address}) {
             disabled={kibbles.status !== IDLE}
             onClick={kibbles.mint}
           >
-            Request 5 Kibbles
+            Request Meowr Kibbles
           </Button>
         </Flex>
       </Box>
