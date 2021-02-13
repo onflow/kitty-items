@@ -15,7 +15,6 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
 
       const transaction = await kibblesService.mint(recipient, amount);
       return res.send({
-        recipient,
         transaction,
       });
     }
