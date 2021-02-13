@@ -1,0 +1,27 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=kitty-items-api
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=123456
+  api:
+    build: .
+    ports:
+      - 3000:3000
+    command: ["./wait-for-it.sh", "db:5432", "--", "node", "kitty-items-js/dist/index.js"]
+    environment:
+      - DATABASE_URL=postgresql://root:123456@db:5432/kitty-items-api?sslmode=disable
+      - FLOW_NODE=https://access-testnet.onflow.org
+      - MIGRATION_PATH=kitty-items-js/dist/migrations
+      - FUNGIBLE_TOKEN_ADDRESS=dummy
+      - MINTER_ACCOUNT_KEY_IDX=0
+      - MINTER_FLOW_ADDRESS=dummy
+      - MINTER_PRIVATE_KEY=dummy
+      - NON_FUNGIBLE_TOKEN_ADDRESS=dummy
+      - SALE_OFFER_EVENT_NAME=dummy
+    depends_on:
+      - db

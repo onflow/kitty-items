@@ -2,7 +2,6 @@ package test
 
 import (
 	"io/ioutil"
-	"os"
 	"strings"
 	"testing"
 
@@ -14,7 +13,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/onflow/cadence/runtime/cmd"
 	sdk "github.com/onflow/flow-go-sdk"
 )
 
@@ -77,7 +75,6 @@ func submit(
 	} else {
 		if !assert.True(t, result.Succeeded()) {
 			t.Log(result.Error.Error())
-			cmd.PrettyPrintError(os.Stdout, result.Error, "", map[string]string{"": ""})
 		}
 	}
 

@@ -17,13 +17,10 @@ const CODE = fcl.cdc`
 
       prepare(acct: AuthAccount) {
           self.marketCollection = getAccount(marketCollectionAddress)
-              .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(
-                  KittyItemsMarket.CollectionPublicPath
-              )!
-              .borrow()
-              ?? panic("Could not borrow market collection from market address")
+              .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath)
+              .borrow() ?? panic("Could not borrow market collection from market address")
 
-          let price = self.marketCollection.borrowSaleItem(saleItemID: saleItemID).salePrice
+          let price = self.marketCollection.borrowSaleItem(saleItemID: saleItemID)!.salePrice
 
           let mainKibbleVault = acct.borrow<&Kibble.Vault>(from: Kibble.VaultStoragePath)
               ?? panic("Cannot borrow Kibble vault from acct storage")
