@@ -34,11 +34,9 @@ export function MarketItemCluster({address, id}) {
           <Text>#{item.id}</Text>
         </Flex>
       </Td>
+      <Td>({item.type})</Td>
       <Td>
-        <HStack>
-          <Text>({item.type})</Text>
-          <ItemImage type={item.type} />
-        </HStack>
+        <ItemImage type={item.type} />
       </Td>
       <Td isNumeric>{item.price || 10}</Td>
       {loggedIn && (

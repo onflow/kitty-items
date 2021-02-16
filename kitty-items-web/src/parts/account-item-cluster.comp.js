@@ -27,7 +27,7 @@ export const ItemImage = ({type}) => {
     getImage()
   }, [])
 
-  return <Image pl="4" maxW="80px" maxH="40px" src={item} />
+  return <Image maxW="64px" src={item} />
 }
 
 export function AccountItemCluster({address, id}) {
@@ -47,11 +47,9 @@ export function AccountItemCluster({address, id}) {
           <Text as={item.forSale && "del"}>#{item.id}</Text>
         </Flex>
       </Td>
+      <Td>({item.type})</Td>
       <Td>
-        <HStack>
-          <Box> ({item.type}) </Box>
-          <ItemImage type={item.type} />
-        </HStack>
+        <ItemImage type={item.type} />
       </Td>
       {cu.addr === address && (
         <>
