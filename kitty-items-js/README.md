@@ -36,10 +36,6 @@ MINTER_PRIVATE_KEY="Flow account private key"
 docker-compose up -d
 ```
 
-## Running Worker / Event consumer
-
-- Run docker:
-
 ### Start the API Server:
 
 ```
@@ -69,10 +65,6 @@ Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the re
 Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens!
 
 Run the following commands in your terminal:
-
-- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.
-
-  - Example:
 
 - **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.     
 ```
