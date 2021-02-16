@@ -41,16 +41,6 @@ export function BalanceCluster({address}) {
         <Table size="sm">
           <Tbody>
             <Tr>
-              <Td>FLOW</Td>
-              {flow.status === IDLE ? (
-                <Td isNumeric>{fmtFlow(flow.balance)}</Td>
-              ) : (
-                <Td isNumeric>
-                  <Spinner size="sm" />
-                </Td>
-              )}
-            </Tr>
-            <Tr>
               <Td>KIBBLE</Td>
               {kibbles.status === IDLE ? (
                 <Td isNumeric>{fmtKibbles(kibbles.balance)}</Td>
