@@ -5,16 +5,22 @@ import {useAddress} from "../../hooks/use-url-address.hook"
 import {useCurrentUser} from "../../hooks/use-current-user.hook"
 import {useMarketItems} from "../../hooks/use-market-items.hook"
 import {useAccountItems} from "../../hooks/use-account-items.hook"
+import {useInitialized} from "../../hooks/use-initialized.hook"
+import {useKibblesBalance} from "../../hooks/use-kibbles-balance.hook"
 import AuthCluster from "../../parts/auth-cluster.comp"
 import InitCluster from "../../parts/init-cluster.comp"
 import BalanceCluster from "../../parts/balance-cluster.comp"
 import MarketItemsCluster from "../../parts/market-items-cluster.comp"
 import AccountItemsCluster from "../../parts/account-items-cluster.comp"
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
   Box,
+  Badge,
   Flex,
   Center,
-  Heading,
   Tag,
   Text,
   Tabs,
@@ -64,6 +70,46 @@ export function MintButton({address}) {
   )
 }
 
+export function InfoBanner({address}) {
+  const init = useInitialized(address)
+  const kibs = useKibblesBalance(address)
+
+  const status = {
+    notInitialized: {
+      type: "info",
+      title: "Initialize Your Account",
+      text:
+        "You need to initialize your ccount cbefore you can receive Kibble.",
+    },
+    noKibble: {
+      type: "info",
+      title: "Get Kibble",
+      text: "You need Kibble to buy Kitty Items.",
+    },
+  }
+
+  function Banner(message) {
+    return (
+      <Flex my="4">
+        <Alert status={message.type}>
+          <AlertIcon />
+          <AlertTitle mr={2}>{message.title}</AlertTitle>
+          {message.text}
+        </Alert>
+      </Flex>
+    )
+  }
+
+  switch (false) {
+    case init.isInitialized:
+      return Banner(status.notInitialized)
+    case kibs.balance > 0:
+      return Banner(status.noKibble)
+    default:
+      return null
+  }
+}
+
 export function Page() {
   const address = useAddress()
   const [cu] = useCurrentUser()
@@ -76,18 +122,23 @@ export function Page() {
         <Flex mb="4">
           <Center>
             <Text mr="4" fontSize="2xl" color="purple.500">
-              Account:
+              Account:{" "}
+              <Text display="inline" color="black" fontWeight="bold">
+                {address}
+              </Text>
             </Text>
           </Center>
-          <Heading>{address}</Heading>
           {address === cu.addr && (
             <Center>
-              <Tag ml="4" variant="outline" colorScheme="orange">
+              <Badge ml="4" variant="outline" colorScheme="orange">
                 You
-              </Tag>
+              </Badge>
             </Center>
           )}
         </Flex>
+        <Suspense fallback={null}>
+          <InfoBanner address={address} />
+        </Suspense>
         <Flex>
           <Box>
             <InitCluster address={address} />
@@ -123,17 +174,6 @@ export function Page() {
                 <AccountItemsCount address={address} />
               </Suspense>
             </Tab>
-            {cu.addr === address && (
-              <Tab fontSize="2xl">
-                <HStack>
-                  <Image src={BackPack} />
-                  <Box>Store</Box>
-                </HStack>
-                <Suspense fallback={null}>
-                  <StoreItemsCount address={address} />
-                </Suspense>
-              </Tab>
-            )}
           </TabList>
 
           <TabPanels>

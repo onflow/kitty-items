@@ -25,8 +25,6 @@ export function useKibblesBalance(address) {
     setStatus(IDLE)
   }
 
-  console.log(address)
-
   return {
     balance,
     status,

@@ -4,7 +4,18 @@ import {useAccountItem} from "../hooks/use-account-item.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
 import {fmtKibbles} from "../util/fmt-kibbles"
-import {Tr, Td, Button, Spinner, Flex, Center, Text} from "@chakra-ui/react"
+import {
+  Tr,
+  Td,
+  Button,
+  Spinner,
+  Flex,
+  Center,
+  Text,
+  HStack,
+} from "@chakra-ui/react"
+
+import {ItemImage} from "./account-item-cluster.comp"
 
 export function MarketItemCluster({address, id}) {
   const item = useAccountItem(address, id)
@@ -21,15 +32,15 @@ export function MarketItemCluster({address, id}) {
       <Td maxW="50px">
         <Flex>
           <Text>#{item.id}</Text>
-          {BUSY && (
-            <Center ml="4">
-              <Spinner size="xs" />
-            </Center>
-          )}
         </Flex>
       </Td>
-      <Td>{item.type}</Td>
-      <Td isNumeric>{fmtKibbles(list.price, true)}</Td>
+      <Td>
+        <HStack>
+          <Text>({item.type})</Text>
+          <ItemImage type={item.type} />
+        </HStack>
+      </Td>
+      <Td isNumeric>{item.price || 10}</Td>
       {loggedIn && (
         <>
           {item.owned ? (
@@ -40,7 +51,10 @@ export function MarketItemCluster({address, id}) {
                 disabled={BUSY}
                 onClick={list.cancelListing}
               >
-                Unlist
+                <HStack>
+                  {BUSY && <Spinner mr="2" size="xs" />}
+                  <Text>Unlist</Text>
+                </HStack>
               </Button>
             </Td>
           ) : (
@@ -51,7 +65,10 @@ export function MarketItemCluster({address, id}) {
                 disabled={BUSY}
                 onClick={list.buy}
               >
-                Buy
+                <HStack>
+                  {BUSY && <Spinner mr="2" size="xs" />}
+                  <Text>Buy</Text>
+                </HStack>
               </Button>
             </Td>
           )}

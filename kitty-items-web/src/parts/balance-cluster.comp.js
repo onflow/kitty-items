@@ -17,11 +17,12 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react"
+import {useInitialized} from "../hooks/use-initialized.hook"
 
 export function BalanceCluster({address}) {
   const flow = useFlowBalance(address)
   const kibbles = useKibblesBalance(address)
-
+  const init = useInitialized(address)
   return (
     <Box mb="4">
       <Box mb="2">
@@ -66,7 +67,7 @@ export function BalanceCluster({address}) {
         <Flex>
           <Button
             colorScheme="blue"
-            disabled={kibbles.status !== IDLE}
+            disabled={kibbles.status !== IDLE || !init.isInitialized}
             onClick={kibbles.mint}
           >
             Request Meowr Kibbles
