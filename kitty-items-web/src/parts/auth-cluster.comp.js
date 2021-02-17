@@ -7,20 +7,25 @@ import {
   Spacer,
   Link,
   Center,
+  HStack,
   Heading,
   Button,
   Divider,
+  Image,
 } from "@chakra-ui/react"
+
+import Logo from "../svg/logo-kv.svg"
 
 export function AuthCluster() {
   const [user, loggedIn, {signUp, logIn, logOut}] = useCurrentUser()
 
   return loggedIn ? (
-    <Box>
+    <Box mb="4">
       <Flex>
-        <Center>
-          <Heading size="md">Kitty Items</Heading>
-        </Center>
+        <HStack>
+          <Image src={Logo} />
+          <Heading size="lg">Kitty Items</Heading>
+        </HStack>
         <Spacer />
         <Center>
           <Link as={A} mr="4" to={"/" + user.addr}>
@@ -33,7 +38,6 @@ export function AuthCluster() {
           </Button>
         </Box>
       </Flex>
-      <Divider mb="4" />
     </Box>
   ) : (
     <Box>
