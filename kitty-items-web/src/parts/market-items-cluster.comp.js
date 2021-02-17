@@ -7,6 +7,7 @@ import {Box, Table, Thead, Tbody, Tr, Th, Text, Spinner} from "@chakra-ui/react"
 export function MarketItemsCluster({address}) {
   const items = useMarketItems(address)
   const [cu] = useCurrentUser()
+
   if (address == null) return null
 
   if (items.ids.length <= 0)
