@@ -52,7 +52,7 @@ npm run start:dev
 ## Setup Flow Accounts
 
 Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
-Follow the instructions available on [kitty-items-deployer](https://github.com/dapperlabs/kitty-items/tree/master/kitty-items-deployer).
+Follow the instructions available on [kitty-items-deployer](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer).
 
 
 ## Setup Resources
