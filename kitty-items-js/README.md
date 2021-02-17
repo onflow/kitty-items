@@ -62,8 +62,8 @@ npm run workers:dev
 Make sure you have Flow CLI installed. Open `flow.json` file inside `kitty-items-cadence/` folder and replace the `FLOW_ADDRESS` and `PRIVATE_KEY` values inside `testnet-account` with values for your Flow account. 
 ```
 "testnet-account": {
-  "address": "ADDRESS",
-  "keys": "KEY"
+  "address": "FLOW_ADDRESS",
+  "keys": "PRIVATE_KEY"
 }
 ```
 
