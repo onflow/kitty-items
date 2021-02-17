@@ -36,10 +36,6 @@ MINTER_PRIVATE_KEY="Flow account private key"
 docker-compose up -d
 ```
 
-## Running Worker / Event consumer
-
-- Run docker:
-
 ### Start the API Server:
 
 ```
@@ -48,14 +44,6 @@ npm run start:dev
 
 ✨ If everyting worked the API will be available at http://localhost:3000
 (Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
-
-### Start the Event Worker
-
-The event worker script will help us capture events coming from Flow and save them in the events database we started using `docker-compose`, making those events available to consumers of our RESTful API.
-
-```
-npm run workers:dev
-```
 
 ## Setup Flow Accounts
 
@@ -90,10 +78,6 @@ Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the re
 Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens!
 
 Run the following commands in your terminal:
-
-- **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.
-
-  - Example:
 
 - **POST /v1/kibbles/setup** : Creates a resource that holds Kibbles in the `MINTER_FLOW_ADDRESS` account.     
 ```
@@ -160,6 +144,14 @@ curl --request POST \
 	"itemId": 5,
 	"price": 7.9
 }'
+```
+
+### Start the Event Worker
+
+Now your accounts and contracts are setup, you can start the event worker. The event worker script will help us capture events coming from Flow and save them in the events database we started using `docker-compose`, making those events available to consumers of our RESTful API.
+
+```
+npm run workers:dev
 ```
 
 ## Finish Up
