@@ -1,7 +1,7 @@
-import FungibleToken from 0xFUNGIBLETOKENADDRESS
-import NonFungibleToken from 0xNONFUNGIBLETOKEN
-import Kibble from 0xKIBBLE
-import KittyItems from 0xKITTYITEMS
+import Kibble from "../../kibble/contracts/Kibble.cdc"
+import KittyItems from "../../kittyItems/contracts/KittyItems.cdc"
+import FungibleToken from "../../kibble/contracts/FungibleToken.cdc"
+import NonFungibleToken from "../../kittyItems/contracts/NonFungibleToken.cdc"
 
 /*
     This is a simple KittyItems initial sale contract for the DApp to use
