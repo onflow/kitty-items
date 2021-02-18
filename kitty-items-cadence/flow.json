@@ -10,7 +10,7 @@
 		"KittyItems": "./cadence/kittyItems/contracts/KittyItems.cdc",
 		"KittyItemsMarket": "./cadence/kittyItemsMarket/contracts/KittyItemsMarket.cdc",
 		"FungibleToken": {
-			"source": "./cadence/kittyItems/contracts/FungibleToken.cdc",
+			"source": "cadence/kibble/contracts/FungibleToken.cdc",
 			"aliases": {
 				"emulator": "ee82856bf20e2aa6",
 				"testnet": "9a0766d93b6608b7"
