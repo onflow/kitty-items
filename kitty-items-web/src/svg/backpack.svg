@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <ellipse cx="21" cy="20.971" fill="#FFECBC" rx="21" ry="20.971"/>
+            <ellipse cx="20.917" cy="30.539" fill="#E3C487" rx="11.919" ry="2.039"/>
+        </g>
+        <g transform="translate(10 9)">
+            <path fill="#DE8E65" fill-rule="nonzero" stroke="#25282A" stroke-width="1.25" d="M1.027 12.04a.375.375 0 0 0-.375.374v5.06a2.375 2.375 0 0 0 2.375 2.374h16a2.375 2.375 0 0 0 2.375-2.375v-5.059a.375.375 0 0 0-.375-.375h-20z"/>
+            <rect width="3.926" height="5.221" x="8.987" y=".97" stroke="#25282A" stroke-width="1.25" rx="1.5"/>
+            <path fill="#F9BB76" fill-rule="nonzero" d="M1.886 6.327h18.117v12.53a3 3 0 0 1-3 3H4.886a3 3 0 0 1-3-3V6.326z"/>
+            <path fill="#DE8E65" fill-rule="nonzero" d="M4.474 6.327v12.53a3 3 0 0 0 3 3H4.886a3 3 0 0 1-3-3V6.326h2.588z"/>
+            <path fill="#FEDEB4" fill-rule="nonzero" d="M17.415 6.327v12.53a3 3 0 0 1-3 3h2.588a3 3 0 0 0 3-3V6.326h-2.588z"/>
+            <path stroke="#DE8E65" stroke-width="1.25" d="M5.886 4.174A3.375 3.375 0 0 0 2.51 7.549v1.353a4.375 4.375 0 0 0 4.375 4.375h8.117a4.375 4.375 0 0 0 4.375-4.375V7.549a3.375 3.375 0 0 0-3.375-3.375H5.886z"/>
+            <path stroke="#25282A" stroke-width="1.25" d="M2.51 6.952v11.904a2.375 2.375 0 0 0 2.376 2.375h12.117a2.375 2.375 0 0 0 2.375-2.375V6.952H2.511z"/>
+            <path fill="#F9BB76" fill-rule="nonzero" d="M5.886 2.444h10.117a4 4 0 0 1 4 4v1.353a5 5 0 0 1-5 5H6.886a5 5 0 0 1-5-5V6.444a4 4 0 0 1 4-4z"/>
+            <path fill="#FEDEB4" fill-rule="nonzero" d="M15.415 2.444h.588a4 4 0 0 1 4 4v1.353a4.999 4.999 0 0 1-2.603 4.39 5.07 5.07 0 0 0 .015-.39V4.444a2 2 0 0 0-2-2z"/>
+            <path fill="#FEDEB4" fill-rule="nonzero" d="M15.143 4.883a2.5 2.5 0 0 1 2.5 2.5v1.06l1.5.293V7.383a4 4 0 0 0-4-4v1.5zm0 0a2.5 2.5 0 0 1 2.5 2.5v1.06l1.5.293V7.383a4 4 0 0 0-4-4H3.84l-.713 1.5h12.015z"/>
+            <path stroke="#25282A" stroke-width="1.25" d="M5.886 3.07A3.375 3.375 0 0 0 2.51 6.443v1.353a4.375 4.375 0 0 0 4.375 4.375h8.117a4.375 4.375 0 0 0 4.375-4.375V6.444a3.375 3.375 0 0 0-3.375-3.375H5.886z"/>
+            <g fill-rule="nonzero" stroke="#25282A" transform="translate(12.239 2.15)">
+                <path fill="#FFE758" d="M2.318.547a.5.5 0 0 0-.5.5v12.401a.5.5 0 0 0 .101.302l.618.817a.5.5 0 0 0 .797 0l.618-.817a.5.5 0 0 0 .101-.302V1.047a.5.5 0 0 0-.5-.5H2.318z"/>
+                <rect width="2.882" height="1" x="1.495" y="11.706" fill="#D8D8D8" rx=".5"/>
+            </g>
+            <g fill-rule="nonzero" stroke="#25282A" transform="translate(3.954 2.121)">
+                <path fill="#FFE758" d="M2.318.547a.5.5 0 0 0-.5.5v12.401a.5.5 0 0 0 .101.302l.618.817a.5.5 0 0 0 .797 0l.618-.817a.5.5 0 0 0 .101-.302V1.047a.5.5 0 0 0-.5-.5H2.318z"/>
+                <rect width="2.882" height="1" x="1.495" y="11.706" fill="#D8D8D8" rx=".5"/>
+            </g>
+        </g>
+    </g>
+</svg>

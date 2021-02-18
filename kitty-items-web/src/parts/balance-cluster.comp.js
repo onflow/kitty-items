@@ -17,11 +17,12 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react"
+import {useInitialized} from "../hooks/use-initialized.hook"
 
 export function BalanceCluster({address}) {
   const flow = useFlowBalance(address)
   const kibbles = useKibblesBalance(address)
-
+  const init = useInitialized(address)
   return (
     <Box mb="4">
       <Box mb="2">
@@ -40,16 +41,6 @@ export function BalanceCluster({address}) {
         <Table size="sm">
           <Tbody>
             <Tr>
-              <Td>FLOW</Td>
-              {flow.status === IDLE ? (
-                <Td isNumeric>{fmtFlow(flow.balance)}</Td>
-              ) : (
-                <Td isNumeric>
-                  <Spinner size="sm" />
-                </Td>
-              )}
-            </Tr>
-            <Tr>
               <Td>KIBBLE</Td>
               {kibbles.status === IDLE ? (
                 <Td isNumeric>{fmtKibbles(kibbles.balance)}</Td>
@@ -66,10 +57,10 @@ export function BalanceCluster({address}) {
         <Flex>
           <Button
             colorScheme="blue"
-            disabled={kibbles.status !== IDLE}
+            disabled={kibbles.status !== IDLE || !init.isInitialized}
             onClick={kibbles.mint}
           >
-            Request 5 Kibbles
+            Request Meowr Kibbles
           </Button>
         </Flex>
       </Box>

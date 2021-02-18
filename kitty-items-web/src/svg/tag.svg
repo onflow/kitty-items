@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="42" height="42" viewBox="0 0 42 42">
+    <defs>
+        <path id="a" d="M4.304 1.58l11.317.008a1 1 0 0 1 1 1v8.096a1 1 0 0 1-1.014 1l-11.404-.166a1 1 0 0 1-.73-.332L.06 7.382A1 1 0 0 1 .04 6.068l3.5-4.134a1 1 0 0 1 .764-.354z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <ellipse cx="21" cy="20.971" fill="#FAE1CA" rx="21" ry="20.971"/>
+            <ellipse cx="21" cy="30.75" fill="#EFC8A4" rx="9" ry="1.75"/>
+        </g>
+        <g transform="rotate(45 -2.183 28.173)">
+            <g>
+                <mask id="b" fill="#fff">
+                    <use xlink:href="#a"/>
+                </mask>
+                <use fill="#FFAC6C" xlink:href="#a"/>
+                <path fill="#FE8436" d="M3.146 4.297l12.797.074a1 1 0 0 1 .994.984l.07 4.358-18.224-.262 4.363-5.154z" mask="url(#b)" transform="matrix(1 0 0 -1 0 16.19)"/>
+                <path fill="#FFF" d="M.2 1.305l4.44-.76a2 2 0 0 1 1.316.229L14.9 5.799a2 2 0 0 1 .998 2.045l-.057.373 1.298-2.786C9.8.987 6.045-1.209 5.875-1.156c-.17.054-2.062.874-5.674 2.46z" mask="url(#b)" transform="rotate(-29 8.67 3.53)"/>
+            </g>
+            <path stroke="#31323D" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.25" d="M4.304.955l11.318.008c.897 0 1.624.727 1.624 1.624v8.097c0 .898-.727 1.625-1.625 1.625h-.023l-11.404-.166a1.625 1.625 0 0 1-1.186-.54L-.406 7.8a1.625 1.625 0 0 1-.03-2.135L3.062 1.53A1.625 1.625 0 0 1 4.304.955z"/>
+            <circle cx="4.72" cy="6.628" r="1.658" fill="#31323D"/>
+        </g>
+    </g>
+</svg>

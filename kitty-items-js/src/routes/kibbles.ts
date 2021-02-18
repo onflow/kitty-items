@@ -12,6 +12,7 @@ function initKibblesRouter(kibblesService: KibblesService): Router {
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, amount } = req.body;
+
       const transaction = await kibblesService.mint(recipient, amount);
       return res.send({
         transaction,

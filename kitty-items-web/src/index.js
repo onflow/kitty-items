@@ -13,6 +13,8 @@ import {Page as NotFound} from "./pages/not-found.page"
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 
+import "./font.css"
+
 window.fcl = fcl
 window.t = t
 
