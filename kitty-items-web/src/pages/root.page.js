@@ -1,7 +1,18 @@
 import {Base} from "../parts/base.comp"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {Redirect} from "react-router-dom"
-import {Box, Button, Flex, Center, Heading, Spacer} from "@chakra-ui/react"
+import {
+  Box,
+  Button,
+  Flex,
+  Center,
+  Heading,
+  Spacer,
+  HStack,
+  Image,
+} from "@chakra-ui/react"
+
+import Logo from "../svg/logo-kv.svg"
 
 export function Page() {
   const [user, loggedIn, {signUp, logIn}] = useCurrentUser()
@@ -13,7 +24,10 @@ export function Page() {
       <Box p="4">
         <Flex>
           <Center mr="4">
-            <Heading size="md">Kitty Items</Heading>
+            <HStack>
+              <Image src={Logo} />
+              <Heading size="lg">Kitty Items</Heading>
+            </HStack>
           </Center>
           <Spacer />
           <Button mr="4" colorScheme="blue" onClick={logIn}>

@@ -73,6 +73,7 @@ export function MintButton({address}) {
 export function InfoBanner({address}) {
   const init = useInitialized(address)
   const kibs = useKibblesBalance(address)
+  const [cu] = useCurrentUser()
 
   const status = {
     notInitialized: {
@@ -100,10 +101,10 @@ export function InfoBanner({address}) {
     )
   }
 
-  switch (false) {
-    case init.isInitialized:
+  switch (true) {
+    case !init.isInitialized && cu.addr === address:
       return Banner(status.notInitialized)
-    case kibs.balance > 0:
+    case kibs.balance < 0 && cu.addr === address:
       return Banner(status.noKibble)
     default:
       return null
@@ -168,7 +169,7 @@ export function Page() {
             <Tab fontSize="2xl">
               <HStack>
                 <Image src={BackPack} />
-                <Box>My Items</Box>
+                <Box>{cu.addr === address ? "My" : "User"} Items</Box>
               </HStack>
               <Suspense fallback={null}>
                 <AccountItemsCount address={address} />
@@ -183,11 +184,11 @@ export function Page() {
             <TabPanel>
               <AccountItemsCluster address={address} />
             </TabPanel>
-            {cu.addr === address && (
+            {/* {cu.addr === address && (
               <TabPanel>
                 <MarketItemsCluster address={STORE_ADDRESS} />
               </TabPanel>
-            )}
+            )} */}
           </TabPanels>
         </Tabs>
       </Box>

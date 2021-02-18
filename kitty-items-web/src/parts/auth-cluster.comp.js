@@ -43,7 +43,10 @@ export function AuthCluster() {
     <Box>
       <Flex>
         <Box p="2">
-          <Heading size="md">Kitty Items</Heading>
+          <HStack>
+            <Image src={Logo} />
+            <Heading size="lg">Kitty Items</Heading>
+          </HStack>
         </Box>
         <Spacer />
         <Box>
