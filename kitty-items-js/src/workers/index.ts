@@ -1,12 +1,18 @@
-import { SaleOfferHandler } from "./sale-offer-handler";
-import { Model } from "objection";
-import pg from "pg";
-import Knex from "knex";
-import * as dotenv from "dotenv";
 import * as fcl from "@onflow/fcl";
+
+import { Model } from "objection";
+
+import pg from "pg";
+
+import Knex from "knex";
+
+import * as dotenv from "dotenv";
+
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 import { MarketService } from "../services/market";
+
+import { SaleOfferHandler } from "./sale-offer-handler";
 
 async function run() {
   dotenv.config();
@@ -48,7 +54,15 @@ async function run() {
     blockCursorService,
     flowService,
     marketService,
-    process.env.SALE_OFFER_EVENT_NAME!
+    [
+      process.env.FUNGIBLE_TOKEN_ADDRESS!,
+      process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
+      process.env.EVENT_SALE_OFFER_CREATED!,
+      process.env.EVENT_SALE_OFFER_ACCEPTED!,
+      process.env.EVENT_SALE_OFFER_FINISHED!,
+      process.env.EVENT_COLLECTION_INSERTED_SALE_OFFER!,
+      process.env.EVENT_COLLECTION_REMOVED_SALE_OFFER!
+    ]
   ).run();
 }
 

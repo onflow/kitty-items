@@ -1,10 +1,14 @@
 import * as t from "@onflow/types";
 import * as fcl from "@onflow/fcl";
-import { FlowService } from "./flow";
+
 import * as fs from "fs";
+
 import * as path from "path";
-import { SaleOffer } from "../models/sale-offer";
+
 import { KittyItem } from "../models/kitty-item";
+import { SaleOffer } from "../models/sale-offer";
+
+import { FlowService } from "./flow";
 
 class MarketService {
   constructor(
@@ -123,18 +127,26 @@ class MarketService {
     return SaleOffer.query().orderBy("created_at", "desc").limit(20);
   };
 
-  upsertSaleOffer = async (itemId: number, price: number) => {
+  upsertSaleOffer = async (itemId: number, price = 0, isComplete = false) => {
     return SaleOffer.transaction(async (tx) => {
-      const saleOffers = await SaleOffer.query(tx).insertGraphAndFetch([
-        {
-          kitty_item: {
-            id: itemId,
-          },
-          price: price,
-          is_complete: false,
+      const offer: any = {
+        kitty_item: {
+          id: itemId,
         },
-      ]);
+        is_complete: isComplete,
+      };
+      if (price) offer.price = price;
+      const saleOffers = await SaleOffer.query(tx).insertGraphAndFetch([offer]);
       return saleOffers[0];
+    });
+  };
+
+  removeSaleOffer = async (itemID) => {
+    return SaleOffer.transaction(async (tx) => {
+      const removed = await SaleOffer.query(tx)
+        .delete()
+        .where("kitty_item_id", "=", itemID);
+      return removed;
     });
   };
 }
