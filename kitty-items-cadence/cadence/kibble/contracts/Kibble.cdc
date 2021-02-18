@@ -1,4 +1,4 @@
-import FungibleToken from "FungibleToken.cdc"
+import FungibleToken from "./FungibleToken.cdc"
 
 pub contract Kibble: FungibleToken {
     // TokensInitialized
