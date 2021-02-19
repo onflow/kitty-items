@@ -42,16 +42,19 @@ async function run() {
     process.env.MINTER_PRIVATE_KEY!,
     process.env.MINTER_ACCOUNT_KEY_IDX!
   );
+
   const kibblesService = new KibblesService(
     flowService,
     process.env.FUNGIBLE_TOKEN_ADDRESS!,
     process.env.MINTER_FLOW_ADDRESS!
   );
+
   const kittyItemsService = new KittyItemsService(
     flowService,
     process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
     process.env.MINTER_FLOW_ADDRESS!
   );
+
   const marketService = new MarketService(
     flowService,
     process.env.FUNGIBLE_TOKEN_ADDRESS!,

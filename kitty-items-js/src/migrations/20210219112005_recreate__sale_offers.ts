@@ -5,7 +5,9 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
     table.integer("itemid").unique().notNullable();
     table.integer("itemtype").notNullable();
-    table.text("address").notNullable();
+    table.text("seller_address");
+    table.decimal("price");
+    table.text("tx_hash");
     table.integer("offer_blockheight").notNullable();
     table.timestamps(true, true);
   });
