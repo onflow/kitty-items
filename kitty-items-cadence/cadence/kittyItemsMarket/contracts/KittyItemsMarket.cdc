@@ -31,7 +31,7 @@ pub contract KittyItemsMarket {
     // SaleOffer events.
     //
     // A sale offer has been created.
-    pub event SaleOfferCreated(itemID: UInt64, price: UFix64)
+    pub event SaleOfferCreated(itemID: UInt64, price: UInt64)
     // Someone has purchased an item that was offered for sale.
     pub event SaleOfferAccepted(itemID: UInt64)
     // A sale offer has been destroyed, with or without being accepted.
@@ -39,10 +39,17 @@ pub contract KittyItemsMarket {
     
     // Collection events.
     //
-    // A sale offer has been inserted into the collection of Address.
-    pub event CollectionInsertedSaleOffer(saleItemID: UInt64, saleItemCollection: Address)
     // A sale offer has been removed from the collection of Address.
-    pub event CollectionRemovedSaleOffer(saleItemID: UInt64, saleItemCollection: Address)
+    pub event CollectionRemovedSaleOffer(itemID: UInt64, account: Address)
+
+    // A sale offer has been inserted into the collection of Address.
+    pub event CollectionInsertedSaleOffer(
+      account: Address,
+      saleItemID: UInt64, 
+      saleItemType: UInt64, 
+      saleItemCollection: Address, 
+      price: UInt64
+    )
 
     // Named paths
     //
@@ -200,13 +207,19 @@ pub contract KittyItemsMarket {
             let oldOffer <- self.saleOffers[id] <- offer
             destroy oldOffer
 
-            emit CollectionInsertedSaleOffer(saleItemID: id, saleItemCollection: self.owner?.address!)
+            emit CollectionInsertedSaleOffer(
+              account: self.owner?.address!, 
+              saleItemID: id,
+              saleItemType: self.saleOffers[id].saleItemType,
+              saleItemType: self.saleOffers[id].salePrice,
+              price: self.saleOffers[id].salePrice
+            )
         }
 
         // remove
         // Remove and return a SaleOffer from the collection.
         pub fun remove(saleItemID: UInt64): @SaleOffer {
-            emit CollectionRemovedSaleOffer(saleItemID: saleItemID, saleItemCollection: self.owner?.address!)
+            emit CollectionRemovedSaleOffer(saleItemID: saleItemID, account: self.owner?.address!)
             return <-(self.saleOffers.remove(key: saleItemID) ?? panic("missing SaleOffer"))
         }
  

@@ -99,7 +99,7 @@ abstract class BaseEventHandler {
       await this.onEvent(eventDetails, event);
     } catch (e) {
       // If we get an error, we're just continuing the loop for now, but they in a production graded app they should
-      // be handled accordingly
+      // be handled accordingly!
       console.error("Error processing event", e);
     }
   }

@@ -122,11 +122,19 @@ class MarketService {
     });
   };
 
-  findMostRecentSales = async () => {
-    // TODO query JSON events.
+  addSaleOffer = async (saleOfferEvent) => {
+    // TODO
   };
 
-  insertEventIfNotExists = (event) => {
+  removeSaleOffer = (saleOfferEvent) => {
+    // TODO
+  };
+
+  findMostRecentSales = () => {
+    // TODO
+  };
+
+  storeEvent = (event) => {
     console.log("Got event: ", event);
     return SaleOfferEvent.transaction(async (tx) => {
       await SaleOfferEvent.query(tx).insert({
