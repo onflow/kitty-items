@@ -1,9 +1,13 @@
-import * as dotenv from "dotenv";
 import * as fcl from "@onflow/fcl";
-import initApp from "./app";
+
+import * as dotenv from "dotenv";
+
 import Knex from "knex";
-import { KibblesService } from "./services/kibbles";
+
+import initApp from "./app";
+
 import { FlowService } from "./services/flow";
+import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 
@@ -31,8 +35,8 @@ async function run() {
   await knexInstance.migrate.latest();
 
   // Make sure we're pointing to the correct Flow Access node.
-
   fcl.config().put("accessNode.api", process.env.FLOW_NODE);
+
   const flowService = new FlowService(
     process.env.MINTER_FLOW_ADDRESS!,
     process.env.MINTER_PRIVATE_KEY!,

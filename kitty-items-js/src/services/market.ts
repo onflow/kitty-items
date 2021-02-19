@@ -5,8 +5,7 @@ import * as fs from "fs";
 
 import * as path from "path";
 
-import { KittyItem } from "../models/kitty-item";
-import { SaleOffer } from "../models/sale-offer";
+import { SaleOfferEvent } from "../models/sale-offer-event";
 
 import { FlowService } from "./flow";
 
@@ -124,29 +123,15 @@ class MarketService {
   };
 
   findMostRecentSales = async () => {
-    return SaleOffer.query().orderBy("created_at", "desc").limit(20);
+    // TODO query JSON events.
   };
 
-  upsertSaleOffer = async (itemId: number, price = 0, isComplete = false) => {
-    return SaleOffer.transaction(async (tx) => {
-      const offer: any = {
-        kitty_item: {
-          id: itemId,
-        },
-        is_complete: isComplete,
-      };
-      if (price) offer.price = price;
-      const saleOffers = await SaleOffer.query(tx).insertGraphAndFetch([offer]);
-      return saleOffers[0];
-    });
-  };
-
-  removeSaleOffer = async (itemID) => {
-    return SaleOffer.transaction(async (tx) => {
-      const removed = await SaleOffer.query(tx)
-        .delete()
-        .where("kitty_item_id", "=", itemID);
-      return removed;
+  insertEventIfNotExists = (event) => {
+    console.log("Got event: ", event);
+    return SaleOfferEvent.transaction(async (tx) => {
+      await SaleOfferEvent.query(tx).insert({
+        event: event,
+      });
     });
   };
 }

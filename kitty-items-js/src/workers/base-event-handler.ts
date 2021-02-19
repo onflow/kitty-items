@@ -68,15 +68,11 @@ abstract class BaseEventHandler {
           ),
         ]);
 
-        console.log(JSON.stringify(getEventsResult, null, 2));
-
         eventList = await Promise.all([
           ...getEventsResult.map((result) => fcl.decode(result)),
         ]);
 
         eventList = eventList.flat();
-
-        console.log("Got events:", JSON.stringify(eventList.flat(), null, 2));
       } catch (e) {
         console.error(
           `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,

@@ -20,21 +20,7 @@ class SaleOfferHandler extends BaseEventHandler {
   }
 
   async onEvent(details: EventDetails, event: any): Promise<void> {
-    switch (event.type) {
-      case process.env.EVENT_SALE_OFFER_CREATED:
-        await this.marketService.upsertSaleOffer(
-          event.data.itemID,
-          event.data.price
-        );
-      case process.env.EVENT_SALE_OFFER_ACCEPTED:
-        await this.marketService.upsertSaleOffer(event.data.itemID, 0, true);
-      case process.env.EVENT_SALE_OFFER_FINISHED:
-      case process.env.EVENT_COLLECTION_INSERTED_SALE_OFFER:
-      case process.env.EVENT_COLLECTION_REMOVED_SALE_OFFER:
-        await this.marketService.removeSaleOffer(event.data.saleItemID);
-      default:
-        console.warn("Got unknown event type in SaleOfferHandler:", {});
-    }
+    this.marketService.insertEventIfNotExists(event);
   }
 }
 
