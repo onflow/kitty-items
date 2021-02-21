@@ -47,9 +47,30 @@ npm run start:dev
 
 ## Setup Flow Accounts
 
-Now that the API is up and running, you'll need to use it to deploy contracts to your Flow Testnet account (`MINTER_FLOW_ADDRESS`). 
-Follow the instructions available on [kitty-items-deployer](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer).
+Make sure you have Flow CLI installed. Open `flow.json` file inside `kitty-items-cadence/` folder and replace the `FLOW_ADDRESS` and `PRIVATE_KEY` values inside `testnet-account` with values for your Flow account. 
+```
+"testnet-account": {
+  "address": "FLOW_ADDRESS",
+  "keys": "PRIVATE_KEY"
+}
+```
 
+After values have been replaced run:
+```
+flow project deploy --network testnet
+```
+And you should see the following response:
+
+```
+Deploying 3 contracts for accounts: emulator-account,testnet-account
+Kibble -> 0x359296b343a4c807
+KittyItems -> 0x359296b343a4c807
+KittyItemsMarket -> 0x359296b343a4c807
+
+✅ All contracts deployed successfully
+```
+
+You can verify deployed contracts here: https://flow-view-source.com/testnet/account/FLOW_ADDRESS
 
 ## Setup Resources
 
