@@ -8,7 +8,7 @@
 
 ## 🎬 Live demo
 
-### Check out the [live demo of Kitty Items](https://dark-frost-1788.on.fleek.co/), deployed on <a href="https://docs.ipfs.io/concepts/case-study-fleek/"><img height="28px" src="https://docs.ipfs.io/assets/img/logo-fleek.5aed66a3.png" /></a> and the <img height="28px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" /> Testnet.
+<div style="line-height: 28px">Check out the [live demo of Kitty Items](https://dark-frost-1788.on.fleek.co/), deployed on <a href="https://docs.ipfs.io/concepts/case-study-fleek/"><img height="28px" src="https://docs.ipfs.io/assets/img/logo-fleek.5aed66a3.png" /></a> and the <img height="28px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" /> Testnet.</div>
 ---
 
 # ✨ Get Started
@@ -38,10 +38,12 @@ flow cadence install-vscode-extension
 git clone git@github.com:onflow/kitty-items.git
 ```
 
-Once you have the project files, you'll find setup instructions in the `README.md` files inside each folder. 
+Once you have the project files, you'll find setup instructions in the `README.md` files inside each folder.
+
 The Cadence code is also well commented to help you understand how they function and how to use them. 
 
-4) ### Start by installing [kitty-items-js](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md) 
+4) ### Start by installing [kitty-items-js](https://github.com/onflow/kitty-items/tree/master/kitty-items-js)
+
 Install this project first. It will help you deploy all of the Cadence contracts, and send transactions to bootstrap the marketplace with Kibble and Kitty Items. You'll find instructions for installing and starting the marketplace [here](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-js/README.md).
 
 ## Project Overview
