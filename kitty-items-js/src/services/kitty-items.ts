@@ -17,12 +17,12 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/transactions/setup_account.cdc`
+          `../../../kitty-items-cadence/transactions/kittyItems/setup_account.cdc`
         ),
         "utf8"
       )
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`);
+      .replace("../../conntracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("../../conntracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -38,12 +38,12 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/transactions/mint_kitty_item.cdc`
+          `../../../kitty-items-cadence/transactions/kittyItems/mint_kitty_item.cdc`
         ),
         "utf8"
       )
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`);
+      .replace("../../conntracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("../../conntracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(typeId, t.UInt64)],
@@ -59,12 +59,12 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/transactions/transfer_kitty_item.cdc`
+          `../../../kitty-items-cadence/transactions/kittyItems/transfer_kitty_item.cdc`
         ),
         "utf8"
       )
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`);
+      .replace("../../conntracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("../../conntracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -79,12 +79,12 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/scripts/read_collection_ids.cdc`
+          `../../../kitty-items-cadence/scripts/kittyItems/read_collection_ids.cdc`
         ),
         "utf8"
       )
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`);
+      .replace("../../conntracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("../../conntracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`);
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -97,12 +97,12 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/scripts/read_kitty_item_type_id.cdc`
+          `../../../kitty-items-cadence/scripts/kittyItems/read_kitty_item_type_id.cdc`
         ),
         "utf8"
       )
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`);
+      .replace("../../conntracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("../../conntracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`);
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(itemId, t.UInt64)],
@@ -114,11 +114,11 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/scripts/read_kitty_items_supply.cdc`
+          `../../../kitty-items-cadence/scripts/kittyItems/read_kitty_items_supply.cdc`
         ),
         "utf8"
       )
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`);
+      .replace("../../conntracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`);
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }
