@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="kitty-items-banner.png" />
+    <img width="200" src="kitty-items-banner.png" />
 </p>
 
 # 👋 Welcome to the Kitty Items Demo Application
