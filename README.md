@@ -1,15 +1,11 @@
 <p align="center">
-    <img width="200" src="kitty-items-banner.png" />
+    <img width="400" src="kitty-items-banner.png" />
 </p>
 
-# 👋 Welcome to the Kitty Items Demo Application
+👋 Welcome! This demo app was created to help you learn how to build on Flow.
 
-<img align="right" height="60px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" />
-
-This app was created to help you learn how to build on Flow
-
-- It demonstrates how to interact with Flow using the Flow client library (**@onflow/fcl**) from different areas of your application.
-- It's a **complete smart contract powered NFT marketplace** that showcases how to use Flow's resource-oriented smart contract programming language: [Cadence](https://docs.onflow.org/cadence).
+- Learn how to interact with Flow using the Flow Client Library (FCL).
+- Kitty Items is a **complete NFT marketplace** that showcases Flow's resource-oriented smart contract programming language, [Cadence](https://docs.onflow.org/cadence).
 
 
 ## 🎬 Live demo
