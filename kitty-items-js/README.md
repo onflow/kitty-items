@@ -1,49 +1,59 @@
 # kitty-items-js
 
-RESTful API built with express that sends transactions to the Flow Blockchain, using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
+`kitty-items-js` is a RESTful API built with express that sends transactions to Flow using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
 
-## Get Started
+## Getting started
 
-### Install npm dependencies
+### Install dependencies
 
 ```
 npm install
 ```
 
-### Use your Flow Testnet Account
-You'll need the **account keys** and **account address** for your Flow Testnet account to complete these setup steps.
-If you haven't created an account read the [Getting Started Guide](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme#-get-started)
+### Use your Flow Testnet account
 
-### Update `.env.local`
-- In this project, rename `env.local` to `.env`
-- Open `.env` and replace these values with values for your Flow account.
+You'll need the **account address** and 
+**private key** for your Flow Testnet account to complete these setup steps.
+
+Read the [Getting Started](https://github.com/onflow/kitty-items#-get-started)
+guide if you haven't created a Testnet account yet.
+
+### Configure your environment
+
+Create a copy of `.env.example`:
+
+```sh
+cp .env.example .env
 ```
-MINTER_FLOW_ADDRESS="Flow account address"  
-MINTER_PRIVATE_KEY="Flow account private key"
+
+Open `.env` and replace the following placeholders with the values for your Flow account:
+
 ```
-- Configure the value `SALE_OFFER_EVENT_NAME` using the Flow event
-  format: `A.ContractAddress.Contract.EventName`. 
-  
-  For example:
-  If you have `MINTER_FLOW_ADDRESS=fcceff21d9532b58` then the value you should have in `.env` is: 
-  `SALE_OFFER_EVENT_NAME=A.fcceff21d9532b58.KittyItemsMarket.SaleOfferCreated`
+MINTER_FLOW_ADDRESS={YOUR_TESTNET_ADDRESS}
+MINTER_PRIVATE_KEY={YOUR_TESTNET_PRIVATE_KEY}
+SALE_OFFER_EVENT_NAME=A.{YOUR_TESTNET_ADDRESS}.KittyItemsMarket.SaleOfferCreated
+```
 
+### Start the database
 
-### Start the Database
-🚧  You'll need to have Docker installed to complete these instructions.
+> 🚧  You'll need to have Docker installed to complete this step.
 
 ```
 docker-compose up -d
 ```
 
-### Start the API Server:
+### Start the API server
 
 ```
 npm run start:dev
 ```
 
-✨ If everyting worked the API will be available at http://localhost:3000
-(Note that when the API starts, it will automatically run the database migrations for the configured `DATABASE_URL` url)
+### Try it out!
+
+✨ The API should now be available at http://localhost:3000.
+
+_Note: when the API starts, 
+it will automatically run the database migrations for the configured `DATABASE_URL` URL._
 
 ## Setup Flow Accounts
 
@@ -54,7 +64,7 @@ Follow the instructions available on [kitty-items-deployer](https://github.com/o
 ## Setup Resources
 
 Before you can mint Kibbles and Kitty Items, you'll need to deploy all of the required Cadence contracts to Flow. 
-Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens!
+Use the requests in this section to initialize the **collections** and **vaults** that your account (`MINTER_FLOW_ADDRESS`) needs in order to hold fungible and non-fungible tokens.
 
 Run the following commands in your terminal:
 
@@ -80,7 +90,8 @@ Run the following commands in your terminal:
   ```
 
 ## Mint Kibbles and Kitty Items
-Now that the marketplace contracts and accounts are ready, you can fill the market with Kibble and Kitty items!
+Now that the marketplace contracts and accounts are ready,
+you can fill the market with Kibble and Kitty Items!
 
 Run the following commands in your terminal: 
 
@@ -125,7 +136,7 @@ curl --request POST \
 }'
 ```
 
-### Start the Event Worker
+### Start the event worker
 
 Now your accounts and contracts are setup, you can start the event worker. The event worker script will help us capture events coming from Flow and save them in the events database we started using `docker-compose`, making those events available to consumers of our RESTful API.
 
@@ -133,8 +144,6 @@ Now your accounts and contracts are setup, you can start the event worker. The e
 npm run workers:dev
 ```
 
-## Finish Up
+## Next steps
 
-Once you've made these requests, all of the contracts required for this application have been deployed, and your account has been configured as the marketplace admin! 
-
-Now that the backend [install and run the front-end](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-web) to start interacting with your new marketplace!
+Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/kitty-items-web) to start interacting with your new marketplace!
