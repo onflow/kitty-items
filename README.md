@@ -9,12 +9,10 @@
 - Kitty Items is a **complete NFT marketplace** built with [Cadence](https://docs.onflow.org/cadence), Flow's resource-oriented smart contract programming language.
 - Learn how to deploy contracts, mint NFTs, and integrate user wallets with the Flow Client Library (FCL).
 
-## 🎬 Live Demo
+# 🎬 Live Demo
 
 Check out the [live demo of Kitty Items](https://dark-frost-1788.on.fleek.co/),
 deployed on [IPFS](https://docs.ipfs.io/concepts/case-study-fleek/) and the Flow Testnet.
-
----
 
 # ✨ Getting Started
 
@@ -51,7 +49,7 @@ to install and run the Kitty Items API. This backend service is responsible for 
 
 Lastly, follow the [kitty-items-web instructions](https://github.com/onflow/kitty-items/tree/master/kitty-items-web) to launch the Kitty Items front-end React app.
 
-## Project Overview
+# Project Overview
 
 ![kitty-items-overview](https://user-images.githubusercontent.com/901466/106943245-0eac2b00-66da-11eb-960e-a1db5b1d028d.png)<!-- .element width="100%" -->
 
