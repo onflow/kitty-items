@@ -1,6 +1,8 @@
 # 👋 Welcome to the Kitty Items Demo Application
 
-### This app was created to help you learn how to build on <img height="46px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" />
+This app was created to help you learn how to build on Flow
+
+<img align="right" height="46px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" />
 
 - It demonstrates how to interact with Flow using the Flow client library (**@onflow/fcl**) from different areas of your application.
 - It's a **complete smart contract powered NFT marketplace** that showcases how to use Flow's resource-oriented smart contract programming language: [Cadence](https://docs.onflow.org/cadence).
