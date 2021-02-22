@@ -1,4 +1,6 @@
-<img align="center" src="https://user-images.githubusercontent.com/2547035/108665986-ff273300-748a-11eb-8686-abae7b483558.png" />
+<p align="center">
+    <img src="kitty-items-banner.png" />
+</p>
 
 # 👋 Welcome to the Kitty Items Demo Application
 
