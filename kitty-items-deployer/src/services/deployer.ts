@@ -26,11 +26,11 @@ class DeployerService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kibble/contracts/Kibble.cdc`
+          `../../../kitty-items-cadence/contracts/Kibble.cdc`
         ),
         "utf8"
       )
-      .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`);
+      .replace("./FungibleToken.cdc", `0x${this.fungibleTokenAddress}`);
 
     console.log("deploying...");
 
@@ -50,11 +50,11 @@ class DeployerService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItems/contracts/KittyItems.cdc`
+          `../../../kitty-items-cadence/contracts/KittyItems.cdc`
         ),
         "utf8"
       )
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`);
+      .replace("./NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`);
 
     console.log("deploying kitty items contract...");
 
@@ -73,14 +73,14 @@ class DeployerService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/contracts/kittyItemsMarket.cdc`
+          `../../../kitty-items-cadence/contracts/KittyItemsMarket.cdc`
         ),
         "utf8"
       )
-      .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`)
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKIBBLE/gi, `0x${this.contractFlowAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.contractFlowAddress}`);
+      .replace("./FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
+      .replace("./NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("./Kibble.cdc", `0x${this.contractFlowAddress}`)
+      .replace("./KittyItems.cdc", `0x${this.contractFlowAddress}`);
 
     console.log("deploying kitty items marketplace...");
     const kittyItemsMarket = await this.flowService.addContract({
