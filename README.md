@@ -1,6 +1,8 @@
-<a align="center" href="https://dark-frost-1788.on.fleek.co/">
-    <img width="400" src="kitty-items-banner.png" />
-</a>
+<p align="center">
+    <a href="https://dark-frost-1788.on.fleek.co/">
+        <img width="400" src="kitty-items-banner.png" />
+    </a>
+</p>
 
 👋 Welcome! This demo app was created to help you learn how to build on Flow.
 
