@@ -15,17 +15,16 @@ import (
 )
 
 const (
-	kittyItemsMarketRootPath             = "../../../cadence/KittyItemsMarket"
-	kittyItemsMarketKittyItemsMarketPath = kittyItemsMarketRootPath + "/contracts/KittyItemsMarket.cdc"
-	kittyItemsMarketSetupAccountPath     = kittyItemsMarketRootPath + "/transactions/setup_account.cdc"
-	kittyItemsMarketSellItemPath         = kittyItemsMarketRootPath + "/transactions/sell_market_item.cdc"
-	kittyItemsMarketBuyItemPath          = kittyItemsMarketRootPath + "/transactions/buy_market_item.cdc"
-	kittyItemsMarketRemoveItemPath       = kittyItemsMarketRootPath + "/transactions/remove_market_item.cdc"
+	kittyItemsMarketTransactionRootPath = "../../../transactions/kittyItemsMarket"
+
+	kittyItemsMarketContractPath     = "../../../contracts/KittyItemsMarket.cdc"
+	kittyItemsMarketSetupAccountPath = kittyItemsMarketTransactionRootPath + "/setup_account.cdc"
+	kittyItemsMarketSellItemPath     = kittyItemsMarketTransactionRootPath + "/sell_market_item.cdc"
+	kittyItemsMarketBuyItemPath      = kittyItemsMarketTransactionRootPath + "/buy_market_item.cdc"
+	kittyItemsMarketRemoveItemPath   = kittyItemsMarketTransactionRootPath + "/remove_market_item.cdc"
 )
 
-const (
-	typeID1337 = 1337
-)
+const typeID1337 = 1337
 
 type TestContractsInfo struct {
 	FTAddr                 flow.Address
@@ -59,14 +58,14 @@ func KittyItemsMarketDeployContracts(b *emulator.Blockchain, t *testing.T) TestC
 				Name:   "KittyItemsMarket",
 				Source: string(kittyItemsMarketCode),
 			},
-		})
-	if !assert.NoError(t, err) {
-		t.Log(err.Error())
-	}
+		},
+	)
+	assert.NoError(t, err)
+
 	_, err = b.CommitBlock()
 	assert.NoError(t, err)
 
-	// Simplify the workflow by having contract addresses also be our initial test collections.
+	// simplify the workflow by having contract addresses also be our initial test collections
 	KittyItemsSetupAccount(t, b, kittyItemsAddr, kittyItemsSigner, nftAddr, kittyItemsAddr)
 	KittyItemsMarketSetupAccount(b, t, kittyItemsMarketAddr, kittyItemsMarketSigner, kittyItemsMarketAddr)
 
@@ -113,15 +112,21 @@ func KittyItemsMarketCreateAccount(b *emulator.Blockchain, t *testing.T, contrac
 	return userAddress, userSigner
 }
 
-func KittyItemsMarketListItem(b *emulator.Blockchain, t *testing.T, contracts TestContractsInfo, userAddress sdk.Address, userSigner crypto.Signer, tokenID uint64, price string, shouldFail bool) {
+func KittyItemsMarketListItem(
+	t *testing.T, b *emulator.Blockchain,
+	contracts TestContractsInfo,
+	userAddress sdk.Address, userSigner crypto.Signer, tokenID uint64,
+	price string, shouldFail bool,
+) {
 	tx := flow.NewTransaction().
 		SetScript(kittyItemsMarketGenerateSellItemScript(contracts)).
 		SetGasLimit(100).
 		SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
 		SetPayer(b.ServiceKey().Address).
 		AddAuthorizer(userAddress)
-	tx.AddArgument(cadence.NewUInt64(tokenID))
-	tx.AddArgument(CadenceUFix64(price))
+
+	_ = tx.AddArgument(cadence.NewUInt64(tokenID))
+	_ = tx.AddArgument(CadenceUFix64(price))
 
 	signAndSubmit(
 		t, b, tx,
@@ -132,8 +137,8 @@ func KittyItemsMarketListItem(b *emulator.Blockchain, t *testing.T, contracts Te
 }
 
 func KittyItemsMarketPurchaseItem(
-	b *emulator.Blockchain,
 	t *testing.T,
+	b *emulator.Blockchain,
 	contracts TestContractsInfo,
 	userAddress sdk.Address,
 	userSigner crypto.Signer,
@@ -147,8 +152,9 @@ func KittyItemsMarketPurchaseItem(
 		SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
 		SetPayer(b.ServiceKey().Address).
 		AddAuthorizer(userAddress)
-	tx.AddArgument(cadence.NewUInt64(tokenID))
-	tx.AddArgument(cadence.NewAddress(marketCollectionAddress))
+
+	_ = tx.AddArgument(cadence.NewUInt64(tokenID))
+	_ = tx.AddArgument(cadence.NewAddress(marketCollectionAddress))
 
 	signAndSubmit(
 		t, b, tx,
@@ -159,12 +165,11 @@ func KittyItemsMarketPurchaseItem(
 }
 
 func KittyItemsMarketRemoveItem(
-	b *emulator.Blockchain,
 	t *testing.T,
+	b *emulator.Blockchain,
 	contracts TestContractsInfo,
 	userAddress sdk.Address,
 	userSigner crypto.Signer,
-	marketCollectionAddress sdk.Address,
 	tokenID uint64,
 	shouldFail bool,
 ) {
@@ -174,7 +179,8 @@ func KittyItemsMarketRemoveItem(
 		SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
 		SetPayer(b.ServiceKey().Address).
 		AddAuthorizer(userAddress)
-	tx.AddArgument(cadence.NewUInt64(tokenID))
+
+	_ = tx.AddArgument(cadence.NewUInt64(tokenID))
 
 	signAndSubmit(
 		t, b, tx,
@@ -209,19 +215,21 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 		tokenToList := uint64(0)
 		tokenPrice := "1.11"
 		userAddress, userSigner := KittyItemsMarketCreateAccount(b, t, contracts)
-		// Contract mints item
+
+		// contract mints item
 		KittyItemsMintItem(
-			b,
 			t,
+			b,
 			contracts.NFTAddr,
 			contracts.KittyItemsAddr,
 			contracts.KittyItemsSigner,
 			typeID1337,
 		)
-		// Contract transfers item to another seller account (we don't need to do this)
+
+		// contract transfers item to another seller account (we don't need to do this)
 		KittyItemsTransferItem(
-			b,
 			t,
+			b,
 			contracts.NFTAddr,
 			contracts.KittyItemsAddr,
 			contracts.KittyItemsSigner,
@@ -229,10 +237,11 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 			userAddress,
 			false,
 		)
-		// Other seller account lists the item
+
+		// other seller account lists the item
 		KittyItemsMarketListItem(
-			b,
 			t,
+			b,
 			contracts,
 			userAddress,
 			userSigner,
@@ -246,19 +255,21 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 		tokenToList := uint64(1)
 		tokenPrice := "1.11"
 		userAddress, userSigner := KittyItemsMarketCreateAccount(b, t, contracts)
-		// Contract mints item
+
+		// contract mints item
 		KittyItemsMintItem(
-			b,
 			t,
+			b,
 			contracts.NFTAddr,
 			contracts.KittyItemsAddr,
 			contracts.KittyItemsSigner,
 			typeID1337,
 		)
-		// Contract transfers item to another seller account (we don't need to do this)
+
+		// contract transfers item to another seller account (we don't need to do this)
 		KittyItemsTransferItem(
-			b,
 			t,
+			b,
 			contracts.NFTAddr,
 			contracts.KittyItemsAddr,
 			contracts.KittyItemsSigner,
@@ -266,10 +277,11 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 			userAddress,
 			false,
 		)
-		// Other seller account lists the item
+
+		// other seller account lists the item
 		KittyItemsMarketListItem(
-			b,
 			t,
+			b,
 			contracts,
 			userAddress,
 			userSigner,
@@ -277,8 +289,10 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 			tokenPrice,
 			false,
 		)
+
 		buyerAddress, buyerSigner := KittyItemsMarketCreatePurchaserAccount(b, t, contracts)
-		// Fund the purchase
+
+		// fund the purchase
 		KibbleMint(
 			t,
 			b,
@@ -291,8 +305,8 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 		)
 		// Make the purchase
 		KittyItemsMarketPurchaseItem(
-			b,
 			t,
+			b,
 			contracts,
 			buyerAddress,
 			buyerSigner,
@@ -306,19 +320,21 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 		tokenToList := uint64(2)
 		tokenPrice := "1.11"
 		userAddress, userSigner := KittyItemsMarketCreateAccount(b, t, contracts)
-		// Contract mints item
+
+		// contract mints item
 		KittyItemsMintItem(
-			b,
 			t,
+			b,
 			contracts.NFTAddr,
 			contracts.KittyItemsAddr,
 			contracts.KittyItemsSigner,
 			typeID1337,
 		)
-		// Contract transfers item to another seller account (we don't need to do this)
+
+		// contract transfers item to another seller account (we don't need to do this)
 		KittyItemsTransferItem(
-			b,
 			t,
+			b,
 			contracts.NFTAddr,
 			contracts.KittyItemsAddr,
 			contracts.KittyItemsSigner,
@@ -326,10 +342,11 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 			userAddress,
 			false,
 		)
-		// Other seller account lists the item
+
+		// other seller account lists the item
 		KittyItemsMarketListItem(
-			b,
 			t,
+			b,
 			contracts,
 			userAddress,
 			userSigner,
@@ -337,14 +354,14 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 			tokenPrice,
 			false,
 		)
-		// Make the purchase
+
+		// make the purchase
 		KittyItemsMarketRemoveItem(
-			b,
 			t,
+			b,
 			contracts,
 			userAddress,
 			userSigner,
-			userAddress,
 			tokenToList,
 			false,
 		)
@@ -364,7 +381,7 @@ func replaceKittyItemsMarketAddressPlaceholders(codeBytes []byte, contracts Test
 }
 
 func loadKittyItemsMarket(ftAddr, nftAddr, kibbleAddr, kittyItemsAddr string) []byte {
-	code := string(readFile(kittyItemsMarketKittyItemsMarketPath))
+	code := string(readFile(kittyItemsMarketContractPath))
 
 	code = strings.ReplaceAll(code, ftAddressPlaceholder, "0x"+ftAddr)
 	code = strings.ReplaceAll(code, kibbleAddressPlaceHolder, "0x"+kibbleAddr)
