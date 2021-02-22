@@ -26,7 +26,7 @@ You'll need a Testnet account to work on this project. Here's how to make one:
 
 - Generate a new key pair with the Flow CLI: ```flow keys generate``` (_⚠️ Make sure to save these keys in a safe place, you'll need them later._)
 - Go to the [Flow Testnet Faucet](https://testnet-faucet.onflow.org/) to create a new account. Use the **public key** from the previous step.
-- After a short time, you'll receive an e-mail with your newly-created Flow **account address**.
+- After a short time, you'll receive an email with your newly-created Flow **account address**.
 
 ### 3. Clone the project
 
@@ -73,9 +73,9 @@ We love decentralization, but servers are still very useful, and this one's no e
 
 [Cadence](https://docs.onflow.org/cadence) smart contracts, scripts & transactions for your viewing pleasure. This folder contains all of the blockchain logic for the marketplace application. Here you will find examples of [fungible token](https://github.com/onflow/flow-ft) and [non-fungible token (NFT)](https://github.com/onflow/flow-nft) smart contract implementations, as well as the scripts and transactions that interact with them. It also contains examples of how to *test* your Cadence code (tests written in Golang).
 
-### 5. Development Helpers | [kitty-items-deployer](https://github.com/onflow/kitty-items/tree/mackenzie/updates-readme/kitty-items-deployer)
+### 5. Development Helpers | [kitty-items-deployer](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer)
 
-Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts. Look through this project for an idea of what it's like to bootstrap your Flow accounts and Cadence smart contracts onto the [Flow Emulator](https://github.com/onflow/flow-emulator) or Flow testnet.
+Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts. Look through this project for an idea of what it's like to bootstrap your Flow accounts and Cadence smart contracts onto the [Flow Emulator](https://github.com/onflow/flow-emulator) or Flow Testnet.
 
 ### 6. User Wallet
 
