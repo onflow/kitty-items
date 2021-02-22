@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="kitty-items-banner.png" />
+</p>
+
 # 👋 Welcome to the Kitty Items Demo Application
 
 <img align="right" height="60px" src="https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg" />
