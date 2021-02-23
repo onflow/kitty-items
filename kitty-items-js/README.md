@@ -26,7 +26,7 @@ Create a copy of `.env.example`:
 cp .env.example .env
 ```
 
-Open `.env` and replace the following placeholders with the values for your Flow account:
+Open `.env` and replace the following placeholders with the values for your Testnet account:
 
 ```
 MINTER_FLOW_ADDRESS={YOUR_TESTNET_ADDRESS}
@@ -69,7 +69,7 @@ Run the commands below to initialize these resources:
 - **POST /v1/kibbles/setup** - Create a resource that holds Kibble in the `MINTER_FLOW_ADDRESS` account.
 
 ```sh
-  curl --request POST \
+curl --request POST \
   --url http://localhost:3000/v1/kibbles/setup \
   --header 'Content-Type: application/json'
 ```
@@ -77,7 +77,7 @@ Run the commands below to initialize these resources:
 - **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account. 
  
 ```sh
-  curl --request POST \
+curl --request POST \
   --url http://localhost:3000/v1/kitty-items/setup \
   --header 'Content-Type: application/json'
 ```
@@ -85,7 +85,7 @@ Run the commands below to initialize these resources:
 - **POST /v1/market/setup** - Create a resource that allows the `MINTER_FLOW_ADDRESS` to hold sale offers for Kitty Items.
 
 ```sh
-  curl --request POST \
+curl --request POST \
   --url http://localhost:3000/v1/market/setup \
   --header 'Content-Type: application/json'
 ```
@@ -107,7 +107,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kibbles/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "0xafad45913fb07dba",
+    "recipient": "0x{YOUR_TESTNET_ADDRESS}",
     "amount": 2.0
   }'
 ```
@@ -120,7 +120,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "0xba1132bc08f82fe2",
+    "recipient": "0x{YOUR_TESTNET_ADDRESS}",
     "typeId": 1
   }'
 ```
@@ -132,7 +132,7 @@ curl --request POST \
   --url http://localhost:3000/v1/market/sell \
   --header 'Content-Type: application/json' \
   --data '{
-    "itemId": 5,
+    "itemId": 0,
     "price": 7.9
   }'
 ```

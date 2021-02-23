@@ -13,7 +13,6 @@ import {
   Text,
   Image,
   HStack,
-  Box,
 } from "@chakra-ui/react"
 
 export const ItemImage = ({type}) => {
@@ -25,7 +24,7 @@ export const ItemImage = ({type}) => {
       setItemImage(importedIcon.default)
     }
     getImage()
-  }, [])
+  }, [type])
 
   return <Image maxW="64px" src={item} />
 }

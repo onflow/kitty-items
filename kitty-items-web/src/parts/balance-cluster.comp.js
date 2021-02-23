@@ -3,7 +3,6 @@ import {useFlowBalance} from "../hooks/use-flow-balance.hook"
 import {useKibblesBalance} from "../hooks/use-kibbles-balance.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
-import {fmtFlow} from "../util/fmt-flow"
 import {fmtKibbles} from "../util/fmt-kibbles"
 import {
   Box,
