@@ -40,7 +40,7 @@ Once you have the project files, you'll find setup instructions in the `README.m
 
 ### 4. Deploy the contracts
 
-Follow the [deployer instructions]() to deploy the Kitty Items Cadence contracts to your Testnet account.
+Follow the [deployer instructions](https://github.com/onflow/kitty-items/blob/master/kitty-items-deployer) to deploy the Kitty Items Cadence contracts to your Testnet account.
 
 ### 5. Run the API
 
