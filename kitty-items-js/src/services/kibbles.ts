@@ -21,8 +21,8 @@ class KibblesService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -32,7 +32,7 @@ class KibblesService {
     });
   };
 
-  mint = async (recipient: string, amount: number) => {
+  mint = async (recipient: string, amount: number) => {    
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
       .readFileSync(
@@ -42,8 +42,8 @@ class KibblesService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -66,8 +66,8 @@ class KibblesService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(amount.toFixed(8).toString(), t.UFix64)],
@@ -87,8 +87,8 @@ class KibblesService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -110,8 +110,8 @@ class KibblesService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -127,8 +127,8 @@ class KibblesService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }
