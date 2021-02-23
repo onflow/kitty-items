@@ -14,9 +14,7 @@
 Check out the [live demo of Kitty Items](https://dark-frost-1788.on.fleek.co/),
 deployed on [IPFS](https://docs.ipfs.io/concepts/case-study-fleek/) and the Flow Testnet.
 
----
-
-# ✨ Getting Started
+## ✨ Getting Started
 
 ### 1. Install the Flow CLI
 
