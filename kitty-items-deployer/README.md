@@ -1,10 +1,10 @@
-# kitty-items-deployer
+# Kitty Items Deployer
 
-Deploys the Kibbles, KittyItems and Marketplace contracts to the Flow Blockchain.
+Deploys the `Kibble`, `KittyItem` and `KittyItemMarket` contracts to the Flow Blockchain.
 
 # Setup
 
-- Install npm dependencies:
+- Install dependencies:
 
 ```shell
 npm install
