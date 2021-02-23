@@ -30,11 +30,12 @@ class DeployerService {
         ),
         "utf8"
       )
-      .replace("./FungibleToken.cdc", `0x${this.fungibleTokenAddress}`);
+      .replace("\"./FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`);
 
     console.log("deploying...");
 
     console.log("deploying kibbles contract...");
+    
     const kibble = await this.flowService.addContract({
       name: "Kibble",
       code: contract,
@@ -54,7 +55,7 @@ class DeployerService {
         ),
         "utf8"
       )
-      .replace("./NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`);
+      .replace("\"./NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`);
 
     console.log("deploying kitty items contract...");
 
@@ -77,10 +78,10 @@ class DeployerService {
         ),
         "utf8"
       )
-      .replace("./FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("./NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
-      .replace("./Kibble.cdc", `0x${this.contractFlowAddress}`)
-      .replace("./KittyItems.cdc", `0x${this.contractFlowAddress}`);
+      .replace("\"./FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"./NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
+      .replace("\"./Kibble.cdc\"", `0x${this.contractFlowAddress}`)
+      .replace("\"./KittyItems.cdc\"", `0x${this.contractFlowAddress}`);
 
     console.log("deploying kitty items marketplace...");
     const kittyItemsMarket = await this.flowService.addContract({

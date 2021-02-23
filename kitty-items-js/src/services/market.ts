@@ -29,7 +29,7 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
+      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -48,7 +48,7 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
+      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
     return this.flowService.executeScript<any[]>({
       script,
       args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -64,7 +64,7 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
+      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -81,11 +81,11 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`)
-      .replace("../../contracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`)
-      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`)
+      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`)
+      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
 
     return this.flowService.sendTx({
       transaction,
@@ -106,11 +106,11 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
-      .replace("../../contracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
-      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`)
-      .replace("../../contracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`)
-      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
+      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
+      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
+      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`)
+      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`)
+      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
 
     return this.flowService.sendTx({
       transaction,
