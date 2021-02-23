@@ -22,11 +22,11 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/setup_account.cdc`
+          `../../../kitty-items-cadence/transactions/kittyItemsMarket/setup_account.cdc`
         ),
         "utf8"
       )
-      .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
+      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -45,7 +45,7 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
+      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
     return this.flowService.executeScript<any[]>({
       script,
       args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -61,7 +61,7 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
+      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -74,15 +74,16 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/buy_market_item.cdc`
+          `../../../kitty-items-cadence/transactions/kittyItemsMarket/buy_market_item.cdc`
         ),
         "utf8"
       )
-      .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`)
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKIBBLE/gi, `0x${this.kibbleAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`)
-      .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
+      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
+      .replace("../../contracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`)
+      .replace("../../contracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`)
+      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
+
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -98,15 +99,16 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/transactions/sell_market_item.cdc`
+          `../../../kitty-items-cadence/transactions/kittyItemsMarket/sell_market_item.cdc`
         ),
         "utf8"
       )
-      .replace(/0xFUNGIBLETOKENADDRESS/gi, `0x${this.fungibleTokenAddress}`)
-      .replace(/0xNONFUNGIBLETOKEN/gi, `0x${this.nonFungibleTokenAddress}`)
-      .replace(/0xKIBBLE/gi, `0x${this.kibbleAddress}`)
-      .replace(/0xKITTYITEMS/gi, `0x${this.kittyItemsAddress}`)
-      .replace(/0xKITTYMARKET/gi, `0x${this.marketAddress}`);
+      .replace("../../contracts/FungibleToken.cdc", `0x${this.fungibleTokenAddress}`)
+      .replace("../../contracts/NonFungibleToken.cdc", `0x${this.nonFungibleTokenAddress}`)
+      .replace("../../contracts/Kibble.cdc", `0x${this.kibbleAddress}`)
+      .replace("../../contracts/KittyItems.cdc", `0x${this.kittyItemsAddress}`)
+      .replace("../../contracts/KittyItemsMarket.cdc", `0x${this.marketAddress}`);
+
     return this.flowService.sendTx({
       transaction,
       args: [
