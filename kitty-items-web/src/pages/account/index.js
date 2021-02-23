@@ -16,7 +16,6 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
   Box,
   Badge,
   Flex,
@@ -80,7 +79,7 @@ export function InfoBanner({address}) {
       type: "info",
       title: "Initialize Your Account",
       text:
-        "You need to initialize your ccount cbefore you can receive Kibble.",
+        "You need to initialize your account before you can receive Kibble.",
     },
     noKibble: {
       type: "info",
@@ -179,16 +178,11 @@ export function Page() {
 
           <TabPanels>
             <TabPanel>
-              <MarketItemsCluster address={address} />
+              <MarketItemsCluster address={STORE_ADDRESS} />
             </TabPanel>
             <TabPanel>
               <AccountItemsCluster address={address} />
             </TabPanel>
-            {/* {cu.addr === address && (
-              <TabPanel>
-                <MarketItemsCluster address={STORE_ADDRESS} />
-              </TabPanel>
-            )} */}
           </TabPanels>
         </Tabs>
       </Box>
