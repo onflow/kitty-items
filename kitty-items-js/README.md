@@ -1,6 +1,6 @@
-# kitty-items-js
+# Kitty Items JS
 
-`kitty-items-js` is a RESTful API built with express that sends transactions to Flow using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
+Kitty Items JS is a RESTful API built with [express](https://expressjs.com/) that sends transactions to Flow using the [flow-js-sdk](https://github.com/onflow/flow-js-sdk/).
 
 ## Getting started
 
