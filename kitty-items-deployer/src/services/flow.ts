@@ -1,8 +1,10 @@
-import { ec as EC } from "elliptic";
-import { SHA3 } from "sha3";
 import * as fcl from "@onflow/fcl";
 import * as rlp from "@onflow/rlp";
 import * as t from "@onflow/types";
+
+import { ec as EC } from "elliptic";
+
+import { SHA3 } from "sha3";
 
 const ec: EC = new EC("p256");
 

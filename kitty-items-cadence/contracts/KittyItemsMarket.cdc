@@ -31,7 +31,7 @@ pub contract KittyItemsMarket {
     // SaleOffer events.
     //
     // A sale offer has been created.
-    pub event SaleOfferCreated(itemID: UInt64, price: UInt64)
+    pub event SaleOfferCreated(itemID: UInt64, price: UFix64)
     // Someone has purchased an item that was offered for sale.
     pub event SaleOfferAccepted(itemID: UInt64)
     // A sale offer has been destroyed, with or without being accepted.
@@ -48,7 +48,7 @@ pub contract KittyItemsMarket {
       saleItemID: UInt64, 
       saleItemType: UInt64, 
       saleItemCollection: Address, 
-      price: UInt64
+      price: UFix64
     )
 
     // Named paths
@@ -74,11 +74,16 @@ pub contract KittyItemsMarket {
 
         // The KittyItems NFT ID for sale.
         pub let saleItemID: UInt64
-        // The collection containing that ID.
-        access(self) let sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>
+
+        // The 'type' of NFT
+        pub let saleItemType: UInt64
 
         // The sale payment price.
         pub let salePrice: UFix64
+
+        // The collection containing that ID.
+        access(self) let sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>
+
         // The Kibble vault that will receive that payment if teh sale completes successfully.
         access(self) let sellerPaymentReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>
 
@@ -119,6 +124,7 @@ pub contract KittyItemsMarket {
         init(
             sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>,
             saleItemID: UInt64,
+            saleItemType: UInt64,
             sellerPaymentReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>,
             salePrice: UFix64
         ) {
@@ -134,6 +140,7 @@ pub contract KittyItemsMarket {
 
             self.sellerPaymentReceiver = sellerPaymentReceiver
             self.salePrice = salePrice
+            self.saleItemType = saleItemType
 
             emit SaleOfferCreated(itemID: self.saleItemID, price: self.salePrice)
         }
@@ -145,12 +152,14 @@ pub contract KittyItemsMarket {
     pub fun createSaleOffer (
         sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>,
         saleItemID: UInt64,
+        saleItemType: UInt64,
         sellerPaymentReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>,
         salePrice: UFix64
     ): @SaleOffer {
         return <-create SaleOffer(
             sellerItemProvider: sellerItemProvider,
             saleItemID: saleItemID,
+            saleItemType: saleItemType,
             sellerPaymentReceiver: sellerPaymentReceiver,
             salePrice: salePrice
         )
@@ -202,7 +211,8 @@ pub contract KittyItemsMarket {
         //
          pub fun insert(offer: @KittyItemsMarket.SaleOffer) {
             let id: UInt64 = offer.saleItemID
-
+            let price: UFix64 = offer.salePrice
+            let itemType: UInt64 = offer.saleItemType
             // add the new offer to the dictionary which removes the old one
             let oldOffer <- self.saleOffers[id] <- offer
             destroy oldOffer
@@ -210,16 +220,16 @@ pub contract KittyItemsMarket {
             emit CollectionInsertedSaleOffer(
               account: self.owner?.address!, 
               saleItemID: id,
-              saleItemType: self.saleOffers[id].saleItemType,
-              saleItemType: self.saleOffers[id].salePrice,
-              price: self.saleOffers[id].salePrice
+              saleItemType: itemType,
+              saleItemCollection:self.owner?.address!,
+              price: price
             )
         }
 
         // remove
         // Remove and return a SaleOffer from the collection.
         pub fun remove(saleItemID: UInt64): @SaleOffer {
-            emit CollectionRemovedSaleOffer(saleItemID: saleItemID, account: self.owner?.address!)
+            emit CollectionRemovedSaleOffer(itemID: saleItemID, account: self.owner?.address!)
             return <-(self.saleOffers.remove(key: saleItemID) ?? panic("missing SaleOffer"))
         }
  

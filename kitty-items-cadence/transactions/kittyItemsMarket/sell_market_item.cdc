@@ -31,6 +31,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
         let offer <- KittyItemsMarket.createSaleOffer (
             sellerItemProvider: self.kittyItemsCollection,
             saleItemID: saleItemID,
+            saleItemType: self.kittyItemsCollection.borrowKittyItem(id: saleItemID)!.typeID,
             sellerPaymentReceiver: self.kibbleVault,
             salePrice: saleItemPrice
         )
