@@ -3,7 +3,6 @@ import {useMarketItem} from "../hooks/use-market-item.hook"
 import {useAccountItem} from "../hooks/use-account-item.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
-import {fmtKibbles} from "../util/fmt-kibbles"
 import {
   Tr,
   Td,
