@@ -178,16 +178,11 @@ export function Page() {
 
           <TabPanels>
             <TabPanel>
-              <MarketItemsCluster address={address} />
+              <MarketItemsCluster address={STORE_ADDRESS} />
             </TabPanel>
             <TabPanel>
               <AccountItemsCluster address={address} />
             </TabPanel>
-            {/* {cu.addr === address && (
-              <TabPanel>
-                <MarketItemsCluster address={STORE_ADDRESS} />
-              </TabPanel>
-            )} */}
           </TabPanels>
         </Tabs>
       </Box>
