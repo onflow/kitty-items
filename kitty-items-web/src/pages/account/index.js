@@ -79,7 +79,7 @@ export function InfoBanner({address}) {
       type: "info",
       title: "Initialize Your Account",
       text:
-        "You need to initialize your ccount cbefore you can receive Kibble.",
+        "You need to initialize your account before you can receive Kibble.",
     },
     noKibble: {
       type: "info",
