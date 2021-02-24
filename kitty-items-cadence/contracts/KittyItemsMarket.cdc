@@ -218,7 +218,6 @@ pub contract KittyItemsMarket {
             destroy oldOffer
 
             emit CollectionInsertedSaleOffer(
-              account: self.owner?.address!, 
               saleItemID: id,
               saleItemType: itemType,
               saleItemCollection:self.owner?.address!,
