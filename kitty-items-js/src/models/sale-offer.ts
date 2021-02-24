@@ -1,12 +1,13 @@
 import { BaseModel } from "./base";
 
 class SaleOffer extends BaseModel {
-  id!: string;
-  price!: st;
-  current_block_height!: number;
+  saleItemID!: number;
+  saleItemType!: number;
+  saleItemCollection!: string;
+  price!: number;
 
   static get tableName() {
-    return "block_cursor";
+    return "sale_offers";
   }
 }
 

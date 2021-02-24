@@ -6,6 +6,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SaleOfferEvent } from "../models/sale-offer-event";
+import { SaleOffer } from "../models/sale-offer";
 
 import { FlowService } from "./flow";
 
@@ -29,7 +30,10 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(
+        '"../../contracts/KittyItemsMarket.cdc"',
+        `0x${this.marketAddress}`
+      );
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -48,7 +52,10 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(
+        '"../../contracts/KittyItemsMarket.cdc"',
+        `0x${this.marketAddress}`
+      );
     return this.flowService.executeScript<any[]>({
       script,
       args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -64,7 +71,10 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(
+        '"../../contracts/KittyItemsMarket.cdc"',
+        `0x${this.marketAddress}`
+      );
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -81,11 +91,23 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`)
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(
+        '"../../contracts/FungibleToken.cdc"',
+        `0x${this.fungibleTokenAddress}`
+      )
+      .replace(
+        '"../../contracts/NonFungibleToken.cdc"',
+        `0x${this.nonFungibleTokenAddress}`
+      )
+      .replace('"../../contracts/Kibble.cdc"', `0x${this.kibbleAddress}`)
+      .replace(
+        '"../../contracts/KittyItems.cdc"',
+        `0x${this.kittyItemsAddress}`
+      )
+      .replace(
+        '"../../contracts/KittyItemsMarket.cdc"',
+        `0x${this.marketAddress}`
+      );
 
     return this.flowService.sendTx({
       transaction,
@@ -106,11 +128,23 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`)
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(
+        '"../../contracts/FungibleToken.cdc"',
+        `0x${this.fungibleTokenAddress}`
+      )
+      .replace(
+        '"../../contracts/NonFungibleToken.cdc"',
+        `0x${this.nonFungibleTokenAddress}`
+      )
+      .replace('"../../contracts/Kibble.cdc"', `0x${this.kibbleAddress}`)
+      .replace(
+        '"../../contracts/KittyItems.cdc"',
+        `0x${this.kittyItemsAddress}`
+      )
+      .replace(
+        '"../../contracts/KittyItemsMarket.cdc"',
+        `0x${this.marketAddress}`
+      );
 
     return this.flowService.sendTx({
       transaction,
@@ -125,7 +159,14 @@ class MarketService {
   };
 
   addSaleOffer = async (saleOfferEvent) => {
-    // TODO
+    return SaleOffer.transaction(async (tx) => {
+      return await SaleOffer.query(tx).insert({
+        saleItemID: saleOfferEvent.data.saleItemID,
+        saleItemType: saleOfferEvent.data.saleItemType,
+        saleItemCollection: saleOfferEvent.data.saleItemCollection,
+        price: saleOfferEvent.data.price,
+      });
+    });
   };
 
   removeSaleOffer = (saleOfferEvent) => {
@@ -139,7 +180,7 @@ class MarketService {
   storeEvent = (event) => {
     console.log("Got event: ", event);
     return SaleOfferEvent.transaction(async (tx) => {
-      await SaleOfferEvent.query(tx).insert({
+      return await SaleOfferEvent.query(tx).insert({
         event: event,
       });
     });

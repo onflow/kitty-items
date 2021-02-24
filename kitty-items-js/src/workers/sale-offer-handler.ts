@@ -26,10 +26,12 @@ class SaleOfferHandler extends BaseEventHandler {
     switch (event.type) {
       case process.env.EVENT_COLLECTION_INSERTED_SALE_OFFER:
         this.marketService.addSaleOffer(event);
+        break;
       case process.env.EVENT_SALE_OFFER_ACCEPTED:
       case process.env.EVENT_SALE_OFFER_FINISHED:
       case process.env.EVENT_COLLECTION_REMOVED_SALE_OFFER:
         this.marketService.removeSaleOffer(event);
+        break;
       default:
         return;
     }
