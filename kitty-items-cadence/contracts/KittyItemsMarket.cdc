@@ -229,7 +229,7 @@ pub contract KittyItemsMarket {
         // remove
         // Remove and return a SaleOffer from the collection.
         pub fun remove(saleItemID: UInt64): @SaleOffer {
-            emit CollectionRemovedSaleOffer(itemID: saleItemID, account: self.owner?.address!)
+            emit CollectionRemovedSaleOffer(saleItemID: saleItemID, saleItemCollection: self.owner?.address!)
             return <-(self.saleOffers.remove(key: saleItemID) ?? panic("missing SaleOffer"))
         }
  
