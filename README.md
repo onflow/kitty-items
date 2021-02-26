@@ -49,7 +49,7 @@ Lastly, follow the [kitty-items-web instructions](https://github.com/onflow/kitt
 
 ## Project Overview
 
-![kitty-items-overview](https://user-images.githubusercontent.com/901466/106943245-0eac2b00-66da-11eb-960e-a1db5b1d028d.png)<!-- .element width="100%" -->
+![kitty-items-overview](https://user-images.githubusercontent.com/901466/109245717-e3c36d00-7795-11eb-9cd7-53effca69c35.png)<!-- .element width="100%" -->
 
 ## 🔎 Legend
 
@@ -71,13 +71,13 @@ We love decentralization, but servers are still very useful, and this one's no e
 
 [Cadence](https://docs.onflow.org/cadence) smart contracts, scripts & transactions for your viewing pleasure. This folder contains all of the blockchain logic for the marketplace application. Here you will find examples of [fungible token](https://github.com/onflow/flow-ft) and [non-fungible token (NFT)](https://github.com/onflow/flow-nft) smart contract implementations, as well as the scripts and transactions that interact with them. It also contains examples of how to *test* your Cadence code (tests written in Golang).
 
-### 5. Development Helpers | [kitty-items-deployer](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer)
+### 5. Flow Emulator 
 
-Useful utilities for automating development related tasks like bootstrapping accounts and deploying contracts. Look through this project for an idea of what it's like to bootstrap your Flow accounts and Cadence smart contracts onto the [Flow Emulator](https://github.com/onflow/flow-emulator) or Flow Testnet.
+// TODO
 
-### 6. User Wallet
+### 6. Dev Wallet
 
-An `@onflow/fcl` compatible wallet service that helps `@onflw/fcl` perform authentication and authorization of [Flow accounts](https://docs.onflow.org/concepts/accounts-and-keys/).
+// TODO
 
 
 ## 😺 What are Kitty Items?
