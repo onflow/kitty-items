@@ -26,12 +26,9 @@ Before you start, install the [Flow command-line interface (CLI)](https://docs.o
 git clone git@github.com:onflow/kitty-items.git
 ```
 
-### 3. Install Dependencies & Configure Projects
+### 3. Configure Projects
 
-Each project has seperate dependencies that will need to be installed. <br/>
-You can install them by running `npm install` inside `kitty-items-js` and also inside `kitty-items-web`.
-
-Once you have finished installing, you'll need to follow the setup instructions in the `README.md` files inside each folder.
+Follow the setup instructions in the `README.md` files inside each folder to set up each project.  
 
 ### 4. Deploy the Contracts
 
