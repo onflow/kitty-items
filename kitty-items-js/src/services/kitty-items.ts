@@ -21,8 +21,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
+      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -42,8 +42,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
+      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(typeId, t.UInt64)],
@@ -63,8 +63,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
+      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -83,8 +83,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
+      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -101,8 +101,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
+      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(itemId, t.UInt64)],
@@ -118,7 +118,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }

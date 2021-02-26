@@ -32,7 +32,7 @@ class MarketService {
       )
       .replace(
         '"../../contracts/KittyItemsMarket.cdc"',
-        `0x${this.marketAddress}`
+        `${this.marketAddress}`
       );
     return this.flowService.sendTx({
       transaction,
@@ -54,7 +54,7 @@ class MarketService {
       )
       .replace(
         '"../../contracts/KittyItemsMarket.cdc"',
-        `0x${this.marketAddress}`
+        `${this.marketAddress}`
       );
     return this.flowService.executeScript<any[]>({
       script,
@@ -73,7 +73,7 @@ class MarketService {
       )
       .replace(
         '"../../contracts/KittyItemsMarket.cdc"',
-        `0x${this.marketAddress}`
+        `${this.marketAddress}`
       );
     return this.flowService.executeScript<number[]>({
       script,
@@ -93,20 +93,20 @@ class MarketService {
       )
       .replace(
         '"../../contracts/FungibleToken.cdc"',
-        `0x${this.fungibleTokenAddress}`
+        `${this.fungibleTokenAddress}`
       )
       .replace(
         '"../../contracts/NonFungibleToken.cdc"',
-        `0x${this.nonFungibleTokenAddress}`
+        `${this.nonFungibleTokenAddress}`
       )
-      .replace('"../../contracts/Kibble.cdc"', `0x${this.kibbleAddress}`)
+      .replace('"../../contracts/Kibble.cdc"', `${this.kibbleAddress}`)
       .replace(
         '"../../contracts/KittyItems.cdc"',
-        `0x${this.kittyItemsAddress}`
+        `${this.kittyItemsAddress}`
       )
       .replace(
         '"../../contracts/KittyItemsMarket.cdc"',
-        `0x${this.marketAddress}`
+        `${this.marketAddress}`
       );
 
     return this.flowService.sendTx({
@@ -130,20 +130,20 @@ class MarketService {
       )
       .replace(
         '"../../contracts/FungibleToken.cdc"',
-        `0x${this.fungibleTokenAddress}`
+        `${this.fungibleTokenAddress}`
       )
       .replace(
         '"../../contracts/NonFungibleToken.cdc"',
-        `0x${this.nonFungibleTokenAddress}`
+        `${this.nonFungibleTokenAddress}`
       )
-      .replace('"../../contracts/Kibble.cdc"', `0x${this.kibbleAddress}`)
+      .replace('"../../contracts/Kibble.cdc"', `${this.kibbleAddress}`)
       .replace(
         '"../../contracts/KittyItems.cdc"',
-        `0x${this.kittyItemsAddress}`
+        `${this.kittyItemsAddress}`
       )
       .replace(
         '"../../contracts/KittyItemsMarket.cdc"',
-        `0x${this.marketAddress}`
+        `${this.marketAddress}`
       );
 
     return this.flowService.sendTx({

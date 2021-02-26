@@ -1,6 +1,6 @@
 import Kibble from "./Kibble.cdc"
 import KittyItems from "./KittyItems.cdc"
-import FungibleToken from "./FungibleToken.cdc"
+import FungibleToken from 0xee82856bf20e2aa6
 import NonFungibleToken from "./NonFungibleToken.cdc"
 
 /*
