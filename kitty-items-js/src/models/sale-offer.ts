@@ -1,9 +1,10 @@
 import { BaseModel } from "./base";
 
 class SaleOffer extends BaseModel {
-  saleItemID!: number;
+  saleItemId!: number;
   saleItemType!: number;
   saleItemCollection!: string;
+  transactionId!: string
   price!: number;
 
   static get tableName() {

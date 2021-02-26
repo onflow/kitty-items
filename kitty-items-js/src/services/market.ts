@@ -161,30 +161,39 @@ class MarketService {
   addSaleOffer = async (saleOfferEvent) => {
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx).insert({
-        saleItemID: saleOfferEvent.data.saleItemID,
+        saleItemId: saleOfferEvent.data.saleItemID,
         saleItemType: saleOfferEvent.data.saleItemType,
         saleItemCollection: saleOfferEvent.data.saleItemCollection,
+        transactionId: saleOfferEvent.transactionId,
         price: saleOfferEvent.data.price,
       });
     });
   };
 
   removeSaleOffer = (saleOfferEvent) => {
-    // TODO
+    return SaleOffer.transaction(async (tx) => {
+      return await SaleOffer.query(tx).where({
+        saleItemId: saleOfferEvent.data.saleItemID,
+      }).del()
+    });
   };
 
   findMostRecentSales = () => {
     // TODO
   };
 
-  storeEvent = (event) => {
-    console.log("Got event: ", event);
-    return SaleOfferEvent.transaction(async (tx) => {
-      return await SaleOfferEvent.query(tx).insert({
-        event: event,
-      });
-    });
-  };
+  // storeEvent = (event) => {
+  //   console.log("Got event: ", event);
+  //   return SaleOfferEvent.transaction(async (tx) => {
+  //     try {
+  //       await SaleOfferEvent.query(tx).insert({
+  //         event: event,
+  //       });
+  //     } catch (e) {
+  //       console.log("Could not save event", e);
+  //     }
+  //   });
+  // };
 }
 
 export { MarketService };
