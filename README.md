@@ -20,32 +20,32 @@ deployed on [IPFS](https://docs.ipfs.io/concepts/case-study-fleek/) and the Flow
 
 Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
 
-### 2. Create a Flow Testnet account
-
-You'll need a Testnet account to work on this project. Here's how to make one:
-
-- Generate a new key pair with the Flow CLI: ```flow keys generate``` (_⚠️ Make sure to save these keys in a safe place, you'll need them later._)
-- Go to the [Flow Testnet Faucet](https://testnet-faucet.onflow.org/) to create a new account. Use the **public key** from the previous step.
-- After a short time, you'll receive an email with your newly-created Flow **account address**.
-
-### 3. Clone the project
+### 2. Clone the project
 
 ```sh
 git clone git@github.com:onflow/kitty-items.git
 ```
 
-Once you have the project files, you'll find setup instructions in the `README.md` files inside each folder.
+### 3. Install Dependencies & Configure Projects
 
-### 4. Deploy the contracts
+Each project has seperate dependencies that will need to be installed. You can install them by running `npm install` inside `kitty-items-js` and also inside `kitty-items-web`.
 
-Follow the [deployer instructions](https://github.com/onflow/kitty-items/blob/master/kitty-items-deployer) to deploy the Kitty Items Cadence contracts to your Testnet account.
+Once you have finished installing, you'll need to follow the setup instructions in the `README.md` files inside each folder.
+
+### 4. Deploy the Contracts
+
+// TODO
 
 ### 5. Run the API
 
 After the contracts are deployed, follow the [kitty-items-js instructions](https://github.com/onflow/kitty-items/tree/master/kitty-items-js)
 to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
 
-### 6. Launch the web app
+### 6. Start the Dev-Wallet
+
+// TODO
+
+### 7. Launch the web app
 
 Lastly, follow the [kitty-items-web instructions](https://github.com/onflow/kitty-items/tree/master/kitty-items-web) to launch the Kitty Items front-end React app.
 
