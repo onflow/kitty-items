@@ -15,7 +15,7 @@ services:
     command: ["./wait-for-it.sh", "db:5432", "--", "node", "kitty-items-js/dist/index.js"]
     environment:
       - DATABASE_URL=postgresql://kittyuser:kittypassword@db:5432/kittyitems?sslmode=disable
-      - FLOW_NODE=https://access-testnet.onflow.org
+      - FLOW_ACCESS_NODE=https://access-testnet.onflow.org
       - MIGRATION_PATH=kitty-items-js/dist/migrations
       - FUNGIBLE_TOKEN_ADDRESS=9a0766d93b6608b7
       - MINTER_ACCOUNT_KEY_IDX=0

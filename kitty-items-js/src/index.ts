@@ -35,7 +35,7 @@ async function run() {
   await knexInstance.migrate.latest();
 
   // Make sure we're pointing to the correct Flow Access node.
-  fcl.config().put("accessNode.api", process.env.FLOW_NODE);
+  fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_NODE);
 
   const flowService = new FlowService(
     process.env.MINTER_FLOW_ADDRESS!,

@@ -40,11 +40,10 @@ pub contract KittyItemsMarket {
     // Collection events.
     //
     // A sale offer has been removed from the collection of Address.
-    pub event CollectionRemovedSaleOffer(itemID: UInt64, account: Address)
+    pub event CollectionRemovedSaleOffer(saleItemID: UInt64, saleItemCollection: Address)
 
     // A sale offer has been inserted into the collection of Address.
     pub event CollectionInsertedSaleOffer(
-      account: Address,
       saleItemID: UInt64, 
       saleItemType: UInt64, 
       saleItemCollection: Address, 

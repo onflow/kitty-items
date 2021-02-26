@@ -35,7 +35,7 @@ async function run() {
 
   console.log("running handlers");
   Model.knex(knexInstance);
-  fcl.config().put("accessNode.api", process.env.FLOW_NODE);
+  fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_NODE);
   const blockCursorService = new BlockCursorService();
   const flowService = new FlowService(
     process.env.MINTER_FLOW_ADDRESS!,
