@@ -26,20 +26,20 @@ Before you start, install the [Flow command-line interface (CLI)](https://docs.o
 git clone git@github.com:onflow/kitty-items.git
 ```
 
-### 3. Configure Projects
+### 3. Configure projects
 
 Follow the setup instructions in the `README.md` files inside each folder to set up each project.  
 
-### 4. Deploy the Contracts
+### 4. Deploy contracts
 
 // TODO
 
-### 5. Run the API
+### 5. Start the API
 
 After the contracts are deployed, follow the [kitty-items-js instructions](https://github.com/onflow/kitty-items/tree/master/kitty-items-js)
 to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
 
-### 6. Start the Dev-Wallet
+### 6. Start the dev-wallet
 
 // TODO
 
