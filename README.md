@@ -28,7 +28,8 @@ git clone git@github.com:onflow/kitty-items.git
 
 ### 3. Install Dependencies & Configure Projects
 
-Each project has seperate dependencies that will need to be installed. You can install them by running `npm install` inside `kitty-items-js` and also inside `kitty-items-web`.
+Each project has seperate dependencies that will need to be installed. <br/>
+You can install them by running `npm install` inside `kitty-items-js` and also inside `kitty-items-web`.
 
 Once you have finished installing, you'll need to follow the setup instructions in the `README.md` files inside each folder.
 
