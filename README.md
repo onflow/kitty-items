@@ -28,11 +28,20 @@ git clone git@github.com:onflow/kitty-items.git
 
 ### 3. Configure projects
 
-Follow the setup instructions in the `README.md` files inside each folder to set up each project.  
+Follow the setup instructions in the `README.md` files inside each folder to set up each project's environment variables.  
 
-### 4. Deploy contracts
+### 4. Start the Flow Emulator
 
-// TODO
+Start the Flow emulator by running the following command in the project's root directory: 
+```
+flow project start-emulator 
+```
+
+### 5. Deploy contracts
+With the emulator running you can deploy the Kitty Items contracts. Run the following command form the project's root directory:
+```
+flow project deploy-contracts 
+```
 
 ### 5. Start the API
 
@@ -41,7 +50,12 @@ to install and run the Kitty Items API. This backend service is responsible for 
 
 ### 6. Start the dev-wallet
 
-// TODO
+When developerin glocally, you'll need an emulaoed wallet as well, so that you can create accounts and sign trasnactions as user's other than the emulator's service account.
+
+Run this command to start the dev-wallet from the `fcl-dev-wallet` directory: 
+```
+npm install && npm run start:dev
+```
 
 ### 7. Launch the web app
 
