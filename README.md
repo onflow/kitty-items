@@ -50,7 +50,7 @@ to install and run the Kitty Items API. This backend service is responsible for 
 
 ### 6. Start the dev-wallet
 
-When developerin glocally, you'll need an emulaoed wallet as well, so that you can create accounts and sign trasnactions as user's other than the emulator's service account.
+When developing locally, you'll need an emulated wallet as well. The wallet let's you create accounts and sign transactions as user's other than the emulator's service account.
 
 Run this command to start the dev-wallet from the `fcl-dev-wallet` directory: 
 ```
@@ -69,9 +69,9 @@ Lastly, follow the [kitty-items-web instructions](https://github.com/onflow/kitt
 
 Above is a basic diagram of the parts of this project contained in each folder, and how each part interacts with the others.
 
-### 1. The Flow Blockchain
+### 1. The Flow Emulator
 
-Flow is a next-generation blockchain platform that is designed to be fast and easy to use. If you're new to Flow, consider reading more about it in the [Flow Primer](https://www.onflow.org/primer), or visit the [developer documentation](https://docs.onflow.org/).
+Flow is a next-generation blockchain platform that is designed to be fast and easy to use. If you're new to Flow, consider reading more about it in the [Flow Primer](https://www.onflow.org/primer), or visit the [developer documentation](https://docs.onflow.org/). The emulator simulates Flow's operatio in a singel process you can run locally while developing. Read about the emulator [here](https://docs.onflow.org/emulator)
 
 ### 2. Web App (Static website) | [kitty-items-web](https://github.com/onflow/kitty-items/tree/master/kitty-items-web)
 
@@ -85,13 +85,9 @@ We love decentralization, but servers are still very useful, and this one's no e
 
 [Cadence](https://docs.onflow.org/cadence) smart contracts, scripts & transactions for your viewing pleasure. This folder contains all of the blockchain logic for the marketplace application. Here you will find examples of [fungible token](https://github.com/onflow/flow-ft) and [non-fungible token (NFT)](https://github.com/onflow/flow-nft) smart contract implementations, as well as the scripts and transactions that interact with them. It also contains examples of how to *test* your Cadence code (tests written in Golang).
 
-### 5. Flow Emulator 
+### 5. Dev Wallet
 
-// TODO
-
-### 6. Dev Wallet
-
-// TODO
+The dev-wallet simulates a Flow compatible wallet so you can test multi-user interactions. It also comes with some handy tools to help you work with accounts using `@onflow/fcl` (Flow's official JavaScript SDK). Read more about the wallet and `@onflow/fcl` [here](https://docs.onflow.org/flow-js-sdk)
 
 
 ## 😺 What are Kitty Items?
