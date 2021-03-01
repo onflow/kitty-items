@@ -63,7 +63,7 @@ Lastly, follow the [kitty-items-web instructions](https://github.com/onflow/kitt
 
 ## Project Overview
 
-<img width="100%" alt="Screen Shot 2021-02-25 at 6 24 05 PM" src="https://user-images.githubusercontent.com/901466/109246219-af03e580-7796-11eb-8e8a-669fadb78dca.png">
+<img width="100%" alt="Screen Shot 2021-02-25 at 6 24 05 PM" src="https://images.zenhubusercontent.com/583c7559b9dc3c6220229d4b/5357e2a4-8ae9-4b3d-9e7a-329f12bbf2ad">
 
 ## 🔎 Legend
 
