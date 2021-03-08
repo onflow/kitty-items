@@ -17,7 +17,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItems/setup_account.cdc`
+          `../../../cadence/transactions/kittyItems/setup_account.cdc`
         ),
         "utf8"
       )
@@ -38,7 +38,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItems/mint_kitty_item.cdc`
+          `../../../cadence/transactions/kittyItems/mint_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -59,7 +59,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItems/transfer_kitty_item.cdc`
+          `../../../cadence/transactions/kittyItems/transfer_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -79,7 +79,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/scripts/kittyItems/read_collection_ids.cdc`
+          `../../../cadence/scripts/kittyItems/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -97,7 +97,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/scripts/kittyItems/read_kitty_item_type_id.cdc`
+          `../../../cadence/scripts/kittyItems/read_kitty_item_type_id.cdc`
         ),
         "utf8"
       )
@@ -114,7 +114,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/scripts/kittyItems/read_kitty_items_supply.cdc`
+          `../../../cadence/scripts/kittyItems/read_kitty_items_supply.cdc`
         ),
         "utf8"
       )

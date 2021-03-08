@@ -17,7 +17,7 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/setup_account.cdc"
+          "../../../cadence/transactions/kibble/setup_account.cdc"
         ),
         "utf8"
       )
@@ -38,7 +38,7 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/mint_tokens.cdc"
+          "../../../cadence/transactions/kibble/mint_tokens.cdc"
         ),
         "utf8"
       )
@@ -62,7 +62,7 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/burn_tokens.cdc"
+          "../../../cadence/transactions/kibble/burn_tokens.cdc"
         ),
         "utf8"
       )
@@ -83,7 +83,7 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/burn_tokens.cdc"
+          "../../../cadence/transactions/kibble/burn_tokens.cdc"
         ),
         "utf8"
       )
@@ -106,7 +106,7 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/scripts/kibble/get_balance.cdc"
+          "../../../cadence/scripts/kibble/get_balance.cdc"
         ),
         "utf8"
       )
@@ -123,7 +123,7 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/scripts/kibble/get_supply.cdc"
+          "../../../cadence/scripts/kibble/get_supply.cdc"
         ),
         "utf8"
       )

@@ -26,7 +26,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItemsMarket/setup_account.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/setup_account.cdc`
         ),
         "utf8"
       )
@@ -48,7 +48,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          `../../../cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -67,7 +67,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          `../../../cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -87,7 +87,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItemsMarket/buy_market_item.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/buy_market_item.cdc`
         ),
         "utf8"
       )
@@ -124,7 +124,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItemsMarket/sell_market_item.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/sell_market_item.cdc`
         ),
         "utf8"
       )

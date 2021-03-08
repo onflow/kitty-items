@@ -157,4 +157,4 @@ npm run workers:dev
 
 ## Next steps
 
-Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/kitty-items-web) to start interacting with your new marketplace!
+Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/web) to start interacting with your new marketplace!
