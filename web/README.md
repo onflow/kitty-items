@@ -13,15 +13,15 @@ It is hosted on IPFS via [https://fleek.co/](https://fleek.co/).
 
 You'll need to complete the following steps before launching this app:
 
-- [Deploy the Kitty Items contracts to your Testnet account](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer)
-- [Configure and start the API](https://github.com/onflow/kitty-items/tree/master/kitty-items-js)
+- TODO: replace [Deploy the Kitty Items contracts to your Testnet account](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer)
+- [Configure and start the API](https://github.com/onflow/kitty-items/tree/master/api)
 
 ### Configure your environment
 
 Create a copy of `.env.example`:
 
 ```sh
-cd ./kitty-items-web
+cd ./api
 
 cp .env.example .env.local
 ```

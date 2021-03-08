@@ -1,16 +1,14 @@
 {
   "name": "kitty-items",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {
     "concurrently": "^6.0.0"
   },
   "scripts": {
-    "start:emulator": "flow project start-emulator --port 3333",
-    "start:api": "cd ./kitty-items-js && npm run start:dev",
-    "start:worker": "cd ./kitty-items-js && npm run workers:dev",
-    "start:wallet": "cd ./fcl-dev-wallet && npm run start:dev",
-    "start:web": "cd ./kitty-items-web && npm run start:dev",
+    "start:api": "cd ./api && npm run start:dev",
+    "start:worker": "cd ./api && npm run workers:dev",
+    "start:web": "cd ./web && npm run start:dev",
     "start": "concurrently \"npm:start:*\""
   },
   "repository": {

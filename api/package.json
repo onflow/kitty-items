@@ -1,6 +1,6 @@
 {
-  "name": "flow-kitty-items",
-  "version": "0.0.1",
+  "name": "kitty-items-api",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
