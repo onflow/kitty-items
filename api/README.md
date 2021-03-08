@@ -107,7 +107,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kibbles/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "0x{YOUR_TESTNET_ADDRESS}",
+    "recipient": "{YOUR_TESTNET_ADDRESS}",
     "amount": 2.0
   }'
 ```
@@ -120,7 +120,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "0x{YOUR_TESTNET_ADDRESS}",
+    "recipient": "{YOUR_TESTNET_ADDRESS}",
     "typeId": 1
   }'
 ```

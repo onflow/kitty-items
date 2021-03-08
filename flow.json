@@ -1,0 +1,51 @@
+{
+  "emulators": {
+    "default": {
+      "port": 3569,
+      "serviceAccount": "emulator-account"
+    }
+  },
+  "contracts": {
+    "Kibble": "./cadence/contracts/Kibble.cdc",
+    "KittyItems": "./cadence/contracts/KittyItems.cdc",
+    "KittyItemsMarket": "./cadence/contracts/KittyItemsMarket.cdc",
+    "FungibleToken": {
+      "source": "./cadence/contracts/FungibleToken.cdc",
+      "aliases": {
+        "emulator": "ee82856bf20e2aa6",
+        "testnet": "9a0766d93b6608b7"
+      }
+    },
+    "NonFungibleToken": {
+      "source": "./cadence/contracts/NonFungibleToken.cdc",
+      "aliases": {
+        "testnet": "631e88ae7f1d7c20"
+      }
+    }
+  },
+  "networks": {
+    "emulator": {
+      "host": "127.0.0.1:3569",
+      "chain": "flow-emulator"
+    },
+    "testnet": {
+      "host": "access.testnet.nodes.onflow.org:9000",
+      "chain": "flow-testnet"
+    }
+  },
+  "accounts": {
+    "emulator-account": {
+      "address": "f8d6e0586b0a20c7",
+      "keys": "11c5dfdeb0ff03a7a73ef39788563b62c89adea67bbb21ab95e5f710bd1d40b7"
+    },
+    "testnet-account": {
+      "address": "${TESTNET_ADDRESS}",
+      "keys": "${TESTNET_PRIVATE_KEY}"
+    }
+  },
+  "deployments": {
+    "testnet": {
+      "testnet-account": ["Kibble", "KittyItems", "KittyItemsMarket"]
+    }
+  }
+}
