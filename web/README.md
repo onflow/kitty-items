@@ -21,7 +21,7 @@ You'll need to complete the following steps before launching this app:
 Create a copy of `.env.example`:
 
 ```sh
-cd ./api
+cd ./web
 
 cp .env.example .env.local
 ```
@@ -38,8 +38,8 @@ REACT_APP_STORE_ADDRESS={YOUR_TESTNET_ADDRESS}
 ### Install and run the app!
 
 ```sh
-npm install   # install the dependencies from the lock file
-npm run start # start up the web app
+npm install       # install the dependencies from the lock file
+npm run start:dev # start up the web app
 ```
 
 ## Learn More

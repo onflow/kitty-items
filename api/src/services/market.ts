@@ -181,19 +181,6 @@ class MarketService {
   findMostRecentSales = () => {
     // TODO
   };
-
-  // storeEvent = (event) => {
-  //   console.log("Got event: ", event);
-  //   return SaleOfferEvent.transaction(async (tx) => {
-  //     try {
-  //       await SaleOfferEvent.query(tx).insert({
-  //         event: event,
-  //       });
-  //     } catch (e) {
-  //       console.log("Could not save event", e);
-  //     }
-  //   });
-  // };
 }
 
 export { MarketService };

@@ -4,13 +4,7 @@ import Kibble from "../../contracts/Kibble.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import KittyItemsMarket from "../../contracts/KittyItemsMarket.cdc"
 
-import FungibleToken from 0xFungibleToken
-  import NonFungibleToken from 0xNonFungibleToken
-  import Kibble from 0xKibble
-  import KittyItems from 0xKittyItems
-  import KittyItemsMarket from 0xKittyItemsMarket
-
-  transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
+transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     let kibbleVault: Capability<&Kibble.Vault{FungibleToken.Receiver}>
     let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>
     let marketCollection: &KittyItemsMarket.Collection

@@ -36,32 +36,37 @@ async function run() {
   console.log("running handlers");
   Model.knex(knexInstance);
   fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_NODE);
+
+  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!)
+  const fungibleTokenAddress = fcl.withPrefix(process.env.FUNGIBLE_TOKEN_ADDRESS!)
+  const nonFungibleTokenAddress = fcl.withPrefix(process.env.NON_FUNGIBLE_TOKEN_ADDRESS!)
+
   const blockCursorService = new BlockCursorService();
   const flowService = new FlowService(
-    process.env.MINTER_FLOW_ADDRESS!,
+    minterAddress,
     process.env.MINTER_PRIVATE_KEY!,
     process.env.MINTER_ACCOUNT_KEY_IDX!
   );
   const marketService = new MarketService(
     flowService,
-    process.env.FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!,
-    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!
+    fungibleTokenAddress,
+    minterAddress,
+    nonFungibleTokenAddress,
+    minterAddress,
+    minterAddress
   );
   await new SaleOfferHandler(
     blockCursorService,
     flowService,
     marketService,
     [
-      process.env.FUNGIBLE_TOKEN_ADDRESS!,
-      process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
-      process.env.EVENT_SALE_OFFER_CREATED!,
-      process.env.EVENT_SALE_OFFER_ACCEPTED!,
-      process.env.EVENT_SALE_OFFER_FINISHED!,
-      process.env.EVENT_COLLECTION_INSERTED_SALE_OFFER!,
-      process.env.EVENT_COLLECTION_REMOVED_SALE_OFFER!
+      fungibleTokenAddress,
+      nonFungibleTokenAddress,
+      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferCreated`,
+      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferAccepted`,
+      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferFinished`,
+      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.CollectionInsertedSaleOffer`,
+      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.CollectionRemovedSaleOffer`
     ]
   ).run();
 }

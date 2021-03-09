@@ -31,7 +31,6 @@ Open `.env` and replace the following placeholders with the values for your Test
 ```
 MINTER_FLOW_ADDRESS={YOUR_TESTNET_ADDRESS}
 MINTER_PRIVATE_KEY={YOUR_TESTNET_PRIVATE_KEY}
-SALE_OFFER_EVENT_NAME=A.{YOUR_TESTNET_ADDRESS}.KittyItemsMarket.SaleOfferCreated
 ```
 
 ### Start the database
