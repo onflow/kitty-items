@@ -12,9 +12,10 @@ import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 
 let knexInstance: Knex;
-
-async function run() {
-  dotenv.config();
+const envPath = async function run() {
+  dotenv.config({
+    path: process.env.NODE_ENV === "production" ? ".env" : ".env.local",
+  });
 
   knexInstance = Knex({
     client: "postgresql",
@@ -37,9 +38,13 @@ async function run() {
   // Make sure we're pointing to the correct Flow Access node.
   fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_NODE);
 
-  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!)
-  const fungibleTokenAddress = fcl.withPrefix(process.env.FUNGIBLE_TOKEN_ADDRESS!)
-  const nonFungibleTokenAddress = fcl.withPrefix(process.env.NON_FUNGIBLE_TOKEN_ADDRESS!)
+  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!);
+  const fungibleTokenAddress = fcl.withPrefix(
+    process.env.FUNGIBLE_TOKEN_ADDRESS!
+  );
+  const nonFungibleTokenAddress = fcl.withPrefix(
+    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!
+  );
 
   const flowService = new FlowService(
     minterAddress,
@@ -79,7 +84,7 @@ async function run() {
   app.listen(port, () => {
     console.log(`Listening on port ${port}!`);
   });
-}
+};
 
 run().catch((e) => {
   console.error("error", e);

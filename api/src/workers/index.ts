@@ -15,7 +15,9 @@ import { MarketService } from "../services/market";
 import { SaleOfferHandler } from "./sale-offer-handler";
 
 async function run() {
-  dotenv.config();
+  dotenv.config({
+    path: process.env.NODE_ENV === "production" ? ".env" : ".env.local",
+  });
   // Workaround for 'pg' considering bigint as 'text': https://github.com/knex/knex/issues/387
   pg.types.setTypeParser(20, "text", parseInt);
   const knexInstance = Knex({
@@ -37,9 +39,13 @@ async function run() {
   Model.knex(knexInstance);
   fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_NODE);
 
-  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!)
-  const fungibleTokenAddress = fcl.withPrefix(process.env.FUNGIBLE_TOKEN_ADDRESS!)
-  const nonFungibleTokenAddress = fcl.withPrefix(process.env.NON_FUNGIBLE_TOKEN_ADDRESS!)
+  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!);
+  const fungibleTokenAddress = fcl.withPrefix(
+    process.env.FUNGIBLE_TOKEN_ADDRESS!
+  );
+  const nonFungibleTokenAddress = fcl.withPrefix(
+    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!
+  );
 
   const blockCursorService = new BlockCursorService();
   const flowService = new FlowService(
@@ -55,20 +61,19 @@ async function run() {
     minterAddress,
     minterAddress
   );
-  await new SaleOfferHandler(
-    blockCursorService,
-    flowService,
-    marketService,
-    [
-      fungibleTokenAddress,
-      nonFungibleTokenAddress,
-      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferCreated`,
-      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferAccepted`,
-      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferFinished`,
-      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.CollectionInsertedSaleOffer`,
-      `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.CollectionRemovedSaleOffer`
-    ]
-  ).run();
+  await new SaleOfferHandler(blockCursorService, flowService, marketService, [
+    fungibleTokenAddress,
+    nonFungibleTokenAddress,
+    `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferCreated`,
+    `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferAccepted`,
+    `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferFinished`,
+    `A.${fcl.sansPrefix(
+      minterAddress
+    )}.KittyItemsMarket.CollectionInsertedSaleOffer`,
+    `A.${fcl.sansPrefix(
+      minterAddress
+    )}.KittyItemsMarket.CollectionRemovedSaleOffer`,
+  ]).run();
 }
 
 run().catch((e) => console.error("error", e));

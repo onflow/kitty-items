@@ -35,6 +35,8 @@ You'll need a Testnet account to work on this project. Here's how to make one:
 - Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create a new account. Use the **public key** from the previous step.
 - After a short time, you'll receive an email with your newly-created Flow **account address**.
 
+After your account has been created, export the new account address and the provate key that was generated to your shell environment. THese value will need to be present for the next step to work!
+
 ```sh
 export TESTNET_ADDRESS={YOUR_TESTNET_ADDRESS}
 export TESTNET_PRIVATE_KEY={YOUR_TESTNET_PRIVATE_KEY}
