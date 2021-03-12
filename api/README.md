@@ -12,7 +12,7 @@ npm install
 
 ### Use your Flow Testnet account
 
-You'll need the **account address** and 
+You'll need the **account address** and
 **private key** for your Flow Testnet account to complete these setup steps.
 
 Read the [Getting Started](https://github.com/onflow/kitty-items#-get-started)
@@ -23,7 +23,7 @@ guide if you haven't created a Testnet account yet.
 Create a copy of `.env.example`:
 
 ```sh
-cp .env.example .env
+cp .env.example .env.local
 ```
 
 Open `.env` and replace the following placeholders with the values for your Testnet account:
@@ -35,7 +35,7 @@ MINTER_PRIVATE_KEY={YOUR_TESTNET_PRIVATE_KEY}
 
 ### Start the database
 
-> 🚧  You'll need to have Docker installed to complete this step.
+> 🚧 You'll need to have Docker installed to complete this step.
 
 ```sh
 docker-compose up -d
@@ -51,7 +51,7 @@ npm run start:dev
 
 ✨ The API should now be available at http://localhost:3000.
 
-_Note: when the API starts, 
+_Note: when the API starts,
 it will automatically run the database migrations for the configured `DATABASE_URL` URL._
 
 ## Initialize your account
@@ -73,8 +73,8 @@ curl --request POST \
   --header 'Content-Type: application/json'
 ```
 
-- **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account. 
- 
+- **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
+
 ```sh
 curl --request POST \
   --url http://localhost:3000/v1/kitty-items/setup \
@@ -99,7 +99,7 @@ create new items,
 and list some items for sale:
 
 - **POST /v1/kibbles/mint** - Mint new Kibble
-and send it to the `recipient` account.
+  and send it to the `recipient` account.
 
 ```sh
 curl --request POST \
@@ -111,8 +111,8 @@ curl --request POST \
   }'
 ```
 
-- **POST /v1/kitty-items/mint** - Mint a Kitty Item 
-and send it to the `recipient` account.
+- **POST /v1/kitty-items/mint** - Mint a Kitty Item
+  and send it to the `recipient` account.
 
 ```sh
 curl --request POST \
@@ -139,9 +139,9 @@ curl --request POST \
 ## Start the event worker
 
 Lastly, we need to allow our back-end to capture events emitted by
-the Kitty Items contracts. 
+the Kitty Items contracts.
 
-The event worker is a small service that continuously watches the 
+The event worker is a small service that continuously watches the
 blockchain for relevant events and saves them to our application database.
 
 For example, if somebody purchases a Kitty Item from the market,
