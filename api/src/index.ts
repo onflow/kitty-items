@@ -12,7 +12,8 @@ import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 
 let knexInstance: Knex;
-const envPath = async function run() {
+
+async function run() {
   dotenv.config({
     path: process.env.NODE_ENV === "production" ? ".env" : ".env.local",
   });
@@ -84,7 +85,7 @@ const envPath = async function run() {
   app.listen(port, () => {
     console.log(`Listening on port ${port}!`);
   });
-};
+}
 
 run().catch((e) => {
   console.error("error", e);
