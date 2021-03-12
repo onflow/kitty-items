@@ -16,7 +16,7 @@ You'll need to complete the following steps before launching this app:
 - TODO: replace [Deploy the Kitty Items contracts to your Testnet account](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer)
 - [Configure and start the API](https://github.com/onflow/kitty-items/tree/master/api)
 
-### Configure your environment
+### 1. Configure your environment
 
 Create a copy of `.env.example`:
 
@@ -35,7 +35,7 @@ REACT_APP_CONTRACT_KITTY_ITEMS_MARKET={YOUR_TESTNET_ADDRESS}
 REACT_APP_STORE_ADDRESS={YOUR_TESTNET_ADDRESS}
 ```
 
-### Install and run the app!
+### 2. Install and run the app!
 
 ```sh
 npm install       # install the dependencies from the lock file

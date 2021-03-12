@@ -4,13 +4,13 @@ Kitty Items JS is a RESTful API built with [express](https://expressjs.com/) tha
 
 ## Getting started
 
-### Install dependencies
+### 1. Install dependencies
 
 ```sh
 npm install
 ```
 
-### Use your Flow Testnet account
+### 2. Use your Flow Testnet account
 
 You'll need the **account address** and
 **private key** for your Flow Testnet account to complete these setup steps.
@@ -18,7 +18,7 @@ You'll need the **account address** and
 Read the [Getting Started](https://github.com/onflow/kitty-items#-get-started)
 guide if you haven't created a Testnet account yet.
 
-### Configure your environment
+### 3. Configure your environment
 
 Create a copy of `.env.example`:
 
@@ -26,22 +26,26 @@ Create a copy of `.env.example`:
 cp .env.example .env.local
 ```
 
-Open `.env` and replace the following placeholders with the values for your Testnet account:
+Open `.env.local` and replace the following placeholders with the values for your Testnet account:
 
 ```
 MINTER_FLOW_ADDRESS={YOUR_TESTNET_ADDRESS}
 MINTER_PRIVATE_KEY={YOUR_TESTNET_PRIVATE_KEY}
 ```
 
-### Start the database
+### 4. Start the database
 
 > 🚧 You'll need to have Docker installed to complete this step.
+
+We'll use the included docker compose file to start an instance of Postgres we'll need to track listings in the marketplace.<br/>
+
+In the project's root directory run:
 
 ```sh
 docker-compose up -d
 ```
 
-### Start the API server
+### 5. Start the API server
 
 ```sh
 npm run start:dev
@@ -54,7 +58,7 @@ npm run start:dev
 _Note: when the API starts,
 it will automatically run the database migrations for the configured `DATABASE_URL` URL._
 
-## Initialize your account
+### 6. Initialize your account
 
 Before you can mint Kibbles and Kitty Items,
 you'll need to initialize your account with the following:
@@ -62,6 +66,8 @@ you'll need to initialize your account with the following:
 - An empty `Kibble` vault
 - An empty `KittyItems` collection
 - An empty `KittyItemsMarket` collection
+
+You can read more about `Vault` and `Collection` resources [in this tutorial](https://docs.onflow.org/cadence/tutorial/01-first-steps/)
 
 Run the commands below to initialize these resources:
 
@@ -89,7 +95,7 @@ curl --request POST \
   --header 'Content-Type: application/json'
 ```
 
-## Mint Kibbles and Kitty Items
+### 7. Mint Kibbles and Kitty Items
 
 Now that your account is ready,
 you can fill the market with Kibble and Kitty Items!

@@ -1,8 +1,5 @@
-# Use this Docker compose file to start an instance of Postgres that is required
-# by the Kitty Items API.
-#
-# The Kitty Items marketplace uses Postgres to collect 'SaleOffer' events
-# to display all sale listings on the marketplace page.
+# Use this Docker compose file to start an instance of Postgres that is required by the Kitty Items API.
+# The Kitty Items marketplace uses Postgres to track marketplace listings. When a user lists a Kitty Itme for sale, an event is emitted by the blockchain transaction. The event is captured by a polling service (npm start workers:dev), and stored in Postgres. Likewise when a user removes a Kitty Item from their sale collectin, either by de-listing it, or if the items is sold or transferred to another account. When the worker recieves these events it updates the list of items for sale accordingly.
 
 version: "3"
 services:
