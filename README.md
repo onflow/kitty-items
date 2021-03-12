@@ -19,11 +19,12 @@ deployed on [IPFS](https://docs.ipfs.io/concepts/case-study-fleek/) and the Flow
 ### 1. Install the Flow CLI
 
 Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
+(Note: This project requires `flow-cli v0.14.0` or above)
 
 ### 2. Clone the project
 
 ```sh
-git clone git@github.com:onflow/kitty-items.git
+git clone https://github.com/onflow/kitty-items.git
 ```
 
 ### 3. Create a Flow Testnet account
