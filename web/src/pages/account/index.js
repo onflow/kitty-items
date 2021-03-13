@@ -38,10 +38,8 @@ import BackPack from "../../svg/backpack.svg"
 
 const STORE_ADDRESS = process.env.REACT_APP_STORE_ADDRESS
 
-export function MarketItemsCount({address}) {
-  const items = useMarketItems(address)
-  if (items.status !== IDLE) return <Spinner size="xs" ml="1" />
-  const l = items?.ids?.length ?? 0
+export function MarketItemsCount() {
+  let l = 0
   return l > 0 ? <Tag ml="1">{l}</Tag> : null
 }
 
@@ -154,7 +152,7 @@ export function Page() {
             </Box>
           )}
         </Flex>
-        <Tabs colorScheme="pink">
+        <Tabs colorScheme="pink" defaultIndex={1}>
           <TabList>
             <Tab fontSize="2xl">
               <HStack>
@@ -162,7 +160,7 @@ export function Page() {
                 <Box>Items Shop</Box>
               </HStack>
               <Suspense fallback={null}>
-                <MarketItemsCount address={address} />
+                <MarketItemsCount />
               </Suspense>
             </Tab>
             <Tab fontSize="2xl">

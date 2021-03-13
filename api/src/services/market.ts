@@ -100,10 +100,7 @@ class MarketService {
         `${this.nonFungibleTokenAddress}`
       )
       .replace('"../../contracts/Kibble.cdc"', `${this.kibbleAddress}`)
-      .replace(
-        '"../../contracts/KittyItems.cdc"',
-        `${this.kittyItemsAddress}`
-      )
+      .replace('"../../contracts/KittyItems.cdc"', `${this.kittyItemsAddress}`)
       .replace(
         '"../../contracts/KittyItemsMarket.cdc"',
         `${this.marketAddress}`
@@ -137,10 +134,7 @@ class MarketService {
         `${this.nonFungibleTokenAddress}`
       )
       .replace('"../../contracts/Kibble.cdc"', `${this.kibbleAddress}`)
-      .replace(
-        '"../../contracts/KittyItems.cdc"',
-        `${this.kittyItemsAddress}`
-      )
+      .replace('"../../contracts/KittyItems.cdc"', `${this.kittyItemsAddress}`)
       .replace(
         '"../../contracts/KittyItemsMarket.cdc"',
         `${this.marketAddress}`
@@ -172,14 +166,18 @@ class MarketService {
 
   removeSaleOffer = (saleOfferEvent) => {
     return SaleOffer.transaction(async (tx) => {
-      return await SaleOffer.query(tx).where({
-        saleItemId: saleOfferEvent.data.saleItemID,
-      }).del()
+      return await SaleOffer.query(tx)
+        .where({
+          saleItemId: saleOfferEvent.data.saleItemID,
+        })
+        .del();
     });
   };
 
   findMostRecentSales = () => {
-    // TODO
+    return SaleOffer.transaction(async (tx) => {
+      return await SaleOffer.query(tx).select("*");
+    });
   };
 }
 
