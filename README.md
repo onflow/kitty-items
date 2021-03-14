@@ -20,7 +20,7 @@ deployed on [IPFS](https://docs.ipfs.io/concepts/case-study-fleek/) and the Flow
 
 Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
 
-(Note: This project requires `flow-cli v0.15.0` or above)
+_⚠️ This project requires `flow-cli v0.15.0` or above._
 
 ### 2. Clone the project
 
@@ -34,17 +34,21 @@ You'll need a Testnet account to work on this project. Here's how to make one:
 
 #### Generate a key pair 
 
-Generate a new key pair with the Flow CLI: `flow keys generate` (_⚠️ Make sure to save these keys in a safe place, you'll need them later._)
+Generate a new key pair with the Flow CLI:
 
 ```sh
 flow keys generate
 ```
 
+_⚠️ Make sure to save these keys in a safe place, you'll need them later._
+
 #### Create your account
 
 - Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create a new account. Use the **public key** from the previous step.
 
-After your account has been created, export the new account address and the private key that was generated to your shell environment. These value will need to be present for the next step to work!
+#### Save your keys
+
+After your account has been created, save the address and private key to the following environment variables:
 
 ```sh
 export FLOW_ADDRESS={YOUR_TESTNET_ADDRESS}
