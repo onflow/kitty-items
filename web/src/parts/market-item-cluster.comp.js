@@ -18,7 +18,10 @@ import {ItemImage} from "./account-item-cluster.comp"
 export function MarketItemCluster({item: saleItem, status}) {
   const [cu, loggedIn] = useCurrentUser()
 
-  const listing = useMarketItem(cu.addr, saleItem.saleItemId)
+  const listing = useMarketItem(
+    saleItem.saleItemCollection,
+    saleItem.saleItemId
+  )
 
   const BUSY = status !== IDLE || listing.status !== IDLE
 
