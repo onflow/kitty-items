@@ -1,20 +1,14 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-/node_modules
-node_modules/
-/.pnp
-.pnp.js
+node_modules
 
 # testing
 /coverage
 
 # production
 /build
-/src/contracts/build/*
 
-# misc
-.DS_Store
+# .env files
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -24,14 +18,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# keys
-flow.json
-
-# contract build
-/src/contracts/build/*
-!/src/contracts/build/.keep
-
-# env
+# misc
+.DS_Store
 .vscode
 .exrc
 .eslintcache
+.idea

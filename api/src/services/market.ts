@@ -3,8 +3,14 @@ import * as fcl from "@onflow/fcl";
 import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
+
 import { SaleOffer } from "../models/sale-offer";
-import { KittyItem } from "../models/kitty-item";
+
+const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
+const nonFungibleTokenPath = "\"../../contracts/NonFungibleToken.cdc\"";
+const kibblePath = "\"../../contracts/Kibble.cdc\"";
+const kittyItemsPath = "\"../../contracts/KittyItems.cdc\"";
+const kittyItemsMarkPath = "\"../../contracts/KittyItemsMarket.cdc\"";
 
 class MarketService {
   constructor(
@@ -18,15 +24,17 @@ class MarketService {
 
   setupAccount = () => {
     const authorization = this.flowService.authorizeMinter();
+    
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItemsMarket/setup_account.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/setup_account.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -41,11 +49,12 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          `../../../cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
+
     return this.flowService.executeScript<any[]>({
       script,
       args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -57,11 +66,12 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          `../../../cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
+
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -70,19 +80,20 @@ class MarketService {
 
   buy = (account: string, itemId: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItemsMarket/buy_market_item.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/buy_market_item.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`)
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
 
     return this.flowService.sendTx({
       transaction,
@@ -95,19 +106,20 @@ class MarketService {
 
   sell = (itemId: number, price: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItemsMarket/sell_market_item.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/sell_market_item.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`)
-      .replace("\"../../contracts/KittyItemsMarket.cdc\"", `0x${this.marketAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
 
     return this.flowService.sendTx({
       transaction,

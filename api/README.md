@@ -1,48 +1,42 @@
-# Kitty Items JS
+# Kitty Items API
 
-Kitty Items JS is a RESTful API built with [express](https://expressjs.com/) that sends transactions to Flow using the [Flow JS SDK](https://github.com/onflow/flow-js-sdk/).
+This folder contains a RESTful API built with [express](https://expressjs.com/) that sends transactions to Flow using the [Flow JS SDK](https://github.com/onflow/flow-js-sdk/).
 
 ## Getting started
 
-### Install dependencies
+### 1. Install dependencies
 
 ```sh
 npm install
 ```
 
-### Use your Flow Testnet account
+### 2. Use your Flow Testnet account
 
-You'll need the **account address** and 
+You'll need the **account address** and
 **private key** for your Flow Testnet account to complete these setup steps.
 
 Read the [Getting Started](https://github.com/onflow/kitty-items#-get-started)
 guide if you haven't created a Testnet account yet.
 
-### Configure your environment
+### 3. Configure your environment
 
 Create a copy of `.env.example`:
 
 ```sh
-cp .env.example .env
+cp .env.example .env.local
 ```
 
-Open `.env` and replace the following placeholders with the values for your Testnet account:
+### 4. Start the database
 
-```
-MINTER_FLOW_ADDRESS={YOUR_TESTNET_ADDRESS}
-MINTER_PRIVATE_KEY={YOUR_TESTNET_PRIVATE_KEY}
-SALE_OFFER_EVENT_NAME=A.{YOUR_TESTNET_ADDRESS}.KittyItemsMarket.SaleOfferCreated
-```
+> 🚧 You'll need to have Docker installed to complete this step.
 
-### Start the database
-
-> 🚧  You'll need to have Docker installed to complete this step.
+We'll use the included `docker-compose` file to start a Postgres instance for this API.
 
 ```sh
 docker-compose up -d
 ```
 
-### Start the API server
+### 5. Start the API server
 
 ```sh
 npm run start:dev
@@ -52,10 +46,10 @@ npm run start:dev
 
 ✨ The API should now be available at http://localhost:3000.
 
-_Note: when the API starts, 
+_Note: when the API starts,
 it will automatically run the database migrations for the configured `DATABASE_URL` URL._
 
-## Initialize your account
+### 6. Initialize your account
 
 Before you can mint Kibbles and Kitty Items,
 you'll need to initialize your account with the following:
@@ -63,6 +57,8 @@ you'll need to initialize your account with the following:
 - An empty `Kibble` vault
 - An empty `KittyItems` collection
 - An empty `KittyItemsMarket` collection
+
+You can read more about `Vault` and `Collection` resources [in this tutorial](https://docs.onflow.org/cadence/tutorial/01-first-steps/)
 
 Run the commands below to initialize these resources:
 
@@ -74,8 +70,8 @@ curl --request POST \
   --header 'Content-Type: application/json'
 ```
 
-- **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account. 
- 
+- **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
+
 ```sh
 curl --request POST \
   --url http://localhost:3000/v1/kitty-items/setup \
@@ -90,7 +86,7 @@ curl --request POST \
   --header 'Content-Type: application/json'
 ```
 
-## Mint Kibbles and Kitty Items
+### 7. Mint Kibbles and Kitty Items
 
 Now that your account is ready,
 you can fill the market with Kibble and Kitty Items!
@@ -100,27 +96,27 @@ create new items,
 and list some items for sale:
 
 - **POST /v1/kibbles/mint** - Mint new Kibble
-and send it to the `recipient` account.
+  and send it to the `recipient` account.
 
 ```sh
 curl --request POST \
   --url http://localhost:3000/v1/kibbles/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "0x{YOUR_TESTNET_ADDRESS}",
+    "recipient": "${FLOW_ADDRESS}",
     "amount": 2.0
   }'
 ```
 
-- **POST /v1/kitty-items/mint** - Mint a Kitty Item 
-and send it to the `recipient` account.
+- **POST /v1/kitty-items/mint** - Mint a Kitty Item
+  and send it to the `recipient` account.
 
 ```sh
 curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "0x{YOUR_TESTNET_ADDRESS}",
+    "recipient": "${FLOW_ADDRESS}",
     "typeId": 1
   }'
 ```
@@ -140,9 +136,9 @@ curl --request POST \
 ## Start the event worker
 
 Lastly, we need to allow our back-end to capture events emitted by
-the Kitty Items contracts. 
+the Kitty Items contracts.
 
-The event worker is a small service that continuously watches the 
+The event worker is a small service that continuously watches the
 blockchain for relevant events and saves them to our application database.
 
 For example, if somebody purchases a Kitty Item from the market,
@@ -157,4 +153,4 @@ npm run workers:dev
 
 ## Next steps
 
-Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/kitty-items-web) to start interacting with your new marketplace!
+Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/web) to start interacting with your new marketplace!

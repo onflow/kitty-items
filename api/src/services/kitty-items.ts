@@ -4,6 +4,9 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
+const nonFungibleTokenPath = "\"../../contracts/NonFungibleToken.cdc\"";
+const kittyItemsPath = "\"../../contracts/KittyItems.cdc\"";
+
 class KittyItemsService {
   constructor(
     private readonly flowService: FlowService,
@@ -13,16 +16,18 @@ class KittyItemsService {
 
   setupAccount = async () => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItems/setup_account.cdc`
+          `../../../cadence/transactions/kittyItems/setup_account.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -34,16 +39,18 @@ class KittyItemsService {
 
   mint = async (recipient: string, typeId: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItems/mint_kitty_item.cdc`
+          `../../../cadence/transactions/kittyItems/mint_kitty_item.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(typeId, t.UInt64)],
@@ -55,16 +62,18 @@ class KittyItemsService {
 
   transfer = async (recipient: string, itemId: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/transactions/kittyItems/transfer_kitty_item.cdc`
+          `../../../cadence/transactions/kittyItems/transfer_kitty_item.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -79,12 +88,13 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/scripts/kittyItems/read_collection_ids.cdc`
+          `../../../cadence/scripts/kittyItems/read_collection_ids.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -92,17 +102,17 @@ class KittyItemsService {
   };
 
   getKittyItemType = async (itemId: number): Promise<number> => {
-    // script should be fixed!
     const script = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/scripts/kittyItems/read_kitty_item_type_id.cdc`
+          `../../../cadence/scripts/kittyItems/read_kitty_item_type_id.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `0x${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(itemId, t.UInt64)],
@@ -114,11 +124,12 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../kitty-items-cadence/scripts/kittyItems/read_kitty_items_supply.cdc`
+          `../../../cadence/scripts/kittyItems/read_kitty_items_supply.cdc`
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItems.cdc\"", `0x${this.kittyItemsAddress}`);
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }

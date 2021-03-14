@@ -4,6 +4,9 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
+const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
+const kibblePath = "\"../../contracts/Kibble.cdc\"";
+
 class KibblesService {
   constructor(
     private readonly flowService: FlowService,
@@ -13,16 +16,18 @@ class KibblesService {
 
   setupAccount = async () => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/setup_account.cdc"
+          "../../../cadence/transactions/kibble/setup_account.cdc"
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -34,16 +39,18 @@ class KibblesService {
 
   mint = async (recipient: string, amount: number) => {    
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/mint_tokens.cdc"
+          "../../../cadence/transactions/kibble/mint_tokens.cdc"
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -58,16 +65,18 @@ class KibblesService {
 
   burn = async (amount: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/burn_tokens.cdc"
+          "../../../cadence/transactions/kibble/burn_tokens.cdc"
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(amount.toFixed(8).toString(), t.UFix64)],
@@ -83,12 +92,13 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/transactions/kibble/burn_tokens.cdc"
+          "../../../cadence/transactions/kibble/burn_tokens.cdc"
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -106,12 +116,13 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/scripts/kibble/get_balance.cdc"
+          "../../../cadence/scripts/kibble/get_balance.cdc"
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -123,12 +134,13 @@ class KibblesService {
       .readFileSync(
         path.join(
           __dirname,
-          "../../../kitty-items-cadence/scripts/kibble/get_supply.cdc"
+          "../../../cadence/scripts/kibble/get_supply.cdc"
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `0x${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `0x${this.kibbleAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }

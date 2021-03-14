@@ -10,7 +10,9 @@ import { MarketService } from "./services/market";
 let knexInstance: Knex;
 
 async function run() {
-  dotenv.config();
+  dotenv.config({
+    path: process.env.NODE_ENV === "production" ? ".env" : ".env.local",
+  });
 
   knexInstance = Knex({
     client: "postgresql",
@@ -30,31 +32,44 @@ async function run() {
   // Run all database migrations
   await knexInstance.migrate.latest();
 
-  // Make sure we're pointing to the correct Flow Access node.
+  // Make sure we're pointing to the correct Flow Access API.
+  fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_API);
 
-  fcl.config().put("accessNode.api", process.env.FLOW_NODE);
+  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!);
+
+  const fungibleTokenAddress = fcl.withPrefix(
+    process.env.FUNGIBLE_TOKEN_ADDRESS!
+  );
+
+  const nonFungibleTokenAddress = fcl.withPrefix(
+    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!
+  );
+
   const flowService = new FlowService(
-    process.env.MINTER_FLOW_ADDRESS!,
+    minterAddress,
     process.env.MINTER_PRIVATE_KEY!,
     process.env.MINTER_ACCOUNT_KEY_IDX!
   );
+
   const kibblesService = new KibblesService(
     flowService,
-    process.env.FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!
+    fungibleTokenAddress,
+    minterAddress
   );
+
   const kittyItemsService = new KittyItemsService(
     flowService,
-    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!
+    nonFungibleTokenAddress,
+    minterAddress
   );
+
   const marketService = new MarketService(
     flowService,
-    process.env.FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!,
-    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!
+    fungibleTokenAddress,
+    minterAddress,
+    nonFungibleTokenAddress,
+    minterAddress,
+    minterAddress
   );
 
   const app = initApp(

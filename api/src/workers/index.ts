@@ -1,17 +1,22 @@
-import { SaleOfferHandler } from "./sale-offer-handler";
 import { Model } from "objection";
 import pg from "pg";
 import Knex from "knex";
 import * as dotenv from "dotenv";
 import * as fcl from "@onflow/fcl";
+
+import { SaleOfferHandler } from "./sale-offer-handler";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 import { MarketService } from "../services/market";
 
 async function run() {
-  dotenv.config();
+  dotenv.config({
+    path: process.env.NODE_ENV === "production" ? ".env" : ".env.local",
+  });
+
   // Workaround for 'pg' considering bigint as 'text': https://github.com/knex/knex/issues/387
   pg.types.setTypeParser(20, "text", parseInt);
+  
   const knexInstance = Knex({
     client: "postgresql",
     connection: process.env.DATABASE_URL!,
@@ -28,27 +33,38 @@ async function run() {
   });
 
   console.log("running handlers");
+
   Model.knex(knexInstance);
-  fcl.config().put("accessNode.api", process.env.FLOW_NODE);
+
+  // Make sure we're pointing to the correct Flow Access API.
+  fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_API);
+
+  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!);
+  const fungibleTokenAddress = fcl.withPrefix(process.env.FUNGIBLE_TOKEN_ADDRESS!);
+  const nonFungibleTokenAddress = fcl.withPrefix(process.env.NON_FUNGIBLE_TOKEN_ADDRESS!);
+
   const blockCursorService = new BlockCursorService();
+
   const flowService = new FlowService(
-    process.env.MINTER_FLOW_ADDRESS!,
+    minterAddress,
     process.env.MINTER_PRIVATE_KEY!,
     process.env.MINTER_ACCOUNT_KEY_IDX!
   );
+
   const marketService = new MarketService(
     flowService,
-    process.env.FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!,
-    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!,
-    process.env.MINTER_FLOW_ADDRESS!
+    fungibleTokenAddress,
+    minterAddress,
+    nonFungibleTokenAddress,
+    minterAddress,
+    minterAddress
   );
+
   await new SaleOfferHandler(
     blockCursorService,
     flowService,
     marketService,
-    process.env.SALE_OFFER_EVENT_NAME!
+    `A.${fcl.sansPrefix(minterAddress)}.KittyItemsMarket.SaleOfferCreated`  
   ).run();
 }
 
