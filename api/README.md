@@ -126,7 +126,7 @@ curl --request POST \
 ### Minting
 
 Run the commands below to mint new Kibble, create new items,
-and list some items for sale:
+and list some items for sale.
 
 - **POST /v1/kibbles/mint** - Mint new Kibble
   and send it to the `recipient` account.
