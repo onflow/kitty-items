@@ -3,11 +3,11 @@ import { Model } from "objection";
 import pg from "pg";
 import Knex from "knex";
 
-import { SaleOfferHandler } from "./sale-offer-handler";
+import { getConfig } from "../config";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 import { MarketService } from "../services/market";
-import { getConfig } from "../config";
+import { SaleOfferHandler } from "./sale-offer-handler";
 
 async function run() {
   

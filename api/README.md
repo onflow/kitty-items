@@ -42,13 +42,6 @@ docker-compose up -d
 npm run start:dev
 ```
 
-### Try it out!
-
-✨ The API should now be available at http://localhost:3000.
-
-_Note: when the API starts,
-it will automatically run the database migrations for the configured `DATABASE_URL` URL._
-
 ### 6. Set up the minter account
 
 Before you can mint Kibbles and Kitty Items,
@@ -68,23 +61,12 @@ Run this script to set up the minter account and
 ./setup.sh
 ```
 
-## Start the event worker
+### Try it out!
 
-Lastly, we need to allow our back-end to capture events emitted by
-the Kitty Items contracts.
+✨ The API should now be available at http://localhost:3000.
 
-The event worker is a small service that continuously watches the
-blockchain for relevant events and saves them to our application database.
-
-For example, if somebody purchases a Kitty Item from the market,
-our event worker will detect the event and
-mark the item as purchased in our database.
-
-In a separate process, start the event worker:
-
-```sh
-npm run workers:dev
-```
+_Note: when the API starts,
+it will automatically run the database migrations for the configured `DATABASE_URL` URL._
 
 ## Next steps
 
