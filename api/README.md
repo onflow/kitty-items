@@ -96,6 +96,9 @@ Now that the API is configured, [launch the front-end app](https://github.com/on
 
 ### Setup
 
+Run the commands below to initialize the minter account to hold and mint Kibble,
+Kitty Items, and add offers to the marketplace.
+
 - **POST /v1/kibbles/setup** - Create a resource that holds Kibble in the `MINTER_FLOW_ADDRESS` account.
 
 ```sh
