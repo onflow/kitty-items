@@ -13,6 +13,14 @@ const CODE = fcl.cdc`
   }
 `
 
-export function fetchMarketItems(url) {
-  return fetch(url).then(res => res.json())
+export function fetchMarketItems(address) {
+  if (address == null) return Promise.resolve([])
+
+  // prettier-ignore
+  return fcl.send([
+    fcl.script(CODE),
+    fcl.args([
+      fcl.arg(address, t.Address)
+    ])
+  ]).then(fcl.decode).then(d => d.sort((a, b) => a - b))
 }

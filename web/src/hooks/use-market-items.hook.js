@@ -1,8 +1,6 @@
-import {atomFamily, selectorFamily, useRecoilState} from "recoil"
+import {atomFamily, useRecoilState} from "recoil"
 import useSWR from "swr"
-import {fetchMarketItems} from "../flow/fetch-market-items.script"
-import {IDLE, LOADING, PROCESSING} from "../global/constants"
-import {StoreItemsCount} from "../pages/account"
+import {IDLE, LOADING} from "../global/constants"
 
 const fetcher = url => fetch(url).then(res => res.json())
 
@@ -17,7 +15,7 @@ export const $status = atomFamily({
 })
 
 export function useMarketItems() {
-  const url = "http://localhost:3000/v1/market/latest"
+  const url = process.env.REACT_APP_API_MARKET_ITEMS_LIST
   const [status, setStatus] = useRecoilState($status(IDLE))
   const [items, setItems] = useRecoilState($state([]))
 
@@ -26,7 +24,7 @@ export function useMarketItems() {
     refreshInterval: 10,
     errorRetryCount: 10,
     onLoadingSlow: () => {
-      setStatus(PROCESSING)
+      setStatus(LOADING)
     },
     onSuccess: ({latestSaleOffers}) => {
       setStatus(IDLE)

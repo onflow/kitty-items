@@ -18,11 +18,10 @@ import {ItemImage} from "./account-item-cluster.comp"
 export function MarketItemCluster({item: saleItem, status}) {
   const [cu, loggedIn] = useCurrentUser()
 
-  const list = useMarketItem(cu.addr, saleItem.saleItemId)
+  const listing = useMarketItem(cu.addr, saleItem.saleItemId)
 
-  const BUSY = status !== IDLE
+  const BUSY = status !== IDLE || listing.status !== IDLE
 
-  console.log(status)
   return (
     <Tr>
       <Td maxW="50px">
@@ -34,16 +33,16 @@ export function MarketItemCluster({item: saleItem, status}) {
       <Td>
         <ItemImage type={saleItem.saleItemType} />
       </Td>
-      <Td isNumeric>{saleItem.price || 10}</Td>
+      <Td>{saleItem.price || 10}</Td>
       {loggedIn && (
         <>
           {saleItem.saleItemCollection === cu.addr ? (
-            <Td isNumeric maxW="20px">
+            <Td isNumeric maxW="40px">
               <Button
                 colorScheme="orange"
                 size="sm"
                 disabled={BUSY}
-                onClick={list.cancelListing}
+                onClick={listing.cancelListing}
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />}
@@ -52,12 +51,12 @@ export function MarketItemCluster({item: saleItem, status}) {
               </Button>
             </Td>
           ) : (
-            <Td isNumeric maxW="15px">
+            <Td isNumeric maxW="40px">
               <Button
                 colorScheme="blue"
                 size="sm"
                 disabled={BUSY}
-                onClick={list.buy}
+                onClick={listing.buy}
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />}
