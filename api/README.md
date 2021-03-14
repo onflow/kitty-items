@@ -122,11 +122,7 @@ curl --request POST \
 
 ### Minting
 
-Now that your account is ready,
-you can fill the market with Kibble and Kitty Items!
-
-Run the commands below to mint new Kibble,
-create new items,
+Run the commands below to mint new Kibble, create new items,
 and list some items for sale:
 
 - **POST /v1/kibbles/mint** - Mint new Kibble
@@ -137,7 +133,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kibbles/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "${FLOW_ADDRESS}",
+    "recipient": "'$FLOW_ADDRESS'",
     "amount": 2.0
   }'
 ```
@@ -150,7 +146,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "${FLOW_ADDRESS}",
+    "recipient": "'$FLOW_ADDRESS'",
     "typeId": 1
   }'
 ```
