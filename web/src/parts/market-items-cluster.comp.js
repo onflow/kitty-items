@@ -1,12 +1,10 @@
 import {Suspense} from "react"
 import {useMarketItems} from "../hooks/use-market-items.hook"
-import {useCurrentUser} from "../hooks/use-current-user.hook"
 import Item from "./market-item-cluster.comp"
 import {Box, Table, Thead, Tbody, Tr, Th, Text, Spinner} from "@chakra-ui/react"
 
 export function MarketItemsCluster() {
   const {items, status} = useMarketItems()
-  const [cu] = useCurrentUser()
 
   if (items.length <= 0)
     return (

@@ -1,7 +1,7 @@
 import {atomFamily, selectorFamily, useRecoilState} from "recoil"
 import useSWR from "swr"
 import {fetchMarketItems} from "../flow/fetch-market-items.script"
-import {IDLE, PROCESSING} from "../global/constants"
+import {IDLE, LOADING, PROCESSING} from "../global/constants"
 import {StoreItemsCount} from "../pages/account"
 
 const fetcher = url => fetch(url).then(res => res.json())
@@ -20,12 +20,17 @@ export function useMarketItems() {
   const url = "http://localhost:3000/v1/market/latest"
   const [status, setStatus] = useRecoilState($status(IDLE))
   const [items, setItems] = useRecoilState($state([]))
+  setStatus(LOADING)
 
   useSWR(url, fetcher, {
     initialData: items,
     refreshInterval: 10,
     errorRetryCount: 10,
+    onLoadingSlow: () => {
+      setStatus(PROCESSING)
+    },
     onSuccess: ({latestSaleOffers}) => {
+      setStatus(IDLE)
       setItems(latestSaleOffers)
     },
     onError: error => {
@@ -33,13 +38,13 @@ export function useMarketItems() {
     },
   })
 
-  const asSet = new Set(items)
+  const asMap = new Map(items.map(item => [item.saleItemId, item]))
 
   return {
     items,
     status,
     has(item) {
-      return asSet.has(item)
+      return asMap.has(item.id || item.saleItemId)
     },
   }
 }

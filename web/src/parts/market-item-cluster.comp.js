@@ -1,6 +1,5 @@
 import {Suspense} from "react"
 import {useMarketItem} from "../hooks/use-market-item.hook"
-import {useAccountItem} from "../hooks/use-account-item.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
 import {
@@ -18,6 +17,8 @@ import {ItemImage} from "./account-item-cluster.comp"
 
 export function MarketItemCluster({item: saleItem, status}) {
   const [cu, loggedIn] = useCurrentUser()
+
+  const list = useMarketItem(cu.addr, saleItem.saleItemId)
 
   const BUSY = status !== IDLE
   return (
@@ -40,9 +41,7 @@ export function MarketItemCluster({item: saleItem, status}) {
                 colorScheme="orange"
                 size="sm"
                 disabled={BUSY}
-                onClick={() => {
-                  // TODO
-                }}
+                onClick={list.cancelListing}
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />}
@@ -56,9 +55,7 @@ export function MarketItemCluster({item: saleItem, status}) {
                 colorScheme="blue"
                 size="sm"
                 disabled={BUSY}
-                onClick={() => {
-                  // TODO
-                }}
+                onClick={list.buy}
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />}
