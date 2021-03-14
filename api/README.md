@@ -49,7 +49,7 @@ npm run start:dev
 _Note: when the API starts,
 it will automatically run the database migrations for the configured `DATABASE_URL` URL._
 
-### 6. Initialize your account
+### 6. Set up the minter account
 
 Before you can mint Kibbles and Kitty Items,
 you'll need to initialize your account with the following:
@@ -60,7 +60,41 @@ you'll need to initialize your account with the following:
 
 You can read more about `Vault` and `Collection` resources [in this tutorial](https://docs.onflow.org/cadence/tutorial/01-first-steps/)
 
-Run the commands below to initialize these resources:
+#### Minter setup script
+
+Run this script to set up the minter account and 
+
+```sh
+./setup.sh
+```
+
+## Start the event worker
+
+Lastly, we need to allow our back-end to capture events emitted by
+the Kitty Items contracts.
+
+The event worker is a small service that continuously watches the
+blockchain for relevant events and saves them to our application database.
+
+For example, if somebody purchases a Kitty Item from the market,
+our event worker will detect the event and
+mark the item as purchased in our database.
+
+In a separate process, start the event worker:
+
+```sh
+npm run workers:dev
+```
+
+## Next steps
+
+Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/web) to start interacting with your new marketplace!
+
+---
+
+## API Reference
+
+### Setup
 
 - **POST /v1/kibbles/setup** - Create a resource that holds Kibble in the `MINTER_FLOW_ADDRESS` account.
 
@@ -86,7 +120,7 @@ curl --request POST \
   --header 'Content-Type: application/json'
 ```
 
-### 7. Mint Kibbles and Kitty Items
+### Minting
 
 Now that your account is ready,
 you can fill the market with Kibble and Kitty Items!
@@ -132,25 +166,3 @@ curl --request POST \
     "price": 7.9
   }'
 ```
-
-## Start the event worker
-
-Lastly, we need to allow our back-end to capture events emitted by
-the Kitty Items contracts.
-
-The event worker is a small service that continuously watches the
-blockchain for relevant events and saves them to our application database.
-
-For example, if somebody purchases a Kitty Item from the market,
-our event worker will detect the event and
-mark the item as purchased in our database.
-
-In a separate process, start the event worker:
-
-```sh
-npm run workers:dev
-```
-
-## Next steps
-
-Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/web) to start interacting with your new marketplace!
