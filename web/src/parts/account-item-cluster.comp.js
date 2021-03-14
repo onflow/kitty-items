@@ -33,10 +33,10 @@ export const ItemImage = ({type}) => {
 
 export function AccountItemCluster({address, id}) {
   const item = useAccountItem(address, id)
-  const list = useMarketItem(address, id)
+  const listing = useMarketItem(address, id)
   const [cu] = useCurrentUser()
 
-  const BUSY = item.status !== IDLE
+  const BUSY = item.status !== IDLE || listing.status !== IDLE
 
   if (address == null) return null
   if (id == null) return null
@@ -74,7 +74,7 @@ export function AccountItemCluster({address, id}) {
                 size="sm"
                 colorScheme="orange"
                 disabled={BUSY}
-                onClick={list.cancelListing}
+                onClick={listing.cancelListing}
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />} <Text>Unlist</Text>

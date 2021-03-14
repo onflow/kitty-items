@@ -20,7 +20,6 @@ export function useMarketItems() {
   const url = "http://localhost:3000/v1/market/latest"
   const [status, setStatus] = useRecoilState($status(IDLE))
   const [items, setItems] = useRecoilState($state([]))
-  setStatus(LOADING)
 
   useSWR(url, fetcher, {
     initialData: items,

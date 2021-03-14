@@ -21,6 +21,8 @@ export function MarketItemCluster({item: saleItem, status}) {
   const list = useMarketItem(cu.addr, saleItem.saleItemId)
 
   const BUSY = status !== IDLE
+
+  console.log(status)
   return (
     <Tr>
       <Td maxW="50px">
