@@ -44,7 +44,7 @@ _⚠️ Make sure to save these keys in a safe place, you'll need them later._
 
 #### Create your account
 
-- Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create a new account. Use the **public key** from the previous step.
+Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create a new account. Use the **public key** from the previous step.
 
 #### Save your keys
 
