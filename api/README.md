@@ -51,14 +51,14 @@ you'll need to initialize your account with the following:
 - An empty `KittyItems` collection
 - An empty `KittyItemsMarket` collection
 
-You can read more about `Vault` and `Collection` resources [in this tutorial](https://docs.onflow.org/cadence/tutorial/01-first-steps/)
+_💡 Learn more about `Vault` and `Collection` resources [in this tutorial](https://docs.onflow.org/cadence/tutorial/01-first-steps/)._
 
 #### Minter setup script
 
-Run this script to set up the minter account and 
+Run this script to set up the minter account and mint an initial supply of Kibble and Kitty Items:
 
 ```sh
-./setup.sh
+./setup-minter.sh
 ```
 
 ### Try it out!
@@ -74,7 +74,7 @@ Now that the API is configured, [launch the front-end app](https://github.com/on
 
 ---
 
-## API Reference
+## Appendix: API Reference
 
 ### Setup
 
