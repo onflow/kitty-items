@@ -9,7 +9,7 @@ class FlowService {
   constructor(
     private readonly minterFlowAddress: string,
     private readonly minterPrivateKeyHex: string,
-    private readonly minterAccountIndex: string
+    private readonly minterAccountIndex: string | number
   ) {}
 
   authorizeMinter = () => {
