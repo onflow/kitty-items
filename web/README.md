@@ -26,14 +26,6 @@ cd ./web
 cp .env.example .env.local
 ```
 
-Open `.env.local` and replace the following placeholders with your Testnet address:
-
-```
-REACT_APP_CONTRACT_KIBBLE={YOUR_TESTNET_ADDRESS}
-REACT_APP_CONTRACT_KITTY_ITEMS={YOUR_TESTNET_ADDRESS}
-REACT_APP_CONTRACT_KITTY_ITEMS_MARKET={YOUR_TESTNET_ADDRESS}
-```
-
 ### 2. Install and run the app!
 
 ```sh
