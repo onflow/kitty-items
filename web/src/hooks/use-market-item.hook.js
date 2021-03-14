@@ -3,7 +3,6 @@ import {sansPrefix} from "@onflow/fcl"
 import {IDLE, PROCESSING} from "../global/constants"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {useAccountItems} from "../hooks/use-account-items.hook"
-import {useMarketItems} from "../hooks/use-market-items.hook"
 import {useKibblesBalance} from "../hooks/use-kibbles-balance.hook"
 import {fetchMarketItem} from "../flow/fetch-market-item.script"
 import {buyMarketItem} from "../flow/buy-market-item.tx"
@@ -34,8 +33,6 @@ export function useMarketItem(address, id) {
   const [cu] = useCurrentUser()
   const ownerItems = useAccountItems(address)
   const cuItems = useAccountItems(cu.addr)
-  const ownerMarket = useMarketItems(address)
-  const cuMarket = useMarketItems(cu.addr)
   const kibble = useKibblesBalance(cu.addr)
   const key = comp(address, id)
   const [item, setItem] = useRecoilState($state(key))
@@ -57,10 +54,8 @@ export function useMarketItem(address, id) {
           async onSuccess() {
             if (address !== cu.addr) {
               ownerItems.refresh()
-              ownerMarket.refresh()
             }
             cuItems.refresh()
-            cuMarket.refresh()
             kibble.refresh()
           },
           async onComplete() {
@@ -78,7 +73,6 @@ export function useMarketItem(address, id) {
           },
           async onSuccess() {
             cuItems.refresh()
-            cuMarket.refresh()
             kibble.refresh()
           },
           async onComplete() {

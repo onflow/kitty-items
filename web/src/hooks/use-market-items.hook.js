@@ -1,13 +1,14 @@
 import {atomFamily, selectorFamily, useRecoilState} from "recoil"
+import useSWR from "swr"
 import {fetchMarketItems} from "../flow/fetch-market-items.script"
 import {IDLE, PROCESSING} from "../global/constants"
+import {StoreItemsCount} from "../pages/account"
+
+const fetcher = url => fetch(url).then(res => res.json())
 
 export const $state = atomFamily({
   key: "market-items::state",
-  default: selectorFamily({
-    key: "market-items::default",
-    get: address => async () => fetchMarketItems(address),
-  }),
+  default: [],
 })
 
 export const $status = atomFamily({
@@ -15,22 +16,30 @@ export const $status = atomFamily({
   default: IDLE,
 })
 
-export function useMarketItems(address) {
-  const [items, setItems] = useRecoilState($state(address))
-  const [status, setStatus] = useRecoilState($status(address))
+export function useMarketItems() {
+  const url = "http://localhost:3000/v1/market/latest"
+  const [status, setStatus] = useRecoilState($status(IDLE))
+  const [items, setItems] = useRecoilState($state([]))
+
+  useSWR(url, fetcher, {
+    initialData: items,
+    refreshInterval: 10,
+    errorRetryCount: 10,
+    onSuccess: ({latestSaleOffers}) => {
+      setItems(latestSaleOffers)
+    },
+    onError: error => {
+      console.log("Failed to fetch market items.", error)
+    },
+  })
 
   const asSet = new Set(items)
 
   return {
-    ids: items,
+    items,
     status,
-    async refresh() {
-      setStatus(PROCESSING)
-      await fetchMarketItems(address).then(setItems)
-      setStatus(IDLE)
-    },
-    has(id) {
-      return asSet.has(id)
+    has(item) {
+      return asSet.has(item)
     },
   }
 }

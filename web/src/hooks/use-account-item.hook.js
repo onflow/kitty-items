@@ -31,7 +31,7 @@ export const $status = atomFamily({
 export function useAccountItem(address, id) {
   const [cu] = useCurrentUser()
   const accountItems = useAccountItems(address)
-  const marketItems = useMarketItems(address)
+  const {has} = useMarketItems()
   const key = comp(address, id)
   const [item, setItem] = useRecoilState($state(key))
   const [status, setStatus] = useRecoilState($status(key))
@@ -39,7 +39,7 @@ export function useAccountItem(address, id) {
   return {
     ...item,
     status,
-    forSale: marketItems.has(id),
+    forSale: has(id),
     owned: sansPrefix(cu.addr) === sansPrefix(address),
     async sell(price) {
       await createSaleOffer(
@@ -50,7 +50,6 @@ export function useAccountItem(address, id) {
           },
           async onSuccess() {
             accountItems.refresh()
-            marketItems.refresh()
           },
           async onComplete() {
             setStatus(IDLE)

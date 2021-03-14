@@ -4,13 +4,11 @@ import {useCurrentUser} from "../hooks/use-current-user.hook"
 import Item from "./market-item-cluster.comp"
 import {Box, Table, Thead, Tbody, Tr, Th, Text, Spinner} from "@chakra-ui/react"
 
-export function MarketItemsCluster({address}) {
-  const items = useMarketItems(address)
+export function MarketItemsCluster() {
+  const {items, status} = useMarketItems()
   const [cu] = useCurrentUser()
 
-  if (address == null) return null
-
-  if (items.ids.length <= 0)
+  if (items.length <= 0)
     return (
       <Box borderWidth="1px" borderRadius="lg" p="4">
         <Text>No Items Listed For Sale</Text>
@@ -26,12 +24,11 @@ export function MarketItemsCluster({address}) {
             <Th>Type</Th>
             <Th>Image</Th>
             <Th isNumeric>Price</Th>
-            {cu.addr === address ? <Th /> : null}
           </Tr>
         </Thead>
         <Tbody>
-          {items.ids.map(id => (
-            <Item key={id} id={id} address={address} />
+          {items.map(item => (
+            <Item key={item.id} item={item} status={status} />
           ))}
         </Tbody>
       </Table>
@@ -39,7 +36,7 @@ export function MarketItemsCluster({address}) {
   )
 }
 
-export default function WrappedMarketItemsCluster({address}) {
+export default function WrappedMarketItemsCluster() {
   return (
     <Suspense
       fallback={
@@ -48,7 +45,7 @@ export default function WrappedMarketItemsCluster({address}) {
         </Box>
       }
     >
-      <MarketItemsCluster address={address} />
+      <MarketItemsCluster />
     </Suspense>
   )
 }
