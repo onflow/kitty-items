@@ -66,11 +66,15 @@ abstract class BaseEventHandler {
           ...this.eventNames.map((name) =>
             send([getEvents(name, fromBlock, toBlock)])
           ),
-        ]);
+        ]).catch((e) => {
+          console.log("Error getting events:", e);
+        });
 
         eventList = await Promise.all([
           ...getEventsResult.map((result) => fcl.decode(result)),
-        ]);
+        ]).catch((e) => {
+          console.log("Error creating event list:", e);
+        });
 
         eventList = eventList.flat();
       } catch (e) {
@@ -84,7 +88,9 @@ abstract class BaseEventHandler {
       // Note: Events may be "processed" out of order.
       await Promise.all([
         ...eventList.map((event) => this.processAndCatchEvent({}, event)),
-      ]);
+      ]).catch((e) => {
+        console.log("Error processing events:", e);
+      });
 
       // update cursor
       blockCursor = await this.blockCursorService.updateBlockCursorById(

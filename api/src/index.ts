@@ -1,28 +1,25 @@
 import * as fcl from "@onflow/fcl";
-
-import * as dotenv from "dotenv";
-
+import initApp from "./app";
 import Knex from "knex";
 
-import initApp from "./app";
-
-import { FlowService } from "./services/flow";
+import { getConfig } from "./config";
 import { KibblesService } from "./services/kibbles";
+import { FlowService } from "./services/flow";
 import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
+import { BlockCursorService } from "./services/block-cursor";
+import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 let knexInstance: Knex;
 
 async function run() {
-  dotenv.config({
-    path: process.env.NODE_ENV === "production" ? ".env" : ".env.local",
-  });
+  const config = getConfig();
 
   knexInstance = Knex({
     client: "postgresql",
-    connection: process.env.DATABASE_URL!,
+    connection: config.databaseUrl,
     migrations: {
-      directory: process.env.MIGRATION_PATH || "./src/migrations",
+      directory: config.databaseMigrationPath,
     },
   });
 
@@ -36,42 +33,46 @@ async function run() {
   // Run all database migrations
   await knexInstance.migrate.latest();
 
-  // Make sure we're pointing to the correct Flow Access node.
-  fcl.config().put("accessNode.api", process.env.FLOW_ACCESS_NODE);
-
-  const minterAddress = fcl.withPrefix(process.env.MINTER_FLOW_ADDRESS!);
-  const fungibleTokenAddress = fcl.withPrefix(
-    process.env.FUNGIBLE_TOKEN_ADDRESS!
-  );
-  const nonFungibleTokenAddress = fcl.withPrefix(
-    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!
-  );
+  // Make sure we're pointing to the correct Flow Access API.
+  fcl.config().put("accessNode.api", config.accessApi);
 
   const flowService = new FlowService(
-    minterAddress,
-    process.env.MINTER_PRIVATE_KEY!,
-    process.env.MINTER_ACCOUNT_KEY_IDX!
+    config.minterAddress,
+    config.minterPrivateKeyHex,
+    config.minterAccountKeyIndex
   );
 
   const kibblesService = new KibblesService(
     flowService,
-    fungibleTokenAddress,
-    minterAddress
+    config.fungibleTokenAddress,
+    config.minterAddress
   );
 
   const kittyItemsService = new KittyItemsService(
     flowService,
-    nonFungibleTokenAddress,
-    minterAddress
+    config.nonFungibleTokenAddress,
+    config.minterAddress
   );
 
   const marketService = new MarketService(
     flowService,
-    fungibleTokenAddress,
-    minterAddress,
-    nonFungibleTokenAddress,
-    minterAddress,
-    minterAddress
+    config.fungibleTokenAddress,
+    config.minterAddress,
+    config.nonFungibleTokenAddress,
+    config.minterAddress,
+    config.minterAddress
+  );
+
+  const blockCursorService = new BlockCursorService();
+
+  const saleOfferWorker = new SaleOfferHandler(
+    marketService,
+    blockCursorService,
+    flowService,
+    [
+      config.eventCollectionInsertedSaleOffer,
+      config.eventCollectionRemovedSaleOffer,
+    ]
   );
 
   const app = initApp(
@@ -81,13 +82,16 @@ async function run() {
     marketService
   );
 
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Listening on port ${port}!`);
+  app.listen(config.port, () => {
+    console.log(`Listening on port ${config.port}!`);
   });
+
+  saleOfferWorker.run();
 }
 
+const redOutput = "\x1b[31m%s\x1b[0m";
+
 run().catch((e) => {
-  console.error("error", e);
+  console.error(redOutput, e);
   process.exit(1);
 });

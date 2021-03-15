@@ -4,8 +4,8 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
-const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
-const kibblePath = "\"../../contracts/Kibble.cdc\"";
+const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
+const kibblePath = '"../../contracts/Kibble.cdc"';
 
 class KibblesService {
   constructor(
@@ -37,7 +37,7 @@ class KibblesService {
     });
   };
 
-  mint = async (recipient: string, amount: number) => {    
+  mint = async (recipient: string, amount: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -48,14 +48,9 @@ class KibblesService {
         ),
         "utf8"
       )
-<<<<<<< HEAD:api/src/services/kibbles.ts
-      .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
-=======
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
 
->>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -79,14 +74,9 @@ class KibblesService {
         ),
         "utf8"
       )
-<<<<<<< HEAD:api/src/services/kibbles.ts
-      .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
-=======
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
 
->>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(amount.toFixed(8).toString(), t.UFix64)],
@@ -106,14 +96,9 @@ class KibblesService {
         ),
         "utf8"
       )
-<<<<<<< HEAD:api/src/services/kibbles.ts
-      .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
-=======
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
 
->>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -129,20 +114,12 @@ class KibblesService {
   getBalance = async (account: string) => {
     const script = fs
       .readFileSync(
-        path.join(
-          __dirname,
-          "../../../cadence/scripts/kibble/get_balance.cdc"
-        ),
+        path.join(__dirname, "../../../cadence/scripts/kibble/get_balance.cdc"),
         "utf8"
       )
-<<<<<<< HEAD:api/src/services/kibbles.ts
-      .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
-=======
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
 
->>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -152,20 +129,12 @@ class KibblesService {
   getSupply = async () => {
     const script = fs
       .readFileSync(
-        path.join(
-          __dirname,
-          "../../../cadence/scripts/kibble/get_supply.cdc"
-        ),
+        path.join(__dirname, "../../../cadence/scripts/kibble/get_supply.cdc"),
         "utf8"
       )
-<<<<<<< HEAD:api/src/services/kibbles.ts
-      .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
-=======
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
 
->>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }

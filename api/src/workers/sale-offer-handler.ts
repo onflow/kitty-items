@@ -4,28 +4,27 @@ import { MarketService } from "../services/market";
 
 import { EventDetails, BaseEventHandler } from "./base-event-handler";
 
-interface SaleOfferCreated {
-  itemID: number;
-  price: number;
-}
+import { getConfig } from "../config";
 
 class SaleOfferHandler extends BaseEventHandler {
+  private readonly config;
   constructor(
+    private readonly marketService: MarketService,
     blockCursorService: BlockCursorService,
     flowService: FlowService,
-    private readonly marketService: MarketService,
     eventNames: string[]
   ) {
     super(blockCursorService, flowService, eventNames);
+    this.config = getConfig();
   }
 
   async onEvent(details: EventDetails, event: any): Promise<void> {
-    console.log("Worker saw event:", event);
+    console.log("[saleOfferWorker] saw [Kitty Items] event:", event, details);
     switch (event.type) {
-      case process.env.EVENT_COLLECTION_INSERTED_SALE_OFFER:
+      case event.type === this.config.eventCollectionInsertedSaleOffer:
         this.marketService.addSaleOffer(event);
         break;
-      case process.env.EVENT_COLLECTION_REMOVED_SALE_OFFER:
+      case event.type === this.config.eventCollectionRemovedSaleOffer:
         this.marketService.removeSaleOffer(event);
         break;
       default:

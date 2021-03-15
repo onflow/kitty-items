@@ -62,6 +62,8 @@ _💡 Learn more about `Vault` and `Collection` resources [in this tutorial](htt
 
 Run this script to set up the minter account and mint an initial supply of Kibble and Kitty Items:
 
+*Note: Before you run this script, you'll need to open it and add a value for `FLOW_ADDRESS`*
+
 ```sh
 ./setup-minter.sh
 ```

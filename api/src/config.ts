@@ -19,13 +19,14 @@ const localDotEnv = ".env.local";
 
 export function getConfig() {
   const env = dotenv.config({
-    path: process.env.NODE_ENV === productionEnv ? productionDotEnv : localDotEnv,
+    path:
+      process.env.NODE_ENV === productionEnv ? productionDotEnv : localDotEnv,
   });
 
   dotenvExpand(env);
 
   const port = process.env.PORT || defaultPort;
-  
+
   const accessApi = process.env.FLOW_ACCESS_API;
 
   const minterAddress = fcl.withPrefix(process.env.MINTER_ADDRESS!);
@@ -36,12 +37,25 @@ export function getConfig() {
   }
 
   const minterAccountKeyIndex = process.env.MINTER_ACCOUNT_KEY_INDEX || 0;
-  
-  const fungibleTokenAddress = fcl.withPrefix(process.env.FUNGIBLE_TOKEN_ADDRESS!);
-  const nonFungibleTokenAddress = fcl.withPrefix(process.env.NON_FUNGIBLE_TOKEN_ADDRESS!);
+
+  const fungibleTokenAddress = fcl.withPrefix(
+    process.env.FUNGIBLE_TOKEN_ADDRESS!
+  );
+  const nonFungibleTokenAddress = fcl.withPrefix(
+    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!
+  );
 
   const databaseUrl = process.env.DATABASE_URL!;
-  const databaseMigrationPath = process.env.MIGRATION_PATH || defaultMigrationPath;
+  const databaseMigrationPath =
+    process.env.MIGRATION_PATH || defaultMigrationPath;
+
+  const eventCollectionInsertedSaleOffer = `A.${fcl.sansPrefix(
+    minterAddress
+  )}.KittyItemsMarket.CollectionInsertedSaleOffer`;
+
+  const eventCollectionRemovedSaleOffer = `A.${fcl.sansPrefix(
+    minterAddress
+  )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
 
   return {
     port,
@@ -53,5 +67,7 @@ export function getConfig() {
     nonFungibleTokenAddress,
     databaseUrl,
     databaseMigrationPath,
+    eventCollectionInsertedSaleOffer,
+    eventCollectionRemovedSaleOffer,
   };
-};
+}

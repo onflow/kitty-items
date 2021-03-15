@@ -6,14 +6,13 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SaleOffer } from "../models/sale-offer";
-import { FlowService } from "./flow";
+import { FlowService } from "../services/flow";
 
-
-const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
-const nonFungibleTokenPath = "\"../../contracts/NonFungibleToken.cdc\"";
-const kibblePath = "\"../../contracts/Kibble.cdc\"";
-const kittyItemsPath = "\"../../contracts/KittyItems.cdc\"";
-const kittyItemsMarkPath = "\"../../contracts/KittyItemsMarket.cdc\"";
+const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
+const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"';
+const kibblePath = '"../../contracts/Kibble.cdc"';
+const kittyItemsPath = '"../../contracts/KittyItems.cdc"';
+const kittyItemsMarkPath = '"../../contracts/KittyItemsMarket.cdc"';
 
 class MarketService {
   constructor(
@@ -27,7 +26,7 @@ class MarketService {
 
   setupAccount = () => {
     const authorization = this.flowService.authorizeMinter();
-    
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -93,7 +92,10 @@ class MarketService {
         "utf8"
       )
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
@@ -119,7 +121,10 @@ class MarketService {
         "utf8"
       )
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
