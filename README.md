@@ -19,7 +19,6 @@ deployed on [IPFS](https://docs.ipfs.io/concepts/case-study-fleek/) and the Flow
 ### 1. Install the Flow CLI
 
 Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
-(Note: This project requires `flow-cli v0.14.0` or above)
 
 _⚠️ This project requires `flow-cli v0.15.0` or above._
 

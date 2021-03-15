@@ -26,8 +26,8 @@ Create a copy of `.env.example`:
 cp .env.example .env.local
 ```
 
-Add the values `FLOW_ACCOUNT` and `FLOW_PRIVATE_KEY` you obtained in the previous step. <br/>
-The value of `FLOW_ACCOUNT_KEY_INDEX` should be `0`.<br/>
+Add the values `FLOW_ADDRESS` and `FLOW_PRIVATE_KEY` you obtained in the previous step. <br/>
+The value of `FLOW_ADDRESS_KEY_INDEX` should be `0`.<br/>
 
 *To learn more about key indexes and how they work you can [read more here](https://docs.onflow.org/concepts/accounts-and-keys).*
 
