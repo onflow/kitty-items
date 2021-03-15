@@ -20,7 +20,8 @@ class SaleOfferHandler extends BaseEventHandler {
 
   async onEvent(details: EventDetails, event: any): Promise<void> {
     console.log("[saleOfferWorker] saw [Kitty Items] event:", event, details);
-    switch (event.type) {
+
+    switch (true) {
       case event.type === this.config.eventCollectionInsertedSaleOffer:
         this.marketService.addSaleOffer(event);
         break;
