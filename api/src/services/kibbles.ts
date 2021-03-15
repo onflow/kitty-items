@@ -4,6 +4,9 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
+const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
+const kibblePath = "\"../../contracts/Kibble.cdc\"";
+
 class KibblesService {
   constructor(
     private readonly flowService: FlowService,
@@ -13,6 +16,7 @@ class KibblesService {
 
   setupAccount = async () => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -21,8 +25,9 @@ class KibblesService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
-      .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -34,6 +39,7 @@ class KibblesService {
 
   mint = async (recipient: string, amount: number) => {    
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -42,8 +48,14 @@ class KibblesService {
         ),
         "utf8"
       )
+<<<<<<< HEAD:api/src/services/kibbles.ts
       .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
       .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
+=======
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
+>>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -58,6 +70,7 @@ class KibblesService {
 
   burn = async (amount: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -66,8 +79,14 @@ class KibblesService {
         ),
         "utf8"
       )
+<<<<<<< HEAD:api/src/services/kibbles.ts
       .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
       .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
+=======
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
+>>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(amount.toFixed(8).toString(), t.UFix64)],
@@ -87,8 +106,14 @@ class KibblesService {
         ),
         "utf8"
       )
+<<<<<<< HEAD:api/src/services/kibbles.ts
       .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
       .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
+=======
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
+>>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.sendTx({
       transaction,
       args: [
@@ -110,8 +135,14 @@ class KibblesService {
         ),
         "utf8"
       )
+<<<<<<< HEAD:api/src/services/kibbles.ts
       .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
       .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
+=======
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
+>>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -127,8 +158,14 @@ class KibblesService {
         ),
         "utf8"
       )
+<<<<<<< HEAD:api/src/services/kibbles.ts
       .replace("\"../../contracts/FungibleToken.cdc\"", `${this.fungibleTokenAddress}`)
       .replace("\"../../contracts/Kibble.cdc\"", `${this.kibbleAddress}`);
+=======
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress));
+
+>>>>>>> refactor-project:kitty-items-js/src/services/kibbles.ts
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }

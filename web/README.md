@@ -7,13 +7,13 @@ You can see a working demo of this app at
 [https://dark-frost-1788.on.fleek.co/](https://dark-frost-1788.on.fleek.co/).
 It is hosted on IPFS via [https://fleek.co/](https://fleek.co/).
 
-## Run Locally Against Flow Testnet
+## Run locally against Flow Testnet
 
 ### Prerequisites
 
 You'll need to complete the following steps before launching this app:
 
-- TODO: replace [Deploy the Kitty Items contracts to your Testnet account](https://github.com/onflow/kitty-items/tree/master/kitty-items-deployer)
+- [Deploy the Kitty Items contracts](https://github.com/onflow/kitty-items/tree/master/#4-deploy-the-contracts)
 - [Configure and start the API](https://github.com/onflow/kitty-items/tree/master/api)
 
 ### 1. Configure your environment
@@ -41,7 +41,7 @@ npm install       # install the dependencies from the lock file
 npm run start:dev # start up the web app
 ```
 
-## Learn More
+## Learn more
 
 If you are wanting to learn more about what is happening in here we recommend checking out the [FCL Quick Start Guide](https://github.com/onflow/flow-js-sdk/tree/master/packages/fcl#flow-app-quickstart).
 In it you will see a lot of overlap of the code in this project.

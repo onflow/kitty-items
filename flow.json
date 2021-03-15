@@ -12,14 +12,14 @@
     "FungibleToken": {
       "source": "./cadence/contracts/FungibleToken.cdc",
       "aliases": {
-        "emulator": "ee82856bf20e2aa6",
-        "testnet": "9a0766d93b6608b7"
+        "emulator": "0xee82856bf20e2aa6",
+        "testnet": "0x9a0766d93b6608b7"
       }
     },
     "NonFungibleToken": {
       "source": "./cadence/contracts/NonFungibleToken.cdc",
       "aliases": {
-        "testnet": "631e88ae7f1d7c20"
+        "testnet": "0x631e88ae7f1d7c20"
       }
     }
   },
@@ -35,17 +35,21 @@
   },
   "accounts": {
     "emulator-account": {
-      "address": "f8d6e0586b0a20c7",
+      "address": "0xf8d6e0586b0a20c7",
       "keys": "11c5dfdeb0ff03a7a73ef39788563b62c89adea67bbb21ab95e5f710bd1d40b7"
     },
     "testnet-account": {
-      "address": "${TESTNET_ADDRESS}",
-      "keys": "${TESTNET_PRIVATE_KEY}"
+      "address": "${FLOW_ADDRESS}",
+      "keys": "${FLOW_PRIVATE_KEY}"
     }
   },
   "deployments": {
     "testnet": {
-      "testnet-account": ["Kibble", "KittyItems", "KittyItemsMarket"]
+      "testnet-account": [
+        "Kibble",
+        "KittyItems",
+        "KittyItemsMarket"
+      ]
     }
   }
 }

@@ -4,6 +4,9 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
+const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"';
+const kittyItemsPath = '"../../contracts/KittyItems.cdc"';
+
 class KittyItemsService {
   constructor(
     private readonly flowService: FlowService,
@@ -13,6 +16,7 @@ class KittyItemsService {
 
   setupAccount = async () => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -21,8 +25,12 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -34,6 +42,7 @@ class KittyItemsService {
 
   mint = async (recipient: string, typeId: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -42,8 +51,12 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(typeId, t.UInt64)],
@@ -55,6 +68,7 @@ class KittyItemsService {
 
   transfer = async (recipient: string, itemId: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -63,8 +77,12 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -83,8 +101,12 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -92,7 +114,6 @@ class KittyItemsService {
   };
 
   getKittyItemType = async (itemId: number): Promise<number> => {
-    // script should be fixed!
     const script = fs
       .readFileSync(
         path.join(
@@ -101,8 +122,12 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/NonFungibleToken.cdc\"", `${this.nonFungibleTokenAddress}`)
-      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.executeScript<number>({
       script,
       args: [fcl.arg(itemId, t.UInt64)],
@@ -118,7 +143,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace("\"../../contracts/KittyItems.cdc\"", `${this.kittyItemsAddress}`);
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
+
     return this.flowService.executeScript<number>({ script, args: [] });
   };
 }

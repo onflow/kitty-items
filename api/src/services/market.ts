@@ -5,10 +5,15 @@ import * as fs from "fs";
 
 import * as path from "path";
 
-import { SaleOfferEvent } from "../models/sale-offer-event";
 import { SaleOffer } from "../models/sale-offer";
-
 import { FlowService } from "./flow";
+
+
+const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
+const nonFungibleTokenPath = "\"../../contracts/NonFungibleToken.cdc\"";
+const kibblePath = "\"../../contracts/Kibble.cdc\"";
+const kittyItemsPath = "\"../../contracts/KittyItems.cdc\"";
+const kittyItemsMarkPath = "\"../../contracts/KittyItemsMarket.cdc\"";
 
 class MarketService {
   constructor(
@@ -22,6 +27,7 @@ class MarketService {
 
   setupAccount = () => {
     const authorization = this.flowService.authorizeMinter();
+    
     const transaction = fs
       .readFileSync(
         path.join(
@@ -30,10 +36,8 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace(
-        '"../../contracts/KittyItemsMarket.cdc"',
-        `${this.marketAddress}`
-      );
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
+
     return this.flowService.sendTx({
       transaction,
       args: [],
@@ -52,10 +56,8 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace(
-        '"../../contracts/KittyItemsMarket.cdc"',
-        `${this.marketAddress}`
-      );
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
+
     return this.flowService.executeScript<any[]>({
       script,
       args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
@@ -71,10 +73,8 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace(
-        '"../../contracts/KittyItemsMarket.cdc"',
-        `${this.marketAddress}`
-      );
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
+
     return this.flowService.executeScript<number[]>({
       script,
       args: [fcl.arg(account, t.Address)],
@@ -83,6 +83,7 @@ class MarketService {
 
   buy = (account: string, itemId: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -91,20 +92,11 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace(
-        '"../../contracts/FungibleToken.cdc"',
-        `${this.fungibleTokenAddress}`
-      )
-      .replace(
-        '"../../contracts/NonFungibleToken.cdc"',
-        `${this.nonFungibleTokenAddress}`
-      )
-      .replace('"../../contracts/Kibble.cdc"', `${this.kibbleAddress}`)
-      .replace('"../../contracts/KittyItems.cdc"', `${this.kittyItemsAddress}`)
-      .replace(
-        '"../../contracts/KittyItemsMarket.cdc"',
-        `${this.marketAddress}`
-      );
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
 
     return this.flowService.sendTx({
       transaction,
@@ -117,6 +109,7 @@ class MarketService {
 
   sell = (itemId: number, price: number) => {
     const authorization = this.flowService.authorizeMinter();
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -125,20 +118,11 @@ class MarketService {
         ),
         "utf8"
       )
-      .replace(
-        '"../../contracts/FungibleToken.cdc"',
-        `${this.fungibleTokenAddress}`
-      )
-      .replace(
-        '"../../contracts/NonFungibleToken.cdc"',
-        `${this.nonFungibleTokenAddress}`
-      )
-      .replace('"../../contracts/Kibble.cdc"', `${this.kibbleAddress}`)
-      .replace('"../../contracts/KittyItems.cdc"', `${this.kittyItemsAddress}`)
-      .replace(
-        '"../../contracts/KittyItemsMarket.cdc"',
-        `${this.marketAddress}`
-      );
+      .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
 
     return this.flowService.sendTx({
       transaction,
