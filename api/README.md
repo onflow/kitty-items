@@ -26,6 +26,11 @@ Create a copy of `.env.example`:
 cp .env.example .env.local
 ```
 
+Add the values `FLOW_ACCOUNT` and `FLOW_PRIVATE_KEY` you obtained in the previous step. <br/>
+The value of `FLOW_ACCOUNT_KEY_INDEX` should be `0`.<br/>
+
+*To learn more about key indexes and how they work you can [read more here](https://docs.onflow.org/concepts/accounts-and-keys).*
+
 ### 4. Start the database
 
 > 🚧 You'll need to have Docker installed to complete this step.

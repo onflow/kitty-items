@@ -30,7 +30,7 @@ cp .env.example .env.local
 
 ```sh
 npm install   # install dependencies
-npm run start # start the web app
+npm run start:dev # start the web app
 ```
 
 ## Learn more
