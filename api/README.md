@@ -7,7 +7,7 @@ The Kitty Items API is a RESTful API built with [express](https://expressjs.com/
 ### 1. Install dependencies
 
 ```sh
-cd api
+cd ./api
 
 npm install
 ```
@@ -19,6 +19,12 @@ You'll need the **account address** and
 
 Read the [Getting Started](https://github.com/onflow/kitty-items#-get-started)
 guide if you haven't created a Testnet account yet.
+
+```sh
+# Replace these values with your own!
+export FLOW_ADDRESS=0xabcdef12345689
+export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
+```
 
 ### 3. Configure your environment
 
@@ -72,7 +78,7 @@ it will automatically run the database migrations for the configured `DATABASE_U
 
 ## Next steps
 
-Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/web) to start interacting with your new marketplace!
+Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/web#readme) to start interacting with your new marketplace!
 
 ---
 
