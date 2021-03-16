@@ -7,6 +7,8 @@ The Kitty Items API is a RESTful API built with [express](https://expressjs.com/
 ### 1. Install dependencies
 
 ```sh
+cd api
+
 npm install
 ```
 
