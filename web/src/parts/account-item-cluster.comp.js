@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react"
 
 export const ItemImage = ({type}) => {
-  // Lazy load svg iimages of the kitty items.
+  // Lazy load SVG images for the kitty items.
 
   let [item, setItemImage] = useState("")
 
