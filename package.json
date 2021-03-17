@@ -7,7 +7,6 @@
   },
   "scripts": {
     "start:api": "cd ./api && npm run start:dev",
-    "start:worker": "cd ./api && npm run workers:dev",
     "start:web": "cd ./web && npm run start:dev",
     "start": "concurrently \"npm:start:*\""
   },

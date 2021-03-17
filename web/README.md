@@ -14,7 +14,14 @@ It is hosted on IPFS via [https://fleek.co/](https://fleek.co/).
 You'll need to complete the following steps before launching this app:
 
 - [Deploy the Kitty Items contracts](https://github.com/onflow/kitty-items/tree/master/#4-deploy-the-contracts)
-- [Configure and start the API](https://github.com/onflow/kitty-items/tree/master/api)
+- [Configure and start the API](https://github.com/onflow/kitty-items/tree/master/api#readme)
+
+Add your Testnet Flow address to the environment:
+
+```sh
+# Replace this value with your own!
+export FLOW_ADDRESS=0xabcdef12345689
+```
 
 ### 1. Configure your environment
 
@@ -26,19 +33,11 @@ cd ./web
 cp .env.example .env.local
 ```
 
-Open `.env.local` and replace the following placeholders with your Testnet address:
-
-```
-REACT_APP_CONTRACT_KIBBLE={YOUR_TESTNET_ADDRESS}
-REACT_APP_CONTRACT_KITTY_ITEMS={YOUR_TESTNET_ADDRESS}
-REACT_APP_CONTRACT_KITTY_ITEMS_MARKET={YOUR_TESTNET_ADDRESS}
-```
-
 ### 2. Install and run the app!
 
 ```sh
-npm install       # install the dependencies from the lock file
-npm run start:dev # start up the web app
+npm install       # install dependencies
+npm run start:dev # start the web app
 ```
 
 ## Learn more

@@ -51,8 +51,9 @@ Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create
 After your account has been created, save the address and private key to the following environment variables:
 
 ```sh
-export FLOW_ADDRESS={YOUR_TESTNET_ADDRESS}
-export FLOW_PRIVATE_KEY={YOUR_TESTNET_PRIVATE_KEY}
+# Replace these values with your own!
+export FLOW_ADDRESS=0xabcdef12345689
+export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 ```
 
 ### 4. Deploy the contracts
@@ -63,12 +64,12 @@ flow project deploy --network=testnet
 
 ### 5. Run the API
 
-After the contracts are deployed, follow the [Kitty Items API instructions](https://github.com/onflow/kitty-items/tree/master/api)
+After the contracts are deployed, follow the [Kitty Items API instructions](https://github.com/onflow/kitty-items/tree/master/api#readme)
 to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
 
 ### 6. Launch the web app
 
-Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web) to launch the Kitty Items front-end React app.
+Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web#readme) to launch the Kitty Items front-end React app.
 
 ## Project Overview
 
