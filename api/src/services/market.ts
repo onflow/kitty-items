@@ -1,8 +1,6 @@
 import * as t from "@onflow/types";
 import * as fcl from "@onflow/fcl";
-
 import * as fs from "fs";
-
 import * as path from "path";
 
 import { SaleOffer } from "../models/sale-offer";
@@ -144,10 +142,10 @@ class MarketService {
   addSaleOffer = async (saleOfferEvent) => {
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx).insert({
-        saleItemId: saleOfferEvent.data.saleItemID,
-        saleItemType: saleOfferEvent.data.saleItemType,
-        saleItemCollection: saleOfferEvent.data.saleItemCollection,
-        transactionId: saleOfferEvent.transactionId,
+        sale_item_id: saleOfferEvent.data.saleItemID,
+        sale_item_type: saleOfferEvent.data.saleItemType,
+        sale_item_collection: saleOfferEvent.data.saleItemCollection,
+        transaction_id: saleOfferEvent.transactionId,
         price: saleOfferEvent.data.price,
       });
     });
