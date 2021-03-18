@@ -62,17 +62,17 @@ abstract class BaseEventHandler {
       try {
         // `getEventsResult` will retrieve all events of the given type within the block height range supplied.
         // See https://docs.onflow.org/core-contracts/access-api/#geteventsforheightrange
-        getEventsResult = await Promise.all([
-          ...this.eventNames.map((name) =>
+        getEventsResult = await Promise.all(
+          this.eventNames.map((name) =>
             send([getEvents(name, fromBlock, toBlock)])
-          ),
-        ]).catch((e) => {
+          )
+        ).catch((e) => {
           console.log("Error getting events:", e);
         });
 
-        eventList = await Promise.all([
-          ...getEventsResult.map((result) => fcl.decode(result)),
-        ]).catch((e) => {
+        eventList = await Promise.all(
+          getEventsResult.map((result) => fcl.decode(result))
+        ).catch((e) => {
           console.log("Error creating event list:", e);
         });
 
@@ -86,9 +86,9 @@ abstract class BaseEventHandler {
       }
 
       // Note: Events may be "processed" out of order.
-      await Promise.all([
-        ...eventList.map((event) => this.processAndCatchEvent({}, event)),
-      ]).catch((e) => {
+      await Promise.all(
+        eventList.map((event) => this.processAndCatchEvent({}, event))
+      ).catch((e) => {
         console.log("Error processing events:", e);
       });
 

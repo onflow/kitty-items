@@ -1,8 +1,7 @@
 import {atomFamily, useRecoilState} from "recoil"
 import useSWR from "swr"
 import {IDLE, LOADING} from "../global/constants"
-
-const fetcher = url => fetch(url).then(res => res.json())
+import {fetcher} from "../util/fetcher"
 
 export const $state = atomFamily({
   key: "market-items::state",
