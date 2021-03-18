@@ -142,7 +142,7 @@ class MarketService {
   addSaleOffer = async (saleOfferEvent) => {
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx).insert({
-        sale_item_id: saleOfferEvent.data.saleItemID,
+        sale_item_id: saleOfferEvent.data.saleItemId,
         sale_item_type: saleOfferEvent.data.saleItemType,
         sale_item_collection: saleOfferEvent.data.saleItemCollection,
         transaction_id: saleOfferEvent.transactionId,
@@ -155,7 +155,7 @@ class MarketService {
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx)
         .where({
-          saleItemId: saleOfferEvent.data.saleItemID,
+          sale_item_id: saleOfferEvent.data.saleItemId,
         })
         .del();
     });
@@ -163,7 +163,8 @@ class MarketService {
 
   findMostRecentSales = () => {
     return SaleOffer.transaction(async (tx) => {
-      return await SaleOffer.query(tx).select("*");
+      const offers = await SaleOffer.query(tx).select("*");
+      return offers;
     });
   };
 }

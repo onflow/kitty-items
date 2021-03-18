@@ -1,6 +1,6 @@
 import KittyItemsMarket from "../../contracts/KittyItemsMarket.cdc"
 
-transaction(saleItemID: UInt64) {
+transaction(saleItemId: UInt64) {
     let marketCollection: &KittyItemsMarket.Collection
 
     prepare(signer: AuthAccount) {
@@ -9,7 +9,7 @@ transaction(saleItemID: UInt64) {
     }
 
     execute {
-        let offer <-self.marketCollection.remove(saleItemID: saleItemID)
+        let offer <-self.marketCollection.remove(saleItemId: saleItemId)
         destroy offer
     }
 }

@@ -21,7 +21,7 @@ import * as t from "@onflow/types"
 
 //   pub fun fetch(address: Address, id: UInt64): Item? {
 //     if let collection = getAccount(address).getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath).borrow() {
-//       if let item = collection.borrowSaleItem(saleItemID: id) {
+//       if let item = collection.borrowSaleItem(saleItemId: id) {
 //         return Item(id: id, isCompleted: item.saleCompleted, price: item.salePrice, owner: address)
 //       }
 //     }
@@ -97,7 +97,7 @@ export async function fetchMarketItem(address, id) {
 
       pub fun main(address: Address, id: UInt64): Item? {
         if let collection = getAccount(address).getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath).borrow() {
-          if let item = collection.borrowSaleItem(saleItemID: id) {
+          if let item = collection.borrowSaleItem(saleItemId: id) {
             return Item(id: id, isCompleted: item.saleCompleted, price: item.salePrice, owner: address)
           }
         }

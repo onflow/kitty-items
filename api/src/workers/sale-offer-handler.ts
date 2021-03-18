@@ -7,9 +7,8 @@ import { MarketService } from "../services/market";
 import { EventDetails, BaseEventHandler } from "./base-event-handler";
 
 class SaleOfferHandler extends BaseEventHandler {
-  private eventCollectionInsertedSaleOffer: string;
-  private eventCollectionRemovedSaleOffer: string;
-
+  private eventCollectionInsertedSaleOffer;
+  private eventCollectionRemovedSaleOffer;
   constructor(
     private readonly marketService: MarketService,
     blockCursorService: BlockCursorService,
@@ -24,6 +23,11 @@ class SaleOfferHandler extends BaseEventHandler {
     this.eventCollectionRemovedSaleOffer = `A.${fcl.sansPrefix(
       marketService.marketAddress
     )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
+
+    this.eventNames = [
+      this.eventCollectionInsertedSaleOffer,
+      this.eventCollectionRemovedSaleOffer,
+    ];
   }
 
   async onEvent(details: EventDetails, event: any): Promise<void> {

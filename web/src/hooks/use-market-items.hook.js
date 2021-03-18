@@ -1,7 +1,7 @@
 import {atomFamily, useRecoilState} from "recoil"
 import useSWR from "swr"
 import {IDLE, LOADING} from "../global/constants"
-import {fetcher} from "../util/fetcher"
+import fetcher from "../util/fetcher"
 
 export const $state = atomFamily({
   key: "market-items::state",
@@ -27,7 +27,7 @@ export function useMarketItems() {
     },
     onSuccess: ({latestSaleOffers}) => {
       setStatus(IDLE)
-      setItems(latestSaleOffers)
+      setItems(latestSaleOffers.map(s => new SaleOffer(s)))
     },
     onError: error => {
       console.log("Failed to fetch market items.", error)

@@ -40,11 +40,11 @@ pub contract KittyItemsMarket {
     // Collection events.
     //
     // A sale offer has been removed from the collection of Address.
-    pub event CollectionRemovedSaleOffer(saleItemID: UInt64, saleItemCollection: Address)
+    pub event CollectionRemovedSaleOffer(saleItemId: UInt64, saleItemCollection: Address)
 
     // A sale offer has been inserted into the collection of Address.
     pub event CollectionInsertedSaleOffer(
-      saleItemID: UInt64, 
+      saleItemId: UInt64, 
       saleItemType: UInt64, 
       saleItemCollection: Address, 
       price: UFix64
@@ -60,7 +60,7 @@ pub contract KittyItemsMarket {
     //
     pub resource interface SaleOfferPublicView {
         pub var saleCompleted: Bool
-        pub let saleItemID: UInt64
+        pub let saleItemId: UInt64
         pub let salePrice: UFix64
     }
 
@@ -72,7 +72,7 @@ pub contract KittyItemsMarket {
         pub var saleCompleted: Bool
 
         // The KittyItems NFT ID for sale.
-        pub let saleItemID: UInt64
+        pub let saleItemId: UInt64
 
         // The 'type' of NFT
         pub let saleItemType: UInt64
@@ -103,17 +103,17 @@ pub contract KittyItemsMarket {
 
             self.sellerPaymentReceiver.borrow()!.deposit(from: <-buyerPayment)
 
-            let nft <- self.sellerItemProvider.borrow()!.withdraw(withdrawID: self.saleItemID)
+            let nft <- self.sellerItemProvider.borrow()!.withdraw(withdrawID: self.saleItemId)
             buyerCollection.deposit(token: <-nft)
 
-            emit SaleOfferAccepted(itemID: self.saleItemID)
+            emit SaleOfferAccepted(itemID: self.saleItemId)
         }
 
         // destructor
         //
         destroy() {
             // Whether the sale completed or not, publicize that it is being withdrawn.
-            emit SaleOfferFinished(itemID: self.saleItemID)
+            emit SaleOfferFinished(itemID: self.saleItemId)
         }
 
         // initializer
@@ -122,7 +122,7 @@ pub contract KittyItemsMarket {
         //
         init(
             sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>,
-            saleItemID: UInt64,
+            saleItemId: UInt64,
             saleItemType: UInt64,
             sellerPaymentReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>,
             salePrice: UFix64
@@ -135,13 +135,13 @@ pub contract KittyItemsMarket {
             self.saleCompleted = false
 
             self.sellerItemProvider = sellerItemProvider
-            self.saleItemID = saleItemID
+            self.saleItemId = saleItemId
 
             self.sellerPaymentReceiver = sellerPaymentReceiver
             self.salePrice = salePrice
             self.saleItemType = saleItemType
 
-            emit SaleOfferCreated(itemID: self.saleItemID, price: self.salePrice)
+            emit SaleOfferCreated(itemID: self.saleItemId, price: self.salePrice)
         }
     }
 
@@ -150,14 +150,14 @@ pub contract KittyItemsMarket {
     //
     pub fun createSaleOffer (
         sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>,
-        saleItemID: UInt64,
+        saleItemId: UInt64,
         saleItemType: UInt64,
         sellerPaymentReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>,
         salePrice: UFix64
     ): @SaleOffer {
         return <-create SaleOffer(
             sellerItemProvider: sellerItemProvider,
-            saleItemID: saleItemID,
+            saleItemId: saleItemId,
             saleItemType: saleItemType,
             sellerPaymentReceiver: sellerPaymentReceiver,
             salePrice: salePrice
@@ -170,7 +170,7 @@ pub contract KittyItemsMarket {
     //
     pub resource interface CollectionManager {
         pub fun insert(offer: @KittyItemsMarket.SaleOffer)
-        pub fun remove(saleItemID: UInt64): @SaleOffer 
+        pub fun remove(saleItemId: UInt64): @SaleOffer 
     }
 
         // CollectionPurchaser
@@ -180,7 +180,7 @@ pub contract KittyItemsMarket {
     //
     pub resource interface CollectionPurchaser {
         pub fun purchase(
-            saleItemID: UInt64,
+            saleItemId: UInt64,
             buyerCollection: &KittyItems.Collection{NonFungibleToken.Receiver},
             buyerPayment: @FungibleToken.Vault
         )
@@ -191,9 +191,9 @@ pub contract KittyItemsMarket {
     //
     pub resource interface CollectionPublic {
         pub fun getSaleOfferIDs(): [UInt64]
-        pub fun borrowSaleItem(saleItemID: UInt64): &SaleOffer{SaleOfferPublicView}?
+        pub fun borrowSaleItem(saleItemId: UInt64): &SaleOffer{SaleOfferPublicView}?
         pub fun purchase(
-            saleItemID: UInt64,
+            saleItemId: UInt64,
             buyerCollection: &KittyItems.Collection{NonFungibleToken.Receiver},
             buyerPayment: @FungibleToken.Vault
         )
@@ -206,10 +206,10 @@ pub contract KittyItemsMarket {
         pub var saleOffers: @{UInt64: SaleOffer}
 
         // insert
-        // Insert a SaleOffer into the collection, replacing one with the same saleItemID if present.
+        // Insert a SaleOffer into the collection, replacing one with the same saleItemId if present.
         //
          pub fun insert(offer: @KittyItemsMarket.SaleOffer) {
-            let id: UInt64 = offer.saleItemID
+            let id: UInt64 = offer.saleItemId
             let price: UFix64 = offer.salePrice
             let itemType: UInt64 = offer.saleItemType
             // add the new offer to the dictionary which removes the old one
@@ -217,7 +217,7 @@ pub contract KittyItemsMarket {
             destroy oldOffer
 
             emit CollectionInsertedSaleOffer(
-              saleItemID: id,
+              saleItemId: id,
               saleItemType: itemType,
               saleItemCollection:self.owner?.address!,
               price: price
@@ -226,13 +226,13 @@ pub contract KittyItemsMarket {
 
         // remove
         // Remove and return a SaleOffer from the collection.
-        pub fun remove(saleItemID: UInt64): @SaleOffer {
-            emit CollectionRemovedSaleOffer(saleItemID: saleItemID, saleItemCollection: self.owner?.address!)
-            return <-(self.saleOffers.remove(key: saleItemID) ?? panic("missing SaleOffer"))
+        pub fun remove(saleItemId: UInt64): @SaleOffer {
+            emit CollectionRemovedSaleOffer(saleItemId: saleItemId, saleItemCollection: self.owner?.address!)
+            return <-(self.saleOffers.remove(key: saleItemId) ?? panic("missing SaleOffer"))
         }
  
         // purchase
-        // If the caller passes a valid saleItemID and the item is still for sale, and passes a Kibble vault
+        // If the caller passes a valid saleItemId and the item is still for sale, and passes a Kibble vault
         // typed as a FungibleToken.Vault (Kibble.deposit() handles the type safety of this)
         // containing the correct payment amount, this will transfer the KittyItem to the caller's
         // KittyItems collection.
@@ -244,14 +244,14 @@ pub contract KittyItemsMarket {
         //   4. SaleOffer.SaleOfferFinished
         //
         pub fun purchase(
-            saleItemID: UInt64,
+            saleItemId: UInt64,
             buyerCollection: &KittyItems.Collection{NonFungibleToken.Receiver},
             buyerPayment: @FungibleToken.Vault
         ) {
             pre {
-                self.saleOffers[saleItemID] != nil: "SaleOffer does not exist in the collection!"
+                self.saleOffers[saleItemId] != nil: "SaleOffer does not exist in the collection!"
             }
-            let offer <- self.remove(saleItemID: saleItemID)
+            let offer <- self.remove(saleItemId: saleItemId)
             offer.accept(buyerCollection: buyerCollection, buyerPayment: <-buyerPayment)
             //FIXME: Is this correct? Or should we return it to the caller to dispose of?
             destroy offer
@@ -265,14 +265,14 @@ pub contract KittyItemsMarket {
         }
 
         // borrowSaleItem
-        // Returns an Optional read-only view of the SaleItem for the given saleItemID if it is contained by this collection.
-        // The optional will be nil if the provided saleItemID is not present in the collection.
+        // Returns an Optional read-only view of the SaleItem for the given saleItemId if it is contained by this collection.
+        // The optional will be nil if the provided saleItemId is not present in the collection.
         //
-        pub fun borrowSaleItem(saleItemID: UInt64): &SaleOffer{SaleOfferPublicView}? {
-            if self.saleOffers[saleItemID] == nil {
+        pub fun borrowSaleItem(saleItemId: UInt64): &SaleOffer{SaleOfferPublicView}? {
+            if self.saleOffers[saleItemId] == nil {
                 return nil
             } else {
-                return &self.saleOffers[saleItemID] as &SaleOffer{SaleOfferPublicView}
+                return &self.saleOffers[saleItemId] as &SaleOffer{SaleOfferPublicView}
             }
         }
 

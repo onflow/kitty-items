@@ -6,11 +6,11 @@ import {invariant} from "@onflow/util-invariant"
 const CODE = fcl.cdc`
   import KittyItemsMarket from 0xKittyItemsMarket
 
-  transaction(saleItemID: UInt64) {
+  transaction(saleItemId: UInt64) {
       prepare(account: AuthAccount) {
           let listing <- account
             .borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath)!
-            .remove(saleItemID: saleItemID)
+            .remove(saleItemId: saleItemId)
           destroy listing
       }
   }

@@ -14,10 +14,11 @@ abstract class BaseEventHandler {
   private stepSize: number = 1000;
   private stepTimeMs: number = 1000;
   private blockThreshold: number = Number(process.env.BLOCK_THRESHOLD!);
+
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
     private readonly flowService: FlowService,
-    private readonly eventNames: string[]
+    public eventNames: string[]
   ) {}
 
   async run() {
