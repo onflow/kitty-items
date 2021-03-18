@@ -1,13 +1,15 @@
 import * as fcl from "@onflow/fcl";
-import initApp from "./app";
+
 import Knex from "knex";
 
+import initApp from "./app";
 import { getConfig } from "./config";
-import { KibblesService } from "./services/kibbles";
+
+import { BlockCursorService } from "./services/block-cursor";
 import { FlowService } from "./services/flow";
+import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
-import { BlockCursorService } from "./services/block-cursor";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 let knexInstance: Knex;
@@ -68,11 +70,7 @@ async function run() {
   const saleOfferWorker = new SaleOfferHandler(
     marketService,
     blockCursorService,
-    flowService,
-    [
-      config.eventCollectionInsertedSaleOffer,
-      config.eventCollectionRemovedSaleOffer,
-    ]
+    flowService
   );
 
   const app = initApp(

@@ -21,7 +21,7 @@ class MarketService {
     private readonly kibbleAddress: string,
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
-    private readonly marketAddress: string
+    public readonly marketAddress: string
   ) {}
 
   setupAccount = () => {

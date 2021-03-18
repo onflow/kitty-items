@@ -126,7 +126,7 @@ abstract class BaseEventHandler {
   }
 
   private sleep(ms = 5000) {
-    return new Promise((resolve, reject) => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 

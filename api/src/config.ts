@@ -1,6 +1,8 @@
-import * as dotenv from "dotenv";
-import dotenvExpand from "dotenv-expand";
 import * as fcl from "@onflow/fcl";
+
+import * as dotenv from "dotenv";
+
+import dotenvExpand from "dotenv-expand";
 
 const flowAccountErrorMessaage = `
 
@@ -49,14 +51,6 @@ export function getConfig() {
   const databaseMigrationPath =
     process.env.MIGRATION_PATH || defaultMigrationPath;
 
-  const eventCollectionInsertedSaleOffer = `A.${fcl.sansPrefix(
-    minterAddress
-  )}.KittyItemsMarket.CollectionInsertedSaleOffer`;
-
-  const eventCollectionRemovedSaleOffer = `A.${fcl.sansPrefix(
-    minterAddress
-  )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
-
   return {
     port,
     accessApi,
@@ -67,7 +61,5 @@ export function getConfig() {
     nonFungibleTokenAddress,
     databaseUrl,
     databaseMigrationPath,
-    eventCollectionInsertedSaleOffer,
-    eventCollectionRemovedSaleOffer,
   };
 }
