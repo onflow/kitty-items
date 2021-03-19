@@ -8,6 +8,12 @@ import {fetchMarketItem} from "../flow/fetch-market-item.script"
 import {buyMarketItem} from "../flow/buy-market-item.tx"
 import {cancelMarketListing} from "../flow/cancel-market-listing.tx"
 
+class SaleOffer {
+  constructor(accountItem) {
+    if(!accountItem)
+  }
+}
+
 function expand(key) {
   return key.split("|")
 }
@@ -20,7 +26,14 @@ export const $state = atomFamily({
   key: "market-item::state",
   default: selectorFamily({
     key: "market-item::default",
-    get: key => async () => fetchMarketItem(...expand(key)),
+    get: key => async ({ get }) => {
+      const accountItem = await fetchMarketItem(...expand(key))
+      if (!accountItem) {
+        // set the status for the key to PROCESSING
+        // Because the db and contract are out of sync. 
+      }
+      return new SaleOffer(accountItem)
+    },
   }),
 })
 

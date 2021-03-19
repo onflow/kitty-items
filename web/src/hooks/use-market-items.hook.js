@@ -1,22 +1,22 @@
-import {atomFamily, useRecoilState} from "recoil"
+import {atom, useRecoilState} from "recoil"
 import useSWR from "swr"
 import {IDLE, LOADING} from "../global/constants"
 import fetcher from "../util/fetcher"
 
-export const $state = atomFamily({
+export const $state = atom({
   key: "market-items::state",
   default: [],
 })
 
-export const $status = atomFamily({
+export const $status = atom({
   key: "market-items::status",
   default: IDLE,
 })
 
 export function useMarketItems() {
   const url = process.env.REACT_APP_API_MARKET_ITEMS_LIST
-  const [status, setStatus] = useRecoilState($status(IDLE))
-  const [items, setItems] = useRecoilState($state([]))
+  const [status, setStatus] = useRecoilState($status)
+  const [items, setItems] = useRecoilState($state)
 
   useSWR(url, fetcher, {
     initialData: items,
@@ -27,7 +27,7 @@ export function useMarketItems() {
     },
     onSuccess: ({latestSaleOffers}) => {
       setStatus(IDLE)
-      setItems(latestSaleOffers.map(s => new SaleOffer(s)))
+      setItems(latestSaleOffers)
     },
     onError: error => {
       console.log("Failed to fetch market items.", error)
