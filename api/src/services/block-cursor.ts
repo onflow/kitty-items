@@ -1,16 +1,14 @@
 import { BlockCursor } from "../models/block-cursor";
 
 class BlockCursorService {
-  async findOrCreateLatestBlockCursor(
-    eventName: string,
-    latestBlockHeight: number
-  ) {
+  private readonly cursorLable: string = "BLOCK_CURSOR";
+  async findOrCreateLatestBlockCursor(latestBlockHeight: number) {
     let blockCursor = await BlockCursor.query().findOne({
-      flow_event_name: eventName,
+      cursor_label: this.cursorLable,
     });
     if (!blockCursor) {
       blockCursor = await BlockCursor.query().insertAndFetch({
-        flow_event_name: eventName,
+        cursor_label: this.cursorLable,
         current_block_height: latestBlockHeight,
       });
     }

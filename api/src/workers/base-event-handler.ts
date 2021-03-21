@@ -6,8 +6,6 @@ import { BlockCursor } from "../models/block-cursor";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 
-interface EventDetails {}
-
 // BaseEventHandler will iterate through a range of block_heights and then run a callback to process any events we
 // are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.
 abstract class BaseEventHandler {
@@ -27,12 +25,11 @@ abstract class BaseEventHandler {
     console.log("latestBlockHeight =", latestBlockHeight.height);
 
     let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(
-      "SALE_OFFER_EVENTS",
       latestBlockHeight.height
     );
 
     if (!blockCursor) {
-      throw new Error("Could not get block cursor.");
+      throw new Error("Could not get block cursor from database.");
     }
 
     // loop
@@ -44,7 +41,7 @@ abstract class BaseEventHandler {
         // calculate fromBlock, toBlock
         ({ fromBlock, toBlock } = await this.getBlockRange(blockCursor));
       } catch (e) {
-        console.warn("Error retrieving block range");
+        console.warn("Error retrieving block range:", e);
         continue;
       }
 
@@ -57,27 +54,16 @@ abstract class BaseEventHandler {
         continue;
       }
 
-      // do our processing
-      let getEventsResult, eventList;
-
       try {
         // `getEventsResult` will retrieve all events of the given type within the block height range supplied.
         // See https://docs.onflow.org/core-contracts/access-api/#geteventsforheightrange
-        getEventsResult = await Promise.all(
-          this.eventNames.map((name) =>
-            send([getEvents(name, fromBlock, toBlock)])
-          )
-        ).catch((e) => {
-          console.log("Error getting events:", e);
-        });
 
-        eventList = await Promise.all(
-          getEventsResult.map((result) => fcl.decode(result))
-        ).catch((e) => {
-          console.log("Error creating event list:", e);
+        // Process events in order they are specified in constructor
+        this.eventNames.forEach(async (event) => {
+          const result = await send([getEvents(event, fromBlock, toBlock)]);
+          const decoded = await fcl.decode(result);
+          if (decoded.length) await this.onEvent(decoded);
         });
-
-        eventList = eventList.flat();
       } catch (e) {
         console.error(
           `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
@@ -85,13 +71,6 @@ abstract class BaseEventHandler {
         );
         continue;
       }
-
-      // Note: Events may be "processed" out of order.
-      await Promise.all(
-        eventList.map((event) => this.processAndCatchEvent({}, event))
-      ).catch((e) => {
-        console.log("Error processing events:", e);
-      });
 
       // update cursor
       blockCursor = await this.blockCursorService.updateBlockCursorById(
@@ -101,17 +80,7 @@ abstract class BaseEventHandler {
     }
   }
 
-  private async processAndCatchEvent(eventDetails, event) {
-    try {
-      await this.onEvent(eventDetails, event);
-    } catch (e) {
-      // If we get an error, we're just continuing the loop for now, but they in a production graded app they should
-      // be handled accordingly!
-      console.error("Error processing event", e);
-    }
-  }
-
-  abstract onEvent(details: EventDetails, payload: any): Promise<void>;
+  abstract onEvent(event: any): Promise<void>;
 
   private async getBlockRange(currentBlockCursor: BlockCursor) {
     const latestBlockHeight = await this.flowService.getLatestBlockHeight();
@@ -131,4 +100,4 @@ abstract class BaseEventHandler {
   }
 }
 
-export { BaseEventHandler, EventDetails };
+export { BaseEventHandler };

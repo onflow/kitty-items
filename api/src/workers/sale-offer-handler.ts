@@ -4,7 +4,7 @@ import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 import { MarketService } from "../services/market";
 
-import { EventDetails, BaseEventHandler } from "./base-event-handler";
+import { BaseEventHandler } from "./base-event-handler";
 
 class SaleOfferHandler extends BaseEventHandler {
   private eventCollectionInsertedSaleOffer;
@@ -25,13 +25,14 @@ class SaleOfferHandler extends BaseEventHandler {
     )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
 
     this.eventNames = [
+      // Events will be processes in the order they are added here.
       this.eventCollectionInsertedSaleOffer,
       this.eventCollectionRemovedSaleOffer,
     ];
   }
 
-  async onEvent(details: EventDetails, event: any): Promise<void> {
-    console.log("[saleOfferWorker] saw [Kitty Items] event:", event, details);
+  async onEvent(event: any): Promise<void> {
+    console.log("[saleOfferWorker] saw [Kitty Items] event:", event);
 
     switch (event.type) {
       case this.eventCollectionInsertedSaleOffer:
