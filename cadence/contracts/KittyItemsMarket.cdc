@@ -59,8 +59,8 @@ pub contract KittyItemsMarket {
     // An interface providing a read-only view of a SaleOffer
     //
     pub resource interface SaleOfferPublicView {
-        pub var saleCompleted: Bool
         pub let saleItemID: UInt64
+        pub let saleItemTypeID: UInt64
         pub let salePrice: UFix64
     }
 

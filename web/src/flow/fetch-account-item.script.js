@@ -11,10 +11,10 @@ pub struct Item {
   pub let typeID: UInt64
   pub let owner: Address
 
-  init(id: UInt64, type: UInt64, owner: Address) {
-    self.itemID = id
-    self.typeID = type
-    self.itemOwner = owner
+  init(itemID: UInt64, typeID: UInt64, owner: Address) {
+    self.itemID = itemID
+    self.typeID = typeID
+    self.owner = owner
   }
 }
 

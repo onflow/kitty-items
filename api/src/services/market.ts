@@ -141,13 +141,15 @@ class MarketService {
 
   addSaleOffer = async (saleOfferEvent) => {
     return SaleOffer.transaction(async (tx) => {
-      return await SaleOffer.query(tx).insert({
-        sale_item_id: saleOfferEvent.data.saleItemID,
-        sale_item_type: saleOfferEvent.data.saleItemTypeID,
-        sale_item_owner: saleOfferEvent.data.saleItemOwner,
-        sale_price: saleOfferEvent.data.salePrice,
-        transaction_id: saleOfferEvent.transactionId,
-      });
+      return await SaleOffer.query(tx)
+        .insert({
+          sale_item_id: saleOfferEvent.data.saleItemID,
+          sale_item_type: saleOfferEvent.data.saleItemTypeID,
+          sale_item_owner: saleOfferEvent.data.saleItemOwner,
+          sale_price: saleOfferEvent.data.salePrice,
+          transaction_id: saleOfferEvent.transactionId,
+        })
+        .returning("sale_item_id AS id");
     });
   };
 
