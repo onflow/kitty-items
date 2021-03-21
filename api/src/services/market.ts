@@ -149,7 +149,7 @@ class MarketService {
           sale_price: saleOfferEvent.data.salePrice,
           transaction_id: saleOfferEvent.transactionId,
         })
-        .returning("sale_item_id AS id");
+        .returning("transaction_id");
     });
   };
 
