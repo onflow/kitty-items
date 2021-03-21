@@ -55,7 +55,7 @@ export function AccountItemCluster({address, id}) {
       {cu.addr === address && (
         <>
           {!item.forSale ? (
-            <Td isNumeric maxW="none">
+            <Td isNumeric>
               <Button
                 colorScheme="blue"
                 size="sm"
@@ -69,7 +69,7 @@ export function AccountItemCluster({address, id}) {
               </Button>
             </Td>
           ) : (
-            <Td isNumeric maxW="none">
+            <Td isNumeric>
               <Button
                 size="sm"
                 colorScheme="orange"

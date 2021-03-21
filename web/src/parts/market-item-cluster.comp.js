@@ -37,7 +37,7 @@ export function MarketItemCluster({address, id}) {
       {loggedIn && (
         <>
           {item.saleItemCollection === cu.addr ? (
-            <Td isNumeric maxW="none">
+            <Td isNumeric>
               <Button
                 colorScheme="orange"
                 size="sm"
@@ -51,7 +51,7 @@ export function MarketItemCluster({address, id}) {
               </Button>
             </Td>
           ) : (
-            <Td isNumeric maxW="none">
+            <Td isNumeric>
               <Button
                 colorScheme="blue"
                 size="sm"
