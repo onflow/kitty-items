@@ -48,6 +48,7 @@ export function getConfig() {
   );
 
   const databaseUrl = process.env.DATABASE_URL!;
+
   const databaseMigrationPath =
     process.env.MIGRATION_PATH || defaultMigrationPath;
 

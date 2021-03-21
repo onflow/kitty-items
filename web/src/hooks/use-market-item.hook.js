@@ -4,15 +4,10 @@ import {IDLE, PROCESSING} from "../global/constants"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {useAccountItems} from "../hooks/use-account-items.hook"
 import {useKibblesBalance} from "../hooks/use-kibbles-balance.hook"
+import {$marketItemsState} from "../hooks/use-market-items.hook"
 import {fetchMarketItem} from "../flow/fetch-market-item.script"
 import {buyMarketItem} from "../flow/buy-market-item.tx"
 import {cancelMarketListing} from "../flow/cancel-market-listing.tx"
-
-class SaleOffer {
-  constructor(accountItem) {
-    if(!accountItem)
-  }
-}
 
 function expand(key) {
   return key.split("|")
@@ -26,14 +21,7 @@ export const $state = atomFamily({
   key: "market-item::state",
   default: selectorFamily({
     key: "market-item::default",
-    get: key => async ({ get }) => {
-      const accountItem = await fetchMarketItem(...expand(key))
-      if (!accountItem) {
-        // set the status for the key to PROCESSING
-        // Because the db and contract are out of sync. 
-      }
-      return new SaleOffer(accountItem)
-    },
+    get: key => async () => fetchMarketItem(...expand(key)),
   }),
 })
 
@@ -59,7 +47,7 @@ export function useMarketItem(address, id) {
     owned,
     async buy() {
       await buyMarketItem(
-        {itemId: id, ownerAddress: address},
+        {itemID: id, ownerAddress: address},
         {
           onStart() {
             setStatus(PROCESSING)
@@ -79,7 +67,7 @@ export function useMarketItem(address, id) {
     },
     async cancelListing() {
       await cancelMarketListing(
-        {itemId: id},
+        {itemID: id},
         {
           onStart() {
             setStatus(PROCESSING)

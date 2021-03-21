@@ -26,7 +26,12 @@ export function MarketItemsCluster() {
         </Thead>
         <Tbody>
           {items.map(item => (
-            <Item key={item.id} item={item} status={status} />
+            <Item
+              key={item.id}
+              id={item.saleItemID}
+              address={item.saleItemCollection}
+              status={status}
+            />
           ))}
         </Tbody>
       </Table>

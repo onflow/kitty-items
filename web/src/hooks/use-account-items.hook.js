@@ -38,7 +38,8 @@ export function useAccountItems(address) {
         },
         body: JSON.stringify({
           recipient: address,
-          typeId: 2,
+          // Random typeID between 1 - 5
+          typeID: Math.floor(Math.random() * (5 - 1)) + 1,
         }),
       })
       await fetchAccountItems(address).then(setItems)

@@ -50,6 +50,14 @@
         "KittyItems",
         "KittyItemsMarket"
       ]
+    },
+    "emulator": {
+      "emulator-account": [
+        "Kibble",
+        "KittyItems",
+        "KittyItemsMarket",
+        "NonFungibleToken"
+      ]
     }
   }
 }

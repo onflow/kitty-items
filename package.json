@@ -8,6 +8,7 @@
   "scripts": {
     "start:api": "cd ./api && npm run start:dev",
     "start:web": "cd ./web && npm run start:dev",
+    "start:wallet": "cd ./fcl-dev-wallet && npm run start:dev",
     "start": "concurrently \"npm:start:*\""
   },
   "repository": {

@@ -4,7 +4,7 @@ import Kibble from "../../contracts/Kibble.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import KittyItemsMarket from "../../contracts/KittyItemsMarket.cdc"
 
-transaction(saleItemId: UInt64, marketCollectionAddress: Address) {
+transaction(saleItemID: UInt64, marketCollectionAddress: Address) {
     let paymentVault: @FungibleToken.Vault
     let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
     let marketCollection: &KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}
@@ -17,7 +17,7 @@ transaction(saleItemId: UInt64, marketCollectionAddress: Address) {
             .borrow()
             ?? panic("Could not borrow market collection from market address")
 
-        let saleItem = self.marketCollection.borrowSaleItem(saleItemId: saleItemId)
+        let saleItem = self.marketCollection.borrowSaleItem(saleItemID: saleItemID)
                     ?? panic("No item with that ID")
         let price = saleItem.salePrice
 
@@ -32,7 +32,7 @@ transaction(saleItemId: UInt64, marketCollectionAddress: Address) {
 
     execute {
         self.marketCollection.purchase(
-            saleItemId: saleItemId,
+            saleItemID: saleItemID,
             buyerCollection: self.kittyItemsCollection,
             buyerPayment: <- self.paymentVault
         )

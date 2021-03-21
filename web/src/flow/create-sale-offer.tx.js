@@ -9,7 +9,7 @@ const CODE = fcl.cdc`
   import KittyItems from 0xKittyItems
   import KittyItemsMarket from 0xKittyItemsMarket
 
-  transaction(saleItemId: UInt64, saleItemPrice: UFix64) {
+  transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     let kibbleVault: Capability<&Kibble.Vault{FungibleToken.Receiver}>
     let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>
     let marketCollection: &KittyItemsMarket.Collection
@@ -35,8 +35,8 @@ const CODE = fcl.cdc`
     execute {
         let offer <- KittyItemsMarket.createSaleOffer (
             sellerItemProvider: self.kittyItemsCollection,
-            saleItemId: saleItemId,
-            saleItemType: self.kittyItemsCollection.borrow()!.borrowKittyItem(id: saleItemId)!.typeID,
+            saleItemID: saleItemID,
+            saleItemTypeID: self.kittyItemsCollection.borrow()!.borrowKittyItem(id: saleItemID)!.typeID,
             sellerPaymentReceiver: self.kibbleVault,
             salePrice: saleItemPrice
         )
@@ -45,17 +45,17 @@ const CODE = fcl.cdc`
 }
 `
 
-export function createSaleOffer({itemId, price}, opts = {}) {
-  if (itemId == null)
-    throw new Error("createSaleOffer(itemId, price) -- itemId required")
+export function createSaleOffer({itemID, price}, opts = {}) {
+  if (itemID == null)
+    throw new Error("createSaleOffer(itemID, price) -- itemID required")
   if (price == null)
-    throw new Error("createSaleOffer(itemId, price) -- price required")
+    throw new Error("createSaleOffer(itemID, price) -- price required")
 
   // prettier-ignore
   return tx([
     fcl.transaction(CODE),
     fcl.args([
-      fcl.arg(Number(itemId), t.UInt64),
+      fcl.arg(Number(itemID), t.UInt64),
       fcl.arg(String(price), t.UFix64),
     ]),
     fcl.proposer(fcl.authz),

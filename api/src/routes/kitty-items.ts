@@ -8,11 +8,11 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
 
   router.post(
     "/kitty-items/mint",
-    [body("recipient").exists(), body("typeId").isInt()],
+    [body("recipient").exists(), body("typeID").isInt()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const { recipient, typeId } = req.body;
-      const tx = await kittyItemsService.mint(recipient, typeId);
+      const { recipient, typeID } = req.body;
+      const tx = await kittyItemsService.mint(recipient, typeID);
       return res.send({
         transaction: tx,
       });
@@ -28,11 +28,11 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
 
   router.post(
     "/kitty-items/transfer",
-    [body("recipient").exists(), body("itemId").isInt()],
+    [body("recipient").exists(), body("itemID").isInt()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const { recipient, itemId } = req.body;
-      const tx = await kittyItemsService.transfer(recipient, itemId);
+      const { recipient, itemID } = req.body;
+      const tx = await kittyItemsService.transfer(recipient, itemID);
       return res.send({
         transaction: tx,
       });
@@ -52,10 +52,10 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
   );
 
   router.get(
-    "/kitty-items/item/:itemId",
+    "/kitty-items/item/:itemID",
     async (req: Request, res: Response) => {
       const item = await kittyItemsService.getKittyItemType(
-        parseInt(req.params.itemId)
+        parseInt(req.params.itemID)
       );
       return res.send({
         item,

@@ -43,7 +43,7 @@ export function useAccountItem(address, id) {
     owned: sansPrefix(cu.addr) === sansPrefix(address),
     async sell(price) {
       await createSaleOffer(
-        {itemId: id, price: price},
+        {itemID: id, price: price},
         {
           onStart() {
             setStatus(PROCESSING)

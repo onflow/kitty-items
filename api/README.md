@@ -141,7 +141,7 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "recipient": "'$FLOW_ADDRESS'",
-    "typeId": 1
+    "typeID": 1
   }'
 ```
 
@@ -152,7 +152,7 @@ curl --request POST \
   --url http://localhost:3000/v1/market/sell \
   --header 'Content-Type: application/json' \
   --data '{
-    "itemId": 0,
+    "itemID": 0,
     "price": 7.9
   }'
 ```

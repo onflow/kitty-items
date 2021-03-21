@@ -3,20 +3,20 @@ import useSWR from "swr"
 import {IDLE, LOADING} from "../global/constants"
 import fetcher from "../util/fetcher"
 
-export const $state = atom({
+export const $marketItemsState = atom({
   key: "market-items::state",
   default: [],
 })
 
-export const $status = atom({
+export const $marketItemsStatus = atom({
   key: "market-items::status",
   default: IDLE,
 })
 
 export function useMarketItems() {
   const url = process.env.REACT_APP_API_MARKET_ITEMS_LIST
-  const [status, setStatus] = useRecoilState($status)
-  const [items, setItems] = useRecoilState($state)
+  const [status, setStatus] = useRecoilState($marketItemsStatus)
+  const [items, setItems] = useRecoilState($marketItemsState)
 
   useSWR(url, fetcher, {
     initialData: items,
@@ -34,13 +34,13 @@ export function useMarketItems() {
     },
   })
 
-  const asMap = new Map(items.map(item => [item.saleItemId, item]))
+  const asMap = new Map(items.map(item => [item.id, item]))
 
   return {
-    items,
     status,
+    items,
     has(item) {
-      return asMap.has(item.id || item.saleItemId)
+      return asMap.has(item.id)
     },
   }
 }

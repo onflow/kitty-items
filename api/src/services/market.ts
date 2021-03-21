@@ -44,7 +44,7 @@ class MarketService {
     });
   };
 
-  getItem = (account: string, itemId: number) => {
+  getItem = (account: string, itemID: number) => {
     const script = fs
       .readFileSync(
         path.join(
@@ -57,7 +57,7 @@ class MarketService {
 
     return this.flowService.executeScript<any[]>({
       script,
-      args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(itemID, t.UInt64)],
     });
   };
 
@@ -78,7 +78,7 @@ class MarketService {
     });
   };
 
-  buy = (account: string, itemId: number) => {
+  buy = (account: string, itemID: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -100,14 +100,14 @@ class MarketService {
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(itemID, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
     });
   };
 
-  sell = (itemId: number, price: number) => {
+  sell = (itemID: number, price: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -130,7 +130,7 @@ class MarketService {
     return this.flowService.sendTx({
       transaction,
       args: [
-        fcl.arg(itemId, t.UInt64),
+        fcl.arg(itemID, t.UInt64),
         fcl.arg(price.toFixed(8).toString(), t.UFix64),
       ],
       authorizations: [authorization],
@@ -142,11 +142,11 @@ class MarketService {
   addSaleOffer = async (saleOfferEvent) => {
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx).insert({
-        sale_item_id: saleOfferEvent.data.saleItemId,
-        sale_item_type: saleOfferEvent.data.saleItemType,
-        sale_item_collection: saleOfferEvent.data.saleItemCollection,
+        sale_item_id: saleOfferEvent.data.saleItemID,
+        sale_item_type: saleOfferEvent.data.saleItemTypeID,
+        sale_item_owner: saleOfferEvent.data.saleItemOwner,
+        sale_price: saleOfferEvent.data.salePrice,
         transaction_id: saleOfferEvent.transactionId,
-        price: saleOfferEvent.data.price,
       });
     });
   };
@@ -155,7 +155,7 @@ class MarketService {
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx)
         .where({
-          sale_item_id: saleOfferEvent.data.saleItemId,
+          sale_item_id: saleOfferEvent.data.saleItemID,
         })
         .del();
     });

@@ -40,7 +40,7 @@ class KittyItemsService {
     });
   };
 
-  mint = async (recipient: string, typeId: number) => {
+  mint = async (recipient: string, typeID: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -59,14 +59,14 @@ class KittyItemsService {
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(recipient, t.Address), fcl.arg(typeId, t.UInt64)],
+      args: [fcl.arg(recipient, t.Address), fcl.arg(typeID, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
     });
   };
 
-  transfer = async (recipient: string, itemId: number) => {
+  transfer = async (recipient: string, itemID: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -85,7 +85,7 @@ class KittyItemsService {
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(recipient, t.Address), fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(recipient, t.Address), fcl.arg(itemID, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
@@ -113,7 +113,7 @@ class KittyItemsService {
     });
   };
 
-  getKittyItemType = async (itemId: number): Promise<number> => {
+  getKittyItemType = async (itemID: number): Promise<number> => {
     const script = fs
       .readFileSync(
         path.join(
@@ -130,7 +130,7 @@ class KittyItemsService {
 
     return this.flowService.executeScript<number>({
       script,
-      args: [fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(itemID, t.UInt64)],
     });
   };
 

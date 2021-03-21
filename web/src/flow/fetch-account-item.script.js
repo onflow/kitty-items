@@ -7,21 +7,21 @@ import NonFungibleToken from 0xNonFungibleToken
 import KittyItems from 0xKittyItems
 
 pub struct Item {
-  pub let id: UInt64
-  pub let type: UInt64
+  pub let itemID: UInt64
+  pub let typeID: UInt64
   pub let owner: Address
 
   init(id: UInt64, type: UInt64, owner: Address) {
-    self.id = id
-    self.type = type
-    self.owner = owner
+    self.itemID = id
+    self.typeID = type
+    self.itemOwner = owner
   }
 }
 
 pub fun fetch(address: Address, id: UInt64): Item? {
   if let col = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
     if let item = col.borrowKittyItem(id: id) {
-      return Item(id: id, type: item.typeID, owner: address)
+      return Item(itemID: id, typeID: item.typeID, owner: address)
     }
   }
 

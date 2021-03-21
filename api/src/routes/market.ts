@@ -8,11 +8,11 @@ function initMarketRouter(marketService: MarketService): Router {
 
   router.post(
     "/market/buy",
-    [body("account").exists(), body("itemId").isInt()],
+    [body("account").exists(), body("itemID").isInt()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const { account, itemId } = req.body;
-      const tx = await marketService.buy(account, itemId);
+      const { account, itemID } = req.body;
+      const tx = await marketService.buy(account, itemID);
       return res.send({
         transactionId: tx,
       });
@@ -28,11 +28,11 @@ function initMarketRouter(marketService: MarketService): Router {
 
   router.post(
     "/market/sell",
-    [body("itemId").isInt(), body("price").isDecimal()],
+    [body("itemID").isInt(), body("price").isDecimal()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const { itemId, price } = req.body;
-      const tx = await marketService.sell(itemId, price);
+      const { itemID, price } = req.body;
+      const tx = await marketService.sell(itemID, price);
       return res.send({
         transactionId: tx,
       });

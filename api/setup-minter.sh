@@ -29,13 +29,13 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "recipient": "'0x7756229f422a8c65'",
-    "typeId": 1
+    "typeID": 1
   }'
 
 curl --request POST \
   --url http://localhost:3000/v1/market/sell \
   --header 'Content-Type: application/json' \
   --data '{
-    "itemId": 0,
+    "itemID": 0,
     "price": 7.5
   }'

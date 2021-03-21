@@ -20,18 +20,18 @@ export function MarketItemCluster({address, id}) {
 
   const item = useMarketItem(address, id)
 
-  const BUSY = status !== IDLE || item.status !== IDLE
+  const BUSY = item.status !== IDLE || item.status !== IDLE
 
   return (
     <Tr>
       <Td maxW="50px">
         <Flex>
-          <Text>#{item.saleItemId}</Text>
+          <Text>#{item.saleItemID}</Text>
         </Flex>
       </Td>
-      <Td>({item.saleItemType})</Td>
+      <Td>({item.saleItemTypeID})</Td>
       <Td>
-        <ItemImage type={item.saleItemType} />
+        <ItemImage type={item.saleItemTypeID} />
       </Td>
       <Td>{item.price || 10}</Td>
       {loggedIn && (
