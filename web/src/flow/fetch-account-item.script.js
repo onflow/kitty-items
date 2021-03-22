@@ -6,7 +6,7 @@ const CODE = fcl.cdc`
 import NonFungibleToken from 0xNonFungibleToken
 import KittyItems from 0xKittyItems
 
-pub struct Item {
+pub struct AccountItem {
   pub let itemID: UInt64
   pub let typeID: UInt64
   pub let owner: Address
@@ -18,18 +18,18 @@ pub struct Item {
   }
 }
 
-pub fun fetch(address: Address, id: UInt64): Item? {
+pub fun fetch(address: Address, id: UInt64): AccountItem? {
   if let col = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
     if let item = col.borrowKittyItem(id: id) {
-      return Item(itemID: id, typeID: item.typeID, owner: address)
+      return AccountItem(itemID: id, typeID: item.typeID, owner: address)
     }
   }
 
   return nil
 }
 
-pub fun main(keys: [String], addresses: [Address], ids: [UInt64]): {String: Item?} {
-  let r: {String: Item?} = {}
+pub fun main(keys: [String], addresses: [Address], ids: [UInt64]): {String: AccountItem?} {
+  let r: {String: AccountItem?} = {}
   var i = 0
   while i < keys.length {
     let key = keys[i]

@@ -15,18 +15,18 @@ import {
   HStack,
 } from "@chakra-ui/react"
 
-export const ItemImage = ({type}) => {
+export const ItemImage = ({typeID}) => {
   // Lazy load SVG images for the kitty items.
 
   let [item, setItemImage] = useState("")
 
   useEffect(() => {
     async function getImage() {
-      let importedIcon = await import(`../svg/Items/item0${type}.svg`)
+      let importedIcon = await import(`../svg/Items/item0${typeID}.svg`)
       setItemImage(importedIcon.default)
     }
     getImage()
-  }, [type])
+  }, [typeID])
 
   return <Image maxW="64px" src={item} />
 }
@@ -45,12 +45,12 @@ export function AccountItemCluster({address, id}) {
     <Tr>
       <Td maxW="50px">
         <Flex>
-          <Text as={item.forSale && "del"}>#{item.id}</Text>
+          <Text as={item.forSale && "del"}>#{item.itemID}</Text>
         </Flex>
       </Td>
-      <Td>({item.type})</Td>
+      <Td>({item.typeID})</Td>
       <Td>
-        <ItemImage type={item.type} />
+        <ItemImage typeID={item.typeID} />
       </Td>
       {cu.addr === address && (
         <>

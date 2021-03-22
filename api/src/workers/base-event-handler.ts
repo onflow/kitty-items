@@ -62,7 +62,9 @@ abstract class BaseEventHandler {
         this.eventNames.forEach(async (event) => {
           const result = await send([getEvents(event, fromBlock, toBlock)]);
           const decoded = await fcl.decode(result);
-          if (decoded.length) await this.onEvent(decoded);
+          if (decoded.length) {
+            decoded.forEach((event) => this.onEvent(event));
+          }
         });
       } catch (e) {
         console.error(

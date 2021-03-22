@@ -27,9 +27,9 @@ export function MarketItemsCluster() {
         <Tbody>
           {items.map(item => (
             <Item
-              key={item.id}
-              id={item.saleItemID}
-              address={item.saleItemCollection}
+              key={item.itemID}
+              id={item.itemID}
+              address={item.owner}
               status={status}
             />
           ))}

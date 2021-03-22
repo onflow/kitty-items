@@ -7,25 +7,25 @@ export async function fetchMarketItem(address, id) {
       fcl.script`
       import KittyItemsMarket from 0xKittyItemsMarket
 
-      pub struct Item {
-        pub let saleItemID: UInt64
-        pub let saleItemTypeID: UInt64
-        pub let saleItemOwner: Address
-        pub let saleItemPrice: UFix64
+      pub struct SaleItem {
+        pub let itemID: UInt64
+        pub let typeID: UInt64
+        pub let owner: Address
+        pub let price: UFix64
         
 
-        init(saleItemID: UInt64, saleItemTypeID: UInt64, saleItemOwner: Address, saleItemPrice: UFix64, ) {
-          self.saleItemID = saleItemID
-          self.saleItemTypeID = saleItemTypeID
-          self.saleItemOwner = saleItemOwner
-          self.saleItemPrice = saleItemPrice
+        init(itemID: UInt64, typeID: UInt64, owner: Address, price: UFix64, ) {
+          self.itemID = itemID
+          self.typeID = typeID
+          self.owner = owner
+          self.price = price
         }
       }
 
-      pub fun main(address: Address, id: UInt64): Item? {
+      pub fun main(address: Address, id: UInt64): SaleItem? {
         if let collection = getAccount(address).getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath).borrow() {
-          if let item = collection.borrowSaleItem(saleItemID: id) {
-            return Item(saleItemID: id, saleItemTypeID: item.typeID, saleItemOwner: address, saleItemPrice: item.salePrice)
+          if let item = collection.borrowSaleItem(itemID: id) {
+            return SaleItem(itemID: id, typeID: item.typeID, owner: address, price: item.price)
           }
         }
         return nil

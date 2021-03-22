@@ -10,7 +10,7 @@ const CODE = fcl.cdc`
   import KittyItems from 0xKittyItems
   import KittyItemsMarket from 0xKittyItemsMarket
 
-  transaction(saleItemID: UInt64, marketCollectionAddress: Address) {
+  transaction(itemID: UInt64, marketCollectionAddress: Address) {
       let paymentVault: @FungibleToken.Vault
       let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
       let marketCollection: &KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}
@@ -20,7 +20,7 @@ const CODE = fcl.cdc`
               .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath)
               .borrow() ?? panic("Could not borrow market collection from market address")
 
-          let price = self.marketCollection.borrowSaleItem(saleItemID: saleItemID)!.salePrice
+          let price = self.marketCollection.borrowSaleItem(itemID: itemID)!.price
 
           let mainKibbleVault = acct.borrow<&Kibble.Vault>(from: Kibble.VaultStoragePath)
               ?? panic("Cannot borrow Kibble vault from acct storage")
@@ -33,7 +33,7 @@ const CODE = fcl.cdc`
 
       execute {
           self.marketCollection.purchase(
-              saleItemID: saleItemID,
+              itemID: itemID,
               buyerCollection: self.kittyItemsCollection,
               buyerPayment: <- self.paymentVault
           )

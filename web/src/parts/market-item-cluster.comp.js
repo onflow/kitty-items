@@ -26,17 +26,17 @@ export function MarketItemCluster({address, id}) {
     <Tr>
       <Td maxW="50px">
         <Flex>
-          <Text>#{item.saleItemID}</Text>
+          <Text>#{item.itemID}</Text>
         </Flex>
       </Td>
-      <Td>({item.saleItemTypeID})</Td>
+      <Td>({item.typeID})</Td>
       <Td>
-        <ItemImage type={item.saleItemTypeID} />
+        <ItemImage typeID={item.typeID} />
       </Td>
       <Td>{item.price || 10}</Td>
       {loggedIn && (
         <>
-          {item.saleItemCollection === cu.addr ? (
+          {item.owner === cu.addr ? (
             <Td isNumeric>
               <Button
                 colorScheme="orange"

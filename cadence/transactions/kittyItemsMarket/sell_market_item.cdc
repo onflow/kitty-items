@@ -4,7 +4,7 @@ import Kibble from "../../contracts/Kibble.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import KittyItemsMarket from "../../contracts/KittyItemsMarket.cdc"
 
-transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
+transaction(itemID: UInt64, price: UFix64) {
     let kibbleVault: Capability<&Kibble.Vault{FungibleToken.Receiver}>
     let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>
     let marketCollection: &KittyItemsMarket.Collection
@@ -30,10 +30,10 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     execute {
         let offer <- KittyItemsMarket.createSaleOffer (
             sellerItemProvider: self.kittyItemsCollection,
-            saleItemID: saleItemID,
-            saleItemTypeID: self.kittyItemsCollection.borrow()!.borrowKittyItem(id: saleItemID)!.typeID,
+            itemID: itemID,
+            typeID: self.kittyItemsCollection.borrow()!.borrowKittyItem(id: itemID)!.typeID,
             sellerPaymentReceiver: self.kibbleVault,
-            salePrice: saleItemPrice
+            price: price
         )
         self.marketCollection.insert(offer: <-offer)
     }
