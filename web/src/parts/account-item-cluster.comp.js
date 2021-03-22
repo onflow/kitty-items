@@ -18,7 +18,6 @@ import {
 export const ItemImage = ({typeID}) => {
   // Lazy load SVG images for the kitty items.
   let [item, setItemImage] = useState("")
-  // Item is still loading...
 
   useEffect(() => {
     async function getImage() {
