@@ -6,7 +6,7 @@ export default function normalizeItem(item) {
       typeID: item.sale_item_type,
       owner: item.sale_item_owner,
       price: item.sale_price,
-      txID: item.txID,
+      txID: item.transaction_id,
     }
   )
 }

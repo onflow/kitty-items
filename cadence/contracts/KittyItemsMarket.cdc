@@ -209,17 +209,18 @@ pub contract KittyItemsMarket {
         // Insert a SaleOffer into the collection, replacing one with the same itemID if present.
         //
          pub fun insert(offer: @KittyItemsMarket.SaleOffer) {
-            let id: UInt64 = offer.itemID
+            let itemID: UInt64 = offer.itemID
+            let typeID: UInt64 = offer.typeID
             let price: UFix64 = offer.price
-            let itemType: UInt64 = offer.typeID
+
             // add the new offer to the dictionary which removes the old one
-            let oldOffer <- self.saleOffers[id] <- offer
+            let oldOffer <- self.saleOffers[itemID] <- offer
             destroy oldOffer
 
             emit CollectionInsertedSaleOffer(
-              itemID: id,
-              typeID: itemType,
-              owner:self.owner?.address!,
+              itemID: itemID,
+              typeID: typeID,
+              owner: self.owner?.address!,
               price: price
             )
         }

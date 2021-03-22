@@ -25,7 +25,7 @@ class SaleOfferHandler extends BaseEventHandler {
     )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
 
     this.eventNames = [
-      // Events will be processes in the order they are added here.
+      // Events will be processed in the order they are added here.
       this.eventCollectionInsertedSaleOffer,
       this.eventCollectionRemovedSaleOffer,
     ];
@@ -36,10 +36,10 @@ class SaleOfferHandler extends BaseEventHandler {
 
     switch (event.type) {
       case this.eventCollectionInsertedSaleOffer:
-        this.marketService.addSaleOffer(event);
+        await this.marketService.addSaleOffer(event);
         break;
       case this.eventCollectionRemovedSaleOffer:
-        this.marketService.removeSaleOffer(event);
+        await this.marketService.removeSaleOffer(event);
         break;
       default:
         return;
