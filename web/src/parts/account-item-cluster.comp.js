@@ -17,15 +17,15 @@ import {
 
 export const ItemImage = ({typeID}) => {
   // Lazy load SVG images for the kitty items.
-
   let [item, setItemImage] = useState("")
+  // Item is still loading...
 
   useEffect(() => {
     async function getImage() {
       let importedIcon = await import(`../svg/Items/item0${typeID}.svg`)
       setItemImage(importedIcon.default)
     }
-    getImage()
+    if (typeID) getImage()
   }, [typeID])
 
   return <Image maxW="64px" src={item} />

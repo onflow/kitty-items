@@ -61,6 +61,9 @@ export function useMarketItem(address, id) {
           async onComplete() {
             setStatus(IDLE)
           },
+          async onError(error) {
+            // TODO: Handle error
+          },
         }
       )
     },
@@ -77,6 +80,9 @@ export function useMarketItem(address, id) {
           },
           async onComplete() {
             setStatus(IDLE)
+          },
+          async onError(error) {
+            // TODO: Handle error
           },
         }
       )

@@ -54,6 +54,9 @@ export function useAccountItem(address, id) {
           async onComplete() {
             setStatus(IDLE)
           },
+          async onError(error) {
+            // TODO: Handle error
+          },
         }
       )
     },
