@@ -4,7 +4,7 @@ class BlockCursorService {
   private readonly cursorLable: string = "BLOCK_CURSOR";
   async findOrCreateLatestBlockCursor(latestBlockHeight: number) {
     let blockCursor = await BlockCursor.query().findOne({
-      cursor_label: this.cursorLable,
+      cursor_label: this.cursorLabel,
     });
     if (!blockCursor) {
       blockCursor = await BlockCursor.query().insertAndFetch({
