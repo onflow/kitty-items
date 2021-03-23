@@ -37,8 +37,8 @@ abstract class BaseEventHandler {
       throw new Error("Could not get block cursor from database.");
     }
 
-    cursors.forEach(async (cursor) => {
-      // Async polling loop
+    cursors.forEach((cursor) => {
+      // async event polling loop
       let keepLooping = true;
       const loopIt = async () => {
         let blockCursor = await cursor;
