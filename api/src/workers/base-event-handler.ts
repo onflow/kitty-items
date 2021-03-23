@@ -39,8 +39,8 @@ abstract class BaseEventHandler {
 
     cursors.forEach(({ cursor, eventName }) => {
       // async event polling loop
-      let keepLooping = true;
-      const loopIt = async () => {
+      let keepPolling = true;
+      const poll = async () => {
         let blockCursor = await cursor;
         let fromBlock, toBlock;
         await this.sleep(this.stepTimeMs);
@@ -66,7 +66,7 @@ abstract class BaseEventHandler {
           const decoded = await fcl.decode(result);
 
           if (decoded.length) {
-            decoded.forEach(async (event) => await this.onEvent(event));
+            decoded.forEach((event) => this.onEvent(event));
           }
 
           // update cursor
@@ -80,11 +80,11 @@ abstract class BaseEventHandler {
             e
           );
         }
-        if (keepLooping) {
-          setTimeout(loopIt, 0);
+        if (keepPolling) {
+          setTimeout(poll, 0);
         }
       };
-      loopIt();
+      poll();
     });
   }
 
