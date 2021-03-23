@@ -20,66 +20,76 @@ abstract class BaseEventHandler {
   ) {}
 
   async run() {
+    console.log("Processing events:", JSON.stringify(this.eventNames, null, 2));
     console.log("fetching latest block height");
     let latestBlockHeight = await this.flowService.getLatestBlockHeight();
     console.log("latestBlockHeight =", latestBlockHeight.height);
 
-    let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(
-      latestBlockHeight.height
-    );
+    const cursors = this.eventNames.map(async (eventName) => {
+      const cursor = await this.blockCursorService.findOrCreateLatestBlockCursor(
+        latestBlockHeight.height,
+        eventName
+      );
+      return cursor;
+    });
 
-    if (!blockCursor) {
+    if (!cursors || !cursors.length) {
       throw new Error("Could not get block cursor from database.");
     }
 
-    // loop
-    let fromBlock, toBlock;
-
-    while (true) {
-      await this.sleep(this.stepTimeMs);
-      try {
-        // calculate fromBlock, toBlock
-        ({ fromBlock, toBlock } = await this.getBlockRange(blockCursor));
-      } catch (e) {
-        console.warn("Error retrieving block range:", e);
-        continue;
-      }
-
-      // make sure we query the access node only when we have a substantial gap
-      // between from and to block ranges; currently if we query the access node
-      // when the gap is too narrow, it returns an error.
-      const blockDiff = toBlock - fromBlock;
-      if (blockDiff < this.blockThreshold) {
-        console.log("Skipping block, blockDiff = ", blockDiff);
-        continue;
-      }
-
-      try {
-        // `getEventsResult` will retrieve all events of the given type within the block height range supplied.
-        // See https://docs.onflow.org/core-contracts/access-api/#geteventsforheightrange
-
-        // Process events in order they are specified in constructor
-        this.eventNames.forEach(async (event) => {
-          const result = await send([getEvents(event, fromBlock, toBlock)]);
-          const decoded = await fcl.decode(result);
-          if (decoded.length) {
-            decoded.forEach(async (event) => await this.onEvent(event));
+    cursors.forEach(async (cursor) => {
+      //  // Async polling loop
+      (() => {
+        let keepLooping = true;
+        const loopIt = async () => {
+          let blockCursor = await cursor;
+          let fromBlock, toBlock;
+          await this.sleep(this.stepTimeMs);
+          try {
+            // calculate fromBlock, toBlock
+            ({ fromBlock, toBlock } = await this.getBlockRange(blockCursor));
+          } catch (e) {
+            console.warn("Error retrieving block range:", e);
           }
-        });
-      } catch (e) {
-        console.error(
-          `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
-          e
-        );
-        continue;
-      }
 
-      // update cursor
-      blockCursor = await this.blockCursorService.updateBlockCursorById(
-        blockCursor.id,
-        toBlock
-      );
-    }
+          // make sure we query the access node only when we have a substantial gap
+          // between from and to block ranges; currently if we query the access node
+          // when the gap is too narrow, it returns an error.
+          const blockDiff = toBlock - fromBlock;
+          if (blockDiff < this.blockThreshold) {
+            console.log("Skipping block, blockDiff = ", blockDiff);
+          }
+
+          try {
+            // `getEventsResult` will retrieve all events of the given type within the block height range supplied.
+            // See https://docs.onflow.org/core-contracts/access-api/#geteventsforheightrange
+
+            // Process events in order they are specified in constructor
+            this.eventNames.forEach(async (event) => {
+              const result = await send([getEvents(event, fromBlock, toBlock)]);
+              const decoded = await fcl.decode(result);
+              if (decoded.length) {
+                decoded.forEach(async (event) => await this.onEvent(event));
+              }
+            });
+            // update cursor
+            blockCursor = await this.blockCursorService.updateBlockCursorById(
+              blockCursor.id,
+              toBlock
+            );
+          } catch (e) {
+            console.error(
+              `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
+              e
+            );
+          }
+          if (keepLooping) {
+            setTimeout(loopIt, 0);
+          }
+        };
+        loopIt();
+      })();
+    });
   }
 
   abstract onEvent(event: any): Promise<void>;
