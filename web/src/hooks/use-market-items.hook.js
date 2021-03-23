@@ -15,7 +15,7 @@ export const $marketItemsStatus = atom({
 })
 
 const $normalizedItems = selector({
-  key: "normalizedItems",
+  key: "market-items::normalized",
   get: ({get}) => {
     const items = get($marketItemsState)
     return items.map(item => normalizeItem(item))
