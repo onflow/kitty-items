@@ -25,19 +25,19 @@ abstract class BaseEventHandler {
     let latestBlockHeight = await this.flowService.getLatestBlockHeight();
     console.log("latestBlockHeight =", latestBlockHeight.height);
 
-    const cursors = this.eventNames.map(async (eventName) => {
-      const cursor = await this.blockCursorService.findOrCreateLatestBlockCursor(
+    const cursors = this.eventNames.map((eventName) => {
+      const cursor = this.blockCursorService.findOrCreateLatestBlockCursor(
         latestBlockHeight.height,
         eventName
       );
-      return cursor;
+      return { cursor, eventName };
     });
 
     if (!cursors || !cursors.length) {
       throw new Error("Could not get block cursor from database.");
     }
 
-    cursors.forEach((cursor) => {
+    cursors.forEach(({ cursor, eventName }) => {
       // async event polling loop
       let keepLooping = true;
       const loopIt = async () => {
@@ -62,15 +62,13 @@ abstract class BaseEventHandler {
         try {
           // `getEventsResult` will retrieve all events of the given type within the block height range supplied.
           // See https://docs.onflow.org/core-contracts/access-api/#geteventsforheightrange
+          const result = await send([getEvents(eventName, fromBlock, toBlock)]);
+          const decoded = await fcl.decode(result);
 
-          // Process events in order they are specified in constructor
-          this.eventNames.forEach(async (event) => {
-            const result = await send([getEvents(event, fromBlock, toBlock)]);
-            const decoded = await fcl.decode(result);
-            if (decoded.length) {
-              decoded.forEach(async (event) => await this.onEvent(event));
-            }
-          });
+          if (decoded.length) {
+            decoded.forEach(async (event) => await this.onEvent(event));
+          }
+
           // update cursor
           blockCursor = await this.blockCursorService.updateBlockCursorById(
             blockCursor.id,
