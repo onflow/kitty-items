@@ -37,8 +37,6 @@ abstract class BaseEventHandler {
     }
 
     cursors.forEach(async ({ cursor, eventName }) => {
-      // async event polling loop
-
       let keepPolling = true;
       let blockCursor = await cursor;
 
@@ -46,7 +44,7 @@ abstract class BaseEventHandler {
         let fromBlock, toBlock;
 
         try {
-          // calculate fromBlock, toBlock
+          // Calculate block range we're looking at
           ({ fromBlock, toBlock } = await this.getBlockRange(blockCursor));
         } catch (e) {
           console.warn("Error retrieving block range:", e);
@@ -85,6 +83,7 @@ abstract class BaseEventHandler {
     const fromBlock = currentBlockCursor.current_block_height;
     let toBlock = latestBlockHeight.height;
 
+    // Don't look ahead to unsealed blocks.
     if (toBlock > latestBlockHeight) toBlock = latestBlockHeight;
 
     console.log(
@@ -92,10 +91,6 @@ abstract class BaseEventHandler {
     );
 
     return { fromBlock, toBlock };
-  }
-
-  private sleep(ms = 5000) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 
