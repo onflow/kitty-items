@@ -1,4 +1,5 @@
 import * as fcl from "@onflow/fcl";
+import hash from "object-hash";
 
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
@@ -25,7 +26,6 @@ class SaleOfferHandler extends BaseEventHandler {
     )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
 
     this.eventNames = [
-      // Events will be processed in the order they are added here.
       this.eventCollectionInsertedSaleOffer,
       this.eventCollectionRemovedSaleOffer,
     ];

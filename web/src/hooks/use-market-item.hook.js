@@ -20,7 +20,10 @@ export const $state = atomFamily({
   key: "market-item::state",
   default: selectorFamily({
     key: "market-item::default",
-    get: key => async () => fetchMarketItem(...expand(key)),
+    get: key => async () => {
+      const item = await fetchMarketItem(...expand(key))
+      return item
+    },
   }),
 })
 

@@ -9,7 +9,6 @@ import { FlowService } from "../services/flow";
 // BaseEventHandler will iterate through a range of block_heights and then run a callback to process any events we
 // are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.
 abstract class BaseEventHandler {
-  private stepSize: number = 1000;
   private stepTimeMs: number = 1000;
   private blockThreshold: number = Number(process.env.BLOCK_THRESHOLD!);
 
@@ -20,9 +19,10 @@ abstract class BaseEventHandler {
   ) {}
 
   async run() {
-    console.log("Processing events:", JSON.stringify(this.eventNames, null, 2));
     console.log("fetching latest block height");
+
     let latestBlockHeight = await this.flowService.getLatestBlockHeight();
+
     console.log("latestBlockHeight =", latestBlockHeight.height);
 
     const cursors = this.eventNames.map((eventName) => {
@@ -37,26 +37,20 @@ abstract class BaseEventHandler {
       throw new Error("Could not get block cursor from database.");
     }
 
-    cursors.forEach(({ cursor, eventName }) => {
+    cursors.forEach(async ({ cursor, eventName }) => {
       // async event polling loop
+
       let keepPolling = true;
+      let blockCursor = await cursor;
+
       const poll = async () => {
-        let blockCursor = await cursor;
         let fromBlock, toBlock;
-        await this.sleep(this.stepTimeMs);
+
         try {
           // calculate fromBlock, toBlock
           ({ fromBlock, toBlock } = await this.getBlockRange(blockCursor));
         } catch (e) {
           console.warn("Error retrieving block range:", e);
-        }
-
-        // make sure we query the access node only when we have a substantial gap
-        // between from and to block ranges; currently if we query the access node
-        // when the gap is too narrow, it returns an error.
-        const blockDiff = toBlock - fromBlock;
-        if (blockDiff < this.blockThreshold) {
-          console.log("Skipping block, blockDiff = ", blockDiff);
         }
 
         try {
@@ -66,14 +60,13 @@ abstract class BaseEventHandler {
           const decoded = await fcl.decode(result);
 
           if (decoded.length) {
-            decoded.forEach((event) => this.onEvent(event));
+            decoded.forEach(async (event) => await this.onEvent(event));
+            // Update cursor when we see events.
+            blockCursor = await this.blockCursorService.updateBlockCursorById(
+              blockCursor.id,
+              toBlock
+            );
           }
-
-          // update cursor
-          blockCursor = await this.blockCursorService.updateBlockCursorById(
-            blockCursor.id,
-            toBlock
-          );
         } catch (e) {
           console.error(
             `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
@@ -81,7 +74,7 @@ abstract class BaseEventHandler {
           );
         }
         if (keepPolling) {
-          setTimeout(poll, 0);
+          setTimeout(poll, this.stepTimeMs);
         }
       };
       poll();
@@ -93,13 +86,14 @@ abstract class BaseEventHandler {
   private async getBlockRange(currentBlockCursor: BlockCursor) {
     const latestBlockHeight = await this.flowService.getLatestBlockHeight();
     const fromBlock = currentBlockCursor.current_block_height;
-    let toBlock = currentBlockCursor.current_block_height + this.stepSize;
-    if (toBlock > latestBlockHeight.height) {
-      toBlock = latestBlockHeight.height;
-    }
+    let toBlock = latestBlockHeight.height;
+
+    if (toBlock > latestBlockHeight) toBlock = latestBlockHeight;
+
     console.log(
       `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${latestBlockHeight.height}`
     );
+
     return { fromBlock, toBlock };
   }
 

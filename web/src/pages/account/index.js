@@ -150,17 +150,8 @@ export function Page() {
             </Box>
           )}
         </Flex>
-        <Tabs colorScheme="pink" defaultIndex={1}>
+        <Tabs colorScheme="pink" defaultIndex={0}>
           <TabList>
-            <Tab fontSize="2xl">
-              <HStack>
-                <Image src={Cookie} />
-                <Box>Items Shop</Box>
-              </HStack>
-              <Suspense fallback={null}>
-                <MarketItemsCount />
-              </Suspense>
-            </Tab>
             <Tab fontSize="2xl">
               <HStack>
                 <Image src={BackPack} />
@@ -170,14 +161,23 @@ export function Page() {
                 <AccountItemsCount address={address} />
               </Suspense>
             </Tab>
+            <Tab fontSize="2xl">
+              <HStack>
+                <Image src={Cookie} />
+                <Box>Items Marketplace</Box>
+              </HStack>
+              <Suspense fallback={null}>
+                <MarketItemsCount />
+              </Suspense>
+            </Tab>
           </TabList>
 
           <TabPanels>
             <TabPanel>
-              <MarketItemsCluster />
+              <AccountItemsCluster address={address} />
             </TabPanel>
             <TabPanel>
-              <AccountItemsCluster address={address} />
+              <MarketItemsCluster />
             </TabPanel>
           </TabPanels>
         </Tabs>
