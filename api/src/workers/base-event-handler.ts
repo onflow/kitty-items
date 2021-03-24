@@ -53,14 +53,12 @@ abstract class BaseEventHandler {
         }
 
         try {
-          // `getEventsResult` will retrieve all events of the given type within the block height range supplied.
-          // See https://docs.onflow.org/core-contracts/access-api/#geteventsforheightrange
           const result = await send([getEvents(eventName, fromBlock, toBlock)]);
           const decoded = await fcl.decode(result);
 
           if (decoded.length) {
             decoded.forEach(async (event) => await this.onEvent(event));
-            // Update cursor when we see events.
+            // Record the last block where we saw the event(s) we're interested in.
             blockCursor = await this.blockCursorService.updateBlockCursorById(
               blockCursor.id,
               toBlock
