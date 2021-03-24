@@ -14,7 +14,7 @@ export const $marketItemsStatus = atom({
   default: IDLE,
 })
 
-const $normalizedItems = selector({
+export const $normalizedItems = selector({
   key: "market-items::normalized",
   get: ({get}) => {
     const items = get($marketItemsState)

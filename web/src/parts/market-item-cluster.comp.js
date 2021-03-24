@@ -21,6 +21,7 @@ export function MarketItemCluster({address, id}) {
   const item = useMarketItem(address, id)
 
   const BUSY = item.status !== IDLE || item.status !== IDLE
+  if (!item.itemID) item.refresh()
 
   return (
     <Tr>
@@ -33,7 +34,7 @@ export function MarketItemCluster({address, id}) {
       <Td>
         <ItemImage typeID={item.typeID} />
       </Td>
-      <Td>{item.price || 10}</Td>
+      <Td>{item.price}</Td>
       {loggedIn && (
         <>
           {item.owner === cu.addr ? (
