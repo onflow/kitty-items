@@ -37,7 +37,6 @@ abstract class BaseEventHandler {
     }
 
     cursors.forEach(async ({ cursor, eventName }) => {
-      let keepPolling = true;
       let blockCursor = await cursor;
 
       const poll = async () => {
@@ -68,9 +67,8 @@ abstract class BaseEventHandler {
             e
           );
         }
-        if (keepPolling) {
-          setTimeout(poll, this.stepTimeMs);
-        }
+
+        setTimeout(poll, this.stepTimeMs);
       };
       poll();
     });
