@@ -10,7 +10,6 @@ import { FlowService } from "../services/flow";
 // are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.
 abstract class BaseEventHandler {
   private stepTimeMs: number = 1000;
-  private blockThreshold: number = Number(process.env.BLOCK_THRESHOLD!);
 
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
