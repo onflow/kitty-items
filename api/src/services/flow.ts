@@ -1,7 +1,10 @@
-import { ec as EC } from "elliptic";
-import { SHA3 } from "sha3";
 import * as fcl from "@onflow/fcl";
-import { latestBlock } from "@onflow/sdk-latest-block";
+import * as sdk from "@onflow/sdk";
+import { getLatestBlock } from "@onflow/sdk-build-get-latest-block";
+
+import { ec as EC } from "elliptic";
+
+import { SHA3 } from "sha3";
 
 const ec: EC = new EC("p256");
 
@@ -86,8 +89,9 @@ class FlowService {
   }
 
   async getLatestBlockHeight() {
-    const block = await latestBlock()
-    return block.height;
+    const block = await sdk.send(sdk.build([sdk.getBlock(true)]));
+    const decoded = await sdk.decode(block);
+    return decoded.height;
   }
 }
 
