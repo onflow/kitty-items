@@ -1,7 +1,6 @@
 import {atom, useRecoilState} from "recoil"
 import useSWR from "swr"
 import {IDLE, LOADING} from "../global/constants"
-import {MarketItemsCluster} from "../parts/market-items-cluster.comp"
 import fetcher from "../util/fetcher"
 import normalizeItem from "../util/normalize-item"
 

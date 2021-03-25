@@ -83,7 +83,7 @@ abstract class BaseEventHandler {
     const latestBlockHeight =
       (await this.flowService.getLatestBlockHeight()) - this.latestBlockOffset;
 
-    const fromBlock = currentBlockCursor.currentBlockHeight;
+    const fromBlock = currentBlockCursor.currentBlockHeight + 1;
     let toBlock = currentBlockCursor.currentBlockHeight + this.stepSize;
 
     // Don't look ahead to unsealed blocks
