@@ -86,7 +86,8 @@ class FlowService {
   }
 
   async getLatestBlockHeight() {
-    return latestBlock();
+    const block = await latestBlock()
+    return block.height;
   }
 }
 

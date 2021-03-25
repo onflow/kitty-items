@@ -8,6 +8,10 @@ class BlockCursor extends BaseModel {
   static get tableName() {
     return "block_cursor";
   }
+
+  get currentBlockHeight(): number {
+    return Number(this.current_block_height)
+  }
 }
 
 export { BlockCursor };

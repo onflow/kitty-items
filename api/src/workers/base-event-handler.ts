@@ -9,7 +9,9 @@ import { FlowService } from "../services/flow";
 // BaseEventHandler will iterate through a range of block_heights and then run a callback to process any events we
 // are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.
 abstract class BaseEventHandler {
+  private stepSize: number = 100;
   private stepTimeMs: number = 1000;
+  private latestBlockOffset: number = 1;
 
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
@@ -22,11 +24,11 @@ abstract class BaseEventHandler {
 
     let latestBlockHeight = await this.flowService.getLatestBlockHeight();
 
-    console.log("latestBlockHeight =", latestBlockHeight.height);
+    console.log("latestBlockHeight =", latestBlockHeight);
 
     const cursors = this.eventNames.map((eventName) => {
       const cursor = this.blockCursorService.findOrCreateLatestBlockCursor(
-        latestBlockHeight.height,
+        latestBlockHeight,
         eventName
       );
       return { cursor, eventName };
@@ -55,12 +57,13 @@ abstract class BaseEventHandler {
 
           if (decoded.length) {
             decoded.forEach(async (event) => await this.onEvent(event));
-            // Record the last block where we saw the event(s) we're interested in
-            blockCursor = await this.blockCursorService.updateBlockCursorById(
-              blockCursor.id,
-              toBlock
-            );
           }
+
+          // Record the last block that we synchronized up to           
+          blockCursor = await this.blockCursorService.updateBlockCursorById(
+            blockCursor.id,
+            toBlock
+          );
         } catch (e) {
           console.error(
             `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
@@ -77,15 +80,19 @@ abstract class BaseEventHandler {
   abstract onEvent(event: any): Promise<void>;
 
   private async getBlockRange(currentBlockCursor: BlockCursor) {
-    const latestBlockHeight = await this.flowService.getLatestBlockHeight();
-    const fromBlock = currentBlockCursor.current_block_height;
-    let toBlock = latestBlockHeight.height;
+    const latestBlockHeight = 
+      (await this.flowService.getLatestBlockHeight()) - this.latestBlockOffset;
+
+    const fromBlock = currentBlockCursor.currentBlockHeight;
+    let toBlock = currentBlockCursor.currentBlockHeight + this.stepSize;
 
     // Don't look ahead to unsealed blocks
-    if (toBlock > latestBlockHeight) toBlock = latestBlockHeight - 1;
+    if (toBlock > latestBlockHeight) {
+      toBlock = latestBlockHeight;
+    }
 
     console.log(
-      `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${latestBlockHeight.height}`
+      `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${latestBlockHeight}`
     );
 
     return { fromBlock, toBlock };
