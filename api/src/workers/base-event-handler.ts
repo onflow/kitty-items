@@ -43,7 +43,7 @@ abstract class BaseEventHandler {
         let fromBlock, toBlock;
 
         try {
-          // Calculate block range we're looking at
+          // Calculate block range to search
           ({ fromBlock, toBlock } = await this.getBlockRange(blockCursor));
         } catch (e) {
           console.warn("Error retrieving block range:", e);
@@ -55,7 +55,7 @@ abstract class BaseEventHandler {
 
           if (decoded.length) {
             decoded.forEach(async (event) => await this.onEvent(event));
-            // Record the last block where we saw the event(s) we're interested in.
+            // Record the last block where we saw the event(s) we're interested in
             blockCursor = await this.blockCursorService.updateBlockCursorById(
               blockCursor.id,
               toBlock
@@ -81,8 +81,8 @@ abstract class BaseEventHandler {
     const fromBlock = currentBlockCursor.current_block_height;
     let toBlock = latestBlockHeight.height;
 
-    // Don't look ahead to unsealed blocks.
-    if (toBlock > latestBlockHeight) toBlock = latestBlockHeight;
+    // Don't look ahead to unsealed blocks
+    if (toBlock > latestBlockHeight) toBlock = latestBlockHeight - 1;
 
     console.log(
       `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${latestBlockHeight.height}`
