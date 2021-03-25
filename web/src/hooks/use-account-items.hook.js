@@ -19,16 +19,10 @@ export function useAccountItems(address) {
   const [items, setItems] = useRecoilState($state(address))
   const [status, setStatus] = useRecoilState($status(address))
 
-  async function refresh() {
-    setStatus(PROCESSING)
-    await fetchAccountItems(address).then(setItems)
-    setStatus(IDLE)
-  }
-
   return {
     ids: items,
     status,
-    refresh,
+
     async mint() {
       setStatus(PROCESSING)
       await fetch(process.env.REACT_APP_API_KITTY_ITEM_MINT, {
@@ -42,6 +36,11 @@ export function useAccountItems(address) {
           typeID: Math.floor(Math.random() * (5 - 1)) + 1,
         }),
       })
+      await fetchAccountItems(address).then(setItems)
+      setStatus(IDLE)
+    },
+    async refresh() {
+      setStatus(PROCESSING)
       await fetchAccountItems(address).then(setItems)
       setStatus(IDLE)
     },

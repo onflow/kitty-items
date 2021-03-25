@@ -17,11 +17,9 @@ import {ItemImage} from "./account-item-cluster.comp"
 
 export function MarketItemCluster({address, id}) {
   const [cu, loggedIn] = useCurrentUser()
-
   const item = useMarketItem(address, id)
 
   const BUSY = item.status !== IDLE || item.status !== IDLE
-  if (!item.itemID) item.refresh()
 
   return (
     <Tr>

@@ -1,6 +1,7 @@
-import {atom, selector, useRecoilState, useRecoilValue} from "recoil"
+import {atom, useRecoilState} from "recoil"
 import useSWR from "swr"
 import {IDLE, LOADING} from "../global/constants"
+import {MarketItemsCluster} from "../parts/market-items-cluster.comp"
 import fetcher from "../util/fetcher"
 import normalizeItem from "../util/normalize-item"
 
@@ -14,41 +15,31 @@ export const $marketItemsStatus = atom({
   default: IDLE,
 })
 
-export const $normalizedItems = selector({
-  key: "market-items::normalized",
-  get: ({get}) => {
-    const items = get($marketItemsState)
-    return items.map(item => normalizeItem(item))
-  },
-})
-
 export function useMarketItems() {
   const url = process.env.REACT_APP_API_MARKET_ITEMS_LIST
   const [status, setStatus] = useRecoilState($marketItemsStatus)
   const [items, setItems] = useRecoilState($marketItemsState)
-  const normalizedItems = useRecoilValue($normalizedItems)
 
   useSWR(url, fetcher, {
     initialData: items,
     refreshInterval: 10,
-    errorRetryCount: 10,
     onLoadingSlow: () => {
       setStatus(LOADING)
     },
     onSuccess: ({latestSaleOffers}) => {
+      setItems(latestSaleOffers.map(item => normalizeItem(item)))
       setStatus(IDLE)
-      setItems(latestSaleOffers)
     },
     onError: error => {
       console.log("Failed to fetch market items.", error)
     },
   })
 
-  const asMap = new Map(normalizedItems.map(item => [item.itemID, item]))
+  const asMap = new Map(items.map(item => [item.itemID, item]))
 
   return {
     status,
-    items: normalizedItems,
+    items,
     has(item) {
       return asMap.has(item.itemID)
     },

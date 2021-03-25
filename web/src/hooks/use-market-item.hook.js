@@ -1,8 +1,5 @@
-import {
-  atomFamily,
-  selectorFamily,
-  useRecoilState,
-} from "recoil"
+import {useEffect} from "react"
+import {atomFamily, selectorFamily, useRecoilState} from "recoil"
 import {sansPrefix} from "@onflow/fcl"
 import {IDLE, PROCESSING} from "../global/constants"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
@@ -24,10 +21,7 @@ export const $state = atomFamily({
   key: "market-item::state",
   default: selectorFamily({
     key: "market-item::default",
-    get: key => async () => {
-      const item = await fetchMarketItem(...expand(key))
-      return item
-    },
+    get: key => async () => await fetchMarketItem(...expand(key)),
   }),
 })
 
@@ -44,8 +38,11 @@ export function useMarketItem(address, id) {
   const key = comp(address, id)
   const [item, setItem] = useRecoilState($state(key))
   const [status, setStatus] = useRecoilState($status(key))
-
   const owned = sansPrefix(cu.addr) === sansPrefix(address)
+
+  useEffect(() => {
+    fetchMarketItem(...expand(key)).then(setItem)
+  }, [])
 
   return {
     ...item,
