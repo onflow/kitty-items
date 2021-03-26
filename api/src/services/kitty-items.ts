@@ -4,8 +4,8 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
-const nonFungibleTokenPath = "\"../../contracts/NonFungibleToken.cdc\"";
-const kittyItemsPath = "\"../../contracts/KittyItems.cdc\"";
+const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"';
+const kittyItemsPath = '"../../contracts/KittyItems.cdc"';
 
 class KittyItemsService {
   constructor(
@@ -25,7 +25,10 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
 
     return this.flowService.sendTx({
@@ -37,7 +40,7 @@ class KittyItemsService {
     });
   };
 
-  mint = async (recipient: string, typeId: number) => {
+  mint = async (recipient: string, typeID: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -48,19 +51,22 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(recipient, t.Address), fcl.arg(typeId, t.UInt64)],
+      args: [fcl.arg(recipient, t.Address), fcl.arg(typeID, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
     });
   };
 
-  transfer = async (recipient: string, itemId: number) => {
+  transfer = async (recipient: string, itemID: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -71,12 +77,15 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(recipient, t.Address), fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(recipient, t.Address), fcl.arg(itemID, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
@@ -92,7 +101,10 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
 
     return this.flowService.executeScript<number[]>({
@@ -101,7 +113,7 @@ class KittyItemsService {
     });
   };
 
-  getKittyItemType = async (itemId: number): Promise<number> => {
+  getKittyItemType = async (itemID: number): Promise<number> => {
     const script = fs
       .readFileSync(
         path.join(
@@ -110,12 +122,15 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress));
 
     return this.flowService.executeScript<number>({
       script,
-      args: [fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(itemID, t.UInt64)],
     });
   };
 

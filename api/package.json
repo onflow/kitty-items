@@ -6,8 +6,6 @@
   "scripts": {
     "start:dev": "tsnd --respawn src/index.ts",
     "start": "node dist/index.js",
-    "workers:dev": "tsnd --respawn src/workers/index.ts",
-    "workers": "node dist/workers/index.js",
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",
@@ -18,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@onflow/fcl": "0.0.66",
-    "@onflow/sdk": "0.0.43",
+    "@onflow/sdk": "0.0.45-alpha.5",
     "@onflow/types": "0.0.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -28,6 +26,7 @@
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.8.0",
     "knex": "^0.21.13",
+    "object-hash": "^2.1.1",
     "objection": "^2.2.3",
     "pg": "^8.5.1",
     "sha3": "^2.1.3",

@@ -65,6 +65,7 @@ _💡 Learn more about `Vault` and `Collection` resources [in this tutorial](htt
 
 Run this script to set up the minter account and mint an initial supply of Kibble and Kitty Items:
 
+
 ```sh
 ./setup-minter.sh
 ```
@@ -140,7 +141,7 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "recipient": "'$FLOW_ADDRESS'",
-    "typeId": 1
+    "typeID": 1
   }'
 ```
 
@@ -151,7 +152,7 @@ curl --request POST \
   --url http://localhost:3000/v1/market/sell \
   --header 'Content-Type: application/json' \
   --data '{
-    "itemId": 0,
+    "itemID": 0,
     "price": 7.9
   }'
 ```

@@ -4,8 +4,8 @@ import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
-const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
-const kibblePath = "\"../../contracts/Kibble.cdc\"";
+const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
+const kibblePath = '"../../contracts/Kibble.cdc"';
 
 class KibblesService {
   constructor(
@@ -37,7 +37,7 @@ class KibblesService {
     });
   };
 
-  mint = async (recipient: string, amount: number) => {    
+  mint = async (recipient: string, amount: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -114,10 +114,7 @@ class KibblesService {
   getBalance = async (account: string) => {
     const script = fs
       .readFileSync(
-        path.join(
-          __dirname,
-          "../../../cadence/scripts/kibble/get_balance.cdc"
-        ),
+        path.join(__dirname, "../../../cadence/scripts/kibble/get_balance.cdc"),
         "utf8"
       )
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
@@ -132,10 +129,7 @@ class KibblesService {
   getSupply = async () => {
     const script = fs
       .readFileSync(
-        path.join(
-          __dirname,
-          "../../../cadence/scripts/kibble/get_supply.cdc"
-        ),
+        path.join(__dirname, "../../../cadence/scripts/kibble/get_supply.cdc"),
         "utf8"
       )
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))

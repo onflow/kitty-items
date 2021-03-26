@@ -36,12 +36,8 @@ import {
 import Cookie from "../../svg/cookie.svg"
 import BackPack from "../../svg/backpack.svg"
 
-const STORE_ADDRESS = process.env.REACT_APP_STORE_ADDRESS
-
-export function MarketItemsCount({address}) {
-  const items = useMarketItems(address)
-  if (items.status !== IDLE) return <Spinner size="xs" ml="1" />
-  const l = items?.ids?.length ?? 0
+export function MarketItemsCount() {
+  let l = 0
   return l > 0 ? <Tag ml="1">{l}</Tag> : null
 }
 
@@ -53,7 +49,7 @@ export function AccountItemsCount({address}) {
 }
 
 export function StoreItemsCount() {
-  const items = useMarketItems(STORE_ADDRESS)
+  const items = useMarketItems()
   if (items.status !== IDLE) return <Spinner size="xs" ml="1" />
   const l = items?.ids?.length ?? 0
   return l > 0 ? <Tag ml="1">{l}</Tag> : null
@@ -146,7 +142,7 @@ export function Page() {
           <Box ml="4">
             <BalanceCluster address={address} />
           </Box>
-          {cu.addr === address && cu.addr === STORE_ADDRESS && (
+          {cu.addr === address && (
             <Box ml="4">
               <Suspense fallback={null}>
                 <MintButton address={address} />
@@ -154,17 +150,8 @@ export function Page() {
             </Box>
           )}
         </Flex>
-        <Tabs colorScheme="pink">
+        <Tabs colorScheme="pink" defaultIndex={0}>
           <TabList>
-            <Tab fontSize="2xl">
-              <HStack>
-                <Image src={Cookie} />
-                <Box>Items Shop</Box>
-              </HStack>
-              <Suspense fallback={null}>
-                <MarketItemsCount address={address} />
-              </Suspense>
-            </Tab>
             <Tab fontSize="2xl">
               <HStack>
                 <Image src={BackPack} />
@@ -174,14 +161,23 @@ export function Page() {
                 <AccountItemsCount address={address} />
               </Suspense>
             </Tab>
+            <Tab fontSize="2xl">
+              <HStack>
+                <Image src={Cookie} />
+                <Box>Items Marketplace</Box>
+              </HStack>
+              <Suspense fallback={null}>
+                <MarketItemsCount />
+              </Suspense>
+            </Tab>
           </TabList>
 
           <TabPanels>
             <TabPanel>
-              <MarketItemsCluster address={STORE_ADDRESS} />
+              <AccountItemsCluster address={address} />
             </TabPanel>
             <TabPanel>
-              <AccountItemsCluster address={address} />
+              <MarketItemsCluster />
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -1,30 +1,49 @@
+import * as fcl from "@onflow/fcl";
+import hash from "object-hash";
+
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
-import { EventDetails, BaseEventHandler } from "./base-event-handler";
 import { MarketService } from "../services/market";
 
-interface SaleOfferCreated {
-  itemID: number;
-  price: number;
-}
+import { BaseEventHandler } from "./base-event-handler";
 
 class SaleOfferHandler extends BaseEventHandler {
+  private eventCollectionInsertedSaleOffer;
+  private eventCollectionRemovedSaleOffer;
   constructor(
-    blockCursorService: BlockCursorService,
-    flowService: FlowService,
     private readonly marketService: MarketService,
-    eventName: string
+    blockCursorService: BlockCursorService,
+    flowService: FlowService
   ) {
-    super(blockCursorService, flowService, eventName);
+    super(blockCursorService, flowService, []);
+
+    this.eventCollectionInsertedSaleOffer = `A.${fcl.sansPrefix(
+      marketService.marketAddress
+    )}.KittyItemsMarket.CollectionInsertedSaleOffer`;
+
+    this.eventCollectionRemovedSaleOffer = `A.${fcl.sansPrefix(
+      marketService.marketAddress
+    )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
+
+    this.eventNames = [
+      this.eventCollectionInsertedSaleOffer,
+      this.eventCollectionRemovedSaleOffer,
+    ];
   }
 
-  async onEvent(details: EventDetails, payload: any): Promise<void> {
-    const saleOfferEvent = payload as SaleOfferCreated;
-    const saleOffer = await this.marketService.upsertSaleOffer(
-      saleOfferEvent.itemID,
-      saleOfferEvent.price
-    );
-    console.log("inserted sale offer = ", saleOffer);
+  async onEvent(event: any): Promise<void> {
+    console.log("[saleOfferWorker] saw [Kitty Items] event:", event);
+
+    switch (event.type) {
+      case this.eventCollectionInsertedSaleOffer:
+        await this.marketService.addSaleOffer(event);
+        break;
+      case this.eventCollectionRemovedSaleOffer:
+        await this.marketService.removeSaleOffer(event);
+        break;
+      default:
+        return;
+    }
   }
 }
 

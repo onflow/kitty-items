@@ -2,12 +2,11 @@ import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("sale_offers", async (table) => {
-    table.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
-    table.decimal("price");
-    table.text("seller_address");
-    table.text("tx_hash");
-    table.boolean("is_complete").defaultTo(false);
-    table.integer("kitty_item_id").references("id").inTable("kitty_items");
+    table.integer("sale_item_id").primary();
+    table.integer("sale_item_type").notNullable();
+    table.text("sale_item_owner");
+    table.decimal("sale_price");
+    table.text("transaction_id");
     table.timestamps(true, true);
   });
 }

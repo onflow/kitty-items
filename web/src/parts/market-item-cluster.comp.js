@@ -1,6 +1,5 @@
 import {Suspense} from "react"
 import {useMarketItem} from "../hooks/use-market-item.hook"
-import {useAccountItem} from "../hooks/use-account-item.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
 import {
@@ -17,36 +16,32 @@ import {
 import {ItemImage} from "./account-item-cluster.comp"
 
 export function MarketItemCluster({address, id}) {
-  const item = useAccountItem(address, id)
-  const list = useMarketItem(address, id)
-  const [, loggedIn] = useCurrentUser()
+  const [cu, loggedIn] = useCurrentUser()
+  const item = useMarketItem(address, id)
 
-  const BUSY = item.status !== IDLE || list.status !== IDLE
-
-  if (address == null) return null
-  if (id == null) return null
+  const BUSY = item.status !== IDLE || item.status !== IDLE
 
   return (
     <Tr>
       <Td maxW="50px">
         <Flex>
-          <Text>#{item.id}</Text>
+          <Text>#{item.itemID}</Text>
         </Flex>
       </Td>
-      <Td>({item.type})</Td>
+      <Td>({item.typeID})</Td>
       <Td>
-        <ItemImage type={item.type} />
+        <ItemImage typeID={item.typeID} />
       </Td>
-      <Td isNumeric>{item.price || 10}</Td>
+      <Td>{item.price}</Td>
       {loggedIn && (
         <>
-          {item.owned ? (
-            <Td isNumeric maxW="20px">
+          {item.owner === cu.addr ? (
+            <Td isNumeric>
               <Button
                 colorScheme="orange"
                 size="sm"
                 disabled={BUSY}
-                onClick={list.cancelListing}
+                onClick={item.cancelListing}
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />}
@@ -55,12 +50,12 @@ export function MarketItemCluster({address, id}) {
               </Button>
             </Td>
           ) : (
-            <Td isNumeric maxW="15px">
+            <Td isNumeric>
               <Button
                 colorScheme="blue"
                 size="sm"
                 disabled={BUSY}
-                onClick={list.buy}
+                onClick={item.buy}
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />}

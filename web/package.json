@@ -7,7 +7,7 @@
     "@chakra-ui/react": "^1.1.4",
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
-    "@onflow/fcl": "^0.0.67",
+    "@onflow/fcl": "0.0.68-alpha.15",
     "@onflow/types": "^0.0.4",
     "@onflow/util-actor": "^0.0.2",
     "@onflow/util-invariant": "^0.0.0",
@@ -21,10 +21,11 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "recoil": "^0.1.2",
+    "swr": "^0.5.3",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start:dev": "react-scripts start",
+    "start:dev": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

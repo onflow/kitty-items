@@ -20,7 +20,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kibbles/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "'$FLOW_ADDRESS'",
+    "recipient": "'${FLOW_ADDRESS}'",
     "amount": 50.0
   }'
 
@@ -28,14 +28,14 @@ curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "'$FLOW_ADDRESS'",
-    "typeId": 1
+    "recipient": "'${FLOW_ADDRESS}'",
+    "typeID": 1
   }'
 
 curl --request POST \
   --url http://localhost:3000/v1/market/sell \
   --header 'Content-Type: application/json' \
   --data '{
-    "itemId": 0,
+    "itemID": 0,
     "price": 7.5
   }'

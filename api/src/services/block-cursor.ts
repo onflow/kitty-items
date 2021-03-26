@@ -2,15 +2,15 @@ import { BlockCursor } from "../models/block-cursor";
 
 class BlockCursorService {
   async findOrCreateLatestBlockCursor(
-    eventName: string,
-    latestBlockHeight: number
+    latestBlockHeight: number,
+    eventName: string
   ) {
     let blockCursor = await BlockCursor.query().findOne({
-      flow_event_name: eventName,
+      event_name: eventName,
     });
     if (!blockCursor) {
       blockCursor = await BlockCursor.query().insertAndFetch({
-        flow_event_name: eventName,
+        event_name: eventName,
         current_block_height: latestBlockHeight,
       });
     }

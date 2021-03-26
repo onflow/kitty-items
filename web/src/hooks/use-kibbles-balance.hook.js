@@ -38,7 +38,7 @@ export function useKibblesBalance(address) {
         },
         body: JSON.stringify({
           recipient: address,
-          amount: 5.0,
+          amount: 50.0,
         }),
       })
       await fetchKibblesBalance(address).then(setBalance)

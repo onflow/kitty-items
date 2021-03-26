@@ -1,0 +1,24 @@
+{
+  "name": "kitty-items",
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^6.0.0"
+  },
+  "scripts": {
+    "start:api": "cd ./api && npm run start:dev",
+    "start:web": "cd ./web && npm run start:dev",
+    "start:wallet": "cd ./fcl-dev-wallet && npm run start:dev",
+    "start": "concurrently \"npm:start:*\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onflow/kitty-items.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/onflow/kitty-items/issues"
+  },
+  "homepage": "https://github.com/onflow/kitty-items#readme"
+}

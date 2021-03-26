@@ -1,16 +1,16 @@
 import * as t from "@onflow/types";
 import * as fcl from "@onflow/fcl";
-import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
 
 import { SaleOffer } from "../models/sale-offer";
+import { FlowService } from "../services/flow";
 
-const fungibleTokenPath = "\"../../contracts/FungibleToken.cdc\"";
-const nonFungibleTokenPath = "\"../../contracts/NonFungibleToken.cdc\"";
-const kibblePath = "\"../../contracts/Kibble.cdc\"";
-const kittyItemsPath = "\"../../contracts/KittyItems.cdc\"";
-const kittyItemsMarkPath = "\"../../contracts/KittyItemsMarket.cdc\"";
+const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
+const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"';
+const kibblePath = '"../../contracts/Kibble.cdc"';
+const kittyItemsPath = '"../../contracts/KittyItems.cdc"';
+const kittyItemsMarkPath = '"../../contracts/KittyItemsMarket.cdc"';
 
 class MarketService {
   constructor(
@@ -19,12 +19,12 @@ class MarketService {
     private readonly kibbleAddress: string,
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
-    private readonly marketAddress: string
+    public readonly marketAddress: string
   ) {}
 
   setupAccount = () => {
     const authorization = this.flowService.authorizeMinter();
-    
+
     const transaction = fs
       .readFileSync(
         path.join(
@@ -44,7 +44,7 @@ class MarketService {
     });
   };
 
-  getItem = (account: string, itemId: number) => {
+  getItem = (account: string, itemID: number) => {
     const script = fs
       .readFileSync(
         path.join(
@@ -57,7 +57,7 @@ class MarketService {
 
     return this.flowService.executeScript<any[]>({
       script,
-      args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(itemID, t.UInt64)],
     });
   };
 
@@ -78,7 +78,7 @@ class MarketService {
     });
   };
 
-  buy = (account: string, itemId: number) => {
+  buy = (account: string, itemID: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -90,21 +90,24 @@ class MarketService {
         "utf8"
       )
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(account, t.Address), fcl.arg(itemId, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(itemID, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
     });
   };
 
-  sell = (itemId: number, price: number) => {
+  sell = (itemID: number, price: number) => {
     const authorization = this.flowService.authorizeMinter();
 
     const transaction = fs
@@ -116,7 +119,10 @@ class MarketService {
         "utf8"
       )
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
-      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(
+        nonFungibleTokenPath,
+        fcl.withPrefix(this.nonFungibleTokenAddress)
+      )
       .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(kittyItemsMarkPath, fcl.withPrefix(this.marketAddress));
@@ -124,7 +130,7 @@ class MarketService {
     return this.flowService.sendTx({
       transaction,
       args: [
-        fcl.arg(itemId, t.UInt64),
+        fcl.arg(itemID, t.UInt64),
         fcl.arg(price.toFixed(8).toString(), t.UFix64),
       ],
       authorizations: [authorization],
@@ -133,22 +139,37 @@ class MarketService {
     });
   };
 
-  findMostRecentSales = async () => {
-    return SaleOffer.query().orderBy("created_at", "desc").limit(20);
+  addSaleOffer = async (saleOfferEvent) => {
+    return SaleOffer.transaction(async (tx) => {
+      return await SaleOffer.query(tx)
+        .insert({
+          sale_item_id: saleOfferEvent.data.itemID,
+          sale_item_type: saleOfferEvent.data.typeID,
+          sale_item_owner: saleOfferEvent.data.owner,
+          sale_price: saleOfferEvent.data.price,
+          transaction_id: saleOfferEvent.transactionId,
+        })
+        .returning("transaction_id")
+        .catch((e) => {
+          console.log(e);
+        });
+    });
   };
 
-  upsertSaleOffer = async (itemId: number, price: number) => {
+  removeSaleOffer = (saleOfferEvent) => {
     return SaleOffer.transaction(async (tx) => {
-      const saleOffers = await SaleOffer.query(tx).insertGraphAndFetch([
-        {
-          kitty_item: {
-            id: itemId,
-          },
-          price: price,
-          is_complete: false,
-        },
-      ]);
-      return saleOffers[0];
+      return await SaleOffer.query(tx)
+        .where({
+          sale_item_id: saleOfferEvent.data.itemID,
+        })
+        .del();
+    });
+  };
+
+  findMostRecentSales = () => {
+    return SaleOffer.transaction(async (tx) => {
+      const offers = await SaleOffer.query(tx).select("*");
+      return offers;
     });
   };
 }

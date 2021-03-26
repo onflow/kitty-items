@@ -45,7 +45,19 @@
   },
   "deployments": {
     "testnet": {
-      "testnet-account": ["Kibble", "KittyItems", "KittyItemsMarket"]
+      "testnet-account": [
+        "Kibble",
+        "KittyItems",
+        "KittyItemsMarket"
+      ]
+    },
+    "emulator": {
+      "emulator-account": [
+        "Kibble",
+        "KittyItems",
+        "KittyItemsMarket",
+        "NonFungibleToken"
+      ]
     }
   }
 }

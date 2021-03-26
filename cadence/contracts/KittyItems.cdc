@@ -165,8 +165,8 @@ pub contract KittyItems: NonFungibleToken {
     // fetch
     // Get a reference to a KittyItem from an account's Collection, if available.
     // If an account does not have a KittyItems.Collection, panic.
-    // If it has a collection but does not contain the itemId, return nil.
-    // If it has a collection and that collection contains the itemId, return a reference to that.
+    // If it has a collection but does not contain the itemID, return nil.
+    // If it has a collection and that collection contains the itemID, return a reference to that.
     //
     pub fun fetch(_ from: Address, itemID: UInt64): &KittyItems.NFT? {
         let collection = getAccount(from)

@@ -7,20 +7,24 @@ node_modules
 # production
 /build
 
-# .env files
+# misc
+.DS_Store
+
+#.env files
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.testnet
+.env.mainnet
+
+
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# misc
-.DS_Store
+# env
 .vscode
 .exrc
 .eslintcache
-.idea
+.idea/
+
