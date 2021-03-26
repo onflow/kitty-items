@@ -1,15 +1,14 @@
 import * as Knex from "knex";
 
+import * as kittyItems from "./20201217175515_create_kitty_items";
+import * as saleOffers from "./20201217175722_create_sale_offers";
+
 export async function up(knex: Knex): Promise<void> {
-  await knex.raw(
-    `ALTER TABLE sale_offers DROP CONSTRAINT sale_offers_pkey CASCADE`
-  );
-  await knex.raw(
-    `ALTER TABLE kitty_items DROP CONSTRAINT kitty_items_pkey CASCADE`
-  );
-  await knex.schema.dropTable("block_cursor");
-  await knex.schema.dropTable("kitty_items");
-  return knex.schema.dropTable("sale_offers");
+  await kittyItems.down(knex)
+  await saleOffers.down(knex)
 }
 
-export async function down(knex: Knex): Promise<void> {}
+export async function down(knex: Knex): Promise<void> {
+  await kittyItems.up(knex)
+  await kittyItems.down(knex)
+}
