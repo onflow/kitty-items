@@ -13,5 +13,8 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
+  await knex.raw(
+    "ALTER TABLE sale_offers DROP CONSTRAINT sale_offers_pkey CASCADE"
+  );
   return knex.schema.dropTable("sale_offers");
 }
