@@ -10,7 +10,7 @@ import { FlowService } from "../services/flow";
 // are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.
 abstract class BaseEventHandler {
   private stepSize: number = 200;
-  private stepTimeMs: number = 5000;
+  private stepTimeMs: number = 1000;
   private latestBlockOffset: number = 1;
 
   protected constructor(
@@ -51,24 +51,26 @@ abstract class BaseEventHandler {
           console.warn("Error retrieving block range:", e);
         }
 
-        try {
-          const result = await send([getEvents(eventName, fromBlock, toBlock)]);
-          const decoded = await fcl.decode(result);
-
-          if (decoded.length) {
-            decoded.forEach(async (event) => await this.onEvent(event));
+        if (fromBlock <= toBlock) {
+          try {
+            const result = await send([getEvents(eventName, fromBlock, toBlock)]);
+            const decoded = await fcl.decode(result);
+  
+            if (decoded.length) {
+              decoded.forEach(async (event) => await this.onEvent(event));
+            }
+  
+            // Record the last block that we synchronized up to
+            blockCursor = await this.blockCursorService.updateBlockCursorById(
+              blockCursor.id,
+              toBlock
+            );
+          } catch (e) {
+            console.error(
+              `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
+              e
+            );
           }
-
-          // Record the last block that we synchronized up to
-          blockCursor = await this.blockCursorService.updateBlockCursorById(
-            blockCursor.id,
-            toBlock
-          );
-        } catch (e) {
-          console.error(
-            `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
-            e
-          );
         }
 
         setTimeout(poll, this.stepTimeMs);
