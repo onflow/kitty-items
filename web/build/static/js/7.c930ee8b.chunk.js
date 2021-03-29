@@ -1,2 +1,0 @@
-(this["webpackJsonpkitty-items-web"]=this["webpackJsonpkitty-items-web"]||[]).push([[7],{162:function(t,i,s){"use strict";s.r(i),i.default=s.p+"static/media/item04.5085a180.svg"}}]);
-//# sourceMappingURL=7.c930ee8b.chunk.js.map
