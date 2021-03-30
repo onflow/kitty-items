@@ -3,13 +3,11 @@
   "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {
-    "concurrently": "^6.0.0"
+    "@types/node": "^14.14.37"
   },
   "scripts": {
-    "start:api": "cd ./api && npm run start:dev",
-    "start:web": "cd ./web && npm run start:dev",
-    "start:wallet": "cd ./fcl-dev-wallet && npm run start:dev",
-    "start": "concurrently \"npm:start:*\""
+    "build": "./heroku-build.sh",
+    "start": "npm run start --prefix api"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,5 @@
 import "express-async-errors";
+import path from "path";
 import express, { Request, Response } from "express";
 import Knex from "knex";
 import cors from "cors";
@@ -30,6 +31,15 @@ const initApp = (
   app.use(V1, initKibblesRouter(kibblesService));
   app.use(V1, initKittyItemsRouter(kittyItemsService));
   app.use(V1, initMarketRouter(marketService));
+
+  if (process.env.HEROKU_ENV) {
+    // Only used for Heroku deploy.
+    const path = require("path");
+    app.use(express.static(path.resolve(__dirname, "../../web/build")));
+    app.get("*", function (req, res) {
+      res.sendFile(path.resolve(__dirname, "../../web/build/index.html"));
+    });
+  }
 
   app.all("*", async (req: Request, res: Response) => {
     return res.sendStatus(404);

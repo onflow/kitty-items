@@ -19,7 +19,10 @@ async function run() {
 
   knexInstance = Knex({
     client: "postgresql",
-    connection: config.databaseUrl,
+    connection: {
+      connectionString: config.databaseUrl,
+      ssl: { rejectUnauthorized: false },
+    },
     migrations: {
       directory: config.databaseMigrationPath,
     },
