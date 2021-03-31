@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "./heroku-build.sh",
-    "start": "npm run start --prefix api"
+    "start": "node api/dist/index.js",
+    "start:worker": "node api/dist/index.js --worker"
   },
   "repository": {
     "type": "git",
