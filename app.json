@@ -1,0 +1,11 @@
+{
+  "name": "Kitty Items",
+  "description": "A complete NFT marketplace built with Cadence, Flow's resource-oriented smart contract programming language.",
+  "repository": "https://github.com/onflow/kitty-items",
+  "logo": "https://github.com/onflow/kitty-items/raw/master/kitty-items-banner.png",
+  "keywords": [
+    "Cadence",
+    "Flow",
+    "NFT"
+  ]
+}
