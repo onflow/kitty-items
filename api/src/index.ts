@@ -14,6 +14,7 @@ import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
+import { Model } from "objection";
 
 let knexInstance: Knex;
 const argv = yargs(hideBin(process.argv)).argv;
@@ -64,6 +65,7 @@ async function run() {
   fcl.config().put("accessNode.api", config.accessApi);
 
   if (argv.worker) {
+    Model.knex(knexInstance);
     const blockCursorService = new BlockCursorService();
 
     const saleOfferWorker = new SaleOfferHandler(
