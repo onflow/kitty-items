@@ -1,9 +1,12 @@
 {
   "name": "kitty-items",
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "yargs": "^16.2.0"
+  },
   "devDependencies": {
-    "@types/node": "^14.14.37"
+    "@types/node": "^14.14.37",
+    "@types/yargs": "^16.0.1"
   },
   "scripts": {
     "build": "./heroku-build.sh",
