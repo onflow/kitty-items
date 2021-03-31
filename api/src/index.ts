@@ -60,6 +60,9 @@ async function run() {
     config.minterAddress
   );
 
+  // Make sure we're pointing to the correct Flow Access API.
+  fcl.config().put("accessNode.api", config.accessApi);
+
   if (argv.worker) {
     const blockCursorService = new BlockCursorService();
 
@@ -71,9 +74,6 @@ async function run() {
 
     saleOfferWorker.run();
   } else {
-    // Make sure we're pointing to the correct Flow Access API.
-    fcl.config().put("accessNode.api", config.accessApi);
-
     const kibblesService = new KibblesService(
       flowService,
       config.fungibleTokenAddress,
