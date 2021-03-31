@@ -2,10 +2,30 @@
   "name": "Kitty Items",
   "description": "A complete NFT marketplace built with Cadence, Flow's resource-oriented smart contract programming language.",
   "repository": "https://github.com/onflow/kitty-items",
-  "logo": "https://github.com/onflow/kitty-items/raw/master/kitty-items-banner.png",
+  "logo": "https://cdn.shopify.com/s/files/1/1061/1924/products/Happy_cat_emoji_icon_87ab6b39-5f08-48a5-a89a-1f5d3312e159_large.png?v=1571606090",
   "keywords": [
     "Cadence",
     "Flow",
-    "NFT"
+    "NFT",
+    "Marketplace"
+  ],
+  "env": {
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "9.5"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest"
+    }
   ]
 }

@@ -2,6 +2,9 @@ import * as fcl from "@onflow/fcl";
 
 import Knex from "knex";
 
+import yargs from "yargs/yargs";
+import { hideBin } from "yargs/helpers";
+
 import initApp from "./app";
 import { getConfig } from "./config";
 
@@ -13,6 +16,7 @@ import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 let knexInstance: Knex;
+const argv = yargs(hideBin(process.argv)).argv;
 
 async function run() {
   const config = getConfig();
@@ -21,7 +25,10 @@ async function run() {
     client: "postgresql",
     connection: {
       connectionString: config.databaseUrl,
-      ssl: { rejectUnauthorized: false },
+      ssl:
+        process.env.NODE_ENV === "production"
+          ? { rejectUnauthorized: false }
+          : false,
     },
     migrations: {
       directory: config.databaseMigrationPath,
@@ -38,25 +45,10 @@ async function run() {
   // Run all database migrations
   await knexInstance.migrate.latest();
 
-  // Make sure we're pointing to the correct Flow Access API.
-  fcl.config().put("accessNode.api", config.accessApi);
-
   const flowService = new FlowService(
     config.minterAddress,
     config.minterPrivateKeyHex,
     config.minterAccountKeyIndex
-  );
-
-  const kibblesService = new KibblesService(
-    flowService,
-    config.fungibleTokenAddress,
-    config.minterAddress
-  );
-
-  const kittyItemsService = new KittyItemsService(
-    flowService,
-    config.nonFungibleTokenAddress,
-    config.minterAddress
   );
 
   const marketService = new MarketService(
@@ -68,26 +60,43 @@ async function run() {
     config.minterAddress
   );
 
-  const blockCursorService = new BlockCursorService();
+  if (argv.worker) {
+    const blockCursorService = new BlockCursorService();
 
-  const saleOfferWorker = new SaleOfferHandler(
-    marketService,
-    blockCursorService,
-    flowService
-  );
+    const saleOfferWorker = new SaleOfferHandler(
+      marketService,
+      blockCursorService,
+      flowService
+    );
 
-  const app = initApp(
-    knexInstance,
-    kibblesService,
-    kittyItemsService,
-    marketService
-  );
+    saleOfferWorker.run();
+  } else {
+    // Make sure we're pointing to the correct Flow Access API.
+    fcl.config().put("accessNode.api", config.accessApi);
 
-  app.listen(config.port, () => {
-    console.log(`Listening on port ${config.port}!`);
-  });
+    const kibblesService = new KibblesService(
+      flowService,
+      config.fungibleTokenAddress,
+      config.minterAddress
+    );
 
-  saleOfferWorker.run();
+    const kittyItemsService = new KittyItemsService(
+      flowService,
+      config.nonFungibleTokenAddress,
+      config.minterAddress
+    );
+
+    const app = initApp(
+      knexInstance,
+      kibblesService,
+      kittyItemsService,
+      marketService
+    );
+
+    app.listen(config.port, () => {
+      console.log(`Listening on port ${config.port}!`);
+    });
+  }
 }
 
 const redOutput = "\x1b[31m%s\x1b[0m";
