@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "tsnd --respawn src/index.ts",
-    "start": "node dist/index.js",
+    "start:dev": "concurrently \"tsnd --respawn src/index.ts\" \"tsnd --respawn src/index.ts --worker\"",
+    "start": "concurrently \"node dist/index.js\" \"node dist/index.js --worker\"",
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",
