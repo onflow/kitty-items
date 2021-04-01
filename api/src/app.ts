@@ -33,7 +33,7 @@ const initApp = (
   app.use(V1, initMarketRouter(marketService));
 
   if (process.env.HEROKU_ENV) {
-    // Only used for Heroku deploy.
+    // Serve React static site using Express when deployed to Heroku.
     const path = require("path");
     app.use(express.static(path.resolve(__dirname, "../../web/build")));
     app.get("*", function (req, res) {
