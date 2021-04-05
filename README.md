@@ -9,7 +9,6 @@
 - Kitty Items is a **complete NFT marketplace** built with [Cadence](https://docs.onflow.org/cadence), Flow's resource-oriented smart contract programming language.
 - Learn how to deploy contracts, mint NFTs, and integrate user wallets with the Flow Client Library (FCL).
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 ## 🎬 Live Demo
 
 Check out the [live demo of Kitty Items](https://dark-frost-1788.on.fleek.co/),
@@ -61,6 +60,29 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 
 ```sh
 flow project deploy --network=testnet
+```
+
+### (Optional) Heroku Deployment
+
+Now that you have generated a new address and deployed the contracts, yyou can deploy the app to Heroku! 
+
+Skip this step if you'd like to proceed with _local_ development.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+You'll need to supply the following configuration variables when prompted: 
+
+```bash
+# The Flow address and private key you generated above
+
+MINTER_ADDRESS
+MINTER_PRIVATE_KEY
+
+# The Flow address where you have deployed your Kitty Items contract. (usually the same Flow address as above)
+
+REACT_APP_CONTRACT_KIBBLE
+REACT_APP_CONTRACT_KITTY_ITEMS
+REACT_APP_CONTRACT_KITTY_ITEMS_MARKET
 ```
 
 ### 5. Run the API
