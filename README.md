@@ -64,7 +64,7 @@ flow project deploy --network=testnet
 
 ### (Optional) Heroku Deployment
 
-Now that you have generated a new address and deployed the contracts, yyou can deploy the app to Heroku! 
+Now that you have generated a new address and deployed the contracts, you can deploy the app to Heroku! 
 
 Skip this step if you'd like to proceed with _local_ development.
 
@@ -78,7 +78,8 @@ You'll need to supply the following configuration variables when prompted:
 MINTER_ADDRESS
 MINTER_PRIVATE_KEY
 
-# The Flow address where you have deployed your Kitty Items contract. (usually the same Flow address as above)
+# The Flow address where you have deployed your Kitty Items contract.
+# (usually the same Flow address as above)
 
 REACT_APP_CONTRACT_KIBBLE
 REACT_APP_CONTRACT_KITTY_ITEMS
