@@ -34,7 +34,6 @@ const initApp = (
 
   if (process.env.HEROKU_ENV) {
     // Serve React static site using Express when deployed to Heroku.
-    const path = require("path");
     app.use(express.static(path.resolve(__dirname, "../../web/build")));
     app.get("*", function (req, res) {
       res.sendFile(path.resolve(__dirname, "../../web/build/index.html"));
