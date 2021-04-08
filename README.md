@@ -84,6 +84,13 @@ MINTER_PRIVATE_KEY
 REACT_APP_CONTRACT_KIBBLE
 REACT_APP_CONTRACT_KITTY_ITEMS
 REACT_APP_CONTRACT_KITTY_ITEMS_MARKET
+
+# The URL for your Heroku deployment + the RESTful endpoint
+# eg. kitty-items-flow-testnet.herokuapp.com/v1/kibbles/mint
+
+REACT_APP_API_KIBBLE_MINT -> [Your Heroku URL]/v1/kibbles/mint
+REACT_APP_API_KITTY_ITEM_MINT -> [Your Heroku URL]/v1/kitty-items/mint
+REACT_APP_API_MARKET_ITEMS_LIST -> [Your Heroku URL]/v1/market/latest
 ```
 
 ### 5. Run the API
