@@ -63,15 +63,15 @@
     },
     "REACT_APP_API_KIBBLE_MINT": {
       "description": "RESTful endpoint for minting Kibble (Fungible Token).",
-      "value": "[Your Heroku app URL]/v1/kibbles/mint"
+      "value": "https://[Your Heroku app URL]/v1/kibbles/mint"
     },
     "REACT_APP_API_KITTY_ITEM_MINT": {
       "description": "RESTful endpoint for minting Kitty Items (Non-Fungible Token).",
-      "value": "[Your Heroku app URL]/v1/kitty-items/mint"
+      "value": "https://[Your Heroku app URL]/v1/kitty-items/mint"
     },
     "REACT_APP_API_MARKET_ITEMS_LIST": {
       "description": "RESTful endpoint for reading the latest marketplace SaleOffers.",
-      "value": "[Your Heroku app URL]/v1/market/latest"
+      "value": "https://[Your Heroku app URL]/v1/market/latest"
     },
     "REACT_APP_CHAIN_ENV": {
       "value": "testnet"
