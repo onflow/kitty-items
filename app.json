@@ -9,6 +9,16 @@
     "NFT",
     "Marketplace"
   ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
   "env": {
     "MINTER_ADDRESS": {
       "description": "The address where the Kitty Items contract for your app is deployed.",
