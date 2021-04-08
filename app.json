@@ -63,15 +63,15 @@
     },
     "REACT_APP_API_KIBBLE_MINT": {
       "description": "RESTful endpoint for minting Kibble (Fungible Token).",
-      "value": "http://localhost:3000/v1/kibbles/mint"
+      "value": "[Your Heroku app URL]/v1/kibbles/mint"
     },
     "REACT_APP_API_KITTY_ITEM_MINT": {
       "description": "RESTful endpoint for minting Kitty Items (Non-Fungible Token).",
-      "value": "http://localhost:3000/v1/kitty-items/mint"
+      "value": "[Your Heroku app URL]/v1/kitty-items/mint"
     },
     "REACT_APP_API_MARKET_ITEMS_LIST": {
       "description": "RESTful endpoint for reading the latest marketplace SaleOffers.",
-      "value": "http://localhost:3000/v1/market/latest"
+      "value": "[Your Heroku app URL]/v1/market/latest"
     },
     "REACT_APP_CHAIN_ENV": {
       "value": "testnet"
@@ -93,7 +93,7 @@
     {
       "plan": "heroku-postgresql",
       "options": {
-        "version": "9.5"
+        "version": "13"
       }
     }
   ],
