@@ -8,7 +8,7 @@ import NonFungibleToken from "./NonFungibleToken.cdc"
     in order to list and sell KittyItems.
 
     Its structure is neither what it would be if it was the simplest possible
-    marjet contract or if it was a complete general purpose market contract.
+    market contract or if it was a complete general purpose market contract.
     Rather it's the simplest possible version of a more general purpose
     market contract that indicates how that contract might function in
     broad strokes. This has been done so that integrating with this contract

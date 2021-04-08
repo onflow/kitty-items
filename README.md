@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://dark-frost-1788.on.fleek.co/">
+    <a href="http://kitty-items-flow-testnet.herokuapp.com/">
         <img width="400" src="kitty-items-banner.png" />
     </a>
 </p>
@@ -11,8 +11,8 @@
 
 ## 🎬 Live Demo
 
-Check out the [live demo of Kitty Items](https://dark-frost-1788.on.fleek.co/),
-deployed on [IPFS](https://docs.ipfs.io/concepts/case-study-fleek/) and the Flow Testnet.
+Check out the [live demo of Kitty Items](http://kitty-items-flow-testnet.herokuapp.com/),
+deployed on the Flow Testnet.
 
 ## ✨ Getting Started
 
