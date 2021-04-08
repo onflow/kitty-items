@@ -4,11 +4,7 @@ import path from "path";
 
 import express, { Request, Response } from "express";
 
-import Knex from "knex";
-
 import cors from "cors";
-
-import { Model } from "objection";
 
 import { json, urlencoded } from "body-parser";
 
@@ -23,12 +19,10 @@ const V1 = "/v1/";
 
 // Init all routes, setup middlewares and dependencies
 const initApp = (
-  knex: Knex,
   kibblesService: KibblesService,
   kittyItemsService: KittyItemsService,
   marketService: MarketService
 ) => {
-  Model.knex(knex);
   const app = express();
 
   // @ts-ignore
