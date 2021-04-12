@@ -114,7 +114,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItemsMarket/sell_market_item.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/create_sale_offer.cdc`
         ),
         "utf8"
       )

@@ -18,9 +18,9 @@ const (
 	kittyItemsMarketRootPath             = "../../../cadence/KittyItemsMarket"
 	kittyItemsMarketKittyItemsMarketPath = kittyItemsMarketRootPath + "/contracts/KittyItemsMarket.cdc"
 	kittyItemsMarketSetupAccountPath     = kittyItemsMarketRootPath + "/transactions/setup_account.cdc"
-	kittyItemsMarketSellItemPath         = kittyItemsMarketRootPath + "/transactions/sell_market_item.cdc"
+	kittyItemsMarketSellItemPath         = kittyItemsMarketRootPath + "/transactions/create_sale_offer.cdc"
 	kittyItemsMarketBuyItemPath          = kittyItemsMarketRootPath + "/transactions/buy_market_item.cdc"
-	kittyItemsMarketRemoveItemPath       = kittyItemsMarketRootPath + "/transactions/remove_market_item.cdc"
+	kittyItemsMarketRemoveItemPath       = kittyItemsMarketRootPath + "/transactions/remove_sale_offer.cdc"
 )
 
 const (
