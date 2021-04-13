@@ -5,9 +5,9 @@ import {IDLE, PROCESSING} from "../global/constants"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {useAccountItems} from "../hooks/use-account-items.hook"
 import {useKibblesBalance} from "../hooks/use-kibbles-balance.hook"
-import {fetchMarketItem} from "../flow/fetch-market-item.script"
-import {buyMarketItem} from "../flow/buy-market-item.tx"
-import {cancelMarketListing} from "../flow/cancel-market-listing.tx"
+import {fetchMarketItem} from "../flow/script.get-market-item"
+import {buyMarketItem} from "../flow/tx.buy-market-item"
+import {cancelMarketListing} from "../flow/tx.remove-sale-offer"
 
 function expand(key) {
   return key.split("|")
