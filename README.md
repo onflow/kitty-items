@@ -62,12 +62,17 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 flow project deploy --network=testnet
 ```
 
-### 5. Run the API
+### 5. Show your contracts 
+```sh
+flow accounts get 0xabcdef12345689 --network=testnet
+```
+
+### 6. Run the API
 
 After the contracts are deployed, follow the [Kitty Items API instructions](https://github.com/onflow/kitty-items/tree/master/api#readme)
 to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
 
-### 6. Launch the web app
+### 7. Launch the web app
 
 Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web#readme) to launch the Kitty Items front-end React app.
 
