@@ -62,9 +62,9 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 flow project deploy --network=testnet
 ```
 
-### 5. Show your contracts 
+If you'd like to look at the contracts in your account, to confirm that everything was deploy properly, you can use the following cli command:
 ```sh
-flow accounts get 0xabcdef12345689 --network=testnet
+flow accounts get $FLOW_ADDRESS --network=testnet
 ```
 
 ### 6. Run the API
