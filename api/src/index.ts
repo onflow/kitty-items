@@ -5,6 +5,8 @@ import Knex from "knex";
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 
+import { Model } from "objection";
+
 import initApp from "./app";
 import { getConfig } from "./config";
 
@@ -14,7 +16,6 @@ import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
-import { Model } from "objection";
 
 let knexInstance: Knex;
 const argv = yargs(hideBin(process.argv)).argv;
@@ -64,7 +65,7 @@ async function run() {
   // Make sure we're pointing to the correct Flow Access API.
   fcl.config().put("accessNode.api", config.accessApi);
 
-  if (argv.worker) {
+  const startWorker = () => {
     Model.knex(knexInstance);
     const blockCursorService = new BlockCursorService();
 
@@ -75,7 +76,8 @@ async function run() {
     );
 
     saleOfferWorker.run();
-  } else {
+  };
+  const startAPIServer = () => {
     const kibblesService = new KibblesService(
       flowService,
       config.fungibleTokenAddress,
@@ -98,6 +100,27 @@ async function run() {
     app.listen(config.port, () => {
       console.log(`Listening on port ${config.port}!`);
     });
+  };
+
+  if (argv.dev) {
+    // If we're in dev, run everything in one process.
+    startWorker();
+    startAPIServer();
+    return;
+  } else {
+    // If we're not in dev, look for flags. We do this so that
+    // the worker can be started in seperate process using flag.
+    // eg:
+    // $> node /api/dist/index.js (starts API server)
+    // $> node /api/dist/index.js --worker (starts worker)
+    if (argv.worker) {
+      // Start the worker only if worker is passed as as command flag.
+      // See above notes for why.
+      startWorker();
+    } else {
+      // Default when not in dev: start the API server.
+      startAPIServer();
+    }
   }
 }
 
