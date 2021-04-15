@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "tsnd --respawn src/index.ts --dev",
-    "start": "concurrently \"node dist/index.js\" \"node dist/index.js --worker\"",
+    "start": "node dist/index.js",
+    "start:worker": "node dist/index.js --worker",
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",

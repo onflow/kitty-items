@@ -59,7 +59,7 @@ async function run() {
 
     saleOfferWorker.run();
   };
-
+  
   const startAPIServer = () => {
     const kibblesService = new KibblesService(
       flowService,
