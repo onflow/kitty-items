@@ -53,13 +53,15 @@ abstract class BaseEventHandler {
 
         if (fromBlock <= toBlock) {
           try {
-            const result = await send([getEvents(eventName, fromBlock, toBlock)]);
+            const result = await send([
+              getEvents(eventName, fromBlock, toBlock),
+            ]);
             const decoded = await fcl.decode(result);
-  
+
             if (decoded.length) {
               decoded.forEach(async (event) => await this.onEvent(event));
             }
-  
+
             // Record the last block that we synchronized up to
             blockCursor = await this.blockCursorService.updateBlockCursorById(
               blockCursor.id,
@@ -85,7 +87,7 @@ abstract class BaseEventHandler {
     const latestBlockHeight =
       (await this.flowService.getLatestBlockHeight()) - this.latestBlockOffset;
 
-    const fromBlock = currentBlockCursor.currentBlockHeight + 1;
+    const fromBlock = currentBlockCursor.currentBlockHeight;
     let toBlock = currentBlockCursor.currentBlockHeight + this.stepSize;
 
     // Don't look ahead to unsealed blocks

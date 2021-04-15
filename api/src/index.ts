@@ -1,7 +1,5 @@
 import * as fcl from "@onflow/fcl";
 
-import Knex from "knex";
-
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -9,6 +7,7 @@ import { Model } from "objection";
 
 import initApp from "./app";
 import { getConfig } from "./config";
+import initDB from "./db";
 
 import { BlockCursorService } from "./services/block-cursor";
 import { FlowService } from "./services/flow";
@@ -17,35 +16,21 @@ import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
-let knexInstance: Knex;
 const argv = yargs(hideBin(process.argv)).argv;
 
 async function run() {
   const config = getConfig();
-
-  knexInstance = Knex({
-    client: "postgresql",
-    connection: {
-      connectionString: config.databaseUrl,
-      ssl:
-        process.env.NODE_ENV === "production"
-          ? { rejectUnauthorized: false }
-          : false,
-    },
-    migrations: {
-      directory: config.databaseMigrationPath,
-    },
-  });
+  const db = initDB(config);
 
   // Make sure to disconnect from DB when exiting the process
   process.on("SIGTERM", () => {
-    knexInstance.destroy().then(() => {
+    db.destroy().then(() => {
       process.exit(0);
     });
   });
 
   // Run all database migrations
-  await knexInstance.migrate.latest();
+  await db.migrate.latest();
 
   const flowService = new FlowService(
     config.minterAddress,
@@ -66,7 +51,6 @@ async function run() {
   fcl.config().put("accessNode.api", config.accessApi);
 
   const startWorker = () => {
-    Model.knex(knexInstance);
     const blockCursorService = new BlockCursorService();
 
     const saleOfferWorker = new SaleOfferHandler(
@@ -77,6 +61,7 @@ async function run() {
 
     saleOfferWorker.run();
   };
+  
   const startAPIServer = () => {
     const kibblesService = new KibblesService(
       flowService,
@@ -90,12 +75,7 @@ async function run() {
       config.minterAddress
     );
 
-    const app = initApp(
-      knexInstance,
-      kibblesService,
-      kittyItemsService,
-      marketService
-    );
+    const app = initApp(kibblesService, kittyItemsService, marketService);
 
     app.listen(config.port, () => {
       console.log(`Listening on port ${config.port}!`);
