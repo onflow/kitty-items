@@ -14,7 +14,7 @@
 Check out the [live demo of Kitty Items](http://kitty-items-flow-testnet.herokuapp.com/),
 deployed on the Flow Testnet.
 
-If you'd like to deploy your own version, see the [deploy to Heroku](/#user-content-optional-heroku-deployment) instructions near the bottom to the setup. guide.
+If you'd like to deploy your own version, see the [deploy to Heroku](#optional-heroku-deployment) instructions near the bottom to this setup guide.
 
 ## ✨ Getting Started
 
