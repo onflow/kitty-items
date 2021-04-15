@@ -14,6 +14,8 @@
 Check out the [live demo of Kitty Items](http://kitty-items-flow-testnet.herokuapp.com/),
 deployed on the Flow Testnet.
 
+If you'd like to deploy your own version, see the [deploy to Heroku](/#user-content-optional-heroku-deployment) instructions near the bottom to the setup. guide.
+
 ## ✨ Getting Started
 
 ### 1. Install the Flow CLI
@@ -62,11 +64,18 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 flow project deploy --network=testnet
 ```
 
+### 5. Run the API
+
+After the contracts are deployed, follow the [Kitty Items API instructions](https://github.com/onflow/kitty-items/tree/master/api#readme)
+to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
+
+### 6. Launch the web app
+
+Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web#readme) to launch the Kitty Items front-end React app.
+
 ### (Optional) Heroku Deployment
 
-Now that you have generated a new address and deployed the contracts, you can deploy the app to Heroku! 
-
-Skip this step if you'd like to proceed with _local_ development.
+If you'd like to deploy a version of this app to Heroku for testing, you can use this button!
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
@@ -85,15 +94,6 @@ REACT_APP_CONTRACT_KIBBLE
 REACT_APP_CONTRACT_KITTY_ITEMS
 REACT_APP_CONTRACT_KITTY_ITEMS_MARKET
 ```
-
-### 5. Run the API
-
-After the contracts are deployed, follow the [Kitty Items API instructions](https://github.com/onflow/kitty-items/tree/master/api#readme)
-to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
-
-### 6. Launch the web app
-
-Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web#readme) to launch the Kitty Items front-end React app.
 
 ## Project Overview
 
