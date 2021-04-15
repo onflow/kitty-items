@@ -3,8 +3,6 @@ import * as fcl from "@onflow/fcl";
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 
-import { Model } from "objection";
-
 import initApp from "./app";
 import { getConfig } from "./config";
 import initDB from "./db";
