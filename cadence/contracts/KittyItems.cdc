@@ -182,10 +182,9 @@ pub contract KittyItems: NonFungibleToken {
     //
 	init() {
         // Set our named paths
-        //FIXME: REMOVE SUFFIX BEFORE RELEASE
-        self.CollectionStoragePath = /storage/kittyItemsCollection002
-        self.CollectionPublicPath = /public/kittyItemsCollection002
-        self.MinterStoragePath = /storage/kittyItemsMinter002
+        self.CollectionStoragePath = /storage/kittyItemsCollection
+        self.CollectionPublicPath = /public/kittyItemsCollection
+        self.MinterStoragePath = /storage/kittyItemsMinter
 
         // Initialize the total supply
         self.totalSupply = 0
