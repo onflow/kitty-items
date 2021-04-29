@@ -121,7 +121,7 @@ pub contract KittyItemsMarket {
         // to transfer the KittyItems NFT and the capability to receive Kibble in payment.
         //
         init(
-            sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>,
+            sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>,
             itemID: UInt64,
             typeID: UInt64,
             sellerPaymentReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>,
@@ -133,6 +133,12 @@ pub contract KittyItemsMarket {
             }
 
             self.saleCompleted = false
+
+            let collectionRef = sellerItemProvider.borrow()!
+            assert(
+                collectionRef.borrowKittyItem(id: itemID) != nil,
+                message: "Specified NFT is not available in the owner's collection"
+            )
 
             self.sellerItemProvider = sellerItemProvider
             self.itemID = itemID
@@ -149,7 +155,7 @@ pub contract KittyItemsMarket {
     // Make creating a SaleOffer publicly accessible.
     //
     pub fun createSaleOffer (
-        sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider}>,
+        sellerItemProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>,
         itemID: UInt64,
         typeID: UInt64,
         sellerPaymentReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>,
