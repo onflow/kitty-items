@@ -1,0 +1,115 @@
+{
+  "name": "Kitty Items",
+  "description": "A complete NFT marketplace built with Cadence, Flow's resource-oriented smart contract programming language.",
+  "repository": "https://github.com/onflow/kitty-items",
+  "logo": "https://user-images.githubusercontent.com/2547035/113519867-d8592380-9543-11eb-9bb3-c45e51360ccf.png",
+  "keywords": [
+    "Cadence",
+    "Flow",
+    "NFT",
+    "Marketplace"
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "env": {
+    "MINTER_ADDRESS": {
+      "description": "The address where the Kitty Items contract for your app is deployed.",
+      "value": ""
+    },
+    "MINTER_PRIVATE_KEY": {
+      "description": "The the private key for the account where the Kitty Items contract for your app is deployed.",
+      "value": ""
+    },
+    "REACT_APP_CONTRACT_KIBBLE": {
+      "description": "The address where the Kibble contract is deployed on testnet for this app.",
+      "value": ""
+    },
+    "REACT_APP_CONTRACT_KITTY_ITEMS": {
+      "description": "The address where the KittyItems contract is deployed on testnet for this app.",
+      "value": ""
+    },
+    "REACT_APP_CONTRACT_KITTY_ITEMS_MARKET": {
+      "description": "The address where the KittyItemsMarket contract is deployed on testnet for this app.",
+      "value": ""
+    },
+    "IS_HEROKU": {
+      "value": true
+    },
+    "BLOCK_WINDOW": {
+      "description": "Look for events n blocks at a time.",
+      "value": 100
+    },
+    "FLOW_ACCESS_NODE": {
+      "description": "URL for accessing the Flow tesntet gRPC API.",
+      "value": "https://access-testnet.onflow.org"
+    },
+    "FUNGIBLE_TOKEN_ADDRESS": {
+      "description": "Address for the standard Fungible Token contract on testnet.",
+      "value": "0x9a0766d93b6608b7"
+    },
+    "NON_FUNGIBLE_TOKEN_ADDRESS": {
+      "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
+      "value": "0x631e88ae7f1d7c20"
+    },
+    "MIGRATION_PATH": {
+      "description": "Location of database migrations.",
+      "value": "api/dist/migrations"
+    },
+    "MINTER_ACCOUNT_KEY_INDEX": {
+      "description": "Which key the minter account will use to sign transactions.",
+      "value": "0"
+    },
+    "REACT_APP_FLOW_ACCESS_NODE": {
+      "description": "URL for accessing the Flow tesntet gRPC API. (Used by @onflow/fcl)",
+      "value": "https://access-testnet.onflow.org"
+    },
+    "REACT_APP_API_KIBBLE_MINT": {
+      "description": "RESTful endpoint for minting Kibble (Fungible Token).",
+      "value": "/v1/kibbles/mint"
+    },
+    "REACT_APP_API_KITTY_ITEM_MINT": {
+      "description": "RESTful endpoint for minting Kitty Items (Non-Fungible Token).",
+      "value": "/v1/kitty-items/mint"
+    },
+    "REACT_APP_API_MARKET_ITEMS_LIST": {
+      "description": "RESTful endpoint for reading the latest marketplace SaleOffers.",
+      "value": "/v1/market/latest"
+    },
+    "REACT_APP_CHAIN_ENV": {
+      "value": "testnet"
+    },
+    "REACT_APP_CONTRACT_FUNGIBLE_TOKEN": {
+      "description": "Address for the standard Fungible Token contract on testnet.",
+      "value": "0x9a0766d93b6608b7"
+    },
+    "REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN": {
+      "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
+      "value": "0x631e88ae7f1d7c20"
+    },
+    "REACT_APP_WALLET_DISCOVERY": {
+      "description": "URL for fcl wallet discovery service for testnet wallets.",
+      "value": "https://fcl-discovery.onflow.org/testnet/authn"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "13"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest"
+    }
+  ]
+}

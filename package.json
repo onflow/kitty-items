@@ -1,15 +1,17 @@
 {
   "name": "kitty-items",
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "yargs": "^16.2.0"
+  },
   "devDependencies": {
-    "concurrently": "^6.0.0"
+    "@types/node": "^14.14.37",
+    "@types/yargs": "^16.0.1"
   },
   "scripts": {
-    "start:api": "cd ./api && npm run start:dev",
-    "start:web": "cd ./web && npm run start:dev",
-    "start:wallet": "cd ./fcl-dev-wallet && npm run start:dev",
-    "start": "concurrently \"npm:start:*\""
+    "start": "node api/dist/index.js",
+    "start:worker": "node api/dist/index.js --worker",
+    "heroku-postbuild": "./heroku-build.sh"
   },
   "repository": {
     "type": "git",
