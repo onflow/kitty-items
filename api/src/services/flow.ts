@@ -1,6 +1,5 @@
 import * as fcl from "@onflow/fcl";
 import * as sdk from "@onflow/sdk";
-import { getLatestBlock } from "@onflow/sdk-build-get-latest-block";
 
 import { ec as EC } from "elliptic";
 
@@ -89,7 +88,7 @@ class FlowService {
   }
 
   async getLatestBlockHeight() {
-    const block = await sdk.send(sdk.build([sdk.getBlock(true)]));
+    const block = await sdk.send(await sdk.build([sdk.getBlock(true)]));
     const decoded = await sdk.decode(block);
     return decoded.height;
   }
