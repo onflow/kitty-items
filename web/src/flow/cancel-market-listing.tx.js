@@ -6,19 +6,15 @@ import {invariant} from "@onflow/util-invariant"
 const CODE = fcl.cdc`
   import KittyItemsMarket from 0xKittyItemsMarket
 
-transaction(itemID: UInt64) {
-    let marketCollection: &KittyItemsMarket.Collection
-
-    prepare(signer: AuthAccount) {
-        self.marketCollection = signer.borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath)
-            ?? panic("Missing or mis-typed KittyItemsMarket Collection")
-    }
-
-    execute {
-        let offer <-self.marketCollection.remove(itemID: itemID)
-        destroy offer
-    }
-}`
+  transaction(itemID: UInt64) {
+      prepare(account: AuthAccount) {
+          let listing <- account
+            .borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath)!
+            .remove(itemID: itemID)
+          destroy listing
+      }
+  }
+`
 
 // prettier-ignore
 export function cancelMarketListing({ itemID }, opts = {}) {
