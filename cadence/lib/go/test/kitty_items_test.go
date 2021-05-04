@@ -25,9 +25,9 @@ const (
 	kittyItemsSetupAccountPath           = kittyItemsRootPath + "/transactions/setup_account.cdc"
 	kittyItemsMintKittyItemPath          = kittyItemsRootPath + "/transactions/mint_kitty_item.cdc"
 	kittyItemsTransferKittyItemPath      = kittyItemsRootPath + "/transactions/transfer_kitty_item.cdc"
-	kittyItemsInspectKittyItemSupplyPath = kittyItemsRootPath + "/scripts/read_kitty_items_supply.cdc"
-	kittyItemsInspectCollectionLenPath   = kittyItemsRootPath + "/scripts/read_collection_length.cdc"
-	kittyItemsInspectCollectionIdsPath   = kittyItemsRootPath + "/scripts/read_collection_ids.cdc"
+	kittyItemsInspectKittyItemSupplyPath = kittyItemsRootPath + "/scripts/get_kitty_items_supply.cdc"
+	kittyItemsInspectCollectionLenPath   = kittyItemsRootPath + "/scripts/get_collection_length.cdc"
+	kittyItemsInspectCollectionIdsPath   = kittyItemsRootPath + "/scripts/get_collection_ids.cdc"
 
 	typeID1 = 1000
 	typeID2 = 2000

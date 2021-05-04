@@ -1,5 +1,5 @@
 import {atomFamily, selectorFamily, useRecoilState} from "recoil"
-import {fetchFlowBalance} from "../flow/fetch-flow-balance.script"
+import {fetchFlowBalance} from "../flow/script.get-flow-balance"
 import {IDLE, PROCESSING} from "../global/constants"
 
 export const valueAtom = atomFamily({

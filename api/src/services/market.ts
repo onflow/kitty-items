@@ -49,7 +49,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          `../../../cadence/cadence/kittyItemsMarket/scripts/get_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -66,7 +66,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/cadence/kittyItemsMarket/scripts/read_collection_ids.cdc`
+          `../../../cadence/cadence/kittyItemsMarket/scripts/get_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -114,7 +114,7 @@ class MarketService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItemsMarket/sell_market_item.cdc`
+          `../../../cadence/transactions/kittyItemsMarket/create_sale_offer.cdc`
         ),
         "utf8"
       )

@@ -97,7 +97,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/read_collection_ids.cdc`
+          `../../../cadence/scripts/kittyItems/get_collection_ids.cdc`
         ),
         "utf8"
       )
@@ -118,7 +118,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/read_kitty_item_type_id.cdc`
+          `../../../cadence/scripts/kittyItems/get_kitty_item_type_id.cdc`
         ),
         "utf8"
       )
@@ -139,7 +139,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/read_kitty_items_supply.cdc`
+          `../../../cadence/scripts/kittyItems/get_kitty_items_supply.cdc`
         ),
         "utf8"
       )

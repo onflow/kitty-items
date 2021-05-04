@@ -2,6 +2,7 @@
   "name": "kitty-items",
   "version": "0.1.0",
   "dependencies": {
+    "raw.macro": "^0.4.2",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
