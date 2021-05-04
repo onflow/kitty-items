@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	kittyItemsRootPath                   = "../../../cadence/kittyItems"
+	kittyItemsRootPath                   = "../../.."
 	kittyItemsKittyItemsPath             = kittyItemsRootPath + "/contracts/KittyItems.cdc"
 	kittyItemsSetupAccountPath           = kittyItemsRootPath + "/transactions/setup_account.cdc"
 	kittyItemsMintKittyItemPath          = kittyItemsRootPath + "/transactions/mint_kitty_item.cdc"

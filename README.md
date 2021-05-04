@@ -9,11 +9,12 @@
 - Kitty Items is a **complete NFT marketplace** built with [Cadence](https://docs.onflow.org/cadence), Flow's resource-oriented smart contract programming language.
 - Learn how to deploy contracts, mint NFTs, and integrate user wallets with the Flow Client Library (FCL).
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 ## 🎬 Live Demo
 
 Check out the [live demo of Kitty Items](http://kitty-items-flow-testnet.herokuapp.com/),
 deployed on the Flow Testnet.
+
+If you'd like to deploy your own version, see the [deploy to Heroku](#optional-heroku-deployment) instructions near the bottom to this setup guide.
 
 ## ✨ Getting Started
 
@@ -71,6 +72,28 @@ to install and run the Kitty Items API. This backend service is responsible for 
 ### 6. Launch the web app
 
 Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web#readme) to launch the Kitty Items front-end React app.
+
+### (Optional) Heroku Deployment
+
+If you'd like to deploy a version of this app to Heroku for testing, you can use this button!
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+You'll need to supply the following configuration variables when prompted: 
+
+```bash
+# The Flow address and private key you generated above
+
+MINTER_ADDRESS
+MINTER_PRIVATE_KEY
+
+# The Flow address where you have deployed your Kitty Items contract.
+# (usually the same Flow address as above)
+
+REACT_APP_CONTRACT_KIBBLE
+REACT_APP_CONTRACT_KITTY_ITEMS
+REACT_APP_CONTRACT_KITTY_ITEMS_MARKET
+```
 
 ## Project Overview
 

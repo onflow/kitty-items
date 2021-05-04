@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	kittyItemsMarketRootPath             = "../../../cadence/KittyItemsMarket"
+	kittyItemsMarketRootPath             = "../../.."
 	kittyItemsMarketKittyItemsMarketPath = kittyItemsMarketRootPath + "/contracts/KittyItemsMarket.cdc"
 	kittyItemsMarketSetupAccountPath     = kittyItemsMarketRootPath + "/transactions/setup_account.cdc"
 	kittyItemsMarketSellItemPath         = kittyItemsMarketRootPath + "/transactions/create_sale_offer.cdc"
