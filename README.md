@@ -50,7 +50,9 @@ Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create
 
 #### Save your keys
 
-After your account has been created, save the address and private key in the `.env` file:
+After your account has been created;
+  1)  create a `.env` file in your project\api folder
+  2)  save the address and private key in the `.env` file as illlustrated below:
 
 ```sh
 # Replace these values with your own!
