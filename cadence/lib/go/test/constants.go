@@ -1,9 +1,11 @@
 package test
 
-const (
-	ftAddressPlaceholder         = "0xFUNGIBLETOKENADDRESS"
-	kibbleAddressPlaceHolder     = "0xKIBBLE"
-	nftAddressPlaceholder        = "0xNONFUNGIBLETOKEN"
-	kittyItemsAddressPlaceHolder = "0xKITTYITEMS"
-	kittyItemsMarketPlaceholder  = "0xKITTYMARKET"
+import "regexp"
+
+var (
+	ftAddressPlaceholder         = regexp.MustCompile(`"[^"\s].*/FungibleToken.cdc"`)
+	kibbleAddressPlaceHolder     = regexp.MustCompile(`"[^"\s].*/Kibble.cdc"`)
+	nftAddressPlaceholder        = regexp.MustCompile(`"[^"\s].*/NonFungibleToken.cdc"`)
+	kittyItemsAddressPlaceHolder = regexp.MustCompile(`"[^"\s].*/KittyItems.cdc"`)
+	kittyItemsMarketPlaceholder  = regexp.MustCompile(`"[^"\s].*/KittyItemsMarket.cdc"`)
 )
