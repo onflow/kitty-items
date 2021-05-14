@@ -1,7 +1,7 @@
 package test
 
 import (
-	"strings"
+	"regexp"
 	"testing"
 
 	"github.com/onflow/cadence"
@@ -19,13 +19,13 @@ import (
 
 const (
 	kibbleRootPath           = "../../.."
-	kibbleKibblePath         = kibbleRootPath + "/contracts/Kibble.cdc"
-	kibbleSetupAccountPath   = kibbleRootPath + "/transactions/setup_account.cdc"
-	kibbleTransferTokensPath = kibbleRootPath + "/transactions/transfer_tokens.cdc"
-	kibbleMintTokensPath     = kibbleRootPath + "/transactions/mint_tokens.cdc"
-	kibbleBurnTokensPath     = kibbleRootPath + "/transactions/burn_tokens.cdc"
-	kibbleGetBalancePath     = kibbleRootPath + "/scripts/get_balance.cdc"
-	kibbleGetSupplyPath      = kibbleRootPath + "/scripts/get_supply.cdc"
+	kibbleContractPath       = kibbleRootPath + "/contracts/Kibble.cdc"
+	kibbleSetupAccountPath   = kibbleRootPath + "/transactions/kibble/setup_account.cdc"
+	kibbleTransferTokensPath = kibbleRootPath + "/transactions/kibble/transfer_tokens.cdc"
+	kibbleMintTokensPath     = kibbleRootPath + "/transactions/kibble/mint_tokens.cdc"
+	kibbleBurnTokensPath     = kibbleRootPath + "/transactions/kibble/burn_tokens.cdc"
+	kibbleGetBalancePath     = kibbleRootPath + "/scripts/kibble/get_balance.cdc"
+	kibbleGetSupplyPath      = kibbleRootPath + "/scripts/kibble/get_supply.cdc"
 )
 
 func KibbleDeployContracts(b *emulator.Blockchain, t *testing.T) (flow.Address, flow.Address, crypto.Signer) {
@@ -263,11 +263,11 @@ func TestKibbleTransfers(t *testing.T) {
 }
 
 func kibbleReplaceAddressPlaceholders(code string, fungibleAddress, kibbleAddress string) []byte {
-	return []byte(replaceStrings(
+	return []byte(replaceImports(
 		code,
-		map[string]string{
-			ftAddressPlaceholder:     "0x" + fungibleAddress,
-			kibbleAddressPlaceHolder: "0x" + kibbleAddress,
+		map[string]*regexp.Regexp{
+			fungibleAddress: ftAddressPlaceholder,
+			kibbleAddress:   kibbleAddressPlaceHolder,
 		},
 	))
 }
@@ -277,10 +277,11 @@ func loadFungibleToken() []byte {
 }
 
 func loadKibble(fungibleAddr flow.Address) []byte {
-	return []byte(strings.ReplaceAll(
+	return []byte(replaceImports(
 		string(readFile(kibbleContractPath)),
-		ftAddressPlaceholder,
-		"0x"+fungibleAddr.String(),
+		map[string]*regexp.Regexp{
+			fungibleAddr.String(): ftAddressPlaceholder,
+		},
 	))
 }
 

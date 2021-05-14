@@ -1,9 +1,6 @@
 package test
 
 import (
-	"strings"
-	"testing"
-
 	"github.com/onflow/cadence"
 	emulator "github.com/onflow/flow-emulator"
 	"github.com/onflow/flow-go-sdk"
@@ -12,6 +9,8 @@ import (
 	sdktemplates "github.com/onflow/flow-go-sdk/templates"
 	"github.com/onflow/flow-go-sdk/test"
 	"github.com/stretchr/testify/assert"
+	"regexp"
+	"testing"
 )
 
 const (
@@ -46,11 +45,12 @@ func KittyItemsMarketDeployContracts(b *emulator.Blockchain, t *testing.T) TestC
 	// Should be able to deploy a contract as a new account with one key.
 	kittyItemsMarketAccountKey, kittyItemsMarketSigner := accountKeys.NewWithSigner()
 	kittyItemsMarketCode := loadKittyItemsMarket(
-		ftAddr.String(),
-		nftAddr.String(),
-		kibbleAddr.String(),
-		kittyItemsAddr.String(),
+		ftAddr,
+		nftAddr,
+		kibbleAddr,
+		kittyItemsAddr,
 	)
+
 	kittyItemsMarketAddr, err := b.CreateAccount(
 		[]*flow.AccountKey{kittyItemsMarketAccountKey},
 		[]sdktemplates.Contract{
@@ -81,7 +81,13 @@ func KittyItemsMarketDeployContracts(b *emulator.Blockchain, t *testing.T) TestC
 	}
 }
 
-func KittyItemsMarketSetupAccount(b *emulator.Blockchain, t *testing.T, userAddress sdk.Address, userSigner crypto.Signer, kittyItemsMarketAddr sdk.Address) {
+func KittyItemsMarketSetupAccount(
+	b *emulator.Blockchain,
+	t *testing.T,
+	userAddress sdk.Address,
+	userSigner crypto.Signer,
+	kittyItemsMarketAddr sdk.Address,
+) {
 	tx := flow.NewTransaction().
 		SetScript(kittyItemsMarketGenerateSetupAccountScript(kittyItemsMarketAddr.String())).
 		SetGasLimit(100).
@@ -98,7 +104,11 @@ func KittyItemsMarketSetupAccount(b *emulator.Blockchain, t *testing.T, userAddr
 }
 
 // Create a new account with the Kibble and KittyItems resources set up BUT no KittyItemsMarket resource.
-func KittyItemsMarketCreatePurchaserAccount(b *emulator.Blockchain, t *testing.T, contracts TestContractsInfo) (sdk.Address, crypto.Signer) {
+func KittyItemsMarketCreatePurchaserAccount(
+	b *emulator.Blockchain,
+	t *testing.T,
+	contracts TestContractsInfo,
+) (sdk.Address, crypto.Signer) {
 	userAddress, userSigner, _ := createAccount(t, b)
 	KibbleSetupAccount(t, b, userAddress, userSigner, contracts.FTAddr, contracts.KibbleAddr)
 	KittyItemsSetupAccount(t, b, userAddress, userSigner, contracts.NFTAddr, contracts.KittyItemsAddr)
@@ -106,14 +116,19 @@ func KittyItemsMarketCreatePurchaserAccount(b *emulator.Blockchain, t *testing.T
 }
 
 // Create a new account with the Kibble, KittyItems, and KittyItemsMarket resources set up.
-func KittyItemsMarketCreateAccount(b *emulator.Blockchain, t *testing.T, contracts TestContractsInfo) (sdk.Address, crypto.Signer) {
+func KittyItemsMarketCreateAccount(
+	b *emulator.Blockchain,
+	t *testing.T,
+	contracts TestContractsInfo,
+) (sdk.Address, crypto.Signer) {
 	userAddress, userSigner := KittyItemsMarketCreatePurchaserAccount(b, t, contracts)
 	KittyItemsMarketSetupAccount(b, t, userAddress, userSigner, contracts.KittyItemsMarketAddr)
 	return userAddress, userSigner
 }
 
 func KittyItemsMarketListItem(
-	t *testing.T, b *emulator.Blockchain,
+	t *testing.T,
+	b *emulator.Blockchain,
 	contracts TestContractsInfo,
 	userAddress sdk.Address, userSigner crypto.Signer, tokenID uint64,
 	price string, shouldFail bool,
@@ -369,34 +384,37 @@ func TestKittyItemsMarketCreateSaleOffer(t *testing.T) {
 }
 
 func replaceKittyItemsMarketAddressPlaceholders(codeBytes []byte, contracts TestContractsInfo) []byte {
-	code := string(codeBytes)
-
-	code = strings.ReplaceAll(code, ftAddressPlaceholder, "0x"+contracts.FTAddr.String())
-	code = strings.ReplaceAll(code, kibbleAddressPlaceHolder, "0x"+contracts.KibbleAddr.String())
-	code = strings.ReplaceAll(code, nftAddressPlaceholder, "0x"+contracts.NFTAddr.String())
-	code = strings.ReplaceAll(code, kittyItemsAddressPlaceHolder, "0x"+contracts.KittyItemsAddr.String())
-	code = strings.ReplaceAll(code, kittyItemsMarketPlaceholder, "0x"+contracts.KittyItemsMarketAddr.String())
-
-	return []byte(code)
+	return []byte(replaceImports(
+		string(codeBytes),
+		map[string]*regexp.Regexp{
+			contracts.FTAddr.String():               ftAddressPlaceholder,
+			contracts.KibbleAddr.String():           kibbleAddressPlaceHolder,
+			contracts.NFTAddr.String():              nftAddressPlaceholder,
+			contracts.KittyItemsAddr.String():       kittyItemsAddressPlaceHolder,
+			contracts.KittyItemsMarketAddr.String(): kittyItemsMarketPlaceholder,
+		},
+	))
 }
 
-func loadKittyItemsMarket(ftAddr, nftAddr, kibbleAddr, kittyItemsAddr string) []byte {
-	code := string(readFile(kittyItemsMarketContractPath))
-
-	code = strings.ReplaceAll(code, ftAddressPlaceholder, "0x"+ftAddr)
-	code = strings.ReplaceAll(code, kibbleAddressPlaceHolder, "0x"+kibbleAddr)
-	code = strings.ReplaceAll(code, nftAddressPlaceholder, "0x"+nftAddr)
-	code = strings.ReplaceAll(code, kittyItemsAddressPlaceHolder, "0x"+kittyItemsAddr)
-
-	return []byte(code)
+func loadKittyItemsMarket(ftAddr, nftAddr, kibbleAddr, kittyItemsAddr flow.Address) []byte {
+	return replaceKittyItemsMarketAddressPlaceholders(
+		readFile(kittyItemsMarketContractPath),
+		TestContractsInfo{
+			FTAddr:         ftAddr,
+			KibbleAddr:     kibbleAddr,
+			NFTAddr:        nftAddr,
+			KittyItemsAddr: kittyItemsAddr,
+		},
+	)
 }
 
 func kittyItemsMarketGenerateSetupAccountScript(kittyItemsMarketAddr string) []byte {
-	code := string(readFile(kittyItemsMarketSetupAccountPath))
-
-	code = strings.ReplaceAll(code, kittyItemsMarketPlaceholder, "0x"+kittyItemsMarketAddr)
-
-	return []byte(code)
+	return []byte(replaceImports(
+		string(readFile(kittyItemsMarketSetupAccountPath)),
+		map[string]*regexp.Regexp{
+			kittyItemsMarketAddr: kittyItemsMarketPlaceholder,
+		},
+	))
 }
 
 func kittyItemsMarketGenerateSellItemScript(contracts TestContractsInfo) []byte {

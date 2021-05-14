@@ -1,7 +1,7 @@
 package test
 
 import (
-	"strings"
+	"regexp"
 	"testing"
 
 	"github.com/onflow/cadence"
@@ -220,11 +220,11 @@ func TestTransferNFT(t *testing.T) {
 }
 
 func replaceKittyItemsAddressPlaceholders(code, nftAddress, kittyItemsAddress string) []byte {
-	return []byte(replaceStrings(
+	return []byte(replaceImports(
 		code,
-		map[string]string{
-			nftAddressPlaceholder:        "0x" + nftAddress,
-			kittyItemsAddressPlaceHolder: "0x" + kittyItemsAddress,
+		map[string]*regexp.Regexp{
+			nftAddress:        nftAddressPlaceholder,
+			kittyItemsAddress: kittyItemsAddressPlaceHolder,
 		},
 	))
 }
@@ -234,10 +234,11 @@ func loadNonFungibleToken() []byte {
 }
 
 func loadKittyItems(nftAddr string) []byte {
-	return []byte(strings.ReplaceAll(
+	return []byte(replaceImports(
 		string(readFile(kittyItemsContractPath)),
-		nftAddressPlaceholder,
-		"0x"+nftAddr,
+		map[string]*regexp.Regexp{
+			nftAddr: nftAddressPlaceholder,
+		},
 	))
 }
 
