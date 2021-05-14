@@ -11,11 +11,13 @@ import {
 	getTransactionCode,
 } from "flow-js-testing/dist";
 
-import { Address } from "@onflow/types";
+import { Address, UFix64 } from "@onflow/types";
 import { emulator } from "../emulator";
 
 const UFIX64_PRECISION = 8;
 const UFIX64_ZERO = (0).toFixed(UFIX64_PRECISION);
+
+const toUFix64 = (value) => value.toFixed(UFIX64_PRECISION);
 
 const deployKibble = async () => {
 	const Registry = await getAccountAddress("Registry");
@@ -26,19 +28,32 @@ const deployKibble = async () => {
 	const addressMap = { FungibleToken: Registry };
 	await deployContractByName({ to: Registry, name: "Kibble", addressMap });
 };
+const setupAccount = async (address) => {
+	const FungibleToken = await getContractAddress("FungibleToken");
+	const Kibble = await getContractAddress("Kibble");
 
+	const name = "kibble/setup_account";
+	const addressMap = { FungibleToken, Kibble };
+
+	const code = await getTransactionCode({ name, addressMap });
+	const signers = [address];
+
+	return sendTransaction({ code, signers });
+};
 const getKibbleBalance = async (accountAddress) => {
 	const Registry = await getAccountAddress("Registry");
 
 	const name = "kibble/get_balance";
-	const addressMap = { FungibleToken: Registry };
+	const addressMap = {
+		FungibleToken: Registry,
+		Kibble: Registry,
+	};
 
 	const code = await getScriptCode({ name, addressMap });
 	const args = [[accountAddress, Address]];
 
 	return executeScript({ code, args });
 };
-
 const getKibbleSupply = async () => {
 	const Registry = await getAccountAddress("Registry");
 
@@ -47,6 +62,50 @@ const getKibbleSupply = async () => {
 
 	const code = await getScriptCode({ name, addressMap });
 	return executeScript({ code });
+};
+const mintKibble = async (recipient, amount) => {
+	const Registry = await getAccountAddress("Registry");
+
+	const name = "kibble/mint_tokens";
+	const addressMap = {
+		FungibleToken: Registry,
+		Kibble: Registry,
+	};
+
+	const code = await getTransactionCode({ name, addressMap });
+	const signers = [Registry];
+	const args = [
+		[recipient, Address],
+		[amount, UFix64],
+	];
+
+	return sendTransaction({
+		code,
+		signers,
+		args,
+	});
+};
+const transferKibble = async (from, to, amount) => {
+	const Registry = await getAccountAddress("Registry");
+
+	const name = "kibble/transfer_tokens";
+	const addressMap = {
+		FungibleToken: Registry,
+		Kibble: Registry,
+	};
+
+	const code = await getTransactionCode({ name, addressMap });
+	const signers = [from];
+	const args = [
+		[amount, UFix64],
+		[to, Address],
+	];
+
+	return sendTransaction({
+		code,
+		signers,
+		args,
+	});
 };
 
 describe("Kibble", () => {
@@ -63,50 +122,124 @@ describe("Kibble", () => {
 		done();
 	});
 
-	test("should have initialized Supply field correctly", async () => {
+	test("should have initialized supply field correctly", async () => {
 		await deployKibble();
+
 		let supply;
 		try {
 			supply = await getKibbleSupply();
 		} catch (e) {
 			console.error(e);
 		}
+
 		expect(supply).toBe(UFIX64_ZERO);
 	});
 
 	test("should be able to create empty Vault that doesn't affect supply", async () => {
 		await deployKibble();
-
-		const FungibleToken = await getContractAddress("FungibleToken");
-		const Kibble = await getContractAddress("Kibble");
 		const Alice = await getAccountAddress("Alice");
 
-		const name = "kibble/setup_account";
-		const addressMap = { FungibleToken, Kibble };
-
-		const code = await getTransactionCode({ name, addressMap });
-		const signers = [Alice];
-
-		let txResult;
 		try {
-			txResult = await sendTransaction({ code, signers });
-			expect(txResult.status).toBe(4);
+			const { status } = await setupAccount(Alice);
+			expect(status).toBe(4);
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 		}
-
-		console.log({ txResult });
 
 		const supply = await getKibbleSupply();
 		const aliceBalance = await getKibbleBalance(Alice);
 
-		console.log({ supply, aliceBalance });
+		expect(supply).toBe(UFIX64_ZERO);
+		expect(aliceBalance).toBe(UFIX64_ZERO);
+	});
 
+	test("shouldn't be able to mint zero tokens", async () => {
+		await deployKibble();
+		const Alice = await getAccountAddress("Alice");
+		await setupAccount(Alice);
+
+		try {
+			await mintKibble(Alice, toUFix64(0));
+		} catch (e) {
+			expect(e).not.toBe(null);
+		}
+	});
+
+	test("Should mint tokens, deposit, and update balance and total supply", async () => {
+		await deployKibble();
+		const Alice = await getAccountAddress("Alice");
+		await setupAccount(Alice);
+
+		const amount = toUFix64(50);
+
+		try {
+			const { status } = await mintKibble(Alice, amount);
+			expect(status).toBe(4);
+		} catch (e) {
+			console.error(e);
+		}
+
+		const balance = await getKibbleBalance(Alice);
+		expect(balance).toBe(amount);
+
+		const supply = await getKibbleSupply();
+		expect(supply).toBe(amount);
+	});
+
+	test("shouldn't be able to withdraw more than the balance of the Vault", async () => {
+		await deployKibble();
+		const Registry = await getAccountAddress("Registry");
+		const Alice = await getAccountAddress("Alice");
+		await setupAccount(Alice);
+
+		const amount = toUFix64(1000);
+		await mintKibble(Registry, amount);
+
+		const overflowAmount = toUFix64(30000);
+
+		try {
+			await transferKibble(Registry, Alice, overflowAmount);
+		} catch (e) {
+			expect(e).not.toBe(null);
+		}
+
+		const balance = await getKibbleBalance(Alice);
+		expect(balance).toBe(UFIX64_ZERO);
+
+		// const supply = await getKibbleBalance(Registry);
 		// expect(supply).toBe(UFIX64_ZERO);
-		// expect(aliceBalance).toBe(UFIX64_ZERO);
+
+	}, 10000);
+});
+
+// Single Tests
+describe("Kibble", () => {
+	beforeEach(() => {
+		init(path.resolve(__dirname, "../../../"));
+	});
+
+	test("deploy", async () => {
+		await deployKibble();
+	});
+
+	test("get kibble supply", async () => {
+		const t = await getKibbleSupply();
+		console.log({ t });
+	});
+
+	test("setup alice", async () => {
+		const Alice = await getAccountAddress("Alice");
+		await setupAccount(Alice);
+	});
+
+	test("get balance", async () => {
+		const Alice = await getAccountAddress("Alice");
+		const t = await getKibbleBalance(Alice);
+		console.log({ t });
 	});
 });
 
+/*
 describe("Kitty Items", () => {
 	test("Deploy Contracts", async () => {
 		const Registry = await getAccountAddress("Registry");
@@ -167,3 +300,6 @@ describe("Kitty Items", () => {
 	// #2: Setup Account
 	test("Kibble - Setup Account", async () => {});
 });
+
+
+ */
