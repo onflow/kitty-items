@@ -190,6 +190,7 @@ describe("Kibble", () => {
 		await deployKibble();
 		const Registry = await getAccountAddress("Registry");
 		const Alice = await getAccountAddress("Alice");
+		await setupAccount(Registry);
 		await setupAccount(Alice);
 
 		const amount = toUFix64(1000);
@@ -203,12 +204,11 @@ describe("Kibble", () => {
 			expect(e).not.toBe(null);
 		}
 
-		const balance = await getKibbleBalance(Alice);
-		expect(balance).toBe(UFIX64_ZERO);
+		const aliceBalance = await getKibbleBalance(Alice);
+		expect(aliceBalance).toBe(UFIX64_ZERO);
 
-		// const supply = await getKibbleBalance(Registry);
-		// expect(supply).toBe(UFIX64_ZERO);
-
+		const registryBalance = await getKibbleBalance(Registry);
+		expect(registryBalance).toBe(amount);
 	}, 10000);
 });
 
