@@ -33,7 +33,7 @@ describe("Kitty Items", () => {
 		done();
 	});
 
-	test("deploy KittyItems contract", async () => {
+	test("should deploy KittyItems contract", async () => {
 		await expect(deployKittyItems()).resolves.not.toThrow();
 	});
 
