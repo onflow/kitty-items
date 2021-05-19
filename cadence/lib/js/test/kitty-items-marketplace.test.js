@@ -1,7 +1,6 @@
 import path from "path";
-import { init, getAccountAddress } from "flow-js-testing/dist";
+import { init, getAccountAddress, emulator } from "flow-js-testing/dist";
 
-import { emulator } from "../emulator";
 import { shallPass, toUFix64 } from "../src/common";
 import { mintKibble } from "../src/kibble";
 import { getCollectionLength, mintKittyItem, typeID1337 } from "../src/kitty-items";
@@ -19,8 +18,10 @@ jest.setTimeout(30000);
 
 describe("Kitty Items Marketplace", () => {
 	beforeEach(async (done) => {
-		init(path.resolve(__dirname, "../../../"));
-		await emulator.start(false);
+		const basePath = path.resolve(__dirname, "../../../");
+		const port = 8082;
+		init(basePath, port);
+		await emulator.start(port, true);
 		done();
 	});
 

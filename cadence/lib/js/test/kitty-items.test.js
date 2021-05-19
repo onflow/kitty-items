@@ -1,7 +1,6 @@
 import path from "path";
-import { init } from "flow-js-testing/dist";
+import { init, emulator } from "flow-js-testing/dist";
 
-import { emulator } from "../emulator";
 import {
 	deployKittyItems,
 	getCollectionLength,
@@ -12,7 +11,7 @@ import {
 	transferKittyItem,
 	typeID1,
 } from "../src/kitty-items";
-import {getRegistry, shallPass, shallResolve, shallRevert} from "../src/common";
+import { getRegistry, shallPass, shallResolve, shallRevert } from "../src/common";
 import { getAccountAddress } from "flow-js-testing/dist/utils/account";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
@@ -21,8 +20,10 @@ jest.setTimeout(10000);
 describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async (done) => {
-		init(path.resolve(__dirname, "../../../"));
-		await emulator.start(false);
+		const basePath = path.resolve(__dirname, "../../../");
+		const port = 8081;
+		init(basePath, port);
+		await emulator.start(port, true);
 		done();
 	});
 

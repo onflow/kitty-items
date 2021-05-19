@@ -1,7 +1,6 @@
 import path from "path";
-import { init, getAccountAddress } from "flow-js-testing/dist";
+import { init, getAccountAddress, emulator } from "flow-js-testing/dist";
 
-import { emulator } from "../emulator";
 import {
 	deployKibble,
 	setupKibbleOnAccount,
@@ -19,8 +18,10 @@ jest.setTimeout(10000);
 describe("Kibble", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async (done) => {
-		init(path.resolve(__dirname, "../../../"));
-		await emulator.start(false);
+		const basePath = path.resolve(__dirname, "../../../");
+		const port = 8080;
+		init(basePath, port);
+		await emulator.start(port, true);
 		done();
 	});
 
