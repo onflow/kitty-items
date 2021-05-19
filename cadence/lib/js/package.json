@@ -4,7 +4,7 @@
   "description": "Integration tests for Kitty Items using Flow JS Testing Framework",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "repository": {
     "type": "git",
