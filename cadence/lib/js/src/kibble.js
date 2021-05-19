@@ -10,7 +10,11 @@ import {
 } from "flow-js-testing";
 import { getRegistry } from "./common";
 
-// TODO: Add docstrings for methods
+/*
+ * Deploys Kibble contract to Registry.
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
 export const deployKibble = async () => {
 	const Registry = await getRegistry();
 	await mintFlow(Registry, "10.0");
@@ -18,10 +22,16 @@ export const deployKibble = async () => {
 	await deployContractByName({ to: Registry, name: "FungibleToken" });
 
 	const addressMap = { FungibleToken: Registry };
-	await deployContractByName({ to: Registry, name: "Kibble", addressMap });
+	return deployContractByName({ to: Registry, name: "Kibble", addressMap });
 };
 
-export const setupKibbleOnAccount = async (address) => {
+/*
+ * Setups Kibble Vault on account and exposes public capability.
+ * @param {string} account - account address
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
+export const setupKibbleOnAccount = async (account) => {
 	const FungibleToken = await getContractAddress("FungibleToken");
 	const Kibble = await getContractAddress("Kibble");
 
@@ -29,12 +39,18 @@ export const setupKibbleOnAccount = async (address) => {
 	const addressMap = { FungibleToken, Kibble };
 
 	const code = await getTransactionCode({ name, addressMap });
-	const signers = [address];
+	const signers = [account];
 
 	return sendTransaction({ code, signers });
 };
 
-export const getKibbleBalance = async (accountAddress) => {
+/*
+ * Returns Kibble balance for **account**.
+ * @param {string} account - account address
+ * @throws Will throw an error if execution will be halted
+ * @returns {UFix64}
+ * */
+export const getKibbleBalance = async (account) => {
 	const Registry = await getRegistry();
 
 	const name = "kibble/get_balance";
@@ -44,11 +60,16 @@ export const getKibbleBalance = async (accountAddress) => {
 	};
 
 	const code = await getScriptCode({ name, addressMap });
-	const args = [[accountAddress, Address]];
+	const args = [[account, Address]];
 
 	return executeScript({ code, args });
 };
 
+/*
+ * Returns Kibble supply.
+ * @throws Will throw an error if execution will be halted
+ * @returns {UFix64}
+ * */
 export const getKibbleSupply = async () => {
 	const Registry = await getRegistry();
 
@@ -59,6 +80,13 @@ export const getKibbleSupply = async () => {
 	return executeScript({ code });
 };
 
+/*
+ * Mints **amount** of Kibble tokens and transfers them to recipient.
+ * @param {string} recipient - recipient address
+ * @param {string} amount - UFix64 amount to mint
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
 export const mintKibble = async (recipient, amount) => {
 	const Registry = await getRegistry();
 
@@ -82,7 +110,15 @@ export const mintKibble = async (recipient, amount) => {
 	});
 };
 
-export const transferKibble = async (from, to, amount) => {
+/*
+ * Transfers **amount** of Kibble tokens from **sender** account to **recipient**.
+ * @param {string} sender - sender address
+ * @param {string} recipient - recipient address
+ * @param {string} amount - UFix64 amount to transfer
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
+export const transferKibble = async (sender, recipient, amount) => {
 	const Registry = await getRegistry();
 
 	const name = "kibble/transfer_tokens";
@@ -92,10 +128,10 @@ export const transferKibble = async (from, to, amount) => {
 	};
 
 	const code = await getTransactionCode({ name, addressMap });
-	const signers = [from];
+	const signers = [sender];
 	const args = [
 		[amount, UFix64],
-		[to, Address],
+		[recipient, Address],
 	];
 
 	return sendTransaction({
