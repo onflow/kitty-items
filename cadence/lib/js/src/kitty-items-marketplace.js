@@ -7,6 +7,11 @@ import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
 import { getScriptCode } from "flow-js-testing/dist/utils/file";
 import { executeScript } from "flow-js-testing/dist/utils/interaction";
 
+/*
+ * Deploys Kibble, KittyItems and KittyItemsMarket contracts to Registry.
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
 export const deployMarketplace = async () => {
 	const Registry = await getRegistry();
 
@@ -23,10 +28,16 @@ export const deployMarketplace = async () => {
 	return deployContractByName({ to: Registry, name: "KittyItemsMarket", addressMap });
 };
 
-export const setupMarketplaceOnAccount = async (address) => {
+/*
+ * Setups KittyItemsMarket collection on account and exposes public capability.
+ * @param {string} account - account address
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
+export const setupMarketplaceOnAccount = async (account) => {
 	// Account should be able to store kitty items and operate Kibbles
-	await setupKibbleOnAccount(address);
-	await setupKittyItemsOnAccount(address);
+	await setupKibbleOnAccount(account);
+	await setupKittyItemsOnAccount(account);
 
 	const KittyItemsMarket = await getContractAddress("KittyItemsMarket");
 	const addressMap = { KittyItemsMarket };
@@ -34,11 +45,19 @@ export const setupMarketplaceOnAccount = async (address) => {
 	const name = "kittyItemsMarket/setup_account";
 
 	const code = await getTransactionCode({ name, addressMap });
-	const signers = [address];
+	const signers = [account];
 
 	return sendTransaction({ code, signers });
 };
 
+/*
+ * Lists item with id equal to **item** id for sale with specified **price**.
+ * @param {string} seller - account address
+ * @param {UInt64} itemId - account address
+ * @param {UFix64} price - account address
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
 export const listItemForSale = async (seller, itemId, price) => {
 	const Registry = await getRegistry();
 
@@ -62,7 +81,15 @@ export const listItemForSale = async (seller, itemId, price) => {
 	return sendTransaction({ code, signers, args });
 };
 
-export const buyItem = async (buyer, itemId, marketCollectionAddress) => {
+/*
+ * Lists item with id equal to **item** id for sale with specified **price**.
+ * @param {string} buyer - buyer address
+ * @param {UInt64} itemId - account address
+ * @param {string} seller - seller address
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
+export const buyItem = async (buyer, itemId, seller) => {
 	const Registry = await getRegistry();
 
 	const addressMap = {
@@ -79,11 +106,18 @@ export const buyItem = async (buyer, itemId, marketCollectionAddress) => {
 	const signers = [buyer];
 	const args = [
 		[itemId, UInt64],
-		[marketCollectionAddress, Address],
+		[seller, Address],
 	];
 	return sendTransaction({ code, signers, args });
 };
 
+/*
+ * Removes item with id equal to **item** from sale.
+ * @param {string} owner - buyer address
+ * @param {UInt64} itemId - account address
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
 export const removeItem = async (owner, itemId) => {
 	const KittyItemsMarket = await getContractAddress("KittyItemsMarket");
 
@@ -97,6 +131,12 @@ export const removeItem = async (owner, itemId) => {
 	return sendTransaction({ code, signers, args });
 };
 
+/*
+ * Returns the length of list of items for sale.
+ * @param {string} account - account address
+ * @throws Will throw an error if execution will be halted
+ * @returns {UInt64}
+ * */
 export const getMarketCollectionLength = async (account) => {
 	const KittyItemsMarket = await getContractAddress("KittyItemsMarket");
 

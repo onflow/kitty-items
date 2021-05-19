@@ -11,7 +11,7 @@ import {
 import { getRegistry } from "./common";
 
 /*
- * Deploys Kibble contract to Registry.
+ * Deploys FungibleToken and Kibble contracts to Registry.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */

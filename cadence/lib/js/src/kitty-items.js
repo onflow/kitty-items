@@ -16,7 +16,7 @@ export const typeID2 = 2000;
 export const typeID1337 = 1337;
 
 /*
- * Deploys KittyItems contract to Registry.
+ * Deploys NonFungibleToken and KittyItems contracts to Registry.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
