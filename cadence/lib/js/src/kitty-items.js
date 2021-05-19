@@ -13,8 +13,13 @@ import { getRegistry } from "./common";
 // KittyItems types
 export const typeID1 = 1000;
 export const typeID2 = 2000;
-export const typeID1337 = 1337
+export const typeID1337 = 1337;
 
+/*
+ * Deploys KittyItems contract to Registry.
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
 export const deployKittyItems = async () => {
 	const Registry = await getRegistry();
 	await mintFlow(Registry, "10.0");
@@ -22,10 +27,16 @@ export const deployKittyItems = async () => {
 	await deployContractByName({ to: Registry, name: "NonFungibleToken" });
 
 	const addressMap = { NonFungibleToken: Registry };
-	await deployContractByName({ to: Registry, name: "KittyItems", addressMap });
+	return deployContractByName({ to: Registry, name: "KittyItems", addressMap });
 };
 
-export const setupKittyItemsOnAccount = async (address) => {
+/*
+ * Setups KittyItems collection on account and exposes public capability.
+ * @param {string} account - account address
+ * @throws Will throw an error if transaction is reverted.
+ * @returns {Promise<*>}
+ * */
+export const setupKittyItemsOnAccount = async (account) => {
 	const NonFungibleToken = await getContractAddress("NonFungibleToken");
 	const KittyItems = await getContractAddress("KittyItems");
 
@@ -33,11 +44,16 @@ export const setupKittyItemsOnAccount = async (address) => {
 	const addressMap = { NonFungibleToken, KittyItems };
 
 	const code = await getTransactionCode({ name, addressMap });
-	const signers = [address];
+	const signers = [account];
 
 	return sendTransaction({ code, signers });
 };
 
+/*
+ * Returns KittyItems supply.
+ * @throws Will throw an error if execution will be halted
+ * @returns {UInt64} - number of NFT minted so far
+ * */
 export const getKittyItemSupply = async () => {
 	const KittyItems = await getContractAddress("KittyItems");
 	const name = "kittyItems/read_kitty_items_supply";
@@ -48,6 +64,13 @@ export const getKittyItemSupply = async () => {
 	return executeScript({ code });
 };
 
+/*
+ * Mints KittyItem of a specific **itemType** and sends it to **recipient**.
+ * @param {UInt64} itemType - type of NFT to mint
+ * @param {string} recipient - account address
+ * @throws Will throw an error if execution will be halted
+ * @returns {Promise<*>}
+ * */
 export const mintKittyItem = async (itemType, recipient) => {
 	const Registry = await getRegistry();
 
@@ -67,6 +90,14 @@ export const mintKittyItem = async (itemType, recipient) => {
 	return sendTransaction({ code, signers, args });
 };
 
+/*
+ * Transfers KittyItem NFT with id equal **itemId** from **sender** account to **recipient**.
+ * @param {string} sender - sender address
+ * @param {string} recipient - recipient address
+ * @param {UInt64} itemId - id of the item to transfer
+ * @throws Will throw an error if execution will be halted
+ * @returns {Promise<*>}
+ * */
 export const transferKittyItem = async (sender, recipient, itemId) => {
 	const NonFungibleToken = await getContractAddress("NonFungibleToken");
 	const KittyItems = await getContractAddress("KittyItems");
@@ -84,19 +115,11 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
 	return sendTransaction({ code, signers, args });
 };
 
-export const getAmountOfItemsInAccount = async (account) => {
-	const KittyItems = await getContractAddress("KittyItems");
-	const NonFungibleToken = await getContractAddress("NonFungibleToken");
-
-	const name = "kittyItems/read_collection_length";
-	const addressMap = { KittyItems, NonFungibleToken };
-
-	const code = await getScriptCode({ name, addressMap });
-	const args = [[account, Address]];
-
-	return executeScript({ code, args });
-};
-
+/*
+ * Returns the type of KittyItems NFT with **id** in account collection.
+ * @throws Will throw an error if execution will be halted
+ * @returns {UInt64}
+ * */
 export const getKittyItemById = async (account, id) => {
 	const KittyItems = await getContractAddress("KittyItems");
 	const NonFungibleToken = await getContractAddress("NonFungibleToken");
@@ -113,6 +136,11 @@ export const getKittyItemById = async (account, id) => {
 	return executeScript({ code, args });
 };
 
+/*
+ * Returns the length of account's KittyItems collection.
+ * @throws Will throw an error if execution will be halted
+ * @returns {UInt64}
+ * */
 export const getCollectionLength = async (account) => {
 	const KittyItems = await getContractAddress("KittyItems");
 	const NonFungibleToken = await getContractAddress("NonFungibleToken");

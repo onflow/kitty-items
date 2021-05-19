@@ -20,7 +20,7 @@ export const deployMarketplace = async () => {
 		KittyItems: Registry,
 	};
 
-	await deployContractByName({ to: Registry, name: "KittyItemsMarket", addressMap });
+	return deployContractByName({ to: Registry, name: "KittyItemsMarket", addressMap });
 };
 
 export const setupMarketplaceOnAccount = async (address) => {

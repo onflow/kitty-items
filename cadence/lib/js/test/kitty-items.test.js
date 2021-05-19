@@ -4,7 +4,6 @@ import { init } from "flow-js-testing/dist";
 import { emulator } from "../emulator";
 import {
 	deployKittyItems,
-	getAmountOfItemsInAccount,
 	getCollectionLength,
 	getKittyItemById,
 	getKittyItemSupply,
@@ -13,7 +12,7 @@ import {
 	transferKittyItem,
 	typeID1,
 } from "../src/kitty-items";
-import { getRegistry } from "../src/common";
+import {getRegistry, shallPass, shallResolve, shallRevert} from "../src/common";
 import { getAccountAddress } from "flow-js-testing/dist/utils/account";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
@@ -34,72 +33,77 @@ describe("Kitty Items", () => {
 	});
 
 	test("should deploy KittyItems contract", async () => {
-		await expect(deployKittyItems()).resolves.not.toThrow();
+		await shallPass(deployKittyItems());
 	});
 
 	test("supply should be 0 after contract is deployed", async () => {
-		const Registry = await getRegistry();
+		// Setup
 		await deployKittyItems();
-		await setupKittyItemsOnAccount(Registry);
+		const Registry = await getRegistry();
+		await shallPass(setupKittyItemsOnAccount(Registry));
 
-		const supply = await getKittyItemSupply();
-		console.log(supply);
-		expect(supply).toBe(0);
+		await shallResolve(async () => {
+			const supply = await getKittyItemSupply();
+			console.log(supply);
+			expect(supply).toBe(0);
+		});
 	});
 
 	test("should be able to mint a kittyItems", async () => {
-		const Alice = await getAccountAddress("Alice");
+		// Setup
 		await deployKittyItems();
+		const Alice = await getAccountAddress("Alice");
 		await setupKittyItemsOnAccount(Alice);
-
 		const itemIdToMint = typeID1;
 
-		try {
-			const { status } = await mintKittyItem(itemIdToMint, Alice);
-			expect(status).toBe(4);
-		} catch (e) {
-			console.error(e);
-		}
+		// Mint instruction for Alice account shall be resolved
+		await shallPass(mintKittyItem(itemIdToMint, Alice));
 
-		const amount = await getAmountOfItemsInAccount(Alice);
-		expect(amount).toBe(1);
+		await shallResolve(async () => {
+			const amount = await getCollectionLength(Alice);
+			expect(amount).toBe(1);
 
-		const id = await getKittyItemById(Alice, 0);
-		expect(id).toBe(itemIdToMint);
+			const id = await getKittyItemById(Alice, 0);
+			expect(id).toBe(itemIdToMint);
+		});
 	});
 
 	test("should be able to create a new empty NFT Collection", async () => {
-		const Alice = await getAccountAddress("Alice");
+		// Setup
 		await deployKittyItems();
+		const Alice = await getAccountAddress("Alice");
 		await setupKittyItemsOnAccount(Alice);
 
-		const length = await getCollectionLength(Alice);
-		expect(length).toBe(0);
+		// Should be able te read Alice collection and ensure it's empty
+		await shallResolve(async () => {
+			const length = await getCollectionLength(Alice);
+			expect(length).toBe(0);
+		});
 	});
 
 	test("shouldn't be able to withdraw an NFT that doesn't exist in a collection", async () => {
+		// Setup
+		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
 		const Bob = await getAccountAddress("Bob");
-		await deployKittyItems();
-		await setupKittyItemsOnAccount(Alice);
-
-		try {
-			await transferKittyItem(Alice, Bob, 1337);
-		} catch (e) {
-			expect(e).not.toBe(null);
-		}
-	});
-	test("should be able to withdraw an NFT and deposit to another accounts collection", async () => {
-		const Alice = await getAccountAddress("Alice");
-		const Bob = await getAccountAddress("Bob");
-		await deployKittyItems();
 		await setupKittyItemsOnAccount(Alice);
 		await setupKittyItemsOnAccount(Bob);
-		await mintKittyItem(typeID1, Alice);
 
-		try {
-			const { status } = await transferKittyItem(Alice, Bob, 1337);
-			expect(status).toBe(4);
-		} catch (e) {}
+		// Transfer transaction shall fail for non-existent item
+		await shallRevert(transferKittyItem(Alice, Bob, 1337));
+	});
+
+	test("should be able to withdraw an NFT and deposit to another accounts collection", async () => {
+		await deployKittyItems();
+		const Alice = await getAccountAddress("Alice");
+		const Bob = await getAccountAddress("Bob");
+		await setupKittyItemsOnAccount(Alice);
+		await setupKittyItemsOnAccount(Bob);
+
+		// Mint instruction for Alice account shall be resolved
+		await shallPass(mintKittyItem(typeID1, Alice));
+
+		// Transfer transaction shall pass
+		await shallPass(transferKittyItem(Alice, Bob, 0));
 	});
 });

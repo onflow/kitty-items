@@ -2,7 +2,7 @@ import path from "path";
 import { init, getAccountAddress } from "flow-js-testing/dist";
 
 import { emulator } from "../emulator";
-import { toUFix64 } from "../src/common";
+import { shallPass, toUFix64 } from "../src/common";
 import { mintKibble } from "../src/kibble";
 import { getCollectionLength, mintKittyItem, typeID1337 } from "../src/kitty-items";
 import {
@@ -14,6 +14,7 @@ import {
 	getMarketCollectionLength,
 } from "../src/kitty-items-marketplace";
 
+// We need to set timeout for a higher number, cause some transactions might take up some time
 jest.setTimeout(30000);
 
 describe("Kitty Items Marketplace", () => {
@@ -29,40 +30,47 @@ describe("Kitty Items Marketplace", () => {
 	});
 
 	test("should deploy KittyItemsMarket contract", async () => {
-		await expect(deployMarketplace()).resolves.not.toThrow();
+		await shallPass(deployMarketplace());
 	});
+
 	test("should be able to create an empty Collection", async () => {
+		// Setup
 		await deployMarketplace();
-
 		const Alice = await getAccountAddress("Alice");
-		await expect(setupMarketplaceOnAccount(Alice)).resolves.not.toThrow();
-	});
-	test("should be able to create a sale offer and list it", async () => {
-		await deployMarketplace();
 
+		await shallPass(setupMarketplaceOnAccount(Alice));
+	});
+
+	test("should be able to create a sale offer and list it", async () => {
+		// Setup
+		await deployMarketplace();
 		const Alice = await getAccountAddress("Alice");
 		await setupMarketplaceOnAccount(Alice);
 
-		await mintKittyItem(typeID1337, Alice);
+		// Mint KittyItem for Alice's account
+		await shallPass(mintKittyItem(typeID1337, Alice));
 
-		const price = toUFix64(1.11);
-		await expect(listItemForSale(Alice, 0, price)).resolves.not.toThrow();
+		await shallPass(listItemForSale(Alice, 0, toUFix64(1.11)));
 	});
+
 	test("should be able to accept a sale offer", async () => {
+		// Setup
 		await deployMarketplace();
 
 		// Setup seller account
 		const Alice = await getAccountAddress("Alice");
 		await setupMarketplaceOnAccount(Alice);
 		await mintKittyItem(typeID1337, Alice);
-		await listItemForSale(Alice, 0, toUFix64(1.11));
 
 		// Setup buyer account
 		const Bob = await getAccountAddress("Bob");
 		await setupMarketplaceOnAccount(Bob);
-		await mintKibble(Bob, toUFix64(100));
 
-		await expect(buyItem(Bob, 0, Alice)).resolves.not.toThrow();
+		await shallPass(mintKibble(Bob, toUFix64(100)));
+
+		// Bob should be able to buy from Alice
+		await shallPass(listItemForSale(Alice, 0, toUFix64(1.11)));
+		await shallPass(buyItem(Bob, 0, Alice));
 
 		const length = await getCollectionLength(Bob);
 		expect(length).toBe(1);
@@ -70,15 +78,22 @@ describe("Kitty Items Marketplace", () => {
 		const itemsListed = await getMarketCollectionLength(Alice);
 		expect(itemsListed).toBe(0);
 	});
+
 	test("should be able to remove a sale offer", async () => {
-		await deployMarketplace();
+		// Deploy contracts
+		await shallPass(deployMarketplace());
 
-		// Setup owner account
+		// Setup Alice account
 		const Alice = await getAccountAddress("Alice");
-		await setupMarketplaceOnAccount(Alice);
-		await mintKittyItem(typeID1337, Alice);
-		await listItemForSale(Alice, 0, toUFix64(1.11));
+		await shallPass(setupMarketplaceOnAccount(Alice));
 
-		await expect(removeItem(Alice, 0)).resolves.not.toThrow();
+		// Mint instruction shall pass
+		await shallPass(mintKittyItem(typeID1337, Alice));
+
+		// Listing item for sale shall pass
+		await shallPass(listItemForSale(Alice, 0, toUFix64(1.11)));
+
+		// Alice shall be able to remove item from sale
+		await shallPass(removeItem(Alice, 0));
 	});
 });
