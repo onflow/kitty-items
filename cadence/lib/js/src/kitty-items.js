@@ -13,6 +13,7 @@ import { getRegistry } from "./common";
 // KittyItems types
 export const typeID1 = 1000;
 export const typeID2 = 2000;
+export const typeID1337 = 1337
 
 export const deployKittyItems = async () => {
 	const Registry = await getRegistry();
