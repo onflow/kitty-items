@@ -27,12 +27,20 @@ export const shallPass = async (ix) => {
 			expect(errorMessage).toBe("");
 		})()
 	).resolves.not.toThrow();
+
+	return tx;
 };
 
 export const shallResolve = async (ix) => {
-	await expect(promise(ix)).resolves.not.toThrow();
+	const tx = promise(ix);
+	await expect(promise(tx)).resolves.not.toThrow();
+
+	return tx;
 };
 
-export const shallRevert = async (tx) => {
+export const shallRevert = async (ix) => {
+	const tx = promise(ix);
 	await expect(tx).rejects.not.toBe(null);
+	
+	return tx;
 };
