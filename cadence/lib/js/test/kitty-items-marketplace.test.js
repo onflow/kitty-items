@@ -21,7 +21,7 @@ describe("Kitty Items Marketplace", () => {
 		const basePath = path.resolve(__dirname, "../../../");
 		const port = 8082;
 		init(basePath, port);
-		await emulator.start(port, true);
+		await emulator.start(port);
 		done();
 	});
 

@@ -23,7 +23,7 @@ describe("Kitty Items", () => {
 		const basePath = path.resolve(__dirname, "../../../");
 		const port = 8081;
 		init(basePath, port);
-		await emulator.start(port, true);
+		await emulator.start(port);
 		done();
 	});
 
@@ -45,7 +45,6 @@ describe("Kitty Items", () => {
 
 		await shallResolve(async () => {
 			const supply = await getKittyItemSupply();
-			console.log(supply);
 			expect(supply).toBe(0);
 		});
 	});
@@ -82,7 +81,7 @@ describe("Kitty Items", () => {
 		});
 	});
 
-	test("shouldn't be able to withdraw an NFT that doesn't exist in a collection", async () => {
+	test("should not be able to withdraw an NFT that doesn't exist in a collection", async () => {
 		// Setup
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");

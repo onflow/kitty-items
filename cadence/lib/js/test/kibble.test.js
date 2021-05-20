@@ -21,7 +21,7 @@ describe("Kibble", () => {
 		const basePath = path.resolve(__dirname, "../../../");
 		const port = 8080;
 		init(basePath, port);
-		await emulator.start(port, true);
+		await emulator.start(port, false);
 		done();
 	});
 
@@ -55,7 +55,7 @@ describe("Kibble", () => {
 		});
 	});
 
-	test("shouldn't be able to mint zero tokens", async () => {
+	test("should not be able to mint zero tokens", async () => {
 		// Setup
 		await deployKibble();
 		const Alice = await getAccountAddress("Alice");
@@ -87,7 +87,7 @@ describe("Kibble", () => {
 		});
 	});
 
-	test("shouldn't be able to withdraw more than the balance of the Vault", async () => {
+	test("should not be able to withdraw more than the balance of the Vault", async () => {
 		// Setup
 		await deployKibble();
 		const Registry = await getRegistry();
