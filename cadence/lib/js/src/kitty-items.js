@@ -1,4 +1,4 @@
-import { Address, UFix64, UInt64 } from "@onflow/types";
+import { Address, UInt64 } from "@onflow/types";
 import {
 	deployContractByName,
 	executeScript,
@@ -8,6 +8,7 @@ import {
 	mintFlow,
 	sendTransaction,
 } from "flow-js-testing";
+
 import { getRegistry } from "./common";
 
 // KittyItems types

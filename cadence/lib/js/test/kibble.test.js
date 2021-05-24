@@ -1,5 +1,5 @@
 import path from "path";
-import { init, getAccountAddress, emulator } from "flow-js-testing/dist";
+import { init, getAccountAddress,shallPass, shallRevert, shallResolve, emulator } from "flow-js-testing";
 
 import {
 	deployKibble,
@@ -10,7 +10,7 @@ import {
 	transferKibble,
 } from "../src/kibble";
 
-import { toUFix64, getRegistry, shallRevert, shallPass, shallResolve } from "../src/common";
+import { toUFix64, getRegistry } from "../src/common";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
 jest.setTimeout(10000);

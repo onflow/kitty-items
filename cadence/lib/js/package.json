@@ -21,7 +21,7 @@
     "@babel/preset-env": "^7.14.1",
     "@onflow/types": "^0.0.4",
     "babel-jest": "^26.6.3",
-    "flow-js-testing": "file:///home/max/dev/onflow/flow-js-testing",
+    "flow-js-testing": "^0.1.9",
     "jest": "^26.6.3",
     "prettier": "^2.3.0"
   }

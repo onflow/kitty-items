@@ -1,7 +1,7 @@
 import path from "path";
-import { init, getAccountAddress, emulator } from "flow-js-testing/dist";
+import { init, getAccountAddress, emulator, shallPass } from "flow-js-testing";
 
-import { shallPass, toUFix64 } from "../src/common";
+import { toUFix64 } from "../src/common";
 import { mintKibble } from "../src/kibble";
 import { getCollectionLength, mintKittyItem, typeID1337 } from "../src/kitty-items";
 import {

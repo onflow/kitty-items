@@ -1,11 +1,16 @@
 import { UFix64, UInt64, Address } from "@onflow/types";
-import { getContractAddress, deployContractByName, getTransactionCode, sendTransaction } from "flow-js-testing/dist";
+import {
+	getContractAddress,
+	deployContractByName,
+	getTransactionCode,
+	getScriptCode,
+	executeScript,
+	sendTransaction,
+} from "flow-js-testing";
 
 import { getRegistry } from "./common";
 import { deployKibble, setupKibbleOnAccount } from "./kibble";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
-import { getScriptCode } from "flow-js-testing/dist/utils/file";
-import { executeScript } from "flow-js-testing/dist/utils/interaction";
 
 /*
  * Deploys Kibble, KittyItems and KittyItemsMarket contracts to Registry.
