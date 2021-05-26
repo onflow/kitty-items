@@ -16,8 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@onflow/fcl": "0.0.69",
-    "@onflow/sdk": "0.0.45",
+    "@onflow/fcl": "0.0.70",
     "@onflow/types": "0.0.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
