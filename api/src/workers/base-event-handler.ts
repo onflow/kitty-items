@@ -52,7 +52,7 @@ abstract class BaseEventHandler {
         if (fromBlock <= toBlock) {
           try {
             const result = await fcl.send([
-              fcl.getEvents(eventName, fromBlock, toBlock),
+              fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock),
             ]);
             const decoded = await fcl.decode(result);
 

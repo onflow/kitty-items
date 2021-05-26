@@ -90,7 +90,7 @@ class FlowService {
   }
 
   async getLatestBlockHeight() {
-    const block = await fcl.send([fcl.getLatestBlock()]);
+    const block = await fcl.send([fcl.getBlock(true)]);
     const decoded = await fcl.decode(block);
     return decoded.height;
   }
