@@ -1,5 +1,4 @@
 import * as fcl from "@onflow/fcl";
-import * as sdk from "@onflow/sdk";
 
 import { ec as EC } from "elliptic";
 
@@ -22,17 +21,20 @@ class FlowService {
       if (account.role.proposer) {
         sequenceNum = key.sequenceNumber;
       }
-      const signingFunction = async (data) => {
+      const signingFunction = async (signable) => {
         return {
-          addr: user.address,
-          keyId: key.index,
-          signature: this.signWithKey(this.minterPrivateKeyHex, data.message),
+          addr: fcl.withPrefix(user.address),
+          keyId: Number(key.index),
+          signature: this.signWithKey(
+            this.minterPrivateKeyHex,
+            signable.message
+          ),
         };
       };
       return {
         ...account,
-        addr: user.address,
-        keyId: key.index,
+        addr: fcl.sansPrefix(user.address),
+        keyId: Number(key.index),
         sequenceNum,
         signature: account.signature || null,
         signingFunction,
@@ -88,8 +90,8 @@ class FlowService {
   }
 
   async getLatestBlockHeight() {
-    const block = await sdk.send(await sdk.build([sdk.getBlock(true)]));
-    const decoded = await sdk.decode(block);
+    const block = await fcl.send([fcl.getLatestBlock()]);
+    const decoded = await fcl.decode(block);
     return decoded.height;
   }
 }
