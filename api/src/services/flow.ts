@@ -17,29 +17,22 @@ class FlowService {
     return async (account: any = {}) => {
       const user = await this.getAccount(this.minterFlowAddress);
       const key = user.keys[this.minterAccountIndex];
-      let sequenceNum;
-      if (account.role.proposer) {
-        sequenceNum = key.sequenceNumber;
-      }
-      const signingFunction = async (signable) => {
-        return {
-          addr: fcl.withPrefix(user.address),
-          keyId: Number(key.index),
-          signature: this.signWithKey(
-            this.minterPrivateKeyHex,
-            signable.message
-          ),
-        };
-      };
+
+      const sign = this.signWithKey;
+      const pk = this.minterPrivateKeyHex;
+
       return {
         ...account,
+        tempId: `${user.address}-${key.index}`,
         addr: fcl.sansPrefix(user.address),
         keyId: Number(key.index),
-        sequenceNum,
-        signature: account.signature || null,
-        signingFunction,
-        resolve: null,
-        roles: account.roles,
+        signingFunction: (signable) => {
+          return {
+            addr: fcl.withPrefix(user.address),
+            keyId: Number(key.index),
+            signature: sign(pk, signable.message),
+          };
+        },
       };
     };
   };
