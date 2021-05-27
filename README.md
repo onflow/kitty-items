@@ -62,6 +62,8 @@ FLOW_PRIVATE_KEY=aaaaaa...aaaaaa
 
 ### 4. Deploy the contracts
 
+set or export your FLOW_ADDRESS and FLOW_PRIVATE_KEY variables/values
+
 ```sh
 flow project deploy --network=testnet
 ```
