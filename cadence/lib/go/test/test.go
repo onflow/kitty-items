@@ -2,6 +2,7 @@ package test
 
 import (
 	"io/ioutil"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -82,13 +83,12 @@ func submit(
 	assert.NoError(t, err)
 }
 
-// executeScriptAndCheck executes a script and checks to make sure that it succeeded.
+// executeScriptAndCheck executes a script and checks that it succeeded.
 func executeScriptAndCheck(t *testing.T, b *emulator.Blockchain, script []byte, arguments [][]byte) cadence.Value {
 	result, err := b.ExecuteScript(script, arguments)
 	require.NoError(t, err)
-	if !assert.True(t, result.Succeeded()) {
-		t.Log(result.Error.Error())
-	}
+
+	assert.NoError(t, result.Error)
 
 	return result.Value
 }
@@ -114,18 +114,18 @@ func CadenceUFix64(value string) cadence.Value {
 	return newValue
 }
 
-func replaceStrings(
-	source string,
-	substitutions map[string]string,
+func replaceImports(
+	code string,
+	importReplacements map[string]*regexp.Regexp,
 ) string {
-	for find, replace := range substitutions {
-		source = strings.ReplaceAll(
-			source,
-			find,
-			replace,
-		)
+	for address, find := range importReplacements {
+		if !strings.Contains(address, "0x") {
+			address = "0x" + address
+		}
+
+		code = find.ReplaceAllString(code, address)
 	}
-	return source
+	return code
 }
 
 // Simple error-handling wrapper for Flow account creation.

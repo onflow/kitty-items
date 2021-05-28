@@ -50,20 +50,29 @@ Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create
 
 #### Save your keys
 
+<<<<<<< HEAD
 After your account has been created;
   1)  create a `.env` file in your project\api folder
   2)  save the address and private key in the `.env` file as illlustrated below:
+=======
+After your account has been created, save the address and private key to the following environment variables:
+>>>>>>> d5f96854e07d758e53f7572189b20163f96a2f5a
 
 ```sh
 # Replace these values with your own!
-FLOW_ADDRESS=0xabcdef12345689
-FLOW_PRIVATE_KEY=aaaaaa...aaaaaa
+export FLOW_ADDRESS=0xabcdef12345689
+export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 ```
 
 ### 4. Deploy the contracts
 
 ```sh
 flow project deploy --network=testnet
+```
+
+If you'd like to look at the contracts in your account, to confirm that everything was deploy properly, you can use the following cli command:
+```sh
+flow accounts get $FLOW_ADDRESS --network=testnet
 ```
 
 ### 5. Run the API

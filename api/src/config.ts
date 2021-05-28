@@ -29,9 +29,9 @@ export function getConfig() {
 
   const port = process.env.PORT || defaultPort;
 
-  const accessApi = process.env.FLOW_ACCESS_API;
+  const accessApi = process.env.FLOW_ACCESS_NODE;
 
-  const minterAddress = fcl.withPrefix(process.env.MINTER_ADDRESS!);
+  const minterAddress = process.env.MINTER_ADDRESS!;
   const minterPrivateKeyHex = process.env.MINTER_PRIVATE_KEY!;
 
   if (!process.env.MINTER_ADDRESS || !process.env.MINTER_PRIVATE_KEY) {
@@ -40,12 +40,9 @@ export function getConfig() {
 
   const minterAccountKeyIndex = process.env.MINTER_ACCOUNT_KEY_INDEX || 0;
 
-  const fungibleTokenAddress = fcl.withPrefix(
-    process.env.FUNGIBLE_TOKEN_ADDRESS!
-  );
-  const nonFungibleTokenAddress = fcl.withPrefix(
-    process.env.NON_FUNGIBLE_TOKEN_ADDRESS!
-  );
+  const fungibleTokenAddress = process.env.FUNGIBLE_TOKEN_ADDRESS!;
+
+  const nonFungibleTokenAddress = process.env.NON_FUNGIBLE_TOKEN_ADDRESS!;
 
   const databaseUrl = process.env.DATABASE_URL!;
 

@@ -1,6 +1,4 @@
 import * as fcl from "@onflow/fcl";
-import { send } from "@onflow/sdk-send";
-import { getEvents } from "@onflow/sdk-build-get-events";
 
 import { BlockCursor } from "../models/block-cursor";
 import { BlockCursorService } from "../services/block-cursor";
@@ -53,8 +51,8 @@ abstract class BaseEventHandler {
 
         if (fromBlock <= toBlock) {
           try {
-            const result = await send([
-              getEvents(eventName, fromBlock, toBlock),
+            const result = await fcl.send([
+              fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock),
             ]);
             const decoded = await fcl.decode(result);
 
