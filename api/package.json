@@ -11,7 +11,8 @@
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",
     "format:write": "npm run format -- --write",
-    "migrate:make": "knex migrate:make -x ts"
+    "migrate:make": "knex migrate:make -x ts",
+    "switch-env": "node ./switch-env.mjs"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +39,7 @@
     "@types/express": "^4.17.9",
     "@types/yargs": "^16.0.1",
     "prettier": "^2.2.1",
+    "replace-in-file": "^6.2.0",
     "ts-node-dev": "^1.1.1"
   },
   "engines": {

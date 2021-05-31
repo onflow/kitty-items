@@ -17,6 +17,7 @@ const defaultMigrationPath = "./src/migrations";
 
 const productionEnv = "production";
 const productionDotEnv = ".env";
+const testnetDotEnv = ".env.testnet";
 const localDotEnv = ".env.local";
 
 export function getConfig() {
