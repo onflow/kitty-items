@@ -6,7 +6,7 @@ We chose to connect Kitty Items to Flow's testnet because we wanted users to see
 Of course, some users may want to expreiment with their smart contracts before deploying them, or otherwise prototype their appliccation before publishing it.
 In this section we'll detial how to set up your local environment for dapp development on Flow.
 
-## Tools we'll use
+## Tools you'll use
 Local development on Flow is made possible using the following tools.
 
 - The `flow-cli`
@@ -20,3 +20,5 @@ Local development on Flow is made possible using the following tools.
   - Read more: TODO LINK
 
 ## Getting Started
+
+
