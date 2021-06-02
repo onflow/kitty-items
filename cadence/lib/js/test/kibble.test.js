@@ -13,7 +13,7 @@ import {
 import { toUFix64, getRegistry } from "../src/common";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
-jest.setTimeout(30000);
+jest.setTimeout(50000);
 
 describe("Kibble", () => {
 	// Instantiate emulator and path to Cadence files
