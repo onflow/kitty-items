@@ -2,7 +2,7 @@
 name: Documentation Needed
 about: Is something confusing or not documented well?
 title: ''
-labels: needs documentation
+labels: needs documentation, feedback
 assignees: ''
 
 ---
