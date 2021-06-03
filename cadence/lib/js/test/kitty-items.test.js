@@ -1,5 +1,5 @@
 import path from "path";
-import { init, getAccountAddress, emulator, shallPass, shallResolve, shallRevert } from "flow-js-testing";
+import { init, emulator, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
 
 import {
 	deployKittyItems,
@@ -14,7 +14,7 @@ import {
 import { getRegistry } from "../src/common";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
-jest.setTimeout(10000);
+jest.setTimeout(30000);
 
 describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files

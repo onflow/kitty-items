@@ -1,5 +1,5 @@
 import path from "path";
-import { init, getAccountAddress,shallPass, shallRevert, shallResolve, emulator } from "flow-js-testing";
+import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
 
 import {
 	deployKibble,
@@ -13,7 +13,7 @@ import {
 import { toUFix64, getRegistry } from "../src/common";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
-jest.setTimeout(10000);
+jest.setTimeout(30000);
 
 describe("Kibble", () => {
 	// Instantiate emulator and path to Cadence files
@@ -62,7 +62,7 @@ describe("Kibble", () => {
 		await setupKibbleOnAccount(Alice);
 
 		// Mint instruction with amount equal to 0 shall be reverted
-		await shallRevert(mintKibble(Alice, toUFix64(0)));
+		const result = await shallRevert(mintKibble(Alice, toUFix64(0)));
 	});
 
 	test("Should mint tokens, deposit, and update balance and total supply", async () => {
