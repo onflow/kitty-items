@@ -1,6 +1,4 @@
-import { config } from "@onflow/fcl"
-
-
+import {config} from "@onflow/fcl"
 
 config()
   .put("env", process.env.REACT_APP_CHAIN_ENV)
