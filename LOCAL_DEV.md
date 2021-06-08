@@ -167,10 +167,10 @@ In `api/.env.local` add the value of `FungibleToken` in your emulator's output t
 In `web/.env.local` add the value of `FungibleToken` in your emulator's output to: 
   - `REACT_APP_CONTRACT_FUNGIBLE_TOKEN`
 
-#### Add the Non-Fungible Token contract address
+### 6. Deploy Kitty Items contracts
 
 To get the address for the Non-Fungible token contract we'll first have to deploy it to the emulator.
-Deployments are configure in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
+Deployments are configured in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
 
 ```json:title=flow.json
 ...
@@ -184,9 +184,31 @@ Deployments are configure in `flow.json`. Examine the file, you'll see an entry 
 }
 ...
 ```
+#### Add the Non-Fungible Token contract address to your environment
 
-Ensure the emulator is still running and in another shell and run the following command in the folder containing the `flow.json` file: 
+Ensure the emulator is still running and in another shell run the following command (in the folder containing the `flow.json` file):
 
 ```sh
 flow project deploy --network=emulator
 ```
+You should see the following output with the addresses of the contracts that were deployed to the emaulator's service account:
+```sh
+Deploying 4 contracts for accounts: emulator-account
+
+Kibble -> 0xf8d6e0586b0a20c7
+NonFungibleToken -> 0xf8d6e0586b0a20c7
+KittyItems -> 0xf8d6e0586b0a20c7
+KittyItemsMarket -> 0xf8d6e0586b0a20c7
+
+✨ All contracts deployed successfully
+```
+In `api/.env.local` add the value of `NonFungibleToken` in your emulator's output to: 
+  - `NON_FUNGIBLE_TOKEN_ADDRESS`
+
+In `web/.env.local` add the value of `NonFungibleToken` in your emulator's output to: 
+  - `REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN`
+
+
+### 7. Finish up!
+
+
