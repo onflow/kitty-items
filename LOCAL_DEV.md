@@ -65,4 +65,17 @@ Next we'll add important configuration values in 3 files:
   - `web/.env.local`
   - `api/.env.local`
 
+The `.env.local` files should b e placed in their respective project directories, while `flow.json` can be found at the root of the project.
+
+```sh
+kitty-items/
+├─ api/
+│  ├─ .env.local
+├─ web/
+│  ├─ .env.local
+├─ flow.json
+
+```
+
 #### Start the Flow Emulator
+
