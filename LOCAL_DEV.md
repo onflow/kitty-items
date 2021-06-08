@@ -4,20 +4,20 @@
 We chose to connect Kitty Items to Flow's testnet because we wanted users to see how easy it was to take a non-trivial application to a live Flow network.
 
 Of course, some users may want to expreiment with their smart contracts before deploying them, or otherwise prototype their appliccation before publishing it.
-In this section we'll detial how to set up your local environment for dapp development on Flow.
+In this section we'll detail how to set up your local environment for dapp development on Flow.
 
 ## 🛠 Tools you'll use
 Local development on Flow is made possible using the following tools.
 
 - The `flow-cli`
   - We'll use the Flow command-line interface (`flow-cli`) to create accounts and bootstrap our contracts onto the Flow emulator.
-  - Read more: TODO LINK
+  - `flow-cli` [documentation](https://docs.onflow.org/flow-cli)
 - The Flow Emulator
   - The Flow Emulator is a Flow blockchain that you can run locally. It has all the features and functionality of the live network because it uses the same software to process transactions and execute code as Flow's execution nodes. (Note: At the moment the emulator can't / does not reflect the state of the live network)
-  - Read more: TODO LINK
+  - Flow emulator [documentation](https://docs.onflow.org/emulator)
 - The `fcl-dev-wallet`
   - The dev wallet uses the same protocols required by `fcl` and Flow that are being used in production in consumer Flow wallets, such as Blocto.
-  - Read more: TODO LINK
+  - `fcl-dev-wallet` [documentation](https://github.com/onflow/fcl-dev-wallet)
 
 ## ✨ Getting Started
 
@@ -215,7 +215,7 @@ Now that you've added the environment variables you'll need to run the applicati
 
 #### Install and start `fcl-dev-wallet`
 
-The emulator hould still be running in your shell. Follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. 
+The emulator should still be running in your shell. Follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. 
 
 **Note:** When starting the wallet in Kitty-Items, use port `9999`. This is the configured port for `REACT_APP_WALLET_DISCOVERY` in `web/.env.local`:  
   - Use: `npm run dev -- -p 9999`
