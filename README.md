@@ -62,7 +62,6 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 ```
 
 Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough.
-
 ### 4. Deploy the contracts
 
 ```sh

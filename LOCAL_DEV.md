@@ -21,4 +21,48 @@ Local development on Flow is made possible using the following tools.
 
 ## Getting Started
 
+### 1. Install the Flow CLI
 
+Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
+
+_⚠️ This project requires `flow-cli v0.15.0` or above._
+
+### 2. Clone the project
+
+```sh
+git clone https://github.com/onflow/kitty-items.git
+```
+
+### 2.b Initialize the `fcl-dev-wallet` Submodule
+
+If you've already cloned the project, or you're starting fresh, you'll neeed to include the `fcl-dev-wallet`.
+
+```sh
+git submidule init && git submodule update
+```
+
+This command will clone the `fcl-dev-wallet` as a submodule in your repository. We're including the code as a submodule (and not a package) for the time being, because the wallet is still in early development.
+To ensure you have the latest version of the wallet, you can simply run `git submodule update` to fetch the latest code.
+
+### 3. Create `.env` Files
+
+Create `.env.local` in the `web` and `api` folders.
+
+```sh
+cd ./web
+cp .env.example .env.local
+```
+
+```sh
+cd ./api
+cp .env.example .env.local
+```
+
+### 3. Configure Your Environment
+
+Next we'll add important configuration values in 3 files:
+  - `flow.json`
+  - `web/.env.local`
+  - `api/.env.local`
+
+#### Start the Flow Emulator

@@ -7,11 +7,8 @@ The Kitty Items API is a RESTful API built with [express](https://expressjs.com/
 ### 1. Install dependencies
 
 ```sh
-cd ./api
-
 npm install
 ```
-
 ### 2. Use your Flow Testnet account
 
 You'll need the **account address** and
@@ -31,7 +28,7 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 Create a copy of `.env.example`:
 
 ```sh
-cp .env.example .env.local
+cp .env.example .env.testnet
 ```
 
 ### 4. Start the database
@@ -47,7 +44,7 @@ docker-compose up -d
 ### 5. Start the API server
 
 ```sh
-npm run start:dev
+npm run start:testnet
 ```
 
 ### 6. Set up the minter account

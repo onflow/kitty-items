@@ -1,9 +1,3 @@
-import * as fcl from "@onflow/fcl";
-
-import * as dotenv from "dotenv";
-
-import dotenvExpand from "dotenv-expand";
-
 const flowAccountErrorMessaage = `
 
 No Flow account configured.
@@ -15,19 +9,7 @@ Did you export FLOW_ADDRESS and FLOW_PRIVATE_KEY?
 const defaultPort = 3000;
 const defaultMigrationPath = "./src/migrations";
 
-const productionEnv = "production";
-const productionDotEnv = ".env";
-const testnetDotEnv = ".env.testnet";
-const localDotEnv = ".env.local";
-
 export function getConfig() {
-  const env = dotenv.config({
-    path:
-      process.env.NODE_ENV === productionEnv ? productionDotEnv : localDotEnv,
-  });
-
-  dotenvExpand(env);
-
   const port = process.env.PORT || defaultPort;
 
   const accessApi = process.env.FLOW_ACCESS_NODE;
