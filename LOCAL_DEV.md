@@ -146,9 +146,9 @@ This output contains the addresses for the contracts that are built into the emu
 #### Add the Flow Service Account address and private key
 
 In `web/.env.local` add the value of `FlowServiceAccount` in your emulator's output as:
-  - REACT_APP_CONTRACT_KIBBLE`
-  - REACT_APP_CONTRACT_KITTY_ITEMS`
-  - REACT_APP_CONTRACT_KITTY_ITEMS_MARKET`
+  - `REACT_APP_CONTRACT_KIBBLE`
+  - `REACT_APP_CONTRACT_KITTY_ITEMS`
+  - `REACT_APP_CONTRACT_KITTY_ITEMS_MARKET`
 
 In `api/.env.local`: 
   - Add the value of `FlowServiceAccount` in your emulator's output as:
@@ -165,7 +165,7 @@ In `api/.env.local` add the value of `FungibleToken` in your emulator's output t
   - `FUNGIBLE_TOKEN_ADDRESS`
 
 In `web/.env.local` add the value of `FungibleToken` in your emulator's output to: 
-  - REACT_APP_CONTRACT_FUNGIBLE_TOKEN`
+  - `REACT_APP_CONTRACT_FUNGIBLE_TOKEN`
 
 #### Add the Non-Fungible Token contract address
 
@@ -185,7 +185,7 @@ The deployment is configure in `flow.json`. Examine the file, you'll see an entr
 ...
 ```
 
-Ensure the emulator is running and in another shell, run the following command in the folder containing the `flow.json` file: 
+Ensure the emulator is still running and in another shell and run the following command in the folder containing the `flow.json` file: 
 
 ```sh
 flow project deploy --network=emulator
