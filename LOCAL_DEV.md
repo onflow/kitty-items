@@ -169,10 +169,10 @@ In `web/.env.local` add the value of `FungibleToken` in your emulator's output t
 
 #### Add the Non-Fungible Token contract address
 
-To get the address for the Non-Fungible token we'll first have to deploy it to the emulator.
-The deployment is configure in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
+To get the address for the Non-Fungible token contract we'll first have to deploy it to the emulator.
+Deployments are configure in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
 
-```json
+```json:title=flow.json
 ...
 "emulator": {
   "emulator-account": [
