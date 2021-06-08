@@ -33,7 +33,7 @@ _⚠️ This project requires `flow-cli v0.15.0` or above._
 git clone https://github.com/onflow/kitty-items.git
 ```
 
-### 2.b Initialize the `fcl-dev-wallet` Submodule
+### 2.b Initialize the `fcl-dev-wallet` submodule
 
 If you've already cloned the project, or you're starting fresh, you'll neeed to include the `fcl-dev-wallet`.
 
@@ -44,7 +44,7 @@ git submidule init && git submodule update
 This command will clone the `fcl-dev-wallet` as a submodule in your repository. We're including the code as a submodule (and not a package) for the time being, because the wallet is still in early development.
 To ensure you have the latest version of the wallet, you can simply run `git submodule update` to fetch the latest code.
 
-### 3. Create `.env` Files
+### 3. Create `.env` files
 
 Create `.env.local` in the `web` and `api` folders.
 
@@ -58,7 +58,7 @@ cd ./api
 cp .env.example .env.local
 ```
 
-### 4. Configure Your Environment
+### 4. Configure your environment
 
 Next we'll add important configuration values in 3 files:
   - `flow.json`
@@ -122,6 +122,6 @@ In the next step we'll add the missing values in our `.env.local` files for:
 - The private key for that account.
 - The addresses of the deployed contracts we'll use for this project
 
-### 5. Start the Flow Emulator
+### 5. Start the Flow emulator
 
 
