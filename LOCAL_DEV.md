@@ -77,5 +77,51 @@ kitty-items/
 
 ```
 
-#### Start the Flow Emulator
+**Replace the content of  `api/.env.local`:**
+
+```sh
+MINTER_ADDRESS=
+MINTER_PRIVATE_KEY=
+MINTER_ACCOUNT_KEY_INDEX=
+
+FLOW_ACCESS_NODE=http://localhost:8080  # <-- Emulator "access node"
+
+FUNGIBLE_TOKEN_ADDRESS=
+NON_FUNGIBLE_TOKEN_ADDRESS=
+
+DATABASE_URL=postgresql://kittyuser:kittypassword@localhost:5432/kittyitems
+MIGRATION_PATH=src/migrations
+
+BLOCK_WINDOW=1
+```
+
+**Replace the content of `web/.env.local`:**
+
+```sh
+REACT_APP_CHAIN_ENV=emulator # <-- Set chain env to emulator
+REACT_APP_FLOW_ACCESS_NODE=http://localhost:8080 # <-- Emulator "access node"
+REACT_APP_WALLET_DISCOVERY=http://localhost:9999/fcl/authn # <-- fcl-dev-wallet endpoint
+
+REACT_APP_CONTRACT_FUNGIBLE_TOKEN=
+REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN=
+
+REACT_APP_API_KIBBLE_MINT=http://localhost:3000/v1/kibbles/mint
+REACT_APP_API_KITTY_ITEM_MINT=http://localhost:3000/v1/kitty-items/mint
+REACT_APP_API_MARKET_ITEMS_LIST=http://localhost:3000/v1/market/latest
+
+REACT_APP_CONTRACT_KIBBLE=
+REACT_APP_CONTRACT_KITTY_ITEMS=
+REACT_APP_CONTRACT_KITTY_ITEMS_MARKET=
+```
+
+Here you can see we're setting up to connect to the Flow Emulator and the `fcl-dev-wallet` by specifying their
+respective host interfaces.
+
+In the next step we'll add the missing values in our `.env.local` files for: 
+- The Flow account that we'll deploy the Kitty-Items contracts to.
+- The private key for that account.
+- The addresses of the deployed contracts we'll use for this project
+
+### Start the Flow Emulator
+
 
