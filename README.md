@@ -18,7 +18,7 @@ If you'd like to deploy your own version, see the [deploy to Heroku](#optional-h
 
 ## ✨ Getting Started
 
-Note: The following guide demonstrates how to deploy Kitty Items to the *Flow Testnet*. We think using the live network is the best way to learn about Flow. For your own projects you will likely want to develop and test locally, before you deploy. You can read the local development guide <a href="LOCAL_DEV.md">here</a>.
+**Note:** The following guide demonstrates how to deploy Kitty Items to the *Flow Testnet*. We think using the live network is the best way to learn about Flow. For your own projects you will likely want to develop and test locally, before you deploy. **You can read the <a href="LOCAL_DEV.md">local development guide here</a>.**
 ### 1. Install the Flow CLI
 
 Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
