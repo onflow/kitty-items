@@ -211,4 +211,24 @@ In `web/.env.local` add the value of `NonFungibleToken` in your emulator's outpu
 
 ### 7. Finish up!
 
+Now that you've added the environment variables you'll need to run the applicatino locally there are only a few more steps.
 
+#### Install and start `fcl-dev-wallet`
+
+The emulator hould still be running in your shell. Follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. 
+
+**Note:** When starting the wallet in Kitty-Items, use port `9999`. This is the configured port for `REACT_APP_WALLET_DISCOVERY` in `web/.env.local`:  
+  - Use: `npm run dev -- -p 9999`
+
+#### Start the API and Web projects
+
+Once the emulator and `fcl-dev-wallet` are running: 
+  - Start up the API server, and bootstrap the Marketplace by following the <a href="https://github.com/onflow/kitty-items/tree/master/api">instructions here</a>. ☝️ Be sure to use `npm run start:dev` to start the project using the local development environment variables you created earlier.
+  - Start the web project by following the <a href="https://github.com/onflow/kitty-items/tree/master/web">instructions here.</a> ☝️ Be sure to use `npm run start:dev` to start the project using the local development environment variables you created earlier.
+
+
+If everything goes well, you're ready to begin local development using the `flow-cli` and the Flow emulator. 👌
+
+---
+
+🚀 Happy Hacking!
