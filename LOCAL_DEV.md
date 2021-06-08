@@ -124,4 +124,19 @@ In the next step we'll add the missing values in our `.env.local` files for:
 
 ### 5. Start the Flow emulator
 
+To find the values we'll need to complete settin up our environment, we'll need to start the Flow emulator.
+
+```sh
+flow emulator --persist
+```
+
+We're including the persist option, which will allow us to maintin the state of the emulatoed blockchain when we stop and restart the emulator. 
+You should see the following output in your terminal:
+
+```sh
+INFO[0000] ⚙️   Using service account 0xf8d6e0586b0a20c7  serviceAddress=f8d6e0586b0a20c7 serviceHashAlgo=SHA3_256 servicePrivKey=f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5 servicePubKey=6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19da659bdfd88979a5904ae8bd9b4fd52a07fc759bad9551c04f289210784e7b08980516d2 serviceSigAlgo=ECDSA_P256
+INFO[0000] 📜  Flow contracts                             FlowFees=0xe5a8b7f23e8b548f FlowServiceAccount=0xf8d6e0586b0a20c7 FlowStorageFees=0xf8d6e0586b0a20c7 FlowToken=0x0ae53cb6e3f42a79 FungibleToken=0xee82856bf20e2aa6
+INFO[0000] 🌱  Starting gRPC server on port 3569          port=3569
+INFO[0000] 🌱  Starting HTTP server on port 8080          port=8080
+```
 
