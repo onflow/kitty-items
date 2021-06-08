@@ -1,0 +1,39 @@
+{
+  "name": "hrt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "precompile-handlebars": "handlebars ./transformer/templates -f ./transformer/templates/index.js -e hbs -c handlebars",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.14.0",
+    "@babel/preset-env": "^7.14.4",
+    "flow-cadut": "^0.1.2",
+    "flow-js-testing": "^0.1.10",
+    "handlebars": "^4.7.7",
+    "handlebars-loader": "^1.7.1",
+    "jest": "^27.0.4",
+    "yaml": "^1.10.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "yaml",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transform": {
+      ".toml": "<rootDir>/transformer/yaml-transform.js"
+    },
+    "testMatch": [
+      "**/tests/*.yaml"
+    ],
+    "testEnvironment": "node"
+  }
+}

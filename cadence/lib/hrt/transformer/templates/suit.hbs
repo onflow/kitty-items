@@ -1,0 +1,45 @@
+import path from "path"
+import {
+    init,
+    emulator,
+    shallPass,
+    shallResolve,
+    shallRevert,
+    deployContractByName,
+    sendTransaction,
+    executeScript,
+    mintFlow
+} from "flow-js-testing"
+
+describe("{{suitName}}", () => {
+    // Instantiate emulator and path to Cadence files
+    beforeEach(async () => {
+        const basePath = path.resolve(__dirname, "./cadence");
+        const port = 8080;
+        await init(basePath, port);
+        return emulator.start(port, false);
+    });
+
+    // Stop emulator, so it could be restarted
+        afterEach(async () => {
+        return emulator.stop();
+    });
+
+{{#each tests}}
+    test("{{this.name}}", async () => {
+        {{#each actors ~}}
+            {{{this}}}
+        {{/each}}
+
+        {{deployComment}}
+        {{#each deployments ~}}
+            {{{this}}}
+        {{/each}}
+
+        {{#each interactions}}
+            {{{this}}}
+        {{/each}}
+    });
+
+{{/each}}
+})

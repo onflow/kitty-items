@@ -1,4 +1,4 @@
-import { Address, UFix64 } from "@onflow/types";
+import { Address, UFix64, String, Int } from "@onflow/types";
 import {
 	deployContractByName,
 	executeScript,
@@ -40,7 +40,6 @@ export const setupKibbleOnAccount = async (account) => {
 	const addressMap = { FungibleToken, Kibble };
 
 	const code = await getTransactionCode({ name, addressMap });
-	const signers = [account];
 
 	return sendTransaction({ code, signers });
 };
@@ -78,6 +77,7 @@ export const getKibbleSupply = async () => {
 	const addressMap = { Kibble: Registry };
 
 	const code = await getScriptCode({ name, addressMap });
+
 	return executeScript({ code });
 };
 

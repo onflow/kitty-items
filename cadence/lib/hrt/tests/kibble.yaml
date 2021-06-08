@@ -1,0 +1,11 @@
+name: "Kibble Test Suit"
+path: "../../../"
+
+tests:
+  - name: "deploy Kibble contract"
+    deploy: [FungibleToken, Kibble]
+    actors: [Registry]
+    interactions:
+      - type: script
+        name: "kibble/get_supply"
+        expect: 0
