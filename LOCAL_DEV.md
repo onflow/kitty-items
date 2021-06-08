@@ -139,4 +139,54 @@ INFO[0000] 📜  Flow contracts                             FlowFees=0xe5a8b7f23
 INFO[0000] 🌱  Starting gRPC server on port 3569          port=3569
 INFO[0000] 🌱  Starting HTTP server on port 8080          port=8080
 ```
+This output contains the addresses for the contracts that are built into the emulator, as well as the address of the `FlowServiceAccount`, a pre-generated account you can use to easily get started deploying code to the emulator. We'll use the following values from the emulator's output in our `.env.local` files: 
 
+(☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
+
+#### Add the Flow Service Account address and private key
+
+In `web/.env.local` add the value of `FlowServiceAccount` in your emulator's output as:
+  - REACT_APP_CONTRACT_KIBBLE`
+  - REACT_APP_CONTRACT_KITTY_ITEMS`
+  - REACT_APP_CONTRACT_KITTY_ITEMS_MARKET`
+
+In `api/.env.local`: 
+  - Add the value of `FlowServiceAccount` in your emulator's output as:
+    - `MINTER_ADDRESS`
+
+  - Add the value of `servicePrivKey` from your emulator's output as:
+    - `MINTER_PRIVATE_KEY`
+
+#### Add the Fungible Token contract address
+
+Next we'll update the address of the emeulator's `FungibleToken` contract. 
+
+In `api/.env.local` add the value of `FungibleToken` in your emulator's output to: 
+  - `FUNGIBLE_TOKEN_ADDRESS`
+
+In `web/.env.local` add the value of `FungibleToken` in your emulator's output to: 
+  - REACT_APP_CONTRACT_FUNGIBLE_TOKEN`
+
+#### Add the Non-Fungible Token contract address
+
+To get the address for the Non-Fungible token we'll first have to deploy it to the emulator.
+The deployment is configure in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
+
+```json
+...
+"emulator": {
+  "emulator-account": [
+    "Kibble",
+    "KittyItems",
+    "KittyItemsMarket",
+    "NonFungibleToken"
+  ]
+}
+...
+```
+
+Ensure the emulator is running and in another shell, run the following command in the folder containing the `flow.json` file: 
+
+```sh
+flow project deploy --network=emulator
+```
