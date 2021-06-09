@@ -211,7 +211,7 @@ In `web/.env.local` add the value of `NonFungibleToken` in your emulator's outpu
 
 ### 7. Finish up!
 
-Now that you've added the environment variables you'll need to run the applicatino locally there are only a few more steps.
+Now that you've added the environment variables you'll need to run the application locally there are only a few more steps.
 
 #### Install and start `fcl-dev-wallet`
 
