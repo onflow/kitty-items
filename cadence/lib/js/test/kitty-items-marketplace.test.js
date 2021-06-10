@@ -13,7 +13,7 @@ import {
 	getMarketCollectionLength,
 } from "../src/kitty-items-marketplace";
 
-// We need to set timeout for a higher number, cause some transactions might take up some time
+// We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(50000);
 
 describe("Kitty Items Marketplace", () => {
