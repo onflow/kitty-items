@@ -68,7 +68,7 @@ export const getKittyItemSupply = async () => {
 /*
  * Mints KittyItem of a specific **itemType** and sends it to **recipient**.
  * @param {UInt64} itemType - type of NFT to mint
- * @param {string} recipient - account address
+ * @param {string} recipient - recipient account address
  * @throws Will throw an error if execution will be halted
  * @returns {Promise<*>}
  * */
@@ -118,6 +118,8 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
 
 /*
  * Returns the type of KittyItems NFT with **id** in account collection.
+ * @param {string} account - account address
+ * @param {UInt64} id - NFT id
  * @throws Will throw an error if execution will be halted
  * @returns {UInt64}
  * */
@@ -139,6 +141,7 @@ export const getKittyItemById = async (account, id) => {
 
 /*
  * Returns the length of account's KittyItems collection.
+ * @param {string} account - account address
  * @throws Will throw an error if execution will be halted
  * @returns {UInt64}
  * */

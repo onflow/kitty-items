@@ -56,9 +56,9 @@ export const setupMarketplaceOnAccount = async (account) => {
 
 /*
  * Lists item with id equal to **item** id for sale with specified **price**.
- * @param {string} seller - account address
- * @param {UInt64} itemId - account address
- * @param {UFix64} price - account address
+ * @param {string} seller - seller account address
+ * @param {UInt64} itemId - id of item to sell
+ * @param {UFix64} price - price
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
@@ -85,10 +85,10 @@ export const listItemForSale = async (seller, itemId, price) => {
 };
 
 /*
- * Lists item with id equal to **item** id for sale with specified **price**.
- * @param {string} buyer - buyer address
- * @param {UInt64} itemId - account address
- * @param {string} seller - seller address
+ * Buys item with id equal to **item** id for **price** from **seller**.
+ * @param {string} buyer - buyer account address
+ * @param {UInt64} itemId - id of item to sell
+ * @param {string} seller - seller account address
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
@@ -115,8 +115,8 @@ export const buyItem = async (buyer, itemId, seller) => {
 
 /*
  * Removes item with id equal to **item** from sale.
- * @param {string} owner - buyer address
- * @param {UInt64} itemId - account address
+ * @param {string} owner - owner address
+ * @param {UInt64} itemId - id of item to remove
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
