@@ -43,11 +43,9 @@ export const setupKittyItemsOnAccount = async (account) => {
 
 	const name = "kittyItems/setup_account";
 	const addressMap = { NonFungibleToken, KittyItems };
-
-	const code = await getTransactionCode({ name, addressMap });
 	const signers = [account];
 
-	return sendTransaction({ code, signers });
+	return sendTransaction({ name, addressMap, signers });
 };
 
 /*
@@ -60,9 +58,7 @@ export const getKittyItemSupply = async () => {
 	const name = "kittyItems/read_kitty_items_supply";
 	const addressMap = { KittyItems };
 
-	const code = await getScriptCode({ name, addressMap });
-
-	return executeScript({ code });
+	return executeScript({ name, addressMap });
 };
 
 /*
@@ -81,14 +77,13 @@ export const mintKittyItem = async (itemType, recipient) => {
 	const name = "kittyItems/mint_kitty_item";
 	const addressMap = { NonFungibleToken, KittyItems };
 
-	const code = await getTransactionCode({ name, addressMap });
 	const signers = [KittyAdmin];
 	const args = [
 		[recipient, Address],
 		[itemType, UInt64],
 	];
 
-	return sendTransaction({ code, signers, args });
+	return sendTransaction({ name, addressMap, signers, args });
 };
 
 /*
@@ -105,15 +100,13 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
 
 	const name = "kittyItems/transfer_kitty_item";
 	const addressMap = { NonFungibleToken, KittyItems };
-
-	const code = await getTransactionCode({ name, addressMap });
-	const signers = [sender];
 	const args = [
 		[recipient, Address],
 		[itemId, UInt64],
 	];
+	const signers = [sender];
 
-	return sendTransaction({ code, signers, args });
+	return sendTransaction({ name, addressMap, args, signers });
 };
 
 /*
@@ -129,14 +122,12 @@ export const getKittyItemById = async (account, id) => {
 
 	const name = "kittyItems/read_kitty_item_type_id";
 	const addressMap = { KittyItems, NonFungibleToken };
-
-	const code = await getScriptCode({ name, addressMap });
 	const args = [
 		[account, Address],
 		[id, UInt64],
 	];
 
-	return executeScript({ code, args });
+	return executeScript({ name, addressMap, args });
 };
 
 /*
@@ -151,9 +142,7 @@ export const getCollectionLength = async (account) => {
 
 	const name = "kittyItems/read_collection_length";
 	const addressMap = { NonFungibleToken, KittyItems };
-
-	const code = await getScriptCode({ name, addressMap });
 	const args = [[account, Address]];
 
-	return executeScript({ code, args });
+	return executeScript({ name, addressMap, args });
 };

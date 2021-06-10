@@ -39,19 +39,17 @@ export const deployMarketplace = async () => {
  * @returns {Promise<*>}
  * */
 export const setupMarketplaceOnAccount = async (account) => {
-	// Account should be able to store kitty items and operate Kibbles
+	// Account shall be able to store kitty items and operate Kibbles
 	await setupKibbleOnAccount(account);
 	await setupKittyItemsOnAccount(account);
 
 	const KittyItemsMarket = await getContractAddress("KittyItemsMarket");
-	const addressMap = { KittyItemsMarket };
 
 	const name = "kittyItemsMarket/setup_account";
-
-	const code = await getTransactionCode({ name, addressMap });
+	const addressMap = { KittyItemsMarket };
 	const signers = [account];
 
-	return sendTransaction({ code, signers });
+	return sendTransaction({ name, addressMap, signers });
 };
 
 /*
@@ -73,15 +71,13 @@ export const listItemForSale = async (seller, itemId, price) => {
 	};
 
 	const name = "kittyItemsMarket/sell_market_item";
-
-	const code = await getTransactionCode({ name, addressMap });
-	const signers = [seller];
 	const args = [
 		[itemId, UInt64],
 		[price, UFix64],
 	];
+	const signers = [seller];
 
-	return sendTransaction({ code, signers, args });
+	return sendTransaction({ name, addressMap, args, signers });
 };
 
 /*
@@ -103,14 +99,13 @@ export const buyItem = async (buyer, itemId, seller) => {
 	};
 
 	const name = "kittyItemsMarket/buy_market_item";
-
-	const code = await getTransactionCode({ name, addressMap });
-	const signers = [buyer];
 	const args = [
 		[itemId, UInt64],
 		[seller, Address],
 	];
-	return sendTransaction({ code, signers, args });
+	const signers = [buyer];
+
+	return sendTransaction({ name, addressMap, args, signers });
 };
 
 /*
@@ -130,7 +125,7 @@ export const removeItem = async (owner, itemId) => {
 	const signers = [owner];
 	const args = [[itemId, UInt64]];
 
-	return sendTransaction({ code, signers, args });
+	return sendTransaction({ code, args, signers });
 };
 
 /*
@@ -144,9 +139,7 @@ export const getMarketCollectionLength = async (account) => {
 
 	const name = "kittyItemsMarket/read_collection_length";
 	const addressMap = { KittyItemsMarket };
-
-	const code = await getScriptCode({ name, addressMap });
 	const args = [[account, account, Address]];
 
-	return executeScript({ code, args });
+	return executeScript({ name, addressMap, args });
 };

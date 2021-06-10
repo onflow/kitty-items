@@ -34,11 +34,9 @@ export const setupKibbleOnAccount = async (account) => {
 
 	const name = "kibble/setup_account";
 	const addressMap = { Kibble };
-
-	const code = await getTransactionCode({ name, addressMap });
 	const signers = [account];
 
-	return sendTransaction({ code, signers });
+	return sendTransaction({ name, addressMap, signers });
 };
 
 /*
@@ -52,11 +50,9 @@ export const getKibbleBalance = async (account) => {
 
 	const name = "kibble/get_balance";
 	const addressMap = { Kibble: KittyAdmin };
-
-	const code = await getScriptCode({ name, addressMap });
 	const args = [[account, Address]];
 
-	return executeScript({ code, args });
+	return executeScript({ name, addressMap, args });
 };
 
 /*
@@ -70,8 +66,7 @@ export const getKibbleSupply = async () => {
 	const name = "kibble/get_supply";
 	const addressMap = { Kibble: KittyAdmin };
 
-	const code = await getScriptCode({ name, addressMap });
-	return executeScript({ code });
+	return executeScript({ name, addressMap });
 };
 
 /*
@@ -86,19 +81,13 @@ export const mintKibble = async (recipient, amount) => {
 
 	const name = "kibble/mint_tokens";
 	const addressMap = { Kibble: KittyAdmin };
-
-	const code = await getTransactionCode({ name, addressMap });
-	const signers = [KittyAdmin];
 	const args = [
 		[recipient, Address],
 		[amount, UFix64],
 	];
+	const signers = [KittyAdmin];
 
-	return sendTransaction({
-		code,
-		signers,
-		args,
-	});
+	return sendTransaction({ name, addressMap, args, signers });
 };
 
 /*
@@ -114,17 +103,11 @@ export const transferKibble = async (sender, recipient, amount) => {
 
 	const name = "kibble/transfer_tokens";
 	const addressMap = { Kibble: KittyAdmin };
-
-	const code = await getTransactionCode({ name, addressMap });
-	const signers = [sender];
 	const args = [
 		[amount, UFix64],
 		[recipient, Address],
 	];
+	const signers = [sender];
 
-	return sendTransaction({
-		code,
-		signers,
-		args,
-	});
+	return sendTransaction({ name, addressMap, args, signers });
 };
