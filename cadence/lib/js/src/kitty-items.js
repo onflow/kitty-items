@@ -9,7 +9,7 @@ import {
 	sendTransaction,
 } from "flow-js-testing";
 
-import { getRegistry } from "./common";
+import { getKittyAdminAddress } from "./common";
 
 // KittyItems types
 export const typeID1 = 1000;
@@ -17,18 +17,18 @@ export const typeID2 = 2000;
 export const typeID1337 = 1337;
 
 /*
- * Deploys NonFungibleToken and KittyItems contracts to Registry.
+ * Deploys NonFungibleToken and KittyItems contracts to KittyAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
 export const deployKittyItems = async () => {
-	const Registry = await getRegistry();
-	await mintFlow(Registry, "10.0");
+	const KittyAdmin = await getKittyAdminAddress();
+	await mintFlow(KittyAdmin, "10.0");
 
-	await deployContractByName({ to: Registry, name: "NonFungibleToken" });
+	await deployContractByName({ to: KittyAdmin, name: "NonFungibleToken" });
 
-	const addressMap = { NonFungibleToken: Registry };
-	return deployContractByName({ to: Registry, name: "KittyItems", addressMap });
+	const addressMap = { NonFungibleToken: KittyAdmin };
+	return deployContractByName({ to: KittyAdmin, name: "KittyItems", addressMap });
 };
 
 /*
@@ -73,7 +73,7 @@ export const getKittyItemSupply = async () => {
  * @returns {Promise<*>}
  * */
 export const mintKittyItem = async (itemType, recipient) => {
-	const Registry = await getRegistry();
+	const KittyAdmin = await getKittyAdminAddress();
 
 	const NonFungibleToken = await getContractAddress("NonFungibleToken");
 	const KittyItems = await getContractAddress("KittyItems");
@@ -82,7 +82,7 @@ export const mintKittyItem = async (itemType, recipient) => {
 	const addressMap = { NonFungibleToken, KittyItems };
 
 	const code = await getTransactionCode({ name, addressMap });
-	const signers = [Registry];
+	const signers = [KittyAdmin];
 	const args = [
 		[recipient, Address],
 		[itemType, UInt64],

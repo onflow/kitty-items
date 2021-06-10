@@ -30,11 +30,11 @@ describe("Kitty Items Marketplace", () => {
 		done();
 	});
 
-	test("should deploy KittyItemsMarket contract", async () => {
+	it("shall deploy KittyItemsMarket contract", async () => {
 		await shallPass(deployMarketplace());
 	});
 
-	test("should be able to create an empty Collection", async () => {
+	it("shall be able to create an empty Collection", async () => {
 		// Setup
 		await deployMarketplace();
 		const Alice = await getAccountAddress("Alice");
@@ -42,7 +42,7 @@ describe("Kitty Items Marketplace", () => {
 		await shallPass(setupMarketplaceOnAccount(Alice));
 	});
 
-	test("should be able to create a sale offer and list it", async () => {
+	it("shall be able to create a sale offer and list it", async () => {
 		// Setup
 		await deployMarketplace();
 		const Alice = await getAccountAddress("Alice");
@@ -54,7 +54,7 @@ describe("Kitty Items Marketplace", () => {
 		await shallPass(listItemForSale(Alice, 0, toUFix64(1.11)));
 	});
 
-	test("should be able to accept a sale offer", async () => {
+	it("shall be able to accept a sale offer", async () => {
 		// Setup
 		await deployMarketplace();
 
@@ -69,7 +69,7 @@ describe("Kitty Items Marketplace", () => {
 
 		await shallPass(mintKibble(Bob, toUFix64(100)));
 
-		// Bob should be able to buy from Alice
+		// Bob shall be able to buy from Alice
 		await shallPass(listItemForSale(Alice, 0, toUFix64(1.11)));
 		await shallPass(buyItem(Bob, 0, Alice));
 
@@ -80,7 +80,7 @@ describe("Kitty Items Marketplace", () => {
 		expect(itemsListed).toBe(0);
 	});
 
-	test("should be able to remove a sale offer", async () => {
+	it("shall be able to remove a sale offer", async () => {
 		// Deploy contracts
 		await shallPass(deployMarketplace());
 

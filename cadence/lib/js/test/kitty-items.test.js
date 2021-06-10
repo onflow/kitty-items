@@ -11,7 +11,7 @@ import {
 	transferKittyItem,
 	typeID1,
 } from "../src/kitty-items";
-import { getRegistry } from "../src/common";
+import { getKittyAdminAddress } from "../src/common";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
 jest.setTimeout(50000);
@@ -32,15 +32,15 @@ describe("Kitty Items", () => {
 		done();
 	});
 
-	test("should deploy KittyItems contract", async () => {
+	it("shall deploy KittyItems contract", async () => {
 		await shallPass(deployKittyItems());
 	});
 
-	test("supply should be 0 after contract is deployed", async () => {
+	it("supply shall be 0 after contract is deployed", async () => {
 		// Setup
 		await deployKittyItems();
-		const Registry = await getRegistry();
-		await shallPass(setupKittyItemsOnAccount(Registry));
+		const KittyAdmin = await getKittyAdminAddress();
+		await shallPass(setupKittyItemsOnAccount(KittyAdmin));
 
 		await shallResolve(async () => {
 			const supply = await getKittyItemSupply();
@@ -48,7 +48,7 @@ describe("Kitty Items", () => {
 		});
 	});
 
-	test("should be able to mint a kittyItems", async () => {
+	it("shall be able to mint a kittyItems", async () => {
 		// Setup
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
@@ -67,20 +67,20 @@ describe("Kitty Items", () => {
 		});
 	});
 
-	test("should be able to create a new empty NFT Collection", async () => {
+	it("shall be able to create a new empty NFT Collection", async () => {
 		// Setup
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
 		await setupKittyItemsOnAccount(Alice);
 
-		// Should be able te read Alice collection and ensure it's empty
+		// shall be able te read Alice collection and ensure it's empty
 		await shallResolve(async () => {
 			const length = await getCollectionLength(Alice);
 			expect(length).toBe(0);
 		});
 	});
 
-	test("should not be able to withdraw an NFT that doesn't exist in a collection", async () => {
+	it("shall not be able to withdraw an NFT that doesn't exist in a collection", async () => {
 		// Setup
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
@@ -92,7 +92,7 @@ describe("Kitty Items", () => {
 		await shallRevert(transferKittyItem(Alice, Bob, 1337));
 	});
 
-	test("should be able to withdraw an NFT and deposit to another accounts collection", async () => {
+	it("shall be able to withdraw an NFT and deposit to another accounts collection", async () => {
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
 		const Bob = await getAccountAddress("Bob");

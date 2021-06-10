@@ -8,28 +8,28 @@ import {
 	sendTransaction,
 } from "flow-js-testing";
 
-import { getRegistry } from "./common";
+import { getKittyAdminAddress } from "./common";
 import { deployKibble, setupKibbleOnAccount } from "./kibble";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
 
 /*
- * Deploys Kibble, KittyItems and KittyItemsMarket contracts to Registry.
+ * Deploys Kibble, KittyItems and KittyItemsMarket contracts to KittyAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
 export const deployMarketplace = async () => {
-	const Registry = await getRegistry();
+	const KittyAdmin = await getKittyAdminAddress();
 
 	await deployKibble();
 	await deployKittyItems();
 
 	const addressMap = {
-		NonFungibleToken: Registry,
-		Kibble: Registry,
-		KittyItems: Registry,
+		NonFungibleToken: KittyAdmin,
+		Kibble: KittyAdmin,
+		KittyItems: KittyAdmin,
 	};
 
-	return deployContractByName({ to: Registry, name: "KittyItemsMarket", addressMap });
+	return deployContractByName({ to: KittyAdmin, name: "KittyItemsMarket", addressMap });
 };
 
 /*
@@ -63,13 +63,13 @@ export const setupMarketplaceOnAccount = async (account) => {
  * @returns {Promise<*>}
  * */
 export const listItemForSale = async (seller, itemId, price) => {
-	const Registry = await getRegistry();
+	const KittyAdmin = await getKittyAdminAddress();
 
 	const addressMap = {
-		NonFungibleToken: Registry,
-		Kibble: Registry,
-		KittyItems: Registry,
-		KittyItemsMarket: Registry,
+		NonFungibleToken: KittyAdmin,
+		Kibble: KittyAdmin,
+		KittyItems: KittyAdmin,
+		KittyItemsMarket: KittyAdmin,
 	};
 
 	const name = "kittyItemsMarket/sell_market_item";
@@ -93,13 +93,13 @@ export const listItemForSale = async (seller, itemId, price) => {
  * @returns {Promise<*>}
  * */
 export const buyItem = async (buyer, itemId, seller) => {
-	const Registry = await getRegistry();
+	const KittyAdmin = await getKittyAdminAddress();
 
 	const addressMap = {
-		NonFungibleToken: Registry,
-		Kibble: Registry,
-		KittyItems: Registry,
-		KittyItemsMarket: Registry,
+		NonFungibleToken: KittyAdmin,
+		Kibble: KittyAdmin,
+		KittyItems: KittyAdmin,
+		KittyItemsMarket: KittyAdmin,
 	};
 
 	const name = "kittyItemsMarket/buy_market_item";

@@ -10,7 +10,7 @@ import {
 	transferKibble,
 } from "../src/kibble";
 
-import { toUFix64, getRegistry } from "../src/common";
+import { toUFix64, getKittyAdminAddress } from "../src/common";
 
 // We need to set timeout for a higher number, cause some transactions might take up some time
 jest.setTimeout(50000);
@@ -31,7 +31,7 @@ describe("Kibble", () => {
 		done();
 	});
 
-	test("should have initialized supply field correctly", async () => {
+	it("shall have initialized supply field correctly", async () => {
 		// Deploy contract
 		await shallPass(deployKibble());
 
@@ -41,7 +41,7 @@ describe("Kibble", () => {
 		});
 	});
 
-	test("should be able to create empty Vault that doesn't affect supply", async () => {
+	it("shall be able to create empty Vault that doesn't affect supply", async () => {
 		// Setup
 		await deployKibble();
 		const Alice = await getAccountAddress("Alice");
@@ -55,7 +55,7 @@ describe("Kibble", () => {
 		});
 	});
 
-	test("should not be able to mint zero tokens", async () => {
+	it("shall not be able to mint zero tokens", async () => {
 		// Setup
 		await deployKibble();
 		const Alice = await getAccountAddress("Alice");
@@ -65,7 +65,7 @@ describe("Kibble", () => {
 		const result = await shallRevert(mintKibble(Alice, toUFix64(0)));
 	});
 
-	test("Should mint tokens, deposit, and update balance and total supply", async () => {
+	it("shall mint tokens, deposit, and update balance and total supply", async () => {
 		// Setup
 		await deployKibble();
 		const Alice = await getAccountAddress("Alice");
@@ -87,12 +87,12 @@ describe("Kibble", () => {
 		});
 	});
 
-	test("should not be able to withdraw more than the balance of the Vault", async () => {
+	it("shall not be able to withdraw more than the balance of the Vault", async () => {
 		// Setup
 		await deployKibble();
-		const Registry = await getRegistry();
+		const KittyAdmin = await getKittyAdminAddress();
 		const Alice = await getAccountAddress("Alice");
-		await setupKibbleOnAccount(Registry);
+		await setupKibbleOnAccount(KittyAdmin);
 		await setupKibbleOnAccount(Alice);
 
 		// Set amounts
@@ -100,35 +100,35 @@ describe("Kibble", () => {
 		const overflowAmount = toUFix64(30000);
 
 		// Mint instruction shall resolve
-		await shallResolve(mintKibble(Registry, amount));
+		await shallResolve(mintKibble(KittyAdmin, amount));
 
 		// Transaction shall revert
-		await shallRevert(transferKibble(Registry, Alice, overflowAmount));
+		await shallRevert(transferKibble(KittyAdmin, Alice, overflowAmount));
 
 		// Balances shall be intact
 		await shallResolve(async () => {
 			const aliceBalance = await getKibbleBalance(Alice);
 			expect(aliceBalance).toBe(toUFix64(0));
 
-			const registryBalance = await getKibbleBalance(Registry);
-			expect(registryBalance).toBe(amount);
+			const KittyAdminBalance = await getKibbleBalance(KittyAdmin);
+			expect(KittyAdminBalance).toBe(amount);
 		});
 	});
 
-	test("should be able to withdraw and deposit tokens from a Vault", async () => {
+	it("shall be able to withdraw and deposit tokens from a Vault", async () => {
 		await deployKibble();
-		const Registry = await getRegistry();
+		const KittyAdmin = await getKittyAdminAddress();
 		const Alice = await getAccountAddress("Alice");
-		await setupKibbleOnAccount(Registry);
+		await setupKibbleOnAccount(KittyAdmin);
 		await setupKibbleOnAccount(Alice);
-		await mintKibble(Registry, toUFix64(1000));
+		await mintKibble(KittyAdmin, toUFix64(1000));
 
-		await shallPass(transferKibble(Registry, Alice, toUFix64(300)));
+		await shallPass(transferKibble(KittyAdmin, Alice, toUFix64(300)));
 
 		await shallResolve(async () => {
 			// Balances shall be updated
-			const registryBalance = await getKibbleBalance(Registry);
-			expect(registryBalance).toBe(toUFix64(700));
+			const KittyAdminBalance = await getKibbleBalance(KittyAdmin);
+			expect(KittyAdminBalance).toBe(toUFix64(700));
 
 			const aliceBalance = await getKibbleBalance(Alice);
 			expect(aliceBalance).toBe(toUFix64(300));
