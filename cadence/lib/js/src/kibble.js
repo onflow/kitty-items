@@ -12,7 +12,7 @@ import {
 import { getRegistry } from "./common";
 
 /*
- * Deploys FungibleToken and Kibble contracts to Registry.
+ * Deploys Kibble contract to Registry.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
@@ -20,10 +20,7 @@ export const deployKibble = async () => {
 	const Registry = await getRegistry();
 	await mintFlow(Registry, "10.0");
 
-	await deployContractByName({ to: Registry, name: "FungibleToken" });
-
-	const addressMap = { FungibleToken: Registry };
-	return deployContractByName({ to: Registry, name: "Kibble", addressMap });
+	return deployContractByName({ to: Registry, name: "Kibble" });
 };
 
 /*
@@ -33,11 +30,10 @@ export const deployKibble = async () => {
  * @returns {Promise<*>}
  * */
 export const setupKibbleOnAccount = async (account) => {
-	const FungibleToken = await getContractAddress("FungibleToken");
 	const Kibble = await getContractAddress("Kibble");
 
 	const name = "kibble/setup_account";
-	const addressMap = { FungibleToken, Kibble };
+	const addressMap = { Kibble };
 
 	const code = await getTransactionCode({ name, addressMap });
 	const signers = [account];
@@ -55,10 +51,7 @@ export const getKibbleBalance = async (account) => {
 	const Registry = await getRegistry();
 
 	const name = "kibble/get_balance";
-	const addressMap = {
-		FungibleToken: Registry,
-		Kibble: Registry,
-	};
+	const addressMap = { Kibble: Registry };
 
 	const code = await getScriptCode({ name, addressMap });
 	const args = [[account, Address]];
@@ -92,10 +85,7 @@ export const mintKibble = async (recipient, amount) => {
 	const Registry = await getRegistry();
 
 	const name = "kibble/mint_tokens";
-	const addressMap = {
-		FungibleToken: Registry,
-		Kibble: Registry,
-	};
+	const addressMap = { Kibble: Registry };
 
 	const code = await getTransactionCode({ name, addressMap });
 	const signers = [Registry];
@@ -123,10 +113,7 @@ export const transferKibble = async (sender, recipient, amount) => {
 	const Registry = await getRegistry();
 
 	const name = "kibble/transfer_tokens";
-	const addressMap = {
-		FungibleToken: Registry,
-		Kibble: Registry,
-	};
+	const addressMap = { Kibble: Registry };
 
 	const code = await getTransactionCode({ name, addressMap });
 	const signers = [sender];

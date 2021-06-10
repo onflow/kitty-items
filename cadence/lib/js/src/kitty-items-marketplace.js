@@ -24,7 +24,6 @@ export const deployMarketplace = async () => {
 	await deployKittyItems();
 
 	const addressMap = {
-		FungibleToken: Registry,
 		NonFungibleToken: Registry,
 		Kibble: Registry,
 		KittyItems: Registry,
@@ -67,7 +66,6 @@ export const listItemForSale = async (seller, itemId, price) => {
 	const Registry = await getRegistry();
 
 	const addressMap = {
-		FungibleToken: Registry,
 		NonFungibleToken: Registry,
 		Kibble: Registry,
 		KittyItems: Registry,
@@ -98,7 +96,6 @@ export const buyItem = async (buyer, itemId, seller) => {
 	const Registry = await getRegistry();
 
 	const addressMap = {
-		FungibleToken: Registry,
 		NonFungibleToken: Registry,
 		Kibble: Registry,
 		KittyItems: Registry,
