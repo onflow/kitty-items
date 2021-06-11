@@ -62,7 +62,7 @@ describe("Kibble", () => {
 		await setupKibbleOnAccount(Alice);
 
 		// Mint instruction with amount equal to 0 shall be reverted
-		const result = await shallRevert(mintKibble(Alice, toUFix64(0)));
+		await shallRevert(mintKibble(Alice, toUFix64(0)));
 	});
 
 	it("shall mint tokens, deposit, and update balance and total supply", async () => {

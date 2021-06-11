@@ -1,13 +1,4 @@
-import { Address, UInt64 } from "@onflow/types";
-import {
-	deployContractByName,
-	executeScript,
-	getContractAddress,
-	getScriptCode,
-	getTransactionCode,
-	mintFlow,
-	sendTransaction,
-} from "flow-js-testing";
+import { deployContractByName, executeScript, getContractAddress, mintFlow, sendTransaction } from "flow-js-testing";
 
 import { getKittyAdminAddress } from "./common";
 
@@ -76,14 +67,10 @@ export const mintKittyItem = async (itemType, recipient) => {
 
 	const name = "kittyItems/mint_kitty_item";
 	const addressMap = { NonFungibleToken, KittyItems };
-
+	const args = [recipient, itemType];
 	const signers = [KittyAdmin];
-	const args = [
-		[recipient, Address],
-		[itemType, UInt64],
-	];
 
-	return sendTransaction({ name, addressMap, signers, args });
+	return sendTransaction({ name, addressMap, args, signers });
 };
 
 /*
@@ -100,10 +87,7 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
 
 	const name = "kittyItems/transfer_kitty_item";
 	const addressMap = { NonFungibleToken, KittyItems };
-	const args = [
-		[recipient, Address],
-		[itemId, UInt64],
-	];
+	const args = [recipient, itemId];
 	const signers = [sender];
 
 	return sendTransaction({ name, addressMap, args, signers });
@@ -122,10 +106,7 @@ export const getKittyItemById = async (account, id) => {
 
 	const name = "kittyItems/read_kitty_item_type_id";
 	const addressMap = { KittyItems, NonFungibleToken };
-	const args = [
-		[account, Address],
-		[id, UInt64],
-	];
+	const args = [account, id];
 
 	return executeScript({ name, addressMap, args });
 };
@@ -142,7 +123,7 @@ export const getCollectionLength = async (account) => {
 
 	const name = "kittyItems/read_collection_length";
 	const addressMap = { NonFungibleToken, KittyItems };
-	const args = [[account, Address]];
+	const args = [account];
 
 	return executeScript({ name, addressMap, args });
 };

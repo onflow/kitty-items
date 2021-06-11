@@ -1,9 +1,7 @@
-import { UFix64, UInt64, Address } from "@onflow/types";
 import {
 	getContractAddress,
 	deployContractByName,
 	getTransactionCode,
-	getScriptCode,
 	executeScript,
 	sendTransaction,
 } from "flow-js-testing";
@@ -71,10 +69,7 @@ export const listItemForSale = async (seller, itemId, price) => {
 	};
 
 	const name = "kittyItemsMarket/sell_market_item";
-	const args = [
-		[itemId, UInt64],
-		[price, UFix64],
-	];
+	const args = [itemId, price];
 	const signers = [seller];
 
 	return sendTransaction({ name, addressMap, args, signers });
@@ -99,10 +94,7 @@ export const buyItem = async (buyer, itemId, seller) => {
 	};
 
 	const name = "kittyItemsMarket/buy_market_item";
-	const args = [
-		[itemId, UInt64],
-		[seller, Address],
-	];
+	const args = [itemId, seller];
 	const signers = [buyer];
 
 	return sendTransaction({ name, addressMap, args, signers });
@@ -123,7 +115,7 @@ export const removeItem = async (owner, itemId) => {
 
 	const code = await getTransactionCode({ name, addressMap });
 	const signers = [owner];
-	const args = [[itemId, UInt64]];
+	const args = [itemId];
 
 	return sendTransaction({ code, args, signers });
 };
@@ -139,7 +131,7 @@ export const getMarketCollectionLength = async (account) => {
 
 	const name = "kittyItemsMarket/read_collection_length";
 	const addressMap = { KittyItemsMarket };
-	const args = [[account, account, Address]];
+	const args = [account, account];
 
 	return executeScript({ name, addressMap, args });
 };

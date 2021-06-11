@@ -1,5 +1,5 @@
 import path from "path";
-import { init, emulator, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
+import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
 
 import {
 	deployKittyItems,
