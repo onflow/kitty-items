@@ -1,10 +1,7 @@
-import { Address, UFix64 } from "@onflow/types";
 import {
 	deployContractByName,
 	executeScript,
 	getContractAddress,
-	getScriptCode,
-	getTransactionCode,
 	mintFlow,
 	sendTransaction,
 } from "flow-js-testing";
@@ -50,7 +47,7 @@ export const getKibbleBalance = async (account) => {
 
 	const name = "kibble/get_balance";
 	const addressMap = { Kibble: KittyAdmin };
-	const args = [[account, Address]];
+	const args = [account];
 
 	return executeScript({ name, addressMap, args });
 };
@@ -81,10 +78,7 @@ export const mintKibble = async (recipient, amount) => {
 
 	const name = "kibble/mint_tokens";
 	const addressMap = { Kibble: KittyAdmin };
-	const args = [
-		[recipient, Address],
-		[amount, UFix64],
-	];
+	const args = [recipient, amount];
 	const signers = [KittyAdmin];
 
 	return sendTransaction({ name, addressMap, args, signers });
@@ -103,10 +97,7 @@ export const transferKibble = async (sender, recipient, amount) => {
 
 	const name = "kibble/transfer_tokens";
 	const addressMap = { Kibble: KittyAdmin };
-	const args = [
-		[amount, UFix64],
-		[recipient, Address],
-	];
+	const args = [amount, recipient];
 	const signers = [sender];
 
 	return sendTransaction({ name, addressMap, args, signers });

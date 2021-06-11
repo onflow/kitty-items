@@ -1,5 +1,5 @@
 import path from "path";
-import { init, getAccountAddress, emulator, shallPass } from "flow-js-testing";
+import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
 
 import { toUFix64 } from "../src/common";
 import { mintKibble } from "../src/kibble";
