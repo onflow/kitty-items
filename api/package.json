@@ -13,7 +13,6 @@
     "format:check": "npm run format -- -c",
     "format:write": "npm run format -- --write",
     "migrate:make": "knex migrate:make -x ts",
-    "switch-env": "node ./switch-env.mjs"
   },
   "author": "",
   "license": "ISC",
