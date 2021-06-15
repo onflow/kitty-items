@@ -7,8 +7,9 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "start:dev": "./run-local.sh",
-    "start:testnet": "./run-testnet.sh"
+    "start:dev": "./scripts/run-local.sh",
+    "start:testnet": "./scripts/run-testnet.sh",
+    "setup-minter": "./scripts/setup-minter.sh"
   },
   "repository": {
     "type": "git",
