@@ -3,21 +3,21 @@
 ## 👋 Introduction
 We chose to connect Kitty Items to Flow's testnet because we wanted users to see how easy it was to take a non-trivial application to a live Flow network.
 
-Of course, some users may want to expreiment with their smart contracts before deploying them, or otherwise prototype their appliccation before publishing it.
-In this section we'll detial how to set up your local environment for dapp development on Flow.
+Of course, some users may want to experiment with their smart contracts before deploying them, or otherwise prototype their application before publishing it.
+In this section we'll detail how to set up your local environment for dapp development on Flow.
 
 ## 🛠 Tools you'll use
-Local development on Flow is made possible using the following tools.
+Local development on Flow is made possible using the following tools:
 
 - The `flow-cli`
   - We'll use the Flow command-line interface (`flow-cli`) to create accounts and bootstrap our contracts onto the Flow emulator.
-  - Read more: TODO LINK
+  - `flow-cli` [documentation](https://docs.onflow.org/flow-cli)
 - The Flow Emulator
   - The Flow Emulator is a Flow blockchain that you can run locally. It has all the features and functionality of the live network because it uses the same software to process transactions and execute code as Flow's execution nodes. (Note: At the moment the emulator can't / does not reflect the state of the live network)
-  - Read more: TODO LINK
+  - Flow emulator [documentation](https://docs.onflow.org/emulator)
 - The `fcl-dev-wallet`
   - The dev wallet uses the same protocols required by `fcl` and Flow that are being used in production in consumer Flow wallets, such as Blocto.
-  - Read more: TODO LINK
+  - `fcl-dev-wallet` [documentation](https://github.com/onflow/fcl-dev-wallet)
 
 ## ✨ Getting Started
 
@@ -38,7 +38,7 @@ git clone https://github.com/onflow/kitty-items.git
 If you've already cloned the project, or you're starting fresh, you'll neeed to include the `fcl-dev-wallet`.
 
 ```sh
-git submidule init && git submodule update
+git submodule init && git submodule update
 ```
 
 This command will clone the `fcl-dev-wallet` as a submodule in your repository. We're including the code as a submodule (and not a package) for the time being, because the wallet is still in early development.
@@ -65,7 +65,7 @@ Next we'll add important configuration values in 3 files:
   - `web/.env.local`
   - `api/.env.local`
 
-The `.env.local` files should b e placed in their respective project directories, while `flow.json` can be found at the root of the project.
+The `.env.local` files should be placed in their respective project directories, while `flow.json` can be found at the root of the project.
 
 ```sh
 kitty-items/
@@ -124,13 +124,13 @@ In the next step we'll add the missing values in our `.env.local` files for:
 
 ### 5. Start the Flow emulator
 
-To find the values we'll need to complete settin up our environment, we'll need to start the Flow emulator.
+To find the values we'll need to complete setting up our environment, we'll need to start the Flow emulator.
 
 ```sh
 flow emulator --persist
 ```
 
-We're including the persist option, which will allow us to maintin the state of the emulatoed blockchain when we stop and restart the emulator. 
+We're including the persist option, which will allow us to maintain the state of the emulated blockchain when we stop and restart the emulator. 
 You should see the following output in your terminal:
 
 ```sh
@@ -139,7 +139,7 @@ INFO[0000] 📜  Flow contracts                             FlowFees=0xe5a8b7f23
 INFO[0000] 🌱  Starting gRPC server on port 3569          port=3569
 INFO[0000] 🌱  Starting HTTP server on port 8080          port=8080
 ```
-This output contains the addresses for the contracts that are built into the emulator, as well as the address of the `FlowServiceAccount`, a pre-generated account you can use to easily get started deploying code to the emulator. We'll use the following values from the emulator's output in our `.env.local` files: 
+This output contains the addresses for the contracts that are built into the Emulator, as well as the address of the `FlowServiceAccount`, a pre-generated account you can use to easily get started deploying code to the emulator. We'll use the following values from the emulator's output in `.env.local` files: 
 
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
 
@@ -159,7 +159,7 @@ In `api/.env.local`:
 
 #### Add the Fungible Token contract address
 
-Next we'll update the address of the emeulator's `FungibleToken` contract. 
+Next we'll update the address of the emulator's `FungibleToken` contract. 
 
 In `api/.env.local` add the value of `FungibleToken` in your emulator's output to: 
   - `FUNGIBLE_TOKEN_ADDRESS`
@@ -191,7 +191,7 @@ Ensure the emulator is still running and in another shell run the following comm
 ```sh
 flow project deploy --network=emulator
 ```
-You should see the following output with the addresses of the contracts that were deployed to the emaulator's service account:
+You should see the following output with the addresses of the contracts that were deployed to the emulator's service account:
 ```sh
 Deploying 4 contracts for accounts: emulator-account
 
@@ -211,11 +211,11 @@ In `web/.env.local` add the value of `NonFungibleToken` in your emulator's outpu
 
 ### 7. Finish up!
 
-Now that you've added the environment variables you'll need to run the applicatino locally there are only a few more steps.
+Now that you've added the environment variables you'll need to run the application locally there are only a few more steps.
 
 #### Install and start `fcl-dev-wallet`
 
-The emulator hould still be running in your shell. Follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. 
+The emulator should still be running in your shell. Follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. 
 
 **Note:** When starting the wallet in Kitty-Items, use port `9999`. This is the configured port for `REACT_APP_WALLET_DISCOVERY` in `web/.env.local`:  
   - Use: `npm run dev -- -p 9999`

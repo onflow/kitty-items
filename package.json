@@ -9,7 +9,6 @@
   },
   "devDependencies": {},
   "scripts": {
-    "switch-env": "node switch-env.mjs"
   },
   "repository": {
     "type": "git",
