@@ -9,4 +9,4 @@ export ACCESS_NODE=https://access-testnet.onflow.org
 export WALLET_DISCOVERY=https://fcl-discovery.onflow.org/testnet/authn
 export API_URL=http://localhost:3000
 
-react-scripts start
+npm run start:dev

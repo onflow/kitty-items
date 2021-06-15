@@ -100,7 +100,7 @@ BLOCK_WINDOW=1
 ```sh
 REACT_APP_CHAIN_ENV=emulator # <-- Set chain env to emulator
 REACT_APP_FLOW_ACCESS_NODE=http://localhost:8080 # <-- Emulator "access node"
-REACT_APP_WALLET_DISCOVERY=http://localhost:9999/fcl/authn # <-- fcl-dev-wallet endpoint
+REACT_APP_WALLET_DISCOVERY=http://localhost:8701/fcl/authn # <-- fcl-dev-wallet endpoint
 
 REACT_APP_CONTRACT_FUNGIBLE_TOKEN=
 REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN=

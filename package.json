@@ -3,16 +3,12 @@
   "version": "1.0.0",
   "description": "<p align=\"center\">     <a href=\"http://kitty-items-flow-testnet.herokuapp.com/\">         <img width=\"400\" src=\"kitty-items-banner.png\" />     </a> </p>",
   "main": "index.js",
-  "dependencies": {
-    "replace-in-file": "^6.2.0",
-    "zx": "^1.14.1"
-  },
   "devDependencies": {
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "start:dev": "lerna run start:dev --parallel",
-    "start:testnet": "lerna run start:testnet --parallel"
+    "start:dev": "lerna exec ./run-local.sh --parallel",
+    "start:testnet": "lerna exec ./run-tenstnet --parallel"
   },
   "repository": {
     "type": "git",
