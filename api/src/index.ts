@@ -15,7 +15,11 @@ import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 const argv = yargs(hideBin(process.argv)).argv;
-const env = require("dotenv").config();
+
+const env = require("dotenv").config({
+  path: process.env.NODE_ENV !== "production" ? "./.env.local" : null,
+});
+
 require("dotenv-expand")(env);
 
 async function run() {
