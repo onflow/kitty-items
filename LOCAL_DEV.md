@@ -33,7 +33,7 @@ _⚠️ This project requires `flow-cli v0.15.0` or above._
 git clone --recurse-submodules https://github.com/onflow/kitty-items.git
 ```
 
-This command clones the project and adds `fcl-dev-wallet` as a submodule. To ensure you have the latest version of the wallet, you can run `git submodule update` to fetch the latest code at any time.
+Kitty Items includes the `fcl-dev-wallet` as a submodule. To ensure you have the latest version of the wallet, you can run `git submodule update` to fetch the latest code at any time.
 
 ### 3. Rename `.env.example` files
 
@@ -86,8 +86,9 @@ This output contains the addresses for the contracts that are deployed to the em
 
 Update the missing values in `fcl-dev-wallet/.env.local` with the values from the emulator output: 
 
+eg
 ```
-... 
+...other vars
 FLOW_ACCOUNT_PRIVATE_KEY=f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5
 FLOW_ACCOUNT_PUBLIC_KEY=6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19da659bdfd88979a5904ae8bd9b4fd52a07fc759bad9551c04f289210784e7b08980516d2
 ...
@@ -130,9 +131,16 @@ KittyItemsMarket -> 0xf8d6e0586b0a20c7
 ✨ All contracts deployed successfully
 ```
 
-(☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
+Update the value for `NON_FUNGIBLE_TOKEN_ADDRESS` in `scripts/run-local.sh` using the address form your emulator's output: 
 
-Add the value of `NonFungibleToken` in your emulator's output to: `scripts/run-local.sh` for the variable `NON_FUNGIBLE_TOKEN_ADDRESS`
+eg:
+```
+... other vars
+NON_FUNGIBLE_TOKEN_ADDRESS=0xf8d6e0586b0a20c7
+...
+```
+
+(☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
 ### 7. Start the project
 
 From the root of the project run: `npm install` to install `lerna`.
