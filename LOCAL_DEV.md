@@ -33,9 +33,9 @@ _⚠️ This project requires `flow-cli v0.15.0` or above._
 git clone --recurse-submodules https://github.com/onflow/kitty-items.git
 ```
 
-To ensure you have the latest version of the wallet, you can run `git submodule update` to fetch the latest code.
+This command add `fcl-dev-wallet` as a submodule. To ensure you have the latest version of the wallet, you can run `git submodule update` to fetch the latest code at any time.
 
-### 3. Rename `.env` files
+### 3. Rename `.env.example` files
 
 Rename `.env.example` to `env.local` in the `web` and `api` folders.
 The `.env.local` files should be in their respective project directories.
@@ -66,12 +66,11 @@ INFO[0000] 📜  Flow contracts                             FlowFees=0xe5a8b7f23
 INFO[0000] 🌱  Starting gRPC server on port 3569          port=3569
 INFO[0000] 🌱  Starting HTTP server on port 8080          port=8080
 ```
-This output contains the addresses for the contracts that are built into the Emulator, as well as the address of the `FlowServiceAccount`, a pre-generated account you can use to easily get started deploying code to the emulator. We'll use the following values from the emulator's output in `.env.local` files: 
+This output contains the addresses for the contracts that are built into the Emulator, as well as the address of the `FlowServiceAccount`, a pre-generated account you can use to easily get started deploying code to the emulator.
 
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
 ### 6. Deploy Kitty Items contracts
 
-To get the address for the Non-Fungible token contract we'll first have to deploy it to the emulator.
 Deployments are configured in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
 
 ```json
@@ -111,11 +110,11 @@ Add the value of `NonFungibleToken` in your emulator's output to: `scripts/run-l
 
 ### 7. Finish up!
 
-Now that you've added the environment variables you'll need to run the application locally there are only a few more steps.
+Now that you've added the environment variables you'll need to run the application. 
 
 #### Install `fcl-dev-wallet`
 
-With the emulator running, follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. Do not start the dev wallet. We'll do that in the next step.
+Ensure the emulatoris running and, follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. Do not start the dev wallet. We'll do that in the next step.
 
 ### 8. Start the project
 
