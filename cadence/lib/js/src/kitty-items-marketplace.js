@@ -1,9 +1,4 @@
-import {
-	deployContractByName,
-	executeScript,
-	sendTransaction,
-} from "flow-js-testing";
-
+import { deployContractByName, executeScript, sendTransaction } from "flow-js-testing";
 import { getKittyAdminAddress } from "./common";
 import { deployKibble, setupKibbleOnAccount } from "./kibble";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";

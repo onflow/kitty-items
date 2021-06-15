@@ -1,11 +1,4 @@
-import {
-	deployContractByName,
-	executeScript,
-	getContractAddress,
-	mintFlow,
-	sendTransaction,
-} from "flow-js-testing";
-
+import { deployContractByName, executeScript, mintFlow, sendTransaction } from "flow-js-testing";
 import { getKittyAdminAddress } from "./common";
 
 /*
