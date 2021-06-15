@@ -20,7 +20,7 @@ describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async (done) => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 8081;
+		const port = 8080;
 		init(basePath, port);
 		await emulator.start(port);
 		done();
