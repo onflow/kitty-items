@@ -57,8 +57,7 @@ To find the values we'll need to complete setting up our environment, we'll need
 flow emulator --persist
 ```
 
-We're including the persist option, which will allow us to maintain the state of the emulated blockchain when we stop and restart the emulator. 
-You should see the following output in your terminal:
+We're including the `--persist` flag, which will allow us to maintain the state of the emulated blockchain when we stop and restart the emulator. You should see the following output in your terminal:
 
 ```sh
 INFO[0000] ⚙️   Using service account 0xf8d6e0586b0a20c7  serviceAddress=f8d6e0586b0a20c7 serviceHashAlgo=SHA3_256 servicePrivKey=f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5 servicePubKey=6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19da659bdfd88979a5904ae8bd9b4fd52a07fc759bad9551c04f289210784e7b08980516d2 serviceSigAlgo=ECDSA_P256
@@ -66,7 +65,7 @@ INFO[0000] 📜  Flow contracts                             FlowFees=0xe5a8b7f23
 INFO[0000] 🌱  Starting gRPC server on port 3569          port=3569
 INFO[0000] 🌱  Starting HTTP server on port 8080          port=8080
 ```
-This output contains the addresses for the contracts that are built into the Emulator, as well as the address of the `FlowServiceAccount`, a pre-generated account you can use to easily get started deploying code to the emulator.
+This output contains the addresses for the contracts that are deployed to the emulator, as well as the address of the `FlowServiceAccount`– a pre-generated account you can use to easily get started deploying code to the emulator.
 
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
 ### 6. Deploy Kitty Items contracts
