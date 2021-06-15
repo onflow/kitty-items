@@ -84,11 +84,13 @@ This output contains the addresses for the contracts that are deployed to the em
 
 ### Update `fcl-dev-wallet` config
 
-Update the contents of `fcl-dev-wallet/.env.local` with the values from the emulator output: 
+Update the missing values in `fcl-dev-wallet/.env.local` with the values from the emulator output: 
 
 ```
+... 
 FLOW_ACCOUNT_PRIVATE_KEY=f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5
 FLOW_ACCOUNT_PUBLIC_KEY=6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19da659bdfd88979a5904ae8bd9b4fd52a07fc759bad9551c04f289210784e7b08980516d2
+...
 ```
 
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment)
