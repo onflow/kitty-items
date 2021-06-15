@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "npx env-cmd -f .env.local tsnd --respawn src/index.ts --dev",
-    "start:testnet": "npx env-cmd -f .env.testnet tsnd --respawn src/index.ts --dev",
+    "start:dev": "npx env-cmd -f .env ./run-local.sh",
+    "start:testnet": "npx env-cmd -f .env ./run-tenstnet.sh",
     "start": "node dist/index.js",
     "start:worker": "node dist/index.js --worker",
     "build": "tsc",

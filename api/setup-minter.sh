@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export FLOW_ADDRESS=
+
 # Setup minter account
 
 curl --request POST \
