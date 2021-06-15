@@ -7,8 +7,8 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "start:dev": "lerna exec ./run-local.sh --parallel",
-    "start:testnet": "lerna exec ./run-tenstnet --parallel"
+    "start:dev": "./run-local.sh",
+    "start:testnet": "./run-testnet.sh"
   },
   "repository": {
     "type": "git",
