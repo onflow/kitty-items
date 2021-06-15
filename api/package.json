@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "npx env-cmd -f .env ./run-local.sh",
-    "start:testnet": "npx env-cmd -f .env ./run-tenstnet.sh",
+    "start:dev": "npx env-cmd -f .env.example ./run-local.sh",
+    "start:testnet": "npx env-cmd -f .env.example ./run-tenstnet.sh",
     "start": "node dist/index.js",
     "start:worker": "node dist/index.js --worker",
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",
     "format:write": "npm run format -- --write",
-    "migrate:make": "knex migrate:make -x ts",
+    "migrate:make": "knex migrate:make -x ts"
   },
   "author": "",
   "license": "ISC",

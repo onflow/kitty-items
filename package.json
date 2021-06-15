@@ -7,8 +7,12 @@
     "replace-in-file": "^6.2.0",
     "zx": "^1.14.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
   "scripts": {
+    "start:dev": "lerna run start:dev --parallel",
+    "start:testnet": "lerna run start:testnet --parallel"
   },
   "repository": {
     "type": "git",

@@ -25,7 +25,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start:dev": "npx env-cmd -f .env ./run-local.sh",
+    "start:dev": "npx env-cmd -f .env.example ./run-local.sh",
     "start:testnet": "./run-testnet.sh",
     "build": "react-scripts build",
     "test": "react-scripts test",
