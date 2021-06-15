@@ -1,7 +1,5 @@
 import {
-	getContractAddress,
 	deployContractByName,
-	getTransactionCode,
 	executeScript,
 	sendTransaction,
 } from "flow-js-testing";
@@ -41,13 +39,10 @@ export const setupMarketplaceOnAccount = async (account) => {
 	await setupKibbleOnAccount(account);
 	await setupKittyItemsOnAccount(account);
 
-	const KittyItemsMarket = await getContractAddress("KittyItemsMarket");
-
 	const name = "kittyItemsMarket/setup_account";
-	const addressMap = { KittyItemsMarket };
 	const signers = [account];
 
-	return sendTransaction({ name, addressMap, signers });
+	return sendTransaction({ name, signers });
 };
 
 /*
@@ -59,20 +54,11 @@ export const setupMarketplaceOnAccount = async (account) => {
  * @returns {Promise<*>}
  * */
 export const listItemForSale = async (seller, itemId, price) => {
-	const KittyAdmin = await getKittyAdminAddress();
-
-	const addressMap = {
-		NonFungibleToken: KittyAdmin,
-		Kibble: KittyAdmin,
-		KittyItems: KittyAdmin,
-		KittyItemsMarket: KittyAdmin,
-	};
-
 	const name = "kittyItemsMarket/sell_market_item";
 	const args = [itemId, price];
 	const signers = [seller];
 
-	return sendTransaction({ name, addressMap, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -84,20 +70,11 @@ export const listItemForSale = async (seller, itemId, price) => {
  * @returns {Promise<*>}
  * */
 export const buyItem = async (buyer, itemId, seller) => {
-	const KittyAdmin = await getKittyAdminAddress();
-
-	const addressMap = {
-		NonFungibleToken: KittyAdmin,
-		Kibble: KittyAdmin,
-		KittyItems: KittyAdmin,
-		KittyItemsMarket: KittyAdmin,
-	};
-
 	const name = "kittyItemsMarket/buy_market_item";
 	const args = [itemId, seller];
 	const signers = [buyer];
 
-	return sendTransaction({ name, addressMap, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -108,16 +85,11 @@ export const buyItem = async (buyer, itemId, seller) => {
  * @returns {Promise<*>}
  * */
 export const removeItem = async (owner, itemId) => {
-	const KittyItemsMarket = await getContractAddress("KittyItemsMarket");
-
-	const addressMap = { KittyItemsMarket };
 	const name = "kittyItemsMarket/remove_market_item";
-
-	const code = await getTransactionCode({ name, addressMap });
 	const signers = [owner];
 	const args = [itemId];
 
-	return sendTransaction({ code, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -127,11 +99,8 @@ export const removeItem = async (owner, itemId) => {
  * @returns {UInt64}
  * */
 export const getMarketCollectionLength = async (account) => {
-	const KittyItemsMarket = await getContractAddress("KittyItemsMarket");
-
 	const name = "kittyItemsMarket/read_collection_length";
-	const addressMap = { KittyItemsMarket };
 	const args = [account, account];
 
-	return executeScript({ name, addressMap, args });
+	return executeScript({ name, args });
 };
