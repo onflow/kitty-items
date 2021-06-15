@@ -37,7 +37,7 @@ This command add `fcl-dev-wallet` as a submodule. To ensure you have the latest 
 
 ### 3. Rename `.env.example` files
 
-Rename `.env.example` to `env.local` in the `web` and `api` folders.
+Rename `.env.example` to `env.local` in the `web` and `api` & `fcl-dev-wallet` folders.
 The `.env.local` files should be in their respective project directories.
 
 ```sh
@@ -46,7 +46,20 @@ kitty-items/
 │  ├─ .env.local
 ├─ web/
 │  ├─ .env.local
+├─ fcl-dev-wallet/
+│  ├─ .env.local
 ├─ ... etc
+
+
+Replace the contents of `fcl-dev-wallet/.env.local` with: 
+
+```
+FLOW_ACCESS_NODE=${ACCESS_NODE}
+FLOW_ACCOUNT_ADDRESS=${FLOW_ADDRESS}
+FLOW_ACCOUNT_KEY_ID=0
+FLOW_ACCOUNT_PRIVATE_KEY=
+FLOW_ACCOUNT_PUBLIC_KEY=
+```
 
 ```
 ### 5. Start the Flow emulator
@@ -68,6 +81,18 @@ INFO[0000] 🌱  Starting HTTP server on port 8080          port=8080
 This output contains the addresses for the contracts that are deployed to the emulator, as well as the address of the `FlowServiceAccount`– a pre-generated account you can use to easily get started deploying code to the emulator.
 
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
+
+### Update `fcl-dev-wallet` config
+
+Update the contents of `fcl-dev-wallet/.env.local` with the values from the emulator output: 
+
+```
+FLOW_ACCOUNT_PRIVATE_KEY=f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5
+FLOW_ACCOUNT_PUBLIC_KEY=6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19da659bdfd88979a5904ae8bd9b4fd52a07fc759bad9551c04f289210784e7b08980516d2
+```
+
+(☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment)
+
 ### 6. Deploy Kitty Items contracts
 
 Deployments are configured in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
@@ -106,18 +131,13 @@ KittyItemsMarket -> 0xf8d6e0586b0a20c7
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
 
 Add the value of `NonFungibleToken` in your emulator's output to: `scripts/run-local.sh` for the variable `NON_FUNGIBLE_TOKEN_ADDRESS`
+### 7. Start the project
 
-### 7. Finish up!
+From the root of the project run: `npm install` to install `lerna`.
 
-Now that you've added the environment variables you'll need to run the application. 
+Once finished run `lerna exec npm install` to install the project's dependencies.
 
-#### Install `fcl-dev-wallet`
-
-Ensure the emulatoris running and, follow the <a href="https://github.com/onflow/fcl-dev-wallet" target="_blank">instructions here</a> for installing `fcl-dev-wallet`. Do not start the dev wallet. We'll do that in the next step.
-
-### 8. Start the project
-
-From the root of the project run `npm run start:dev` to start the project in local development mode!
+From the root of the project run `npm run start:dev` to start Kitty Items in local development mode!
 
 ---
 
