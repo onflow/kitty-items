@@ -73,14 +73,27 @@ If you'd like to look at the contracts in your account, to confirm that everythi
 flow accounts get $FLOW_ADDRESS --network=testnet
 ```
 
-### 5. Run the API
+### 3. Rename `.env.example` files
 
-After the contracts are deployed, follow the [Kitty Items API instructions](https://github.com/onflow/kitty-items/tree/master/api#readme)
-to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
+Rename `.env.example` to `env.local` in the `web` and `api` folders.
+The `.env.local` files should be in their respective project directories.
 
-### 6. Launch the web app
+```sh
+kitty-items/
+├─ api/
+│  ├─ .env.local
+├─ web/
+│  ├─ .env.local
+├─ ... etc
+```
 
-Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web#readme) to launch the Kitty Items front-end React app.
+### 7. Start the project
+
+From the root of the project run: `npm install` to install `lerna`.
+
+Once finished run `lerna exec npm install` to install the project's dependencies.
+
+From the root of the project run `npm run start:testnet` to start Kitty Items!
 
 ### (Optional) Heroku Deployment
 
