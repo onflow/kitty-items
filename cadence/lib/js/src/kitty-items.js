@@ -1,5 +1,4 @@
-import { deployContractByName, executeScript, getContractAddress, mintFlow, sendTransaction } from "flow-js-testing";
-
+import { deployContractByName, executeScript, mintFlow, sendTransaction } from "flow-js-testing";
 import { getKittyAdminAddress } from "./common";
 
 // KittyItems types
@@ -29,14 +28,10 @@ export const deployKittyItems = async () => {
  * @returns {Promise<*>}
  * */
 export const setupKittyItemsOnAccount = async (account) => {
-	const NonFungibleToken = await getContractAddress("NonFungibleToken");
-	const KittyItems = await getContractAddress("KittyItems");
-
 	const name = "kittyItems/setup_account";
-	const addressMap = { NonFungibleToken, KittyItems };
 	const signers = [account];
 
-	return sendTransaction({ name, addressMap, signers });
+	return sendTransaction({ name, signers });
 };
 
 /*
@@ -45,11 +40,9 @@ export const setupKittyItemsOnAccount = async (account) => {
  * @returns {UInt64} - number of NFT minted so far
  * */
 export const getKittyItemSupply = async () => {
-	const KittyItems = await getContractAddress("KittyItems");
 	const name = "kittyItems/read_kitty_items_supply";
-	const addressMap = { KittyItems };
 
-	return executeScript({ name, addressMap });
+	return executeScript({ name });
 };
 
 /*
@@ -62,15 +55,11 @@ export const getKittyItemSupply = async () => {
 export const mintKittyItem = async (itemType, recipient) => {
 	const KittyAdmin = await getKittyAdminAddress();
 
-	const NonFungibleToken = await getContractAddress("NonFungibleToken");
-	const KittyItems = await getContractAddress("KittyItems");
-
 	const name = "kittyItems/mint_kitty_item";
-	const addressMap = { NonFungibleToken, KittyItems };
 	const args = [recipient, itemType];
 	const signers = [KittyAdmin];
 
-	return sendTransaction({ name, addressMap, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -82,15 +71,11 @@ export const mintKittyItem = async (itemType, recipient) => {
  * @returns {Promise<*>}
  * */
 export const transferKittyItem = async (sender, recipient, itemId) => {
-	const NonFungibleToken = await getContractAddress("NonFungibleToken");
-	const KittyItems = await getContractAddress("KittyItems");
-
 	const name = "kittyItems/transfer_kitty_item";
-	const addressMap = { NonFungibleToken, KittyItems };
 	const args = [recipient, itemId];
 	const signers = [sender];
 
-	return sendTransaction({ name, addressMap, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -101,14 +86,10 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
  * @returns {UInt64}
  * */
 export const getKittyItemById = async (account, id) => {
-	const KittyItems = await getContractAddress("KittyItems");
-	const NonFungibleToken = await getContractAddress("NonFungibleToken");
-
 	const name = "kittyItems/read_kitty_item_type_id";
-	const addressMap = { KittyItems, NonFungibleToken };
 	const args = [account, id];
 
-	return executeScript({ name, addressMap, args });
+	return executeScript({ name, args });
 };
 
 /*
@@ -118,12 +99,8 @@ export const getKittyItemById = async (account, id) => {
  * @returns {UInt64}
  * */
 export const getCollectionLength = async (account) => {
-	const KittyItems = await getContractAddress("KittyItems");
-	const NonFungibleToken = await getContractAddress("NonFungibleToken");
-
 	const name = "kittyItems/read_collection_length";
-	const addressMap = { NonFungibleToken, KittyItems };
 	const args = [account];
 
-	return executeScript({ name, addressMap, args });
+	return executeScript({ name, args });
 };

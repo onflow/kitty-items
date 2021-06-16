@@ -1,11 +1,4 @@
-import {
-	deployContractByName,
-	executeScript,
-	getContractAddress,
-	mintFlow,
-	sendTransaction,
-} from "flow-js-testing";
-
+import { deployContractByName, executeScript, mintFlow, sendTransaction } from "flow-js-testing";
 import { getKittyAdminAddress } from "./common";
 
 /*
@@ -27,13 +20,10 @@ export const deployKibble = async () => {
  * @returns {Promise<*>}
  * */
 export const setupKibbleOnAccount = async (account) => {
-	const Kibble = await getContractAddress("Kibble");
-
 	const name = "kibble/setup_account";
-	const addressMap = { Kibble };
 	const signers = [account];
 
-	return sendTransaction({ name, addressMap, signers });
+	return sendTransaction({ name, signers });
 };
 
 /*
@@ -43,13 +33,10 @@ export const setupKibbleOnAccount = async (account) => {
  * @returns {UFix64}
  * */
 export const getKibbleBalance = async (account) => {
-	const KittyAdmin = await getKittyAdminAddress();
-
 	const name = "kibble/get_balance";
-	const addressMap = { Kibble: KittyAdmin };
 	const args = [account];
 
-	return executeScript({ name, addressMap, args });
+	return executeScript({ name, args });
 };
 
 /*
@@ -58,12 +45,8 @@ export const getKibbleBalance = async (account) => {
  * @returns {UFix64}
  * */
 export const getKibbleSupply = async () => {
-	const KittyAdmin = await getKittyAdminAddress();
-
 	const name = "kibble/get_supply";
-	const addressMap = { Kibble: KittyAdmin };
-
-	return executeScript({ name, addressMap });
+	return executeScript({ name });
 };
 
 /*
@@ -77,11 +60,10 @@ export const mintKibble = async (recipient, amount) => {
 	const KittyAdmin = await getKittyAdminAddress();
 
 	const name = "kibble/mint_tokens";
-	const addressMap = { Kibble: KittyAdmin };
 	const args = [recipient, amount];
 	const signers = [KittyAdmin];
 
-	return sendTransaction({ name, addressMap, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -93,12 +75,9 @@ export const mintKibble = async (recipient, amount) => {
  * @returns {Promise<*>}
  * */
 export const transferKibble = async (sender, recipient, amount) => {
-	const KittyAdmin = await getKittyAdminAddress();
-
 	const name = "kibble/transfer_tokens";
-	const addressMap = { Kibble: KittyAdmin };
 	const args = [amount, recipient];
 	const signers = [sender];
 
-	return sendTransaction({ name, addressMap, args, signers });
+	return sendTransaction({ name, args, signers });
 };

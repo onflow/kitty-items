@@ -19,7 +19,7 @@ jest.setTimeout(50000);
 describe("Kitty Items Marketplace", () => {
 	beforeEach(async (done) => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 8082;
+		const port = 8080;
 		init(basePath, port);
 		await emulator.start(port);
 		done();
