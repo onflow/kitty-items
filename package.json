@@ -1,0 +1,24 @@
+{
+  "name": "kitty-items",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">     <a href=\"http://kitty-items-flow-testnet.herokuapp.com/\">         <img width=\"400\" src=\"kitty-items-banner.png\" />     </a> </p>",
+  "main": "index.js",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "scripts": {
+    "start:dev": "./scripts/run-local.sh",
+    "start:testnet": "./scripts/run-testnet.sh",
+    "setup-minter": "./scripts/setup-minter.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onflow/kitty-items.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onflow/kitty-items/issues"
+  },
+  "homepage": "https://github.com/onflow/kitty-items#readme"
+}

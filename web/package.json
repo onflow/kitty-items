@@ -25,7 +25,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start:dev": "react-scripts start",
+    "dev": "export PORT=3001 && react-scripts start",
+    "testnet": "export PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

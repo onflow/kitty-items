@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "tsnd --respawn src/index.ts --dev",
-    "start": "node dist/index.js",
+    "dev": "tsnd src/index.ts --respawn --dev",
+    "testnet": "tsnd --respawn src/index.ts --dev",
     "start:worker": "node dist/index.js --worker",
+    "start": "node dist/index.js",
     "build": "tsc",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:check": "npm run format -- -c",

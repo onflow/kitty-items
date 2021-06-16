@@ -1,0 +1,3 @@
+[submodule "fcl-dev-wallet"]
+	path = fcl-dev-wallet
+	url = https://github.com/onflow/fcl-dev-wallet

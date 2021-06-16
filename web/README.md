@@ -28,16 +28,14 @@ export FLOW_ADDRESS=0xabcdef12345689
 Create a copy of `.env.example`:
 
 ```sh
-cd ./web
-
-cp .env.example .env.local
+cp .env.example .env.testnet
 ```
 
 ### 2. Install and run the app!
 
 ```sh
 npm install       # install dependencies
-npm run start:dev # start the web app
+npm run start:testnet # start the web app
 ```
 
 ## Learn more

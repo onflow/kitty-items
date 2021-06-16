@@ -1,0 +1,8 @@
+{
+  "packages": [
+    "./web",
+    "./api",
+    "./fcl-dev-wallet"
+  ],
+  "version": "0.0.1"
+}
