@@ -7,7 +7,7 @@
     "@chakra-ui/react": "^1.1.4",
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
-    "@onflow/fcl": "0.0.68-alpha.15",
+    "@onflow/fcl": "0.0.70",
     "@onflow/types": "^0.0.4",
     "@onflow/util-actor": "^0.0.2",
     "@onflow/util-invariant": "^0.0.0",
@@ -25,7 +25,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start:dev": "react-scripts start",
+    "dev": "export PORT=3001 && react-scripts start",
+    "testnet": "export PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -1,11 +1,8 @@
 package test
 
 import (
-	"strings"
+	"regexp"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 
 	"github.com/onflow/cadence"
 	jsoncdc "github.com/onflow/cadence/encoding/json"
@@ -15,19 +12,20 @@ import (
 	"github.com/onflow/flow-go-sdk/crypto"
 	"github.com/onflow/flow-go-sdk/templates"
 	"github.com/onflow/flow-go-sdk/test"
+	"github.com/stretchr/testify/assert"
 
 	ft_contracts "github.com/onflow/flow-ft/lib/go/contracts"
 )
 
 const (
 	kibbleRootPath           = "../../.."
-	kibbleKibblePath         = kibbleRootPath + "/contracts/Kibble.cdc"
-	kibbleSetupAccountPath   = kibbleRootPath + "/transactions/setup_account.cdc"
-	kibbleTransferTokensPath = kibbleRootPath + "/transactions/transfer_tokens.cdc"
-	kibbleMintTokensPath     = kibbleRootPath + "/transactions/mint_tokens.cdc"
-	kibbleBurnTokensPath     = kibbleRootPath + "/transactions/burn_tokens.cdc"
-	kibbleGetBalancePath     = kibbleRootPath + "/scripts/get_balance.cdc"
-	kibbleGetSupplyPath      = kibbleRootPath + "/scripts/get_supply.cdc"
+	kibbleContractPath       = kibbleRootPath + "/contracts/Kibble.cdc"
+	kibbleSetupAccountPath   = kibbleRootPath + "/transactions/kibble/setup_account.cdc"
+	kibbleTransferTokensPath = kibbleRootPath + "/transactions/kibble/transfer_tokens.cdc"
+	kibbleMintTokensPath     = kibbleRootPath + "/transactions/kibble/mint_tokens.cdc"
+	kibbleBurnTokensPath     = kibbleRootPath + "/transactions/kibble/burn_tokens.cdc"
+	kibbleGetBalancePath     = kibbleRootPath + "/scripts/kibble/get_balance.cdc"
+	kibbleGetSupplyPath      = kibbleRootPath + "/scripts/kibble/get_supply.cdc"
 )
 
 func KibbleDeployContracts(b *emulator.Blockchain, t *testing.T) (flow.Address, flow.Address, crypto.Signer) {
@@ -117,26 +115,31 @@ func TestKibbleDeployment(t *testing.T) {
 
 	t.Run("Should have initialized Supply field correctly", func(t *testing.T) {
 		supply := executeScriptAndCheck(t, b, kibbleGenerateGetSupplyScript(fungibleAddr, kibbleAddr), nil)
-		expectedSupply, expectedSupplyErr := cadence.NewUFix64("0.0")
-		assert.NoError(t, expectedSupplyErr)
-		assert.Equal(t, expectedSupply, supply.(cadence.UFix64))
+		assert.EqualValues(t, CadenceUFix64("0.0"), supply)
 	})
 }
 
 func TestKibbleSetupAccount(t *testing.T) {
 	b := newEmulator()
 
-	t.Run("Should be able to create empty Vault that doesn't affect supply", func(t *testing.T) {
-
+	t.Run("Should be able to create empty vault that does not affect supply", func(t *testing.T) {
 		fungibleAddr, kibbleAddr, _ := KibbleDeployContracts(b, t)
 
 		userAddress, _ := KibbleCreateAccount(t, b, fungibleAddr, kibbleAddr)
 
-		balance := executeScriptAndCheck(t, b, kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr), [][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))})
-		assert.Equal(t, CadenceUFix64("0.0"), balance)
+		userBalance := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr),
+			[][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))},
+		)
+		assert.EqualValues(t, CadenceUFix64("0.0"), userBalance)
 
-		supply := executeScriptAndCheck(t, b, kibbleGenerateGetSupplyScript(fungibleAddr, kibbleAddr), nil)
-		assert.Equal(t, CadenceUFix64("0.0"), supply.(cadence.UFix64))
+		supply := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetSupplyScript(fungibleAddr, kibbleAddr),
+			nil,
+		)
+		assert.EqualValues(t, CadenceUFix64("0.0"), supply)
 	})
 }
 
@@ -147,25 +150,28 @@ func TestKibbleMinting(t *testing.T) {
 
 	userAddress, _ := KibbleCreateAccount(t, b, fungibleAddr, kibbleAddr)
 
-	t.Run("Shouldn't be able to mint zero tokens", func(t *testing.T) {
+	t.Run("Should not be able to mint zero tokens", func(t *testing.T) {
 		KibbleMint(t, b, fungibleAddr, kibbleAddr, kibbleSigner, userAddress, "0.0", true)
 	})
 
-	t.Run("Should mint tokens, deposit, and update balance and total supply", func(t *testing.T) {
+	t.Run("Should be able to mint tokens, deposit, update balance and total supply", func(t *testing.T) {
 		KibbleMint(t, b, fungibleAddr, kibbleAddr, kibbleSigner, userAddress, "50.0", false)
 
-		// Assert that the vault's balance is correct
-		result, err := b.ExecuteScript(kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr), [][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))})
-		require.NoError(t, err)
-		if !assert.True(t, result.Succeeded()) {
-			t.Log(result.Error.Error())
-		}
-		balance := result.Value
-		assert.Equal(t, CadenceUFix64("50.0"), balance.(cadence.UFix64))
+		// Assert that vault balance is correct
+		userBalance := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr),
+			[][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))},
+		)
+		assert.EqualValues(t, CadenceUFix64("50.0"), userBalance)
 
-		// Make sure that the total supply is correct
-		supply := executeScriptAndCheck(t, b, kibbleGenerateGetSupplyScript(fungibleAddr, kibbleAddr), nil)
-		assert.Equal(t, CadenceUFix64("50.0"), supply.(cadence.UFix64))
+		// Assert that total supply is correct
+		supply := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetSupplyScript(fungibleAddr, kibbleAddr),
+			nil,
+		)
+		assert.EqualValues(t, CadenceUFix64("50.0"), supply)
 	})
 }
 
@@ -178,7 +184,7 @@ func TestKibbleTransfers(t *testing.T) {
 
 	KibbleMint(t, b, fungibleAddr, kibbleAddr, kibbleSigner, kibbleAddr, "1000.0", false)
 
-	t.Run("Shouldn't be able to withdraw more than the balance of the Vault", func(t *testing.T) {
+	t.Run("Should not be able to withdraw more than the balance of the vault", func(t *testing.T) {
 		tx := flow.NewTransaction().
 			SetScript(kibbleGenerateTransferVaultScript(fungibleAddr, kibbleAddr)).
 			SetGasLimit(100).
@@ -196,22 +202,21 @@ func TestKibbleTransfers(t *testing.T) {
 			true,
 		)
 
-		// Assert that the vaults' balances are correct
-		result, err := b.ExecuteScript(kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr), [][]byte{jsoncdc.MustEncode(cadence.Address(kibbleAddr))})
-		require.NoError(t, err)
-		if !assert.True(t, result.Succeeded()) {
-			t.Log(result.Error.Error())
-		}
-		balance := result.Value
-		assert.Equal(t, balance.(cadence.UFix64), CadenceUFix64("1000.0"))
+		// Assert that vault balances are correct
 
-		result, err = b.ExecuteScript(kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr), [][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))})
-		require.NoError(t, err)
-		if !assert.True(t, result.Succeeded()) {
-			t.Log(result.Error.Error())
-		}
-		balance = result.Value
-		assert.Equal(t, balance.(cadence.UFix64), CadenceUFix64("0.0"))
+		kibbleBalance := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr),
+			[][]byte{jsoncdc.MustEncode(cadence.Address(kibbleAddr))},
+		)
+		assert.EqualValues(t, CadenceUFix64("1000.0"), kibbleBalance)
+
+		userBalance := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr),
+			[][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))},
+		)
+		assert.EqualValues(t, CadenceUFix64("0.0"), userBalance)
 	})
 
 	t.Run("Should be able to withdraw and deposit tokens from a vault", func(t *testing.T) {
@@ -232,34 +237,37 @@ func TestKibbleTransfers(t *testing.T) {
 			false,
 		)
 
-		// Assert that the vaults' balances are correct
-		result, err := b.ExecuteScript(kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr), [][]byte{jsoncdc.MustEncode(cadence.Address(kibbleAddr))})
-		require.NoError(t, err)
-		if !assert.True(t, result.Succeeded()) {
-			t.Log(result.Error.Error())
-		}
-		balance := result.Value
-		assert.Equal(t, balance.(cadence.UFix64), CadenceUFix64("700.0"))
+		// Assert that vault balances are correct
 
-		result, err = b.ExecuteScript(kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr), [][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))})
-		require.NoError(t, err)
-		if !assert.True(t, result.Succeeded()) {
-			t.Log(result.Error.Error())
-		}
-		balance = result.Value
-		assert.Equal(t, balance.(cadence.UFix64), CadenceUFix64("300.0"))
+		kibbleBalance := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr),
+			[][]byte{jsoncdc.MustEncode(cadence.Address(kibbleAddr))},
+		)
+		assert.EqualValues(t, CadenceUFix64("700.0"), kibbleBalance)
 
-		supply := executeScriptAndCheck(t, b, kibbleGenerateGetSupplyScript(fungibleAddr, kibbleAddr), nil)
-		assert.Equal(t, supply.(cadence.UFix64), CadenceUFix64("1000.0"))
+		userBalance := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetBalanceScript(fungibleAddr, kibbleAddr),
+			[][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))},
+		)
+		assert.EqualValues(t, CadenceUFix64("300.0"), userBalance)
+
+		supply := executeScriptAndCheck(
+			t, b,
+			kibbleGenerateGetSupplyScript(fungibleAddr, kibbleAddr),
+			nil,
+		)
+		assert.EqualValues(t, CadenceUFix64("1000.0"), supply)
 	})
 }
 
 func kibbleReplaceAddressPlaceholders(code string, fungibleAddress, kibbleAddress string) []byte {
-	return []byte(replaceStrings(
+	return []byte(replaceImports(
 		code,
-		map[string]string{
-			ftAddressPlaceholder:     "0x" + fungibleAddress,
-			kibbleAddressPlaceHolder: "0x" + kibbleAddress,
+		map[string]*regexp.Regexp{
+			fungibleAddress: ftAddressPlaceholder,
+			kibbleAddress:   kibbleAddressPlaceHolder,
 		},
 	))
 }
@@ -269,10 +277,11 @@ func loadFungibleToken() []byte {
 }
 
 func loadKibble(fungibleAddr flow.Address) []byte {
-	return []byte(strings.ReplaceAll(
-		string(readFile(kibbleKibblePath)),
-		ftAddressPlaceholder,
-		"0x"+fungibleAddr.String(),
+	return []byte(replaceImports(
+		string(readFile(kibbleContractPath)),
+		map[string]*regexp.Regexp{
+			fungibleAddr.String(): ftAddressPlaceholder,
+		},
 	))
 }
 

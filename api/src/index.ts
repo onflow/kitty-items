@@ -16,6 +16,12 @@ import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 const argv = yargs(hideBin(process.argv)).argv;
 
+const env = require("dotenv").config({
+  path: process.env.NODE_ENV !== "production" ? "./.env.local" : null,
+});
+
+require("dotenv-expand")(env);
+
 async function run() {
   const config = getConfig();
   const db = initDB(config);
@@ -59,7 +65,7 @@ async function run() {
 
     saleOfferWorker.run();
   };
-  
+
   const startAPIServer = () => {
     const kibblesService = new KibblesService(
       flowService,

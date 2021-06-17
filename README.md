@@ -18,6 +18,7 @@ If you'd like to deploy your own version, see the [deploy to Heroku](#optional-h
 
 ## ✨ Getting Started
 
+**Note:** The following guide demonstrates how to deploy Kitty Items to the *Flow Testnet*. We think using the live network is the best way to learn about Flow. For your own projects you will likely want to develop and test locally, before you deploy. **You can read the <a href="LOCAL_DEV.md">local development guide here</a>.**
 ### 1. Install the Flow CLI
 
 Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
@@ -50,28 +51,49 @@ Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create
 
 #### Save your keys
 
-After your account has been created, save the address and private key to the following environment variables:
+After your account has been created, export the following environment variables to your shell:
 
 ```sh
-# Replace these values with your own!
-export FLOW_ADDRESS=0xabcdef12345689
+# Replace these values with the address returned from the faucet and the
+# private key you generated in the first step!
+
+export FLOW_ADDRESS=address
 export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 ```
 
+Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough.
 ### 4. Deploy the contracts
 
 ```sh
 flow project deploy --network=testnet
 ```
 
-### 5. Run the API
+If you'd like to look at the contracts in your account, to confirm that everything was deploy properly, you can use the following cli command:
+```sh
+flow accounts get $FLOW_ADDRESS --network=testnet
+```
 
-After the contracts are deployed, follow the [Kitty Items API instructions](https://github.com/onflow/kitty-items/tree/master/api#readme)
-to install and run the Kitty Items API. This backend service is responsible for initializing accounts, minting NFTs, and processing events.
+### 3. Rename `.env.example` files
 
-### 6. Launch the web app
+Rename `.env.example` to `env.local` in the `web` and `api` folders.
+The `.env.local` files should be in their respective project directories.
 
-Lastly, follow the [Kitty Items Web instructions](https://github.com/onflow/kitty-items/tree/master/web#readme) to launch the Kitty Items front-end React app.
+```sh
+kitty-items/
+├─ api/
+│  ├─ .env.local
+├─ web/
+│  ├─ .env.local
+├─ ... etc
+```
+
+### 7. Start the project
+
+From the root of the project run: `npm install` to install `lerna`.
+
+Once finished run `lerna exec npm install` to install the project's dependencies.
+
+From the root of the project run `npm run start:testnet` to start Kitty Items!
 
 ### (Optional) Heroku Deployment
 

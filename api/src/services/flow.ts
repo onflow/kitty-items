@@ -1,6 +1,4 @@
 import * as fcl from "@onflow/fcl";
-import * as sdk from "@onflow/sdk";
-import { getLatestBlock } from "@onflow/sdk-build-get-latest-block";
 
 import { ec as EC } from "elliptic";
 
@@ -19,26 +17,22 @@ class FlowService {
     return async (account: any = {}) => {
       const user = await this.getAccount(this.minterFlowAddress);
       const key = user.keys[this.minterAccountIndex];
-      let sequenceNum;
-      if (account.role.proposer) {
-        sequenceNum = key.sequenceNumber;
-      }
-      const signingFunction = async (data) => {
-        return {
-          addr: user.address,
-          keyId: key.index,
-          signature: this.signWithKey(this.minterPrivateKeyHex, data.message),
-        };
-      };
+
+      const sign = this.signWithKey;
+      const pk = this.minterPrivateKeyHex;
+
       return {
         ...account,
-        addr: user.address,
-        keyId: key.index,
-        sequenceNum,
-        signature: account.signature || null,
-        signingFunction,
-        resolve: null,
-        roles: account.roles,
+        tempId: `${user.address}-${key.index}`,
+        addr: fcl.sansPrefix(user.address),
+        keyId: Number(key.index),
+        signingFunction: (signable) => {
+          return {
+            addr: fcl.withPrefix(user.address),
+            keyId: Number(key.index),
+            signature: sign(pk, signable.message),
+          };
+        },
       };
     };
   };
@@ -89,8 +83,8 @@ class FlowService {
   }
 
   async getLatestBlockHeight() {
-    const block = await sdk.send(sdk.build([sdk.getBlock(true)]));
-    const decoded = await sdk.decode(block);
+    const block = await fcl.send([fcl.getBlock(true)]);
+    const decoded = await fcl.decode(block);
     return decoded.height;
   }
 }
