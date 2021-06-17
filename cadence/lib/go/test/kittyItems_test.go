@@ -11,9 +11,8 @@ import (
 	"github.com/onflow/flow-go-sdk/crypto"
 	sdktemplates "github.com/onflow/flow-go-sdk/templates"
 	"github.com/onflow/flow-go-sdk/test"
-	"github.com/stretchr/testify/require"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/onflow/flow-go-sdk"
 
@@ -28,8 +27,8 @@ const (
 	kittyItemsSetupAccountPath           = kittyItemsTransactionsRootPath + "/setup_account.cdc"
 	kittyItemsMintKittyItemPath          = kittyItemsTransactionsRootPath + "/mint_kitty_item.cdc"
 	kittyItemsTransferKittyItemPath      = kittyItemsTransactionsRootPath + "/transfer_kitty_item.cdc"
-	kittyItemsInspectKittyItemSupplyPath = kittyItemsScriptsRootPath + "/read_kitty_items_supply.cdc"
-	kittyItemsInspectCollectionLenPath   = kittyItemsScriptsRootPath + "/read_collection_length.cdc"
+	kittyItemsInspectKittyItemSupplyPath = kittyItemsScriptsRootPath + "/get_kitty_items_supply.cdc"
+	kittyItemsInspectCollectionLenPath   = kittyItemsScriptsRootPath + "/get_collection_length.cdc"
 
 	typeID = 1000
 )
