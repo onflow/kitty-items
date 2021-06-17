@@ -1,6 +1,9 @@
 package test
 
 import (
+	"regexp"
+	"testing"
+
 	"github.com/onflow/cadence"
 	emulator "github.com/onflow/flow-emulator"
 	"github.com/onflow/flow-go-sdk"
@@ -9,18 +12,16 @@ import (
 	sdktemplates "github.com/onflow/flow-go-sdk/templates"
 	"github.com/onflow/flow-go-sdk/test"
 	"github.com/stretchr/testify/assert"
-	"regexp"
-	"testing"
 )
 
 const (
-	kittyItemsMarketTransactionRootPath = "../../../transactions/kittyItemsMarket"
+	kittyItemsMarketContractPath = "../../../contracts/KittyItemsMarket.cdc"
 
-	kittyItemsMarketContractPath     = "../../../contracts/KittyItemsMarket.cdc"
-	kittyItemsMarketSetupAccountPath = kittyItemsMarketTransactionRootPath + "/setup_account.cdc"
-	kittyItemsMarketSellItemPath     = kittyItemsMarketTransactionRootPath + "/sell_market_item.cdc"
-	kittyItemsMarketBuyItemPath      = kittyItemsMarketTransactionRootPath + "/buy_market_item.cdc"
-	kittyItemsMarketRemoveItemPath   = kittyItemsMarketTransactionRootPath + "/remove_market_item.cdc"
+	kittyItemsMarketTransactionRootPath = "../../../transactions/kittyItemsMarket"
+	kittyItemsMarketSetupAccountPath    = kittyItemsMarketTransactionRootPath + "/setup_account.cdc"
+	kittyItemsMarketSellItemPath        = kittyItemsMarketTransactionRootPath + "/create_sale_offer.cdc"
+	kittyItemsMarketBuyItemPath         = kittyItemsMarketTransactionRootPath + "/buy_market_item.cdc"
+	kittyItemsMarketRemoveItemPath      = kittyItemsMarketTransactionRootPath + "/remove_sale_offer.cdc"
 )
 
 const typeID1337 = 1337

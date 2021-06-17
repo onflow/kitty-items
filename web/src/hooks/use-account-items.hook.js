@@ -1,5 +1,5 @@
 import {atomFamily, selectorFamily, useRecoilState} from "recoil"
-import {fetchAccountItems} from "../flow/fetch-account-items.script"
+import {fetchAccountItems} from "../flow/script.get-account-items"
 import {IDLE, PROCESSING} from "../global/constants"
 
 export const $state = atomFamily({
