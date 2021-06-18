@@ -104,7 +104,7 @@ async function run() {
     // $> node /api/dist/index.js (starts API server)
     // $> node /api/dist/index.js --worker (starts worker)
 
-    // Start the worker only if worker is passed as as command flag.
+    // Start the worker only if worker is passed as command flag.
     // See above notes for why.
     startWorker();
   } else {
