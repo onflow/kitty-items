@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "<p align=\"center\">     <a href=\"http://kitty-items-flow-testnet.herokuapp.com/\">         <img width=\"400\" src=\"kitty-items-banner.png\" />     </a> </p>",
   "main": "index.js",
+  "dependencies": {
+    "lerna": "^4.0.0",
+    "yargs": "^16.2.0"
+  },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "@types/node": "^14.14.37",
+    "@types/yargs": "^16.0.1"
   },
   "scripts": {
     "start": "node api/dist/index.js",
