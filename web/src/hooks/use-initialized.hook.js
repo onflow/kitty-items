@@ -12,8 +12,8 @@ import {
   ERROR,
   IDLE_DELAY,
 } from "../global/constants"
-import {isAccountInitialized} from "../flow/is-account-initialized.script"
-import {initializeAccount} from "../flow/initialize-account.tx"
+import {isAccountInitialized} from "../flow/script.is-account-initialized"
+import {initializeAccount} from "../flow/tx.initialize-account"
 import {sleep} from "../util/sleep"
 import {useFlowBalance} from "./use-flow-balance.hook"
 import {useKibblesBalance} from "./use-kibbles-balance.hook"
@@ -33,10 +33,12 @@ export const $init = atomFamily({
 
 export const $computedInit = selectorFamily({
   key: "init::computed",
-  get: address => async ({get}) => {
-    const all = get($init(address))
-    return all.Kibble && all.KittyItems && all.KittyItemsMarket
-  },
+  get:
+    address =>
+    async ({get}) => {
+      const all = get($init(address))
+      return all.Kibble && all.KittyItems && all.KittyItemsMarket
+    },
 })
 
 export function useInitialized(address) {
