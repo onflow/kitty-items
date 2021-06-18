@@ -49,7 +49,7 @@ export const setupMarketplaceOnAccount = async (account) => {
  * @returns {Promise<*>}
  * */
 export const listItemForSale = async (seller, itemId, price) => {
-	const name = "kittyItemsMarket/sell_market_item";
+	const name = "kittyItemsMarket/create_sale_offer";
 	const args = [itemId, price];
 	const signers = [seller];
 
@@ -80,7 +80,7 @@ export const buyItem = async (buyer, itemId, seller) => {
  * @returns {Promise<*>}
  * */
 export const removeItem = async (owner, itemId) => {
-	const name = "kittyItemsMarket/remove_market_item";
+	const name = "kittyItemsMarket/remove_sale_offer";
 	const signers = [owner];
 	const args = [itemId];
 

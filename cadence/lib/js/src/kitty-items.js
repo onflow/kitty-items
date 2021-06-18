@@ -40,7 +40,7 @@ export const setupKittyItemsOnAccount = async (account) => {
  * @returns {UInt64} - number of NFT minted so far
  * */
 export const getKittyItemSupply = async () => {
-	const name = "kittyItems/read_kitty_items_supply";
+	const name = "kittyItems/get_kitty_items_supply";
 
 	return executeScript({ name });
 };
@@ -86,7 +86,7 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
  * @returns {UInt64}
  * */
 export const getKittyItemById = async (account, id) => {
-	const name = "kittyItems/read_kitty_item_type_id";
+	const name = "kittyItems/get_kitty_item_type_id";
 	const args = [account, id];
 
 	return executeScript({ name, args });
@@ -99,7 +99,7 @@ export const getKittyItemById = async (account, id) => {
  * @returns {UInt64}
  * */
 export const getCollectionLength = async (account) => {
-	const name = "kittyItems/read_collection_length";
+	const name = "kittyItems/get_collection_length";
 	const args = [account];
 
 	return executeScript({ name, args });
