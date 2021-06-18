@@ -17,17 +17,16 @@ import {
 jest.setTimeout(50000);
 
 describe("Kitty Items Marketplace", () => {
-	beforeEach(async (done) => {
+	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 8080;
+		const port = 8085;
 		init(basePath, port);
-		await emulator.start(port);
-		done();
+		return emulator.start(port, false);
 	});
 
-	afterEach(async (done) => {
-		await emulator.stop();
-		done();
+	// Stop emulator, so it could be restarted
+	afterEach(async () => {
+		return emulator.stop();
 	});
 
 	it("shall deploy KittyItemsMarket contract", async () => {
