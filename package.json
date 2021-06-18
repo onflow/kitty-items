@@ -7,11 +7,11 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
+    "start": "node api/dist/index.js",
+    "start:worker": "node api/dist/index.js --worker",
     "start:dev": "./scripts/run-local.sh",
     "start:testnet": "./scripts/run-testnet.sh",
     "setup-minter": "./scripts/setup-minter.sh",
-    "start": "node api/dist/index.js",
-    "start:worker": "node api/dist/index.js --worker",
     "heroku-postbuild": "./scripts/heroku-build.sh"
   },
   "repository": {
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/onflow/kitty-items/issues"
   },
-  "homepage": "https://github.com/onflow/kitty-items#readme"
+  "homepage": "https://github.com/onflow/kitty-items#readme",
+  "engines": {
+    "node": ">=14"
+  }
 }
