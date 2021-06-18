@@ -12,7 +12,7 @@ const defaultMigrationPath = "./src/migrations";
 export function getConfig() {
   const port = process.env.PORT || defaultPort;
 
-  const accessApi = process.env.FLOW_ACCESS_NODE;
+  const accessApi = process.env.FLOW_ACCESS_API;
 
   const minterAddress = process.env.MINTER_ADDRESS!;
   const minterPrivateKeyHex = process.env.MINTER_PRIVATE_KEY!;

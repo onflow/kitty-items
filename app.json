@@ -47,7 +47,7 @@
       "description": "Look for events n blocks at a time.",
       "value": 100
     },
-    "FLOW_ACCESS_NODE": {
+    "FLOW_ACCESS_API": {
       "description": "URL for accessing the Flow tesntet gRPC API.",
       "value": "https://access-testnet.onflow.org"
     },
@@ -67,7 +67,7 @@
       "description": "Which key the minter account will use to sign transactions.",
       "value": "0"
     },
-    "REACT_APP_FLOW_ACCESS_NODE": {
+    "REACT_APP_FLOW_ACCESS_API": {
       "description": "URL for accessing the Flow tesntet gRPC API. (Used by @onflow/fcl)",
       "value": "https://access-testnet.onflow.org"
     },

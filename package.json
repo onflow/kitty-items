@@ -9,7 +9,10 @@
   "scripts": {
     "start:dev": "./scripts/run-local.sh",
     "start:testnet": "./scripts/run-testnet.sh",
-    "setup-minter": "./scripts/setup-minter.sh"
+    "setup-minter": "./scripts/setup-minter.sh",
+    "start": "node api/dist/index.js",
+    "start:worker": "node api/dist/index.js --worker",
+    "heroku-postbuild": "./scripts/heroku-build.sh"
   },
   "repository": {
     "type": "git",
