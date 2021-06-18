@@ -94,7 +94,7 @@ export const removeItem = async (owner, itemId) => {
  * @returns {UInt64}
  * */
 export const getMarketCollectionLength = async (account) => {
-	const name = "kittyItemsMarket/read_collection_length";
+	const name = "kittyItemsMarket/get_collection_length";
 	const args = [account, account];
 
 	return executeScript({ name, args });
