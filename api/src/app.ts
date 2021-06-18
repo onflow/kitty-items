@@ -33,12 +33,16 @@ const initApp = (
   app.use(V1, initKittyItemsRouter(kittyItemsService));
   app.use(V1, initMarketRouter(marketService));
 
-  if (process.env.IS_HEROKU) {
-    // Serve React static site using Express when deployed to Heroku.
+  const serveReactApp = () => {
     app.use(express.static(path.resolve(__dirname, "../../web/build")));
     app.get("*", function (req, res) {
       res.sendFile(path.resolve(__dirname, "../../web/build/index.html"));
     });
+  };
+
+  if (process.env.IS_HEROKU) {
+    // Serve React static site using Express when deployed to Heroku.
+    serveReactApp();
   }
 
   app.all("*", async (req: Request, res: Response) => {
