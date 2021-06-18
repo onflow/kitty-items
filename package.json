@@ -10,7 +10,9 @@
     "start:dev": "./scripts/run-local.sh",
     "start:testnet": "./scripts/run-testnet.sh",
     "setup-minter": "./scripts/setup-minter.sh",
-    "build": "./scripts/heroku-build.sh"
+    "build": "./scripts/heroku-build.sh",
+    "start": "npm run start --prefix api",
+    "start:worker": "npm run start:worker --prefix api"
   },
   "repository": {
     "type": "git",
