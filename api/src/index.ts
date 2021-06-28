@@ -15,13 +15,14 @@ import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 const argv = yargs(hideBin(process.argv)).argv;
-const env = require("dotenv");
 
 if (process.env.NODE_ENV !== "production") {
+  const env = require("dotenv");
+  const expandEnv = require("dotenv-expand");
   env.config({
     path: "./.env.local",
   });
-  require("dotenv-expand")(env);
+  expandEnv(env);
 }
 
 async function run() {
@@ -103,7 +104,7 @@ async function run() {
     // $> node /api/dist/index.js (starts API server)
     // $> node /api/dist/index.js --worker (starts worker)
 
-    // Start the worker only if worker is passed as as command flag.
+    // Start the worker only if worker is passed as command flag.
     // See above notes for why.
     startWorker();
   } else {
