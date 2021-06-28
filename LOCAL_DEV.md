@@ -61,7 +61,7 @@ FLOW_ACCOUNT_PRIVATE_KEY=${FLOW_ACCOUNT_PRIVATE_KEY}
 FLOW_ACCOUNT_PUBLIC_KEY=${FLOW_ACCOUNT_PUBLIC_KEY}
 ```
 
-### 5. Start the Flow emulator
+### 4. Start the Flow emulator
 
 To find the values we'll need to complete setting up our environment, we'll need to start the Flow emulator.
 
@@ -80,7 +80,7 @@ INFO[0000] 🌱  Starting HTTP server on port 8080          port=8080
 This output contains the addresses for the contracts that are deployed to the emulator, as well as the address of the `FlowServiceAccount`– a pre-generated account you can use to easily get started deploying code to the emulator.
 
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
-### 6. Deploy Kitty Items contracts
+### 5. Deploy Kitty Items contracts
 
 Deployments are configured in `flow.json`. Examine the file, you'll see an entry for the contracts that will be deployed to the emulator's service account: 
 
@@ -125,7 +125,7 @@ NON_FUNGIBLE_TOKEN_ADDRESS=0xf8d6e0586b0a20c7
 ```
 
 (☝️ **Note**: your local emulator's output may be different. Be sure to use values from _your own shell_ to ensure they match with your local environment).
-### 7. Start Postgres
+### 6. Start Postgres
 
 To work locally, you'll need to start an instance of Postgres. 
 You can use the `docker-compose.yml` file or start you own instance.
@@ -136,7 +136,7 @@ docker-compose up -d
 (☝️ **Note**: If you use another method to create a Postgres DB, be sure to use the same credentials prvided in ths `docker-compose.yml` file.).
 
 
-### 8. Start the project
+### 7. Start the project
 
 From the root of the project run: `npm install` to install `lerna`.
 

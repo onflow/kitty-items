@@ -73,7 +73,7 @@ If you'd like to look at the contracts in your account, to confirm that everythi
 flow accounts get $FLOW_ADDRESS --network=testnet
 ```
 
-### 3. Rename `.env.example` files
+### 5. Rename `.env.example` files
 
 Rename `.env.example` to `env.local` in the `web` and `api` folders.
 The `.env.local` files should be in their respective project directories.
@@ -87,7 +87,7 @@ kitty-items/
 ├─ ... etc
 ```
 
-### 7. Start Postgres
+### 6. Start Postgres
 
 To work locally, you'll need to start an instance of Postgres. 
 You can use the `docker-compose.yml` file or start you own instance.
@@ -98,7 +98,7 @@ docker-compose up -d
 (☝️ **Note**: If you use another method to create a Postgres DB, be sure to use the same credentials prvided in ths `docker-compose.yml` file.).
 
 
-### 8. Start the project
+### 7. Start the project
 
 From the root of the project run: `npm install` to install `lerna`.
 
