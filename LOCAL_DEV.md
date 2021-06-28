@@ -140,7 +140,7 @@ docker-compose up -d
 
 From the root of the project run: `npm install` to install `lerna`.
 
-Once finished run `lerna exec npm install` to install the project's dependencies.
+Once finished run `npx lerna exec npm install` to install the project's dependencies.
 
 From the root of the project run `npm run start:dev` to start Kitty Items in local development mode!
 

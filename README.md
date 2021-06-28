@@ -95,14 +95,14 @@ You can use the `docker-compose.yml` file or start you own instance.
 ```
 docker-compose up -d
 ```
-(☝️ **Note**: If you use another method to create a Postgres DB, be sure to use the same credentials prvided in ths `docker-compose.yml` file.).
+(☝️ **Note**: If you use another method to create a Postgres DB, be sure to use the same credentials provided in the `docker-compose.yml` file.).
 
 
 ### 7. Start the project
 
 From the root of the project run: `npm install` to install `lerna`.
 
-Once finished run `lerna exec npm install` to install the project's dependencies.
+Once finished run `npx lerna exec npm install` to install the project's dependencies.
 
 From the root of the project run `npm run start:testnet` to start Kitty Items!
 
