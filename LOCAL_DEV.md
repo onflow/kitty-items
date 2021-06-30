@@ -55,10 +55,10 @@ Replace the contents of `fcl-dev-wallet/.env.local` with:
 
 ```
 FLOW_ACCESS_API=${ACCESS_API}
-FLOW_ACCOUNT_ADDRESS=${EMULATOR_ACCOUNT_ADDRESS}
+FLOW_ACCOUNT_ADDRESS=${FLOW_ADDRESS}
 FLOW_ACCOUNT_KEY_ID=0
-FLOW_ACCOUNT_PRIVATE_KEY=${EMULATOR_ACCOUNT_PRIVATE_KEY}
-FLOW_ACCOUNT_PUBLIC_KEY=${EMULATOR_ACCOUNT_PUBLIC_KEY}
+FLOW_ACCOUNT_PRIVATE_KEY=${FLOW_PRIVATE_KEY}
+FLOW_ACCOUNT_PUBLIC_KEY=${FLOW_PUBLIC_KEY}
 ```
 
 ### 4. Start the Flow emulator
@@ -143,6 +143,17 @@ From the root of the project run: `npm install` to install `lerna`.
 Once finished run `npx lerna exec npm install` to install the project's dependencies.
 
 From the root of the project run `npm run start:dev` to start Kitty Items in local development mode!
+
+
+## Troubleshooting Local Dev
+
+If you're not able to run the app after following these instructions, or the app is failing to run after you come back to it, you can try the following troubleshooting steps.
+
+- Ensure Postgres is runnung on the correct port
+  - You may want to remove the block-cursor records from your db
+
+- Ensure the emulator is running.
+  - You may want to clear the emulator state by removing the `flowDb` directory, then stopping and re-starting the emulator.
 
 ---
 

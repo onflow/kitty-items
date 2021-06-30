@@ -5,6 +5,7 @@ import * as path from "path";
 
 import { SaleOffer } from "../models/sale-offer";
 import { FlowService } from "../services/flow";
+import { isNamedExports, isNamespaceExport } from "typescript";
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"';
@@ -149,6 +150,8 @@ class MarketService {
           sale_price: saleOfferEvent.data.price,
           transaction_id: saleOfferEvent.transactionId,
         })
+        .onConflict("sale_item_id")
+        .ignore()
         .returning("transaction_id")
         .catch((e) => {
           console.log(e);
