@@ -14,19 +14,23 @@ import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
+const isDev = process.env.NODE_ENV !== "production";
 const argv = yargs(hideBin(process.argv)).argv;
+const env = require("dotenv");
+const expandEnv = require("dotenv-expand");
 
-if (process.env.NODE_ENV !== "production") {
-  const env = require("dotenv");
-  const expandEnv = require("dotenv-expand");
-  env.config({
-    path: "./.env.local",
-  });
-  expandEnv(env);
-}
+const e = env.config(
+  isDev
+    ? {
+        path: ".env.local",
+      }
+    : undefined
+);
+
+expandEnv(e);
 
 async function run() {
-  const config = getConfig();
+  const config = getConfig(e.parsed);
   const db = initDB(config);
 
   // Make sure to disconnect from DB when exiting the process

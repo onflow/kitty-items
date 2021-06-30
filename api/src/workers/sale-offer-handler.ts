@@ -1,5 +1,4 @@
 import * as fcl from "@onflow/fcl";
-import hash from "object-hash";
 
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
