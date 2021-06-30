@@ -150,6 +150,8 @@ class MarketService {
           sale_price: saleOfferEvent.data.price,
           transaction_id: saleOfferEvent.transactionId,
         })
+        // Don't throw an error if we're seeing the same event, just ignore it.
+        // (Don't attempt to insert)
         .onConflict("sale_item_id")
         .ignore()
         .returning("transaction_id")
