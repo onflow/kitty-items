@@ -13,4 +13,4 @@ export API_URL=http://localhost:3000
 export FLOW_ACCESS_API=http://localhost:8080
 export WALLET_DISCOVERY=http://localhost:8701/fcl/authn
 
-lerna run dev --parallel
+npx lerna run dev --parallel
