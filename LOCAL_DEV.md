@@ -155,6 +155,8 @@ If you're not able to run the app after following these instructions, or the app
 - Ensure the emulator is running.
   - You may want to clear the emulator state by removing the `flowDb` directory, then stopping and re-starting the emulator.
 
+- Start each component seperately. 
+
 ---
 
 🚀 Happy Hacking!
