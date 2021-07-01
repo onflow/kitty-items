@@ -9,8 +9,8 @@ Did you export FLOW_ADDRESS and FLOW_PRIVATE_KEY?
 const defaultPort = 3000;
 const defaultMigrationPath = "./src/migrations";
 
-export function getConfig(env = process.env) {
-  const port = env.PORT || defaultPort;
+export function getConfig(env) {
+  const port = env?.PORT || defaultPort;
 
   const accessApi = env.FLOW_ACCESS_API;
 

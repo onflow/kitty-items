@@ -1,6 +1,4 @@
 #!/bin/bash
 
-npm install --prefix web
-npm install --prefix api 
-npm run build --prefix web
-npm run build --prefix api
+npx lerna exec npm install 
+npx lerna exec npm run build
