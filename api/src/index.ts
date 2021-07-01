@@ -29,8 +29,6 @@ if (LOCAL) {
 
   expandEnv(envVars);
   envVars = envVars.parsed;
-} else {
-  envVars = process.env;
 }
 
 async function run() {
