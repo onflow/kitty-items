@@ -1,4 +1,6 @@
 #!/bin/bash
 
-npx lerna exec npm install --scope api --scope web
-npx lerna exec npm run build --scope api --scope web
+# Build the apps, don't attempt to build fcl-dev-wallet. 
+
+npx lerna exec npm install --scope fcl-dev-wallet 
+npx lerna exec npm run build --scope fcl-dev-wallet 
