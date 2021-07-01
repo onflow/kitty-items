@@ -92,10 +92,8 @@ abstract class BaseEventHandler {
     let toBlock = await this.flowService.getLatestBlockHeight();
 
     if (toBlock - fromBlock > this.stepSize) {
-      fromBlock = toBlock;
-      toBlock =
-        (await this.flowService.getLatestBlockHeight()) -
-        this.latestBlockOffset;
+      fromBlock = toBlock - 1;
+      toBlock = await this.flowService.getLatestBlockHeight();
     }
 
     console.log(
