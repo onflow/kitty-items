@@ -23,12 +23,12 @@ if (LOCAL) {
   const env = require("dotenv");
   const expandEnv = require("dotenv-expand");
 
-  envVars = env.config({
+  const config = env.config({
     path: ".env.local",
   });
 
-  expandEnv(envVars);
-  envVars = envVars.parsed;
+  expandEnv(config);
+  envVars = config.parsed;
 }
 
 async function run() {

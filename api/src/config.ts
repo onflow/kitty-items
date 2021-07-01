@@ -10,7 +10,9 @@ const defaultPort = 3000;
 const defaultMigrationPath = "./src/migrations";
 
 export function getConfig(env) {
-  const port = env?.PORT || defaultPort;
+  env = env ?? process.env;
+
+  const port = env.PORT || defaultPort;
 
   const accessApi = env.FLOW_ACCESS_API;
 
