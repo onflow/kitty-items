@@ -1,5 +1,4 @@
 import * as fcl from "@onflow/fcl";
-import hash from "object-hash";
 
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
@@ -32,8 +31,6 @@ class SaleOfferHandler extends BaseEventHandler {
   }
 
   async onEvent(event: any): Promise<void> {
-    console.log("[saleOfferWorker] saw [Kitty Items] event:", event);
-
     switch (event.type) {
       case this.eventCollectionInsertedSaleOffer:
         await this.marketService.addSaleOffer(event);

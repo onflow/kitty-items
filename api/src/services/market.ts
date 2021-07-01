@@ -5,6 +5,7 @@ import * as path from "path";
 
 import { SaleOffer } from "../models/sale-offer";
 import { FlowService } from "../services/flow";
+import { isNamedExports, isNamespaceExport } from "typescript";
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"';
@@ -149,6 +150,10 @@ class MarketService {
           sale_price: saleOfferEvent.data.price,
           transaction_id: saleOfferEvent.transactionId,
         })
+        // Don't throw an error if we're seeing the same event, just ignore it.
+        // (Don't attempt to insert)
+        .onConflict("sale_item_id")
+        .ignore()
         .returning("transaction_id")
         .catch((e) => {
           console.log(e);

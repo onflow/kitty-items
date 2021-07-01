@@ -1,4 +1,4 @@
-import * as Knex from "knex";
+import { Knex } from "knex";
 
 import * as kittyItems from "./20201217175515_create_kitty_items";
 import * as saleOffers from "./20201217175722_create_sale_offers";

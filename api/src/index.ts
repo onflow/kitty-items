@@ -15,18 +15,24 @@ import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 const argv = yargs(hideBin(process.argv)).argv;
+const LOCAL = argv.dev;
 
-if (process.env.NODE_ENV !== "production") {
+let envVars;
+
+if (LOCAL) {
   const env = require("dotenv");
   const expandEnv = require("dotenv-expand");
-  env.config({
-    path: "./.env.local",
+
+  const config = env.config({
+    path: ".env.local",
   });
-  expandEnv(env);
+
+  expandEnv(config);
+  envVars = config.parsed;
 }
 
 async function run() {
-  const config = getConfig();
+  const config = getConfig(envVars);
   const db = initDB(config);
 
   // Make sure to disconnect from DB when exiting the process
@@ -92,7 +98,7 @@ async function run() {
     });
   };
 
-  if (argv.dev) {
+  if (LOCAL) {
     // If we're in dev, run everything in one process.
     startWorker();
     startAPIServer();
