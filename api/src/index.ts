@@ -14,23 +14,27 @@ import { KittyItemsService } from "./services/kitty-items";
 import { MarketService } from "./services/market";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
-const isDev = process.env.NODE_ENV !== "production";
 const argv = yargs(hideBin(process.argv)).argv;
-const env = require("dotenv");
-const expandEnv = require("dotenv-expand");
+const LOCAL = argv.dev;
 
-const e = env.config(
-  isDev
-    ? {
-        path: ".env.local",
-      }
-    : undefined
-);
+let envVars;
 
-expandEnv(e);
+if (LOCAL) {
+  const env = require("dotenv");
+  const expandEnv = require("dotenv-expand");
+
+  envVars = env.config({
+    path: ".env.local",
+  });
+
+  expandEnv(envVars);
+  envVars = envVars.parsed;
+} else {
+  envVars = process.env;
+}
 
 async function run() {
-  const config = getConfig(e.parsed);
+  const config = getConfig(envVars);
   const db = initDB(config);
 
   // Make sure to disconnect from DB when exiting the process
@@ -96,7 +100,7 @@ async function run() {
     });
   };
 
-  if (argv.dev) {
+  if (LOCAL) {
     // If we're in dev, run everything in one process.
     startWorker();
     startAPIServer();
