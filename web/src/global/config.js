@@ -1,5 +1,4 @@
 import {config} from "@onflow/fcl"
-console.log(process.env.REACT_APP_FLOW_ACCESS_API_URL)
 config()
   .put("env", process.env.REACT_APP_CHAIN_ENV)
   .put("accessNode.api", process.env.REACT_APP_FLOW_ACCESS_API_URL)
