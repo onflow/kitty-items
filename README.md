@@ -59,6 +59,7 @@ After your account has been created, export the following environment variables 
 
 export FLOW_ADDRESS=address
 export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
+export FLOW_PUBLIC_KEY=xxxxxxxxxxxx
 ```
 
 Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough.
@@ -99,8 +100,6 @@ docker-compose up -d
 
 
 ### 7. Start the project
-
-From the root of the project run: `npm install` to install `lerna`.
 
 Once finished run `npx lerna exec npm install` to install the project's dependencies.
 

@@ -54,7 +54,7 @@ kitty-items/
 Replace the contents of `fcl-dev-wallet/.env.local` with:
 
 ```
-FLOW_ACCESS_API_URL=${ACCESS_API}
+FLOW_ACCESS_API=${ACCESS_API}
 FLOW_ACCOUNT_ADDRESS=${FLOW_ADDRESS}
 FLOW_ACCOUNT_KEY_ID=0
 FLOW_ACCOUNT_PRIVATE_KEY=${FLOW_PRIVATE_KEY}
@@ -138,9 +138,15 @@ docker-compose up -d
 
 ### 7. Start the project
 
-From the root of the project run: `npm install` to install `lerna`.
+Replace the `dev` script in `fcl-dev-wallet` :
 
-Once finished run `npx lerna exec npm install` to install the project's dependencies.
+```
+ "scripts": {
+    "dev": "next dev --port 8701",
+    ... etc
+```
+
+Once updated run `npx lerna exec npm install` to install the project's dependencies.
 
 From the root of the project run `npm run start:dev` to start Kitty Items in local development mode!
 
