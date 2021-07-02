@@ -1,6 +1,6 @@
 #!/bin/bash
 
-npm install --prefix web
-npm install --prefix api 
-npm run build --prefix web
-npm run build --prefix api
+# Build the apps, don't attempt to build fcl-dev-wallet. 
+
+npx lerna exec npm install --ignore=fcl-dev-wallet 
+npx lerna exec npm run build --ignore=fcl-dev-wallet 

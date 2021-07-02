@@ -1,9 +1,9 @@
-import Knex from "knex";
+import { knex } from "knex";
 
 import { Model } from "objection";
 
 const initDB = (config) => {
-  const knexInstance = Knex({
+  const knexInstance = knex({
     client: "postgresql",
     connection: {
       connectionString: config.databaseUrl,

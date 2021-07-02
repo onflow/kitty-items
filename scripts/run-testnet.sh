@@ -10,4 +10,4 @@ export API_URL=http://localhost:3000
 export FLOW_ACCESS_API=https://access-testnet.onflow.org
 export WALLET_DISCOVERY=https://fcl-discovery.onflow.org/testnet/authn
 
-lerna run testnet --parallel
+npx lerna run testnet --parallel
