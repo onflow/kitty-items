@@ -14,7 +14,7 @@ export function getConfig(env) {
 
   const port = env.PORT || defaultPort;
 
-  const accessApi = env.FLOW_ACCESS_API;
+  const accessApi = env.FLOW_ACCESS_API_URL;
 
   const minterAddress = env.MINTER_ADDRESS!;
   const minterPrivateKeyHex = env.MINTER_PRIVATE_KEY!;

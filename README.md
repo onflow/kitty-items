@@ -106,6 +106,7 @@ Once finished run `npx lerna exec npm install` to install the project's dependen
 
 From the root of the project run `npm run start:testnet` to start Kitty Items!
 
+
 ### (Optional) Heroku Deployment
 
 If you'd like to deploy a version of this app to Heroku for testing, you can use this button!
