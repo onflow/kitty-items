@@ -1,5 +1,5 @@
 # Run
-FROM node:14-alpine as build
+FROM node:14-alpine
 WORKDIR /fcl-dev-wallet
 COPY ./fcl-dev-wallet .
 RUN npm i
