@@ -1,0 +1,12 @@
+# Build
+FROM node:14-alpine as build
+WORKDIR /web
+COPY ./web .
+RUN npm i
+RUN npm run build
+
+# Run
+FROM nginx:alpine
+WORKDIR /web
+COPY --from=build /web/build /usr/share/nginx/html
+EXPOSE 80

@@ -13,4 +13,8 @@ export API_URL=http://localhost:3000
 export ACCESS_API=http://localhost:8080
 export WALLET_DISCOVERY=http://localhost:8701/fcl/authn
 
-npx lerna run dev --parallel
+export DB_NAME=kittyitems
+export DB_USER_USER=kittyuser
+export DB_PASSWORD=kittypassword
+
+docker compose --profile local up -d 

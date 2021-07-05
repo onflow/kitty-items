@@ -1,0 +1,15 @@
+# Build
+FROM node:14-alpine as build
+RUN npm i -g typescript
+WORKDIR /api
+COPY ./api .
+RUN npm i
+RUN tsc --allowJs 
+
+# Run
+FROM node:14-alpine
+WORKDIR /api
+COPY --from=build /api/dist ./src
+COPY --from=build /api/node_modules ./node_modules
+EXPOSE 3000
+CMD node ./src/index.js

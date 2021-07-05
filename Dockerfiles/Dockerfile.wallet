@@ -1,0 +1,8 @@
+# Run
+FROM node:14-alpine as build
+WORKDIR /fcl-dev-wallet
+COPY ./fcl-dev-wallet .
+RUN npm i
+EXPOSE 8701
+CMD npm run dev
+

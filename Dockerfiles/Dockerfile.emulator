@@ -1,0 +1,5 @@
+FROM gcr.io/flow-container-registry/emulator:v0.22.0
+WORKDIR /emulator
+COPY flow.json .
+EXPOSE 8080 3569
+
