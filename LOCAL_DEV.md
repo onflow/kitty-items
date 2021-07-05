@@ -138,9 +138,15 @@ docker-compose up -d
 
 ### 7. Start the project
 
-From the root of the project run: `npm install` to install `lerna`.
+Replace the `dev` script in `fcl-dev-wallet` :
 
-Once finished run `npx lerna exec npm install` to install the project's dependencies.
+```
+ "scripts": {
+    "dev": "next dev --port 8701",
+    ... etc
+```
+
+Once updated run `npx lerna exec npm install` to install the project's dependencies.
 
 From the root of the project run `npm run start:dev` to start Kitty Items in local development mode!
 
