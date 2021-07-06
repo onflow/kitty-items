@@ -19,11 +19,17 @@ jobs:
         with:
           node-version: 14.x
 
+      - name: Install flow-cli
+        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+
       - name: Install dependencies
         run: npx lerna exec npm install
 
       - name: Build & start containers
         run: srcipts/run-local.sh
+
+      - name: Deploy contracts
+        run: flow project deploy --network=emulator
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
