@@ -9,7 +9,8 @@
   },
   "devDependencies": {
     "@types/node": "^14.14.37",
-    "@types/yargs": "^16.0.1"
+    "@types/yargs": "^16.0.1",
+    "cypress": "^7.6.0"
   },
   "scripts": {
     "start": "node api/dist/index.js",

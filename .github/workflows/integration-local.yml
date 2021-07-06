@@ -1,0 +1,37 @@
+name: Kitty Items (local dev) Integrations Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install dependencies
+        run: npx lerna exec npm install
+
+      - name: Build & start containers
+        run: srcipts/run-local.sh
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
+          record: false
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down

@@ -9,4 +9,16 @@ export API_URL=http://localhost:3000
 export ACCESS_API=https://access-testnet.onflow.org
 export WALLET_DISCOVERY=https://fcl-discovery.onflow.org/testnet/authn
 
-npx lerna run testnet --parallel
+export DB_NAME=kittyitems
+export DB_USER_USER=kittyuser
+export DB_PASSWORD=kittypassword
+
+scripts/build-all.sh
+
+docker compose --profile testnet up -d 
+
+scripts/clean-all.sh
+
+flow project deploy --network=testnet
+
+# Done!

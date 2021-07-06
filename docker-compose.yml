@@ -8,19 +8,7 @@ services:
       context: ./
       dockerfile: ./Dockerfiles/Dockerfile.web
     ports:
-      - "3001:80"
-    environment:
-      - REACT_APP_CHAIN_ENV=${CHAIN_ENV}
-      - REACT_APP_FLOW_ACCESS_API_URL=${ACCESS_API}
-      - REACT_APP_WALLET_DISCOVERY=${WALLET_DISCOVERY}
-      - REACT_APP_CONTRACT_FUNGIBLE_TOKEN=${FUNGIBLE_TOKEN_ADDRESS}
-      - REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN=${NON_FUNGIBLE_TOKEN_ADDRESS}
-      - REACT_APP_API_KIBBLE_MINT=${API_URL}/v1/kibbles/mint
-      - REACT_APP_API_KITTY_ITEM_MINT=${API_URL}/v1/kitty-items/mint
-      - REACT_APP_API_MARKET_ITEMS_LIST=${API_URL}/v1/market/latest
-      - REACT_APP_CONTRACT_KIBBLE=${FLOW_ADDRESS}
-      - REACT_APP_CONTRACT_KITTY_ITEMS=${FLOW_ADDRESS}
-      - REACT_APP_CONTRACT_KITTY_ITEMS_MARKET=${FLOW_ADDRESS}
+      - 3001:80
     depends_on:
       - api
       - db
@@ -42,7 +30,7 @@ services:
       - FUNGIBLE_TOKEN_ADDRESS=${FUNGIBLE_TOKEN_ADDRESS}
       - NON_FUNGIBLE_TOKEN_ADDRESS=${NON_FUNGIBLE_TOKEN_ADDRESS}
       - FLOW_ACCESS_API_URL=${ACCESS_API}
-      - DATABASE_URL=database://kittyuser:kittypassword@localhost:5432/kittyitems
+      - DATABASE_URL=database://kittyuser:kittypassword@db:5432/kittyitems
       - MIGRATION_PATH=./src/migrations
       - BLOCK_WINDOW=1
     depends_on:
