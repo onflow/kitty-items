@@ -11,7 +11,7 @@ import { BlockCursorService } from "./services/block-cursor";
 import { FlowService } from "./services/flow";
 import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
-import { MarketService } from "./services/market";
+import { StorefrontService } from "./services/storefront";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 const argv = yargs(hideBin(process.argv)).argv;
@@ -51,7 +51,7 @@ async function run() {
     config.minterAccountKeyIndex
   );
 
-  const marketService = new MarketService(
+  const storefrontService = new StorefrontService(
     flowService,
     config.fungibleTokenAddress,
     config.minterAddress,
@@ -68,7 +68,7 @@ async function run() {
     const blockCursorService = new BlockCursorService();
 
     const saleOfferWorker = new SaleOfferHandler(
-      marketService,
+      storefrontService,
       blockCursorService,
       flowService
     );
@@ -91,7 +91,7 @@ async function run() {
       config.minterAddress
     );
 
-    const app = initApp(kibblesService, kittyItemsService, marketService);
+    const app = initApp(kibblesService, kittyItemsService, storefrontService);
 
     app.listen(config.port, () => {
       console.log(`Listening on port ${config.port}!`);

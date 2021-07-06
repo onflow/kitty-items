@@ -1,9 +1,9 @@
 import express, { Request, Response, Router } from "express";
 import { body } from "express-validator";
 import { validateRequest } from "../middlewares/validate-request";
-import { MarketService } from "../services/market";
+import { StorefrontService } from "../services/storefront";
 
-function initMarketRouter(marketService: MarketService): Router {
+function initStorefrontRouter(storefrontService: StorefrontService): Router {
   const router = express.Router();
 
   router.post(
@@ -12,7 +12,7 @@ function initMarketRouter(marketService: MarketService): Router {
     validateRequest,
     async (req: Request, res: Response) => {
       const { account, itemID } = req.body;
-      const tx = await marketService.buy(account, itemID);
+      const tx = await storefrontService.buy(account, itemID);
       return res.send({
         transactionId: tx,
       });
@@ -20,7 +20,7 @@ function initMarketRouter(marketService: MarketService): Router {
   );
 
   router.post("/market/setup", async (req: Request, res: Response) => {
-    const tx = await marketService.setupAccount();
+    const tx = await storefrontService.setupAccount();
     return res.send({
       transactionId: tx,
     });
@@ -32,7 +32,7 @@ function initMarketRouter(marketService: MarketService): Router {
     validateRequest,
     async (req: Request, res: Response) => {
       const { itemID, price } = req.body;
-      const tx = await marketService.sell(itemID, price);
+      const tx = await storefrontService.sell(itemID, price);
       return res.send({
         transactionId: tx,
       });
@@ -42,7 +42,7 @@ function initMarketRouter(marketService: MarketService): Router {
   router.get(
     "/market/collection/:account",
     async (req: Request, res: Response) => {
-      const items = await marketService.getItems(req.params.account);
+      const items = await storefrontService.getItems(req.params.account);
       return res.send({
         items,
       });
@@ -52,7 +52,7 @@ function initMarketRouter(marketService: MarketService): Router {
   router.get(
     "/market/collection/:account/:item",
     async (req: Request, res: Response) => {
-      const item = await marketService.getItem(
+      const item = await storefrontService.getItem(
         req.params.account,
         parseInt(req.params.item)
       );
@@ -63,7 +63,7 @@ function initMarketRouter(marketService: MarketService): Router {
   );
 
   router.get("/market/latest", async (req: Request, res: Response) => {
-    const latestSaleOffers = await marketService.findMostRecentSales();
+    const latestSaleOffers = await storefrontService.findMostRecentSales();
     return res.send({
       latestSaleOffers,
     });
@@ -72,4 +72,4 @@ function initMarketRouter(marketService: MarketService): Router {
   return router;
 }
 
-export default initMarketRouter;
+export default initStorefrontRouter;

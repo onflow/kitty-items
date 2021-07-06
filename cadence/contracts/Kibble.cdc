@@ -176,3 +176,4 @@ pub contract Kibble: FungibleToken {
         emit TokensInitialized(initialSupply: self.totalSupply)
     }
 }
+ 

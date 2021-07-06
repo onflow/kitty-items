@@ -155,13 +155,13 @@ From the root of the project run `npm run start:dev` to start Kitty Items in loc
 
 If you're not able to run the app after following these instructions, or the app is failing to run after you come back to it, you can try the following troubleshooting steps.
 
-- Ensure Postgres is runnung on the correct port
+- Ensure Postgres is running on the correct port
   - You may want to remove the block-cursor records from your db
 
 - Ensure the emulator is running.
-  - You may want to clear the emulator state by removing the `flowDb` directory, then stopping and re-starting the emulator.
+  - You may want to clear the emulator state by removing the `flowdb` directory, then stopping and re-starting the emulator.
 
-- Start each component seperately. 
+- Start each component separately. 
 
 ---
 
