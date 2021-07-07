@@ -46,6 +46,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Root NPM Install
+        run: npm i
+
       - name: Build & Run
         run: ./scripts/run-local.sh
 
