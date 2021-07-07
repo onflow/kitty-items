@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  vm-job:
+  container-job:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     services:
@@ -47,6 +47,8 @@ jobs:
           submodules: recursive
 
       - name: Build & Run
+        env:
+          DATABASE_URL: postgresql://kittyuser:kittypassword@localhost:5432/kittyitems
         run: ./scripts/run-action.sh
 
       - name: Deploy contracts
