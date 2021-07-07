@@ -12,12 +12,13 @@ export WALLET_DISCOVERY=https://fcl-discovery.onflow.org/testnet/authn
 export DB_NAME=kittyitems
 export DB_USER_USER=kittyuser
 export DB_PASSWORD=kittypassword
+export DB_URL=postgresql://kittyuser:kittypassword@localhost:5432/kittyitems
 
-scripts/build-all.sh
+# scripts/build-all.sh
 
 docker compose --profile testnet up -d 
 
-scripts/clean-all.sh
+# scripts/clean-all.sh
 
 flow project deploy --network=testnet
 
