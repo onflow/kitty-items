@@ -29,17 +29,17 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Install Typescript
-        run: npm i -g next typescript ts-node-dev
+      # - name: Install Typescript
+      #   run: npm i -g next typescript ts-node-dev
 
-      - name: Install curl, git
-        run: apt-get update && apt-get install curl git -y
+      # - name: Install curl, git
+      #   run: apt-get update && apt-get install curl git -y
 
-      - name: Install flow-cli
-        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+      # - name: Install flow-cli
+      #   run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
 
-      - name: Update PATH
-        run: echo "/root/.local/bin" >> $GITHUB_PATH
+      # - name: Update PATH
+      #   run: echo "/root/.local/bin" >> $GITHUB_PATH
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -49,7 +49,7 @@ jobs:
       - name: Build & Run
         env:
           DATABASE_URL: postgresql://kittyuser:kittypassword@localhost:5432/kittyitems
-        run: ./scripts/run-action.sh
+        run: ./scripts/run-local.sh
 
       - name: Deploy contracts
         run: flow project deploy --network=emulator
