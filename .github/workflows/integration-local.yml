@@ -24,7 +24,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - name: Install node
+      - name: Install Node
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
@@ -38,6 +38,9 @@ jobs:
       - name: Install flow-cli
         run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
 
+      - name: Update PATH
+        run: echo "/root/.local/bin" >> $GITHUB_PATH
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -46,22 +49,16 @@ jobs:
       - name: Build & Run
         run: ./scripts/run-action.sh
 
-      # - name: Install dependencies
-      #   run: npx lerna exec npm install
+      - name: Deploy contracts
+        run: flow project deploy --network=emulator
 
-      # - name: Build proejcts
-      #   run: ./scripts/build-all.sh
-
-      # - name: Deploy contracts
-      #   run: flow project deploy --network=emulator
-
-      - name: Cypress run
+      - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
         with:
           browser: chrome
           headless: true
           record: false
 
-      - name: Stop containers
+      - name: Stop Containers
         if: always()
         run: docker-compose -f "docker-compose.yml" down
