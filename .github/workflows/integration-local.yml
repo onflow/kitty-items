@@ -3,36 +3,54 @@ name: Kitty Items (local dev) Integrations Tests
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
-  docker:
+  integration:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-
+    # services:
+    #   postgres:
+    #     image: postgres
+    #     env:
+    #       POSTGRES_DB: kittyitems
+    #       POSTGRES_USER: kittyuser
+    #       POSTGRES_PASSWORD: kittypassword
+    #     ports:
+    #       - 5432:5432
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
     steps:
+      # - name: Install node
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: 14.x
+
+      # - name: Install curl, git
+      #   run: apt-get update && apt-get install curl git -y
+
+      # - name: Install flow-cli
+      #   run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Install node
-        uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          submodules: recursive
 
-      - name: Install curl, git & Docker
-        run: apt-get update && apt-get install curl git -y
+      - name: Build the stack
+        run: ./scripts/run-local.sh
 
-      - name: Install flow-cli
-        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+      # - name: Install dependencies
+      #   run: npx lerna exec npm install
 
-      - name: Install dependencies
-        run: npx lerna exec npm install
+      # - name: Build proejcts
+      #   run: ./scripts/build-all.sh
 
-      - name: Build & start containers
-        run: ./srcipts/run-local.sh
-
-      - name: Deploy contracts
-        run: flow project deploy --network=emulator
+      # - name: Deploy contracts
+      #   run: flow project deploy --network=emulator
 
       - name: Cypress run
         uses: cypress-io/github-action@v2

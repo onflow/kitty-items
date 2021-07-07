@@ -1,0 +1,14 @@
+# Run
+# FROM nginx:alpine
+# COPY ./web/build /usr/share/nginx/html
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
+
+
+FROM node:14-alpine
+
+WORKDIR /web
+COPY ./web .
+RUN npm i
+EXPOSE 3001
+CMD npm run dev

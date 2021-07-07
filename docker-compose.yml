@@ -6,21 +6,35 @@ services:
       - testnet
     build:
       context: ./
-      dockerfile: ./Dockerfiles/Dockerfile.web
+      dockerfile: ./Dockerfiles/Dockerfile.web.local
     ports:
-      - 3001:80
+      - 3001:3001
+    volumes:
+      - "./web:/web"
+      - "/web/node_modules"
+    environment:
+      - CHAIN_ENV=${CHAIN_ENV}
+      - ACCESS_API=${ACCESS_API}
+      - WALLET_DISCOVERY=${WALLET_DISCOVERY}
+      - FUNGIBLE_TOKEN_ADDRESS=${FUNGIBLE_TOKEN_ADDRESS}
+      - NON_FUNGIBLE_TOKEN_ADDRESS=${NON_FUNGIBLE_TOKEN_ADDRESS}
+      - API_URL=${API_URL}
+      - FLOW_ADDRESS=${FLOW_ADDRESS}
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - api
-      - db
   api:
     profiles:
       - local
       - testnet
     build:
       context: ./
-      dockerfile: ./Dockerfiles/Dockerfile.api
+      dockerfile: ./Dockerfiles/Dockerfile.api.local
     ports:
       - "3000:3000"
+    volumes:
+      - "./api:/api"
+      - "/api/node_modules"
     links:
       - "db:database"
     environment:
@@ -33,6 +47,7 @@ services:
       - DATABASE_URL=database://kittyuser:kittypassword@db:5432/kittyitems
       - MIGRATION_PATH=./src/migrations
       - BLOCK_WINDOW=1
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - db
   emulator:
@@ -40,7 +55,7 @@ services:
       - local
     build:
       context: ./
-      dockerfile: ./Dockerfiles/Dockerfile.emulator
+      dockerfile: ./Dockerfiles/Dockerfile.emulator.local
     ports:
       - "3569:3569"
       - "8080:8080"
@@ -49,7 +64,7 @@ services:
       - local
     build:
       context: ./
-      dockerfile: ./Dockerfiles/Dockerfile.wallet
+      dockerfile: ./Dockerfiles/Dockerfile.wallet.local
     ports:
       - "8701:8701"
     environment:

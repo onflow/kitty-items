@@ -1,7 +1,0 @@
-FROM node:14-alpine
-WORKDIR /api
-COPY ./api/dist ./src
-COPY ./api/node_modules ./node_modules
-COPY ./cadence /cadence
-EXPOSE 3000
-CMD node ./src/index.js --dev
