@@ -1,4 +1,4 @@
-name: Kitty Items (local dev) Integrations Tests
+name: Kitty Items Integrations Tests
 
 on:
   pull_request:
@@ -6,7 +6,8 @@ on:
       - master
 
 jobs:
-  container-job:
+  vm-job:
+    name: Kitty Items Integration Tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
     # services:
@@ -49,15 +50,33 @@ jobs:
       - name: Root NPM Install
         run: npm i
 
+      # - name: Install Docker Compose
+      #   run: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+
       - name: Build & Run
         run: ./scripts/run-local.sh
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
         with:
+          install: false
+          start: npm run test
           browser: chrome
           headless: true
           record: false
+          config: pageLoadTimeout=100000,baseUrl=http://localhost:3001,chromeWebSecurity=false
+
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
 
       - name: Stop Containers
         if: always()

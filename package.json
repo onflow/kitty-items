@@ -10,7 +10,8 @@
   "devDependencies": {
     "@types/node": "^14.14.37",
     "@types/yargs": "^16.0.1",
-    "cypress": "^7.6.0"
+    "cypress": "^7.6.0",
+    "cypress-iframe": "^1.0.1"
   },
   "scripts": {
     "start": "node api/dist/index.js",
@@ -18,7 +19,8 @@
     "start:dev": "./scripts/run-local.sh",
     "start:testnet": "./scripts/run-testnet.sh",
     "setup-minter": "./scripts/setup-minter.sh",
-    "heroku-postbuild": "./scripts/build-all.sh"
+    "heroku-postbuild": "./scripts/build-all.sh",
+    "test": " cypress run --headless --browser chrome --no-exit --record false"
   },
   "repository": {
     "type": "git",

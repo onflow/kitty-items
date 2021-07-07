@@ -37,6 +37,13 @@ export function Page() {
             Sign Up
           </Button>
         </Flex>
+        <Box>
+          <Box></Box>
+          <pre>
+            DEBUG:
+            {JSON.stringify(process.env, null, 2)}
+          </pre>
+        </Box>
       </Box>
     </Base>
   )
