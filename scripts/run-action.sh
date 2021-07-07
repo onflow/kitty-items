@@ -9,7 +9,6 @@ export FLOW_PUBLIC_KEY=6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19d
 export FUNGIBLE_TOKEN_ADDRESS=0xee82856bf20e2aa6
 export NON_FUNGIBLE_TOKEN_ADDRESS=0xf8d6e0586b0a20c7
 
-
 #  Set this to localhost for the web build.
 export ACCESS_API=http://localhost:8080
 
@@ -27,11 +26,14 @@ export DB_PASSWORD=kittypassword
 # re-export this, so the API process uses correct docker host.
 # export ACCESS_API=http://emulator:8080 
 
-docker-compose --profile local up -d 
+# docker-compose --profile local up -d 
+npx lerna exec npm install
+npx lerna exec npm run dev --parallel
 
 # Wait just to be sure.
-sleep 5
+# sleep 5
 
-flow project deploy --network=emulator
+# flow project deploy --network=emulator
 
 # Done!
+ 

@@ -6,42 +6,45 @@ on:
       - master
 
 jobs:
-  integration:
+  vm-job:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    # services:
-    #   postgres:
-    #     image: postgres
-    #     env:
-    #       POSTGRES_DB: kittyitems
-    #       POSTGRES_USER: kittyuser
-    #       POSTGRES_PASSWORD: kittypassword
-    #     ports:
-    #       - 5432:5432
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: kittyitems
+          POSTGRES_USER: kittyuser
+          POSTGRES_PASSWORD: kittypassword
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      # - name: Install node
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 14.x
+      - name: Install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
 
-      # - name: Install curl, git
-      #   run: apt-get update && apt-get install curl git -y
+      - name: Install Typescript
+        run: npm i -g next typescript ts-node-dev
 
-      # - name: Install flow-cli
-      #   run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+      - name: Install curl, git
+        run: apt-get update && apt-get install curl git -y
+
+      - name: Install flow-cli
+        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
 
       - name: Checkout
         uses: actions/checkout@v2
         with:
           submodules: recursive
 
-      - name: Build the stack
-        run: ./scripts/run-local.sh
+      - name: Build & Run
+        run: ./scripts/run-action.sh
 
       # - name: Install dependencies
       #   run: npx lerna exec npm install
