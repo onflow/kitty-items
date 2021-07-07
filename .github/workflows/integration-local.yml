@@ -49,9 +49,6 @@ jobs:
       - name: Build & Run
         run: ./scripts/run-local.sh
 
-      - name: Deploy contracts
-        run: flow project deploy --network=emulator
-
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
         with:
