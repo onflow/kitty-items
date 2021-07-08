@@ -14,11 +14,10 @@ export DB_USER_USER=kittyuser
 export DB_PASSWORD=kittypassword
 export DB_URL=postgresql://kittyuser:kittypassword@localhost:5432/kittyitems
 
-# scripts/build-all.sh
-
 docker compose --profile testnet up -d 
 
-# scripts/clean-all.sh
+# Wait just to be sure.
+sleep 5
 
 flow project deploy --network=testnet
 

@@ -22,12 +22,6 @@ export DB_USER_USER=kittyuser
 export DB_PASSWORD=kittypassword
 export DB_URL=postgresql://kittyuser:kittypassword@db:5432/kittyitems
 
-# scripts/build-all.sh
-
-# The web project has been build with the localhost, so we need to 
-# re-export this, so the API process uses correct docker host.
-# export ACCESS_API=http://emulator:8080 
-
 docker-compose --profile local up -d 
 
 # Wait just to be sure.
