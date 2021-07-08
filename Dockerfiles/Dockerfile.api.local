@@ -17,5 +17,5 @@ CMD export FLOW_ACCESS_API_URL=http://emulator:8080 && npm run dev
 # COPY ./api/node_modules ./node_modules
 # COPY ./cadence /cadence
 # EXPOSE 3000
-# CMD node ./src/index.js --dev
+# CMD node ./src/index.js && node ./src/index.js --worker
 

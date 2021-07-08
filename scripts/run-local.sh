@@ -11,7 +11,8 @@ export NON_FUNGIBLE_TOKEN_ADDRESS=0xf8d6e0586b0a20c7
 
 
 #  Set this to localhost for the web build.
-export ACCESS_API=http://localhost:8080
+export ACCESS_API_WEB=http://localhost:8080
+export ACCESS_API_DOCKER=http://emulator:8080
 
 export API_URL=http://localhost:3000
 export WALLET_DISCOVERY=http://localhost:8701/fcl/authn

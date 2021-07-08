@@ -1,0 +1,25 @@
+{
+  "contracts": {
+    "Kibble": "./cadence/contracts/Kibble.cdc",
+    "KittyItems": "./cadence/contracts/KittyItems.cdc",
+    "KittyItemsMarket": "./cadence/contracts/KittyItemsMarket.cdc"
+  },
+  "networks": {
+    "testnet": "access.devnet.nodes.onflow.org:9000"
+  },
+  "accounts": {
+    "testnet-account": {
+      "address": "${FLOW_ADDRESS}",
+      "keys": "${FLOW_PRIVATE_KEY}"
+    }
+  },
+  "deployments": {
+    "testnet": {
+      "testnet-account": [
+        "Kibble",
+        "KittyItems",
+        "KittyItemsMarket"
+      ]
+    }
+  }
+}

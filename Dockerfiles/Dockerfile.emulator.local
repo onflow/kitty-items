@@ -7,7 +7,7 @@ RUN apk add --no-cache curl \
 ENV PATH "$PATH:/root/.local/bin"
 
 WORKDIR /emulator
-COPY flow.json .
+COPY flow.local.json ./flow.json
 EXPOSE 8080 3569
 CMD flow emulator start 
 

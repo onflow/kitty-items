@@ -75,14 +75,13 @@ _⚠️ Note: It's important that these variables are exported in each shell whe
 - Run `./srcipts/run-testnet.sh` 
   - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
   - Testnet development will connect the application to Flow's testnet
-  - All contracts to the testnet account you created in the first steps.
+  - All contracts are deployed to the testnet account you created in the first steps.
 #### Local development
 
 - Run `./srcipts/run-local.sh` 
   - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
   - Local development uses the [Flow Emulator]() and the [FCL Dev-Wallet]() to simulate the blockchain and FCL compatible wallets.
-  - All contracts will be deployed to the Flow emulator.
-
+  - All contracts are deployed to the Flow emulator.
 
 ### (Optional) Heroku Deployment
 
