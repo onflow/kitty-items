@@ -10,31 +10,11 @@ jobs:
     name: Kitty Items Integration Tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    # services:
-    #   postgres:
-    #     image: postgres
-    #     env:
-    #       POSTGRES_DB: kittyitems
-    #       POSTGRES_USER: kittyuser
-    #       POSTGRES_PASSWORD: kittypassword
-    #     ports:
-    #       - 5432:5432
-    #     options: >-
-    #       --health-cmd pg_isready
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
     steps:
       - name: Install Node
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-
-      # - name: Install Typescript
-      #   run: npm i -g next typescript ts-node-dev
-
-      # - name: Install curl, git
-      #   run: apt-get update && apt-get install curl git -y
 
       - name: Install flow-cli
         run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
@@ -49,9 +29,6 @@ jobs:
 
       - name: Root NPM Install
         run: npm i
-
-      # - name: Install Docker Compose
-      #   run: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 
       - name: Build & Run
         run: ./scripts/run-local.sh
@@ -71,7 +48,7 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-      # Test run video was always captured, so this action uses "always()" condition
+
       - uses: actions/upload-artifact@v2
         if: always()
         with:
