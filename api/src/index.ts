@@ -35,8 +35,6 @@ async function run() {
   const config = getConfig(envVars);
   const db = initDB(config);
 
-  console.log(config);
-
   // Make sure to disconnect from DB when exiting the process
   process.on("SIGTERM", () => {
     db.destroy().then(() => {

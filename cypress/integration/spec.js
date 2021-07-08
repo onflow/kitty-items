@@ -9,7 +9,6 @@ it("loads the page", () => {
 it("Opens the dev-wallet UI on Login", () => {
   cy.visit("/");
   cy.contains("Log In").click();
-  cy.wait(10000);
   cy.frameLoaded();
-  cy.iframe().find("h3");
+  cy.iframe().find("h3").should("contain", "Choose Account");
 });

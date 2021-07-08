@@ -9,7 +9,6 @@ import { FlowService } from "../services/flow";
 abstract class BaseEventHandler {
   private stepSize: number = 200;
   private stepTimeMs: number = 1000;
-  private latestBlockOffset: number = 1;
 
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
@@ -55,7 +54,7 @@ abstract class BaseEventHandler {
         if (fromBlock <= toBlock) {
           try {
             const result = await fcl.send([
-              fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock),
+              fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock)
             ]);
             const decoded = await fcl.decode(result);
 
