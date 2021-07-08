@@ -49,7 +49,7 @@ _⚠️ Make sure to save these keys in a safe place, you'll need them later._
 
 Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create a new account. Use the **public key** from the previous step.
 
-#### Save your keys
+### 4. Save your keys
 
 After your account has been created, export the following environment variables to your shell:
 
@@ -61,50 +61,13 @@ export FLOW_ADDRESS=address
 export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 ```
 
-Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough.
-### 4. Deploy the contracts
+_⚠️ Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough._
+### 5. Start the project
 
-```sh
-flow project deploy --network=testnet
-```
-
-If you'd like to look at the contracts in your account, to confirm that everything was deploy properly, you can use the following cli command:
-```sh
-flow accounts get $FLOW_ADDRESS --network=testnet
-```
-
-### 5. Rename `.env.example` files
-
-Rename `.env.example` to `env.local` in the `web` and `api` folders.
-The `.env.local` files should be in their respective project directories.
-
-```sh
-kitty-items/
-├─ api/
-│  ├─ .env.local
-├─ web/
-│  ├─ .env.local
-├─ ... etc
-```
-
-### 6. Start Postgres
-
-To work locally, you'll need to start an instance of Postgres. 
-You can use the `docker-compose.yml` file or start you own instance.
-
-```
-docker-compose up -d
-```
-(☝️ **Note**: If you use another method to create a Postgres DB, be sure to use the same credentials provided in the `docker-compose.yml` file.).
-
-
-### 7. Start the project
-
-Once finished run `npx lerna exec npm install` to install the project's dependencies.
-
-From the root of the project run `npm run start:testnet` to start Kitty Items!
-
-
+- Run `npm install` in the root of the project.
+- Run `npx lerna exec npm install` to install project dependencies.
+- Run `./srcipts/run-testnet.sh` to start application!
+  - This file exports the necessary configuration and starts the project in local Docker containers. See`docker-compose.yml` for details.
 ### (Optional) Heroku Deployment
 
 If you'd like to deploy a version of this app to Heroku for testing, you can use this button!
