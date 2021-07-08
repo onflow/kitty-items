@@ -62,12 +62,28 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 ```
 
 _⚠️ Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough._
-### 5. Start the project
+### 5. Install dependencies
+
 
 - Run `npm install` in the root of the project.
 - Run `npx lerna exec npm install` to install project dependencies.
-- Run `./srcipts/run-testnet.sh` to start application!
-  - This file exports the necessary configuration and starts the project in local Docker containers. See`docker-compose.yml` for details.
+
+### Start the project
+
+#### Testnet develeopemnt
+
+- Run `./srcipts/run-testnet.sh` 
+  - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
+  - Testnet development will connect the application to Flow's testnet
+  - All contracts to the testnet account you created in the first steps.
+#### Local development
+
+- Run `./srcipts/run-local.sh` 
+  - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
+  - Local development uses the [Flow Emulator]() and the [FCL Dev-Wallet]() to simulate the blockchain and FCL compatible wallets.
+  - All contracts will be deployed to the Flow emulator.
+
+
 ### (Optional) Heroku Deployment
 
 If you'd like to deploy a version of this app to Heroku for testing, you can use this button!
