@@ -36,8 +36,8 @@ git clone https://github.com/onflow/kitty-items.git
 
 ### 4. Start the project
 
-#### Local development
----
+## Local development
+
 
 - Run `./srcipts/run-local.sh` 
   - This script exports the necessary configuration and starts the `web` and `api` applications in local Docker containers. (See`docker-compose.yml` for details.)
@@ -45,13 +45,13 @@ git clone https://github.com/onflow/kitty-items.git
   - All contracts are deployed to the Flow emulator.
 
 
-#### Testnet development
+## Testnet development
 ---
-##### Create a Flow Testnet account 
+#### Create a Flow Testnet account 
 
 You'll need a Testnet account to work on this project. Here's how to make one:
 
-##### Generate a key pair 
+#### Generate a key pair 
 
 Generate a new key pair with the Flow CLI:
 
@@ -61,11 +61,11 @@ flow keys generate
 
 _⚠️ Make sure to save these keys in a safe place, you'll need them later._
 
-##### Create your account
+#### Create your account
 
 Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create a new account. Use the **public key** from the previous step.
 
-##### Save your keys
+#### Save your keys
 
 After your account has been created, export the following environment variables to your shell:
 
