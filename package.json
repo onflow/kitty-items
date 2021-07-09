@@ -20,7 +20,7 @@
     "start:testnet": "./scripts/run-testnet.sh",
     "setup-minter": "./scripts/setup-minter.sh",
     "heroku-postbuild": "./scripts/build-all.sh",
-    "test": " cypress run --headless --browser chrome --no-exit --record false"
+    "test": " cypress run --headless --browser chrome --record false"
   },
   "repository": {
     "type": "git",

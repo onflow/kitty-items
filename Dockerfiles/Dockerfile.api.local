@@ -5,7 +5,7 @@ RUN npm install typescript
 COPY ./api .
 COPY ./cadence /cadence
 EXPOSE 3001
-CMD export FLOW_ACCESS_API_URL=http://emulator:8080 && npm run dev
+CMD npm run dev
 
 
 # Alternatively, you can use the following Dockerfile to build the API image. 
