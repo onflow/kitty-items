@@ -46,7 +46,6 @@ git clone https://github.com/onflow/kitty-items.git
 
 
 ## Testnet development
----
 #### Create a Flow Testnet account 
 
 You'll need a Testnet account to work on this project. Here's how to make one:
@@ -83,6 +82,8 @@ _⚠️ Note: It's important that these variables are exported in each shell whe
   - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
   - Testnet development will connect the application to Flow's testnet
   - All contracts are deployed to the testnet account you created in the first steps.
+
+---
 ### (Optional) Heroku Deployment
 
 If you'd like to deploy a version of this app to Heroku for testing, you can use this button!
