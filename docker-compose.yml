@@ -67,10 +67,10 @@ services:
     depends_on:
       - emulator
   emulator:
-    container_name: kitty-items_emulator
     profiles:
       - local
     image: gcr.io/flow-container-registry/emulator:0.20.2
+    container_name: kitty-items_emulator
     ports:
       - "8080:8080"
       - "3569:3569"
