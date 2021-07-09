@@ -28,6 +28,6 @@ docker-compose --profile local up -d
 # Wait just to be sure.
 sleep 5
 
-flow project deploy --network=emulator
+flow project deploy -f flow.local.json --network=emulator
 
 # Done!

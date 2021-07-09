@@ -72,6 +72,10 @@ _⚠️ Note: It's important that these variables are exported in each shell whe
 
 #### Testnet develeopemnt
 
+Add the following to `flow.json`
+
+
+
 - Run `./srcipts/run-testnet.sh` 
   - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
   - Testnet development will connect the application to Flow's testnet

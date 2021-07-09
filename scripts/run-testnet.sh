@@ -3,7 +3,7 @@
 export CHAIN_ENV=testnet 
 
 export FUNGIBLE_TOKEN_ADDRESS=0x9a0766d93b6608b7
-export NON_FUNGIBLE_TOKEN_ADDRESS=
+export NON_FUNGIBLE_TOKEN_ADDRESS=0x631e88ae7f1d7c20
 
 export API_URL=http://localhost:3000
 
@@ -17,12 +17,6 @@ export DB_USER_USER=kittyuser
 export DB_PASSWORD=kittypassword
 export DB_URL=postgresql://kittyuser:kittypassword@localhost:5432/kittyitems
 
-if [ -z "$NON_FUNGIBLE_TOKEN_ADDRESS" ]
-then
-    echo "NON_FUNGIBLE_TOKEN_ADDRESS not set!"
-    exit 1
-fi
-
 if [ -z "$FLOW_PRIVATE_KEY" ]
 then
     echo "FLOW_PRIVATE_KEY not set!"
@@ -35,12 +29,11 @@ then
     exit 1
 fi
 
-
 docker compose --profile testnet up -d 
 
 # Wait just to be sure.
 sleep 5
 
-flow project deploy --network=testnet
+flow project deploy -f flow.testnet.json --network=testnet 
 
 # Done!
