@@ -8,7 +8,7 @@ export NON_FUNGIBLE_TOKEN_ADDRESS=0x631e88ae7f1d7c20
 export API_URL=http://localhost:3000
 
 export ACCESS_API_WEB=https://access-testnet.onflow.org
-export ACCESS_API_DOCKER=https://access-testnet.onflow.org
+export ACCESS_API_BACKEND=$ACCESS_API_WEB
 
 export WALLET_DISCOVERY=https://fcl-discovery.onflow.org/testnet/authn
 

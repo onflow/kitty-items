@@ -83,7 +83,7 @@ Add the following to `flow.json`
 #### Local development
 
 - Run `./srcipts/run-local.sh` 
-  - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
+  - This script exports the necessary configuration and starts the `web` and `api` applications in local Docker containers. (See`docker-compose.yml` for details.)
   - Local development uses the [Flow Emulator]() and the [FCL Dev-Wallet]() to simulate the blockchain and FCL compatible wallets.
   - All contracts are deployed to the Flow emulator.
 
