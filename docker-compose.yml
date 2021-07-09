@@ -50,15 +50,6 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - db
-  emulator:
-    profiles:
-      - local
-    build:
-      context: ./
-      dockerfile: ./Dockerfiles/Dockerfile.emulator.local
-    ports:
-      - "3569:3569"
-      - "8080:8080"
   dev-wallet:
     profiles:
       - local
@@ -75,6 +66,19 @@ services:
       - FLOW_ACCOUNT_PUBLIC_KEY=${FLOW_PUBLIC_KEY}
     depends_on:
       - emulator
+  emulator:
+    container_name: kitty-items_emulator
+    profiles:
+      - local
+    image: gcr.io/flow-container-registry/emulator:0.20.2
+    ports:
+      - "8080:8080"
+      - "3569:3569"
+    environment:
+      - FLOW_SERVICEPRIVATEKEY=${FLOW_PRIVATE_KEY}
+      - FLOW_VERBOSE=true
+      - FLOW_SERVICEKEYSIGALGO=ECDSA_P256
+      - FLOW_SERVICEKEYHASHALGO=SHA3_256
   db:
     profiles:
       - local
