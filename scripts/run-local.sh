@@ -15,7 +15,6 @@ export ACCESS_API_BACKEND=http://emulator:8080
 export API_URL=http://localhost:3000
 export WALLET_DISCOVERY=http://localhost:8701/fcl/authn
 
-
 export DB_NAME=kittyitems
 export DB_USER_USER=kittyuser
 export DB_PASSWORD=kittypassword
