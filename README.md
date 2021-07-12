@@ -47,7 +47,7 @@ git clone https://github.com/onflow/kitty-items.git
 
 
 ## Testnet development
-#### Create a Flow Testnet account 
+### Create a Flow Testnet account 
 
 You'll need a Testnet account to work on this project. Here's how to make one:
 
