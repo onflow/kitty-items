@@ -1,6 +1,5 @@
 import * as fcl from "@onflow/fcl";
 
-import { BlockCursor } from "../models/block-cursor";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 
@@ -23,7 +22,7 @@ abstract class BaseEventHandler {
 
     // TODO: remove this once SDK fix is released: https://github.com/onflow/flow-js-sdk/pull/714
     if (startingBlockHeight === 0) {
-      startingBlockHeight = 1
+      startingBlockHeight = 1;
     }
 
     console.log("latestBlockHeight =", startingBlockHeight);

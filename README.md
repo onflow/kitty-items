@@ -51,7 +51,7 @@ git clone https://github.com/onflow/kitty-items.git
 
 You'll need a Testnet account to work on this project. Here's how to make one:
 
-#### Generate a key pair 
+#### Generate a key pair
 
 Generate a new key pair with the Flow CLI:
 
