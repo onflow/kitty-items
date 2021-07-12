@@ -4,5 +4,14 @@
       "address": "${FLOW_ADDRESS}",
       "keys": "${FLOW_PRIVATE_KEY}"
     }
+  },
+  "deployments": {
+    "testnet": {
+      "testnet-account": [
+        "Kibble",
+        "KittyItems",
+        "NFTStorefront"
+      ]
+    }
   }
 }

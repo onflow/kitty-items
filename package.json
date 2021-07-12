@@ -19,7 +19,7 @@
     "start:dev": "docker-compose --env-file .env.dev --profile dev up -d",
     "start:testnet": "docker compose --env-file .env.testnet --profile testnet up -d ",
     "heroku-postbuild": "npx lerna exec npm install && npx lerna exec npm run build",
-    "test": " cypress run --headless --browser chrome --record false"
+    "test": " cypress run --headless --browser chrome --record 'false'"
   },
   "repository": {
     "type": "git",

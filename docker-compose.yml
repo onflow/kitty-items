@@ -68,7 +68,6 @@ services:
     profiles:
       - dev
     image: gcr.io/flow-container-registry/emulator:v0.22.0
-    container_name: kitty-items_emulator
     ports:
       - "8080:8080"
       - "3569:3569"
