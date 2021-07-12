@@ -57,7 +57,7 @@ services:
     ports:
       - "8701:8701"
     environment:
-      - FLOW_ACCESS_NODE=${ACCESS_API_BACKEND}
+      - FLOW_ACCESS_NODE=${ACCESS_API_WEB}
       - FLOW_ACCOUNT_ADDRESS=${FLOW_ADDRESS}
       - FLOW_ACCOUNT_KEY_ID=0
       - FLOW_ACCOUNT_PRIVATE_KEY=${FLOW_PRIVATE_KEY}
