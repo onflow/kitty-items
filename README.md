@@ -40,10 +40,10 @@ git clone https://github.com/onflow/kitty-items.git
 
 
 1)  Run `npm run start:dev` 
-    - Local development uses the [Flow Emulator]() and the [FCL Dev-Wallet]() to simulate the blockchain and FCL compatible wallets.
+    - Local development uses the [Flow Emulator](https://docs.onflow.org/emulator/) and the [FCL Development Wallet](https://github.com/onflow/fcl-dev-wallet) to simulate the blockchain and an FCL-compatible wallet.
 
 2)  Run `flow project deploy --network emulator`
-    - All contracts are deployed to the Flow emulator.
+    - All contracts are deployed to the emulator.
 
 
 ## Testnet development
