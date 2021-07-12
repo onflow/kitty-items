@@ -20,7 +20,7 @@ export DB_USER_USER=kittyuser
 export DB_PASSWORD=kittypassword
 export DB_URL=postgresql://kittyuser:kittypassword@db:5432/kittyitems
 
-docker-compose --profile local up -d 
+docker-compose --profile local up -d
 
 # Wait just to be sure.
 sleep 5

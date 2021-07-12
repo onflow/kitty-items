@@ -6,7 +6,7 @@ services:
       - testnet
     build:
       context: ./
-      dockerfile: ./Dockerfiles/Dockerfile.web.local
+      dockerfile: ./web/Dockerfile.dev
     ports:
       - 3001:3001
     volumes:
@@ -29,7 +29,7 @@ services:
       - testnet
     build:
       context: ./
-      dockerfile: ./Dockerfiles/Dockerfile.api.local
+      dockerfile: ./api/Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:
@@ -67,13 +67,15 @@ services:
   emulator:
     profiles:
       - local
-    image: gcr.io/flow-container-registry/emulator:v0.20.2
+    image: gcr.io/flow-container-registry/emulator:v0.22.0
     container_name: kitty-items_emulator
     ports:
       - "8080:8080"
       - "3569:3569"
     environment:
       - FLOW_SERVICEPRIVATEKEY=${FLOW_PRIVATE_KEY}
+      - FLOW_SERVICEKEYSIGALGO=ECDSA_P256
+      - FLOW_SERVICEKEYHASHALGO=SHA3_256
       - FLOW_VERBOSE=true
   db:
     profiles:
