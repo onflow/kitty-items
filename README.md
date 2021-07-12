@@ -39,10 +39,11 @@ git clone https://github.com/onflow/kitty-items.git
 ## Local development
 
 
-- Run `./srcipts/run-local.sh` 
-  - This script exports the necessary configuration and starts the `web` and `api` applications in local Docker containers. (See`docker-compose.yml` for details.)
-  - Local development uses the [Flow Emulator]() and the [FCL Dev-Wallet]() to simulate the blockchain and FCL compatible wallets.
-  - All contracts are deployed to the Flow emulator.
+1)  Run `npm run start:dev` 
+    - Local development uses the [Flow Emulator]() and the [FCL Dev-Wallet]() to simulate the blockchain and FCL compatible wallets.
+
+2)  Run `flow project deploy --network emulator`
+    - All contracts are deployed to the Flow emulator.
 
 
 ## Testnet development
@@ -78,10 +79,11 @@ export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 
 _⚠️ Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough._
 
-- Run `./srcipts/run-testnet.sh` 
-  - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
-  - Testnet development will connect the application to Flow's testnet
-  - All contracts are deployed to the testnet account you created in the first steps.
+1)  Run: `npm run start:testnet`
+    - Testnet development will connect the application to Flow's testnet
+  
+2) Run: `flow project deploy --network testnet -f flow.json -f flow.testnet.json`
+   - All contracts are deployed to the Flow testnet.
 
 ---
 ### (Optional) Heroku Deployment

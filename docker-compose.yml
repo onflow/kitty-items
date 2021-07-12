@@ -2,7 +2,7 @@ version: "3"
 services:
   web:
     profiles:
-      - local
+      - dev
       - testnet
     build:
       context: ./
@@ -25,7 +25,7 @@ services:
       - api
   api:
     profiles:
-      - local
+      - dev
       - testnet
     build:
       context: ./
@@ -52,7 +52,7 @@ services:
       - db
   dev-wallet:
     profiles:
-      - local
+      - dev
     image: gcr.io/flow-container-registry/fcl-dev-wallet:v0.0.2
     ports:
       - "8701:8701"
@@ -66,7 +66,7 @@ services:
       - emulator
   emulator:
     profiles:
-      - local
+      - dev
     image: gcr.io/flow-container-registry/emulator:v0.22.0
     container_name: kitty-items_emulator
     ports:
@@ -79,7 +79,7 @@ services:
       - FLOW_VERBOSE=true
   db:
     profiles:
-      - local
+      - dev
       - testnet
     image: postgres
     ports:
