@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Install flow-cli
+      - name: Install Flow CLI
         run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
 
       - name: Update PATH
