@@ -21,6 +21,11 @@ abstract class BaseEventHandler {
 
     let startingBlockHeight = await this.flowService.getLatestBlockHeight();
 
+    // TODO: remove this once SDK fix is released: https://github.com/onflow/flow-js-sdk/pull/714
+    if (startingBlockHeight === 0) {
+      startingBlockHeight = 1
+    }
+
     console.log("latestBlockHeight =", startingBlockHeight);
 
     const cursors = this.eventNames.map((eventName) => {
