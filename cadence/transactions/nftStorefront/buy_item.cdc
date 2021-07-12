@@ -39,13 +39,8 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
             payment: <-self.paymentVault
         )
 
-        self.KittyItemsCollection.deposit(token: <-item)
+        self.kittyItemsCollection.deposit(token: <-item)
 
-        /* //-
-        error: Execution failed:
-        computation limited exceeded: 100
-        */
-        // Be kind and recycle
-        //self.storefront.cleanup(saleOfferResourceID: saleOfferResourceID)
+        self.storefront.cleanup(saleOfferResourceID: saleOfferResourceID)
     }
 }

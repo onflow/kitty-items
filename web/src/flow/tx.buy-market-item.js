@@ -45,9 +45,11 @@ const CODE = fcl.cdc`
         payment: <-self.paymentVault
       )
 
-      self.KittyItemsCollection.deposit(token: <-item)
+      self.kittyItemsCollection.deposit(token: <-item)
+
+      self.storefront.cleanup(saleOfferResourceID: saleOfferResourceID)
     }
-  }  
+  }
 `
 
 // prettier-ignore
