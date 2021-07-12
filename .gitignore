@@ -3,6 +3,7 @@ node_modules
 
 # testing
 /cypress/videos
+/cypress/screenshots
 
 # production
 /web/build
