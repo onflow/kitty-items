@@ -24,8 +24,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
 
       - name: Root NPM Install
         run: npm i
