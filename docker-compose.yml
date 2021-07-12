@@ -53,7 +53,7 @@ services:
   dev-wallet:
     profiles:
       - local
-    image: gcr.io/flow-container-registry/fcl-dev-wallet:v0.0.1
+    image: gcr.io/flow-container-registry/fcl-dev-wallet:v0.0.2
     ports:
       - "8701:8701"
     environment:
