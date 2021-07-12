@@ -17,8 +17,6 @@ deployed on the Flow Testnet.
 If you'd like to deploy your own version, see the [deploy to Heroku](#optional-heroku-deployment) instructions near the bottom to this setup guide.
 
 ## ✨ Getting Started
-
-**Note:** The following guide demonstrates how to deploy Kitty Items to the *Flow Testnet*. We think using the live network is the best way to learn about Flow. For your own projects you will likely want to develop and test locally, before you deploy. **You can read the <a href="LOCAL_DEV.md">local development guide here</a>.**
 ### 1. Install the Flow CLI
 
 Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
@@ -30,8 +28,25 @@ _⚠️ This project requires `flow-cli v0.15.0` or above._
 ```sh
 git clone https://github.com/onflow/kitty-items.git
 ```
+### 3. Install dependencies
 
-### 3. Create a Flow Testnet account
+
+- Run `npm install` in the root of the project.
+- Run `npx lerna exec npm install` to install project dependencies.
+
+### 4. Start the project
+
+## Local development
+
+
+- Run `./srcipts/run-local.sh` 
+  - This script exports the necessary configuration and starts the `web` and `api` applications in local Docker containers. (See`docker-compose.yml` for details.)
+  - Local development uses the [Flow Emulator]() and the [FCL Dev-Wallet]() to simulate the blockchain and FCL compatible wallets.
+  - All contracts are deployed to the Flow emulator.
+
+
+## Testnet development
+#### Create a Flow Testnet account 
 
 You'll need a Testnet account to work on this project. Here's how to make one:
 
@@ -61,50 +76,14 @@ export FLOW_ADDRESS=address
 export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 ```
 
-Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough.
-### 4. Deploy the contracts
+_⚠️ Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough._
 
-```sh
-flow project deploy --network=testnet
-```
+- Run `./srcipts/run-testnet.sh` 
+  - This script exports the necessary configuration and starts the project in local Docker containers. (See`docker-compose.yml` for details.)
+  - Testnet development will connect the application to Flow's testnet
+  - All contracts are deployed to the testnet account you created in the first steps.
 
-If you'd like to look at the contracts in your account, to confirm that everything was deploy properly, you can use the following cli command:
-```sh
-flow accounts get $FLOW_ADDRESS --network=testnet
-```
-
-### 5. Rename `.env.example` files
-
-Rename `.env.example` to `env.local` in the `web` and `api` folders.
-The `.env.local` files should be in their respective project directories.
-
-```sh
-kitty-items/
-├─ api/
-│  ├─ .env.local
-├─ web/
-│  ├─ .env.local
-├─ ... etc
-```
-
-### 6. Start Postgres
-
-To work locally, you'll need to start an instance of Postgres. 
-You can use the `docker-compose.yml` file or start you own instance.
-
-```
-docker-compose up -d
-```
-(☝️ **Note**: If you use another method to create a Postgres DB, be sure to use the same credentials provided in the `docker-compose.yml` file.).
-
-
-### 7. Start the project
-
-Once finished run `npx lerna exec npm install` to install the project's dependencies.
-
-From the root of the project run `npm run start:testnet` to start Kitty Items!
-
-
+---
 ### (Optional) Heroku Deployment
 
 If you'd like to deploy a version of this app to Heroku for testing, you can use this button!

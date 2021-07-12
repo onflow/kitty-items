@@ -9,8 +9,22 @@ export FLOW_PUBLIC_KEY=6e70492cb4ec2a6013e916114bc8bf6496f3335562f315e18b085c19d
 export FUNGIBLE_TOKEN_ADDRESS=0xee82856bf20e2aa6
 export NON_FUNGIBLE_TOKEN_ADDRESS=0xf8d6e0586b0a20c7
 
+export ACCESS_API_WEB=http://localhost:8080
+export ACCESS_API_BACKEND=http://emulator:8080
+
 export API_URL=http://localhost:3000
-export ACCESS_API=http://localhost:8080
 export WALLET_DISCOVERY=http://localhost:8701/fcl/authn
 
-npx lerna run dev --parallel
+export DB_NAME=kittyitems
+export DB_USER_USER=kittyuser
+export DB_PASSWORD=kittypassword
+export DB_URL=postgresql://kittyuser:kittypassword@db:5432/kittyitems
+
+docker-compose --profile local up -d
+
+# Wait just to be sure.
+sleep 5
+
+flow project deploy -f flow.local.json --network=emulator
+
+# Done!

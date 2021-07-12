@@ -6,7 +6,34 @@ export FUNGIBLE_TOKEN_ADDRESS=0x9a0766d93b6608b7
 export NON_FUNGIBLE_TOKEN_ADDRESS=0x631e88ae7f1d7c20
 
 export API_URL=http://localhost:3000
-export ACCESS_API=https://access-testnet.onflow.org
+
+export ACCESS_API_WEB=https://access-testnet.onflow.org
+export ACCESS_API_BACKEND=$ACCESS_API_WEB
+
 export WALLET_DISCOVERY=https://fcl-discovery.onflow.org/testnet/authn
 
-npx lerna run testnet --parallel
+export DB_NAME=kittyitems
+export DB_USER_USER=kittyuser
+export DB_PASSWORD=kittypassword
+export DB_URL=postgresql://kittyuser:kittypassword@localhost:5432/kittyitems
+
+if [ -z "$FLOW_PRIVATE_KEY" ]
+then
+    echo "FLOW_PRIVATE_KEY not set!"
+    exit 1
+fi
+
+if [ -z "$FLOW_ADDRESS" ]
+then
+    echo "FLOW_ADDRESS not set!"
+    exit 1
+fi
+
+docker compose --profile testnet up -d 
+
+# Wait just to be sure.
+sleep 5
+
+flow project deploy -f flow.testnet.json --network=testnet 
+
+# Done!

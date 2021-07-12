@@ -1,0 +1,50 @@
+{
+  "emulators": {
+    "default": {
+      "port": 3569,
+      "serviceAccount": "emulator-account"
+    }
+  },
+  "devWallet": {
+    "accessNode": {
+      "endpoint": "http://localhost:8080"
+    },
+    "port": 8701
+  },
+  "contracts": {
+    "Kibble": "./cadence/contracts/Kibble.cdc",
+    "KittyItems": "./cadence/contracts/KittyItems.cdc",
+    "NFTStorefront": "./cadence/contracts/NFTStorefront.cdc",
+    "FungibleToken": {
+      "source": "./cadence/contracts/FungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xee82856bf20e2aa6"
+      }
+    },
+    "NonFungibleToken": {
+      "source": "./cadence/contracts/NonFungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7"
+      }
+    }
+  },
+  "networks": {
+    "emulator": "127.0.0.1:3569"
+  },
+  "accounts": {
+    "emulator-account": {
+      "address": "f8d6e0586b0a20c7",
+      "keys": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
+    }
+  },
+  "deployments": {
+    "emulator": {
+      "emulator-account": [
+        "Kibble",
+        "KittyItems",
+        "NonFungibleToken",
+        "NFTStorefront"
+      ]
+    }
+  }
+}

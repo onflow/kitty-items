@@ -1,0 +1,58 @@
+name: Kitty Items Integrations Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  vm-job:
+    name: Kitty Items Integration Tests
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install Flow CLI
+        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+
+      - name: Update PATH
+        run: echo "/root/.local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Root NPM Install
+        run: npm i
+
+      - name: Build & Run
+        run: ./scripts/run-local.sh
+
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: npm run test
+          browser: chrome
+          headless: true
+          record: false
+          config: pageLoadTimeout=100000,baseUrl=http://localhost:3001,chromeWebSecurity=false
+
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Stop Containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
