@@ -30,7 +30,6 @@ git clone https://github.com/onflow/kitty-items.git
 ```
 ### 3. Install dependencies
 
-
 - Run `npm install` in the root of the project.
 - Run `npx lerna exec npm install` to install project dependencies.
 
@@ -38,13 +37,11 @@ git clone https://github.com/onflow/kitty-items.git
 
 ## Local development
 
-
 1)  Run `npm run start:dev` 
     - Local development uses the [Flow Emulator](https://docs.onflow.org/emulator/) and the [FCL Development Wallet](https://github.com/onflow/fcl-dev-wallet) to simulate the blockchain and an FCL-compatible wallet.
 
 2)  Run `flow project deploy --network emulator`
     - All contracts are deployed to the emulator.
-
 
 ## Testnet development
 ### Create a Flow Testnet account 

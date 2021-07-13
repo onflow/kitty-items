@@ -168,7 +168,7 @@ class StorefrontService {
   };
 
   addSaleOffer = async (saleOfferEvent) => {
-    const owner = saleOfferEvent.data.availableAt
+    const owner = saleOfferEvent.data.storefrontAddress
     const saleOfferResourceID = saleOfferEvent.data.saleOfferResourceID
 
     const item = await this.getSaleOfferItem(owner, saleOfferResourceID)
