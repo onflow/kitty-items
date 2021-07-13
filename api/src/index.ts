@@ -24,7 +24,7 @@ if (LOCAL) {
   const expandEnv = require("dotenv-expand");
 
   const config = env.config({
-    path: ".env.local",
+    path: ".env.local"
   });
 
   expandEnv(config);

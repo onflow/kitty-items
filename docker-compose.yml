@@ -27,6 +27,7 @@ services:
     profiles:
       - dev
       - testnet
+      - api
     build:
       context: ./
       dockerfile: ./api/Dockerfile.dev
@@ -67,6 +68,7 @@ services:
   emulator:
     profiles:
       - dev
+      - api
     image: gcr.io/flow-container-registry/emulator:v0.22.0
     ports:
       - "8080:8080"
@@ -80,6 +82,7 @@ services:
     profiles:
       - dev
       - testnet
+      - api
     image: postgres
     ports:
       - "5432:5432"
