@@ -15,11 +15,11 @@ import { StorefrontService } from "./services/storefront";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
 
 const argv = yargs(hideBin(process.argv)).argv;
-const LOCAL = argv.dev;
+const DEV = argv.dev;
 
 let envVars;
 
-if (LOCAL) {
+if (DEV) {
   const env = require("dotenv");
   const expandEnv = require("dotenv-expand");
 
@@ -98,7 +98,7 @@ async function run() {
     });
   };
 
-  if (LOCAL) {
+  if (DEV) {
     // If we're in dev, run everything in one process.
     startWorker();
     startAPIServer();
