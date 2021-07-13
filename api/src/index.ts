@@ -102,7 +102,6 @@ async function run() {
     // If we're in dev, run everything in one process.
     startWorker();
     startAPIServer();
-    return;
   } else if (argv.worker) {
     // If we're not in dev, look for flags. We do this so that
     // the worker can be started in seperate process using flag.
