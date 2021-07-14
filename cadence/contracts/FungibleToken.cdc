@@ -197,4 +197,3 @@ pub contract interface FungibleToken {
         }
     }
 }
- 
