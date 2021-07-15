@@ -79,6 +79,10 @@
       "description": "RESTful endpoint for minting Kibble (Fungible Token).",
       "value": "/v1/kibbles/mint"
     },
+    "REACT_APP_API_FUSD_MINT": {
+      "description": "RESTful endpoint for minting FUSD (Fungible Token / Stablecoin).",
+      "value": "/v1/fusd/mint"
+    },
     "REACT_APP_API_KITTY_ITEM_MINT": {
       "description": "RESTful endpoint for minting Kitty Items (Non-Fungible Token).",
       "value": "/v1/kitty-items/mint"
