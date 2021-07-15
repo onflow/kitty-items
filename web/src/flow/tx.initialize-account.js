@@ -6,17 +6,23 @@ import {tx} from "./util/tx"
 const CODE = cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import Kibble from 0xKibble
+  import FUSD from 0xFUSD
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
-  pub fun hasKibble(_ address: Address): Bool {
+  pub let FUSDPaths: {String: Path} = {
+    "VaultStoragePath": /storage/fusdVault,
+    "BalancePublicPath": /public/fusdBalance,
+    "ReceiverPublicPath": /public/fusdReceiver
+  }
+
+  pub fun hasFUSD(_ address: Address): Bool {
     let receiver = getAccount(address)
-      .getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)
+      .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths.ReceiverPublicPath)
       .check()
 
     let balance = getAccount(address)
-      .getCapability<&Kibble.Vault{FungibleToken.Balance}>(Kibble.BalancePublicPath)
+      .getCapability<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths.BalancePublicPath)
       .check()
 
     return receiver && balance
@@ -36,14 +42,14 @@ const CODE = cdc`
 
   transaction {
     prepare(acct: AuthAccount) {
-      if !hasKibble(acct.address) {
-        if acct.borrow<&Kibble.Vault>(from: Kibble.VaultStoragePath) == nil {
-          acct.save(<-Kibble.createEmptyVault(), to: Kibble.VaultStoragePath)
+      if !hasFUSD(acct.address) {
+        if acct.borrow<&FUSD.Vault>(from: FUSDPaths.VaultStoragePath) == nil {
+          acct.save(<-FUSD.createEmptyVault(), to: FUSDPaths.VaultStoragePath)
         }
-        acct.unlink(Kibble.ReceiverPublicPath)
-        acct.unlink(Kibble.BalancePublicPath)
-        acct.link<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath, target: Kibble.VaultStoragePath)
-        acct.link<&Kibble.Vault{FungibleToken.Balance}>(Kibble.BalancePublicPath, target: Kibble.VaultStoragePath)
+        acct.unlink(FUSDPaths.ReceiverPublicPath)
+        acct.unlink(/public/fusdBalance)
+        acct.link<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths.ReceiverPublicPath, target: FUSDPaths.VaultStoragePath)
+        acct.link<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths.BalancePublicPath, target: FUSDPaths.VaultStoragePath)
       }
 
       if !hasItems(acct.address) {

@@ -32,6 +32,10 @@
       "description": "The address where the Kibble contract is deployed on testnet for this app.",
       "value": ""
     },
+    "REACT_APP_CONTRACT_FUSD": {
+      "description": "The address where the FUSD contract is deployed on testnet for this app.",
+      "value": ""
+    },
     "REACT_APP_CONTRACT_KITTY_ITEMS": {
       "description": "The address where the KittyItems contract is deployed on testnet for this app.",
       "value": ""
