@@ -3,7 +3,7 @@ import { FUSDService } from "../services/fusd";
 import { body } from "express-validator";
 import { validateRequest } from "../middlewares/validate-request";
 
-function initKibblesRouter(fusdService: FUSDService): Router {
+function initFUSDRouter(fusdService: FUSDService): Router {
   const router = express.Router();
 
   router.post(

@@ -1,21 +1,22 @@
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import Kibble from "../../contracts/Kibble.cdc"
+import FUSD from "../../contracts/FUSD.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
 transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
-    let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
-    let kittyItemsProvider: Capability<&ExampleNFT.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
+    let fusdReceiver: Capability<&FUSD.Vault{FungibleToken.Receiver}>
+    let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
     let storefront: &NFTStorefront.Storefront
 
     prepare(account: AuthAccount) {
         // We need a provider capability, but one is not provided by default so we create one if needed.
         let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-        self.flowReceiver = account.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)!
-        assert(self.flowReceiver.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
+        self.fusdReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReciever)!
+        
+        assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
 
         if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
             account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
@@ -30,14 +31,14 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
     execute {
         let saleCut = NFTStorefront.SaleCut(
-            receiver: self.flowReceiver,
+            receiver: self.fusdReceiver,
             amount: saleItemPrice
         )
         self.storefront.createSaleOffer(
             nftProviderCapability: self.kittyItemsProvider,
             nftType: Type<@KittyItems.NFT>(),
             nftID: saleItemID,
-            salePaymentVaultType: Type<@Kibble.Vault>(),
+            salePaymentVaultType: Type<@FUSD.Vault>(),
             saleCuts: [saleCut]
         )
     }
