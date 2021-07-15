@@ -10,7 +10,7 @@ const CODE = cdc`
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
-  pub let FUSDPaths: {String: Path} = {
+  pub let FUSDPaths[" {String"]: Path} = {
     "VaultStoragePath": /storage/fusdVault,
     "BalancePublicPath": /public/fusdBalance,
     "ReceiverPublicPath": /public/fusdReceiver
@@ -18,11 +18,11 @@ const CODE = cdc`
 
   pub fun hasFUSD(_ address: Address): Bool {
     let receiver = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths.ReceiverPublicPath)
+      .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths["""]ReceiverPublicPath"])
       .check()
 
     let balance = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths.BalancePublicPath)
+      .getCapability<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths["""]BalancePublicPath"])
       .check()
 
     return receiver && balance
@@ -43,13 +43,13 @@ const CODE = cdc`
   transaction {
     prepare(acct: AuthAccount) {
       if !hasFUSD(acct.address) {
-        if acct.borrow<&FUSD.Vault>(from: FUSDPaths.VaultStoragePath) == nil {
-          acct.save(<-FUSD.createEmptyVault(), to: FUSDPaths.VaultStoragePath)
+        if acct.borrow<&FUSD.Vault>(from: FUSDPaths["VaultStoragePath"]) == nil {
+          acct.save(<-FUSD.createEmptyVault(), to: FUSDPaths["VaultStoragePath"])
         }
-        acct.unlink(FUSDPaths.ReceiverPublicPath)
+        acct.unlink(FUSDPaths["ReceiverPublicPath"])
         acct.unlink(/public/fusdBalance)
-        acct.link<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths.ReceiverPublicPath, target: FUSDPaths.VaultStoragePath)
-        acct.link<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths.BalancePublicPath, target: FUSDPaths.VaultStoragePath)
+        acct.link<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths["ReceiverPublicPath"], target: FUSDPaths["VaultStoragePath"])
+        acct.link<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths["BalancePublicPath"], target: FUSDPaths["VaultStoragePath"])
       }
 
       if !hasItems(acct.address) {
