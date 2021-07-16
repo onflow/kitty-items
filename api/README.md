@@ -2,59 +2,7 @@
 
 The Kitty Items API is a RESTful API built with [express](https://expressjs.com/) that sends transactions to Flow using the [Flow JS SDK](https://github.com/onflow/flow-js-sdk/).
 
-## Getting started
-
-### 1. Install dependencies
-
-```sh
-npm install
-```
-### 2. Use your Flow Testnet account
-
-You'll need the **account address** and
-**private key** for your Flow Testnet account to complete these setup steps.
-
-Read the [Getting Started](https://github.com/onflow/kitty-items#-get-started)
-guide if you haven't created a Testnet account yet.
-
-```sh
-# Replace these values with your own!
-export FLOW_ADDRESS=0xabcdef12345689
-export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
-```
-
-### 3. Configure your environment
-
-Create a copy of `.env.example`:
-
-```sh
-cp .env.example .env.testnet
-```
-
-### 4. Start the database
-
-> 🚧 You'll need to have Docker installed to complete this step.
-
-We'll use the included `docker-compose` file to start a Postgres instance for this API.
-
-```sh
-docker-compose up -d
-```
-
-### 5. Start the API server
-
-```sh
-npm run start:testnet
-```
-
-### 6. Set up the minter account
-
-Before you can mint Kibbles and Kitty Items,
-you'll need to initialize your account with the following:
-
-- An empty `Kibble` vault
-- An empty `KittyItems` collection
-- An empty `KittyItemsMarket` collection
+### Getting Started
 
 _💡 Learn more about `Vault` and `Collection` resources [in this tutorial](https://docs.onflow.org/cadence/tutorial/01-first-steps/)._
 
@@ -66,19 +14,6 @@ Run this script to set up the minter account and mint an initial supply of Kibbl
 ```sh
 ./setup-minter.sh
 ```
-
-### Try it out!
-
-✨ The API should now be available at http://localhost:3000.
-
-_Note: when the API starts,
-it will automatically run the database migrations for the configured `DATABASE_URL` URL._
-
-## Next steps
-
-Now that the API is configured, [launch the front-end app](https://github.com/onflow/kitty-items/tree/master/web#readme) to start interacting with your new marketplace!
-
----
 
 ## Appendix: API Reference
 

@@ -10,10 +10,10 @@ import { json, urlencoded } from "body-parser";
 
 import initKibblesRouter from "./routes/kibbles";
 import initKittyItemsRouter from "./routes/kitty-items";
-import initMarketRouter from "./routes/market";
+import initStorefrontRouter from "./routes/storefront";
 import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
-import { MarketService } from "./services/market";
+import { StorefrontService } from "./services/storefront";
 
 const V1 = "/v1/";
 
@@ -21,7 +21,7 @@ const V1 = "/v1/";
 const initApp = (
   kibblesService: KibblesService,
   kittyItemsService: KittyItemsService,
-  marketService: MarketService
+  storefrontService: StorefrontService
 ) => {
   const app = express();
 
@@ -31,7 +31,7 @@ const initApp = (
   app.use(urlencoded({ extended: false }));
   app.use(V1, initKibblesRouter(kibblesService));
   app.use(V1, initKittyItemsRouter(kittyItemsService));
-  app.use(V1, initMarketRouter(marketService));
+  app.use(V1, initStorefrontRouter(storefrontService));
 
   const serveReactApp = () => {
     app.use(express.static(path.resolve(__dirname, "../../web/build")));

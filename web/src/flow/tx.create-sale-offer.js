@@ -7,42 +7,48 @@ const CODE = fcl.cdc`
   import NonFungibleToken from 0xNonFungibleToken
   import Kibble from 0xKibble
   import KittyItems from 0xKittyItems
-  import KittyItemsMarket from 0xKittyItemsMarket
+  import NFTStorefront from 0xNFTStorefront
 
-  transaction(itemID: UInt64, price: UFix64) {
-    let kibbleVault: Capability<&Kibble.Vault{FungibleToken.Receiver}>
-    let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>
-    let marketCollection: &KittyItemsMarket.Collection
+  transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
-    prepare(signer: AuthAccount) {
-        // we need a provider capability, but one is not provided by default so we create one.
-        let KittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
+    let kibbleReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>
+    let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
+    let storefront: &NFTStorefront.Storefront
 
-        self.kibbleVault = signer.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)!
-        assert(self.kibbleVault.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
+    prepare(account: AuthAccount) {
+      // We need a provider capability, but one is not provided by default so we create one if needed.
+      let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-        if !signer.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>(KittyItemsCollectionProviderPrivatePath)!.check() {
-            signer.link<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>(KittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
-        }
+      self.kibbleReceiver = account.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)!
+      assert(self.kibbleReceiver.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
 
-        self.kittyItemsCollection = signer.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, KittyItems.KittyItemsCollectionPublic}>(KittyItemsCollectionProviderPrivatePath)!
-        assert(self.kittyItemsCollection.borrow() != nil, message: "Missing or mis-typed KittyItemsCollection provider")
+      if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
+        account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
+      }
 
-        self.marketCollection = signer.borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath)
-            ?? panic("Missing or mis-typed KittyItemsMarket Collection")
+      self.kittyItemsCollection = account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!
+      assert(self.kittyItemsCollection.borrow() != nil, message: "Missing or mis-typed KittyItemsCollection provider")
+      
+      self.storefront = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
+        ?? panic("Missing or mis-typed NFTStorefront Storefront")
     }
 
     execute {
-        let offer <- KittyItemsMarket.createSaleOffer (
-            sellerItemProvider: self.kittyItemsCollection,
-            itemID: itemID,
-            typeID: self.kittyItemsCollection.borrow()!.borrowKittyItem(id: itemID)!.typeID,
-            sellerPaymentReceiver: self.kibbleVault,
-            price: price
-        )
-        self.marketCollection.insert(offer: <-offer)
+      let saleCut = NFTStorefront.SaleCut(
+        receiver: self.kibbleReceiver,
+        amount: saleItemPrice
+      )
+
+      self.storefront.createSaleOffer(
+        nftProviderCapability: self.kittyItemsCollection,
+        nftType: Type<@KittyItems.NFT>(),
+        nftID: saleItemID,
+        salePaymentVaultType: Type<@Kibble.Vault>(),
+        saleCuts: [saleCut]
+      )
     }
-}
+  }
+
 `
 
 export function createSaleOffer({itemID, price}, opts = {}) {
