@@ -6,7 +6,7 @@ import {useCurrentUser} from "../../hooks/use-current-user.hook"
 import {useMarketItems} from "../../hooks/use-market-items.hook"
 import {useAccountItems} from "../../hooks/use-account-items.hook"
 import {useInitialized} from "../../hooks/use-initialized.hook"
-import {useKibblesBalance} from "../../hooks/use-kibbles-balance.hook"
+import {useFUSDBalance} from "../../hooks/use-fusd-balance.hook"
 import AuthCluster from "../../parts/auth-cluster.comp"
 import InitCluster from "../../parts/init-cluster.comp"
 import BalanceCluster from "../../parts/balance-cluster.comp"
@@ -67,20 +67,19 @@ export function MintButton({address}) {
 
 export function InfoBanner({address}) {
   const init = useInitialized(address)
-  const kibs = useKibblesBalance(address)
+  const fusd = useFUSDBalance(address)
   const [cu] = useCurrentUser()
 
   const status = {
     notInitialized: {
       type: "info",
       title: "Initialize Your Account",
-      text:
-        "You need to initialize your account before you can receive Kibble.",
+      text: "You need to initialize your account before you can receive FUSD.",
     },
-    noKibble: {
+    noFUSD: {
       type: "info",
-      title: "Get Kibble",
-      text: "You need Kibble to buy Kitty Items.",
+      title: "Get FUSD",
+      text: "You need FUSD to buy Kitty Items.",
     },
   }
 
@@ -99,8 +98,8 @@ export function InfoBanner({address}) {
   switch (true) {
     case !init.isInitialized && cu.addr === address:
       return Banner(status.notInitialized)
-    case kibs.balance < 0 && cu.addr === address:
-      return Banner(status.noKibble)
+    case fusd.balance < 0 && cu.addr === address:
+      return Banner(status.noFUSD)
     default:
       return null
   }

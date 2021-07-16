@@ -7,15 +7,16 @@ import { SaleOffer } from "../models/sale-offer";
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"';
+const fusdPath = '"../../contracts/FUSD.cdc"';
 const kibblePath = '"../../contracts/Kibble.cdc"';
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"';
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"';
 
 class StorefrontService {
-
   constructor(
     private readonly flowService: FlowService,
     private readonly fungibleTokenAddress: string,
+    private readonly fusdAddress: string,
     private readonly kibbleAddress: string,
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
@@ -40,7 +41,7 @@ class StorefrontService {
       args: [],
       authorizations: [authorization],
       payer: authorization,
-      proposer: authorization,
+      proposer: authorization
     });
   };
 
@@ -57,7 +58,7 @@ class StorefrontService {
 
     return this.flowService.executeScript<any[]>({
       script,
-      args: [fcl.arg(account, t.Address), fcl.arg(itemID, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(itemID, t.UInt64)]
     });
   };
 
@@ -74,7 +75,7 @@ class StorefrontService {
 
     return this.flowService.executeScript<number[]>({
       script,
-      args: [fcl.arg(account, t.Address)],
+      args: [fcl.arg(account, t.Address)]
     });
   };
 
@@ -85,7 +86,7 @@ class StorefrontService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/nftStorefront/buy_item.cdc`
+          `../../../cadence/transactions/nftStorefront/buy_item_fusd.cdc`
         ),
         "utf8"
       )
@@ -94,19 +95,16 @@ class StorefrontService {
         nonFungibleTokenPath,
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
-      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
+      .replace(fusdPath, fcl.withPrefix(this.fusdAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress));
 
     return this.flowService.sendTx({
       transaction,
-      args: [
-        fcl.arg(itemID, t.UInt64),
-        fcl.arg(account, t.Address),
-      ],
+      args: [fcl.arg(itemID, t.UInt64), fcl.arg(account, t.Address)],
       authorizations: [authorization],
       payer: authorization,
-      proposer: authorization,
+      proposer: authorization
     });
   };
 
@@ -117,7 +115,7 @@ class StorefrontService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/nftStorefront/sell_item.cdc`
+          `../../../cadence/transactions/nftStorefront/sell_item_fusd.cdc`
         ),
         "utf8"
       )
@@ -134,15 +132,18 @@ class StorefrontService {
       transaction,
       args: [
         fcl.arg(itemID, t.UInt64),
-        fcl.arg(price.toFixed(8).toString(), t.UFix64),
+        fcl.arg(price.toFixed(8).toString(), t.UFix64)
       ],
       authorizations: [authorization],
       payer: authorization,
-      proposer: authorization,
+      proposer: authorization
     });
   };
 
-  getSaleOfferItem = async (account: string, saleOfferResourceID: string): Promise<any> => {
+  getSaleOfferItem = async (
+    account: string,
+    saleOfferResourceID: string
+  ): Promise<any> => {
     const script = fs
       .readFileSync(
         path.join(
@@ -162,16 +163,16 @@ class StorefrontService {
       script,
       args: [
         fcl.arg(account, t.Address),
-        fcl.arg(saleOfferResourceID, t.UInt64),
-      ],
+        fcl.arg(saleOfferResourceID, t.UInt64)
+      ]
     });
   };
 
   addSaleOffer = async (saleOfferEvent) => {
-    const owner = saleOfferEvent.data.storefrontAddress
-    const saleOfferResourceID = saleOfferEvent.data.saleOfferResourceID
+    const owner = saleOfferEvent.data.storefrontAddress;
+    const saleOfferResourceID = saleOfferEvent.data.saleOfferResourceID;
 
-    const item = await this.getSaleOfferItem(owner, saleOfferResourceID)
+    const item = await this.getSaleOfferItem(owner, saleOfferResourceID);
 
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx)
@@ -181,7 +182,7 @@ class StorefrontService {
           sale_item_type: item.typeID,
           sale_item_owner: owner,
           sale_price: item.price,
-          transaction_id: saleOfferEvent.transactionId,
+          transaction_id: saleOfferEvent.transactionId
         })
         .returning("transaction_id")
         .catch((e) => {
@@ -191,12 +192,12 @@ class StorefrontService {
   };
 
   removeSaleOffer = async (saleOfferEvent) => {
-    const saleOfferResourceID = saleOfferEvent.data.saleOfferResourceID
+    const saleOfferResourceID = saleOfferEvent.data.saleOfferResourceID;
 
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx)
         .where({
-          sale_item_resource_id: saleOfferResourceID,
+          sale_item_resource_id: saleOfferResourceID
         })
         .del();
     });

@@ -5,13 +5,13 @@ import {tx} from "./util/tx"
 const CODE = fcl.cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import Kibble from 0xKibble
+  import FUSD from 0xFUSD
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
   transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
-    let kibbleReceiver: Capability<&Kibble.Vault{FungibleToken.Receiver}>
+    let FUSDReceiver: Capability<&FUSD.Vault{FungibleToken.Receiver}>
     let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
     let storefront: &NFTStorefront.Storefront
 
@@ -19,8 +19,9 @@ const CODE = fcl.cdc`
       // We need a provider capability, but one is not provided by default so we create one if needed.
       let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-      self.kibbleReceiver = account.getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)!
-      assert(self.kibbleReceiver.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
+      self.FUSDReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)!
+
+      assert(self.FUSDReceiver.borrow() != nil, message: "Missing or mis-typed FUSD receiver")
 
       if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
         account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
@@ -35,7 +36,7 @@ const CODE = fcl.cdc`
 
     execute {
       let saleCut = NFTStorefront.SaleCut(
-        receiver: self.kibbleReceiver,
+        receiver: self.FUSDReceiver,
         amount: saleItemPrice
       )
 
@@ -43,7 +44,7 @@ const CODE = fcl.cdc`
         nftProviderCapability: self.kittyItemsCollection,
         nftType: Type<@KittyItems.NFT>(),
         nftID: saleItemID,
-        salePaymentVaultType: Type<@Kibble.Vault>(),
+        salePaymentVaultType: Type<@FUSD.Vault>(),
         saleCuts: [saleCut]
       )
     }
