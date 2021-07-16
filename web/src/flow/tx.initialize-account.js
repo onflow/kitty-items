@@ -10,19 +10,13 @@ const CODE = cdc`
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
-  pub let FUSDPaths[" {String"]: Path} = {
-    "VaultStoragePath": /storage/fusdVault,
-    "BalancePublicPath": /public/fusdBalance,
-    "ReceiverPublicPath": /public/fusdReceiver
-  }
-
   pub fun hasFUSD(_ address: Address): Bool {
     let receiver = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths["""]ReceiverPublicPath"])
+      .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)
       .check()
 
     let balance = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths["""]BalancePublicPath"])
+      .getCapability<&FUSD.Vault{FungibleToken.Balance}>(/public/fusdBalance)
       .check()
 
     return receiver && balance
@@ -43,13 +37,13 @@ const CODE = cdc`
   transaction {
     prepare(acct: AuthAccount) {
       if !hasFUSD(acct.address) {
-        if acct.borrow<&FUSD.Vault>(from: FUSDPaths["VaultStoragePath"]) == nil {
-          acct.save(<-FUSD.createEmptyVault(), to: FUSDPaths["VaultStoragePath"])
+        if acct.borrow<&FUSD.Vault>(from: /storage/fusdVault) == nil {
+          acct.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
         }
-        acct.unlink(FUSDPaths["ReceiverPublicPath"])
+        acct.unlink(/public/fusdReceiver)
         acct.unlink(/public/fusdBalance)
-        acct.link<&FUSD.Vault{FungibleToken.Receiver}>(FUSDPaths["ReceiverPublicPath"], target: FUSDPaths["VaultStoragePath"])
-        acct.link<&FUSD.Vault{FungibleToken.Balance}>(FUSDPaths["BalancePublicPath"], target: FUSDPaths["VaultStoragePath"])
+        acct.link<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver, target: /storage/fusdVault)
+        acct.link<&FUSD.Vault{FungibleToken.Balance}>(/public/fusdBalance, target: /storage/fusdVault)
       }
 
       if !hasItems(acct.address) {

@@ -13,7 +13,7 @@ import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
 import { StorefrontService } from "./services/storefront";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
-import { FUSDService } from "services/fusd";
+import { FUSDService } from "./services/fusd";
 
 const argv = yargs(hideBin(process.argv)).argv;
 const DEV = argv.dev;

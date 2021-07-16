@@ -3,6 +3,7 @@ import * as fcl from "@onflow/fcl";
 import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
+import { ConstraintViolationError } from "objection";
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
 const fusdPath = '"../../contracts/FUSD.cdc"';
@@ -19,7 +20,7 @@ class FUSDService {
 
     const transaction = fs
       .readFileSync(
-        path.join(
+        path.resolve(
           __dirname,
           "../../../cadence/transactions/fusd/setup_account.cdc"
         ),
@@ -42,7 +43,7 @@ class FUSDService {
 
     const transaction = fs
       .readFileSync(
-        path.join(
+        path.resolve(
           __dirname,
           "../../../cadence/transactions/fusd/mint_tokens.cdc"
         ),
@@ -67,7 +68,7 @@ class FUSDService {
     const authorization = this.flowService.authorizeMinter();
     const transaction = fs
       .readFileSync(
-        path.join(
+        path.resolve(
           __dirname,
           "../../../cadence/transactions/fusd/transfer_tokens.cdc"
         ),
@@ -91,7 +92,10 @@ class FUSDService {
   getBalance = async (account: string) => {
     const script = fs
       .readFileSync(
-        path.join(__dirname, "../../../cadence/scripts/fusd/get_balance.cdc"),
+        path.resolve(
+          __dirname,
+          "../../../cadence/scripts/fusd/get_balance.cdc"
+        ),
         "utf8"
       )
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))

@@ -1,9 +1,9 @@
 import {Suspense} from "react"
 import {useFlowBalance} from "../hooks/use-flow-balance.hook"
-import {useKibblesBalance} from "../hooks/use-kibbles-balance.hook"
+import {useFUSDBalance} from "../hooks/use-fusd-balance.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
-import {fmtKibbles} from "../util/fmt-kibbles"
+import {fmtKibbles} from "../util/fmt-fusd"
 import {
   Box,
   Button,
@@ -20,7 +20,7 @@ import {useInitialized} from "../hooks/use-initialized.hook"
 
 export function BalanceCluster({address}) {
   const flow = useFlowBalance(address)
-  const kibbles = useKibblesBalance(address)
+  const fusd = useFUSDBalance(address)
   const init = useInitialized(address)
   return (
     <Box mb="4">
@@ -29,7 +29,7 @@ export function BalanceCluster({address}) {
           <Heading size="md" mr="4">
             Balances
           </Heading>
-          {(flow.status !== IDLE || kibbles.status !== IDLE) && (
+          {(flow.status !== IDLE || fusd.status !== IDLE) && (
             <Center>
               <Spinner size="sm" />
             </Center>
@@ -40,9 +40,9 @@ export function BalanceCluster({address}) {
         <Table size="sm">
           <Tbody>
             <Tr>
-              <Td>KIBBLE</Td>
-              {kibbles.status === IDLE ? (
-                <Td isNumeric>{fmtKibbles(kibbles.balance)}</Td>
+              <Td>FUSD</Td>
+              {fusd.status === IDLE ? (
+                <Td isNumeric>{fmtKibbles(fusd.balance)}</Td>
               ) : (
                 <Td isNumeric>
                   <Spinner size="sm" />
@@ -56,10 +56,10 @@ export function BalanceCluster({address}) {
         <Flex>
           <Button
             colorScheme="blue"
-            disabled={kibbles.status !== IDLE || !init.isInitialized}
-            onClick={kibbles.mint}
+            disabled={fusd.status !== IDLE || !init.isInitialized}
+            onClick={fusd.mint}
           >
-            Request Meowr Kibbles
+            Request FUSD
           </Button>
         </Flex>
       </Box>
