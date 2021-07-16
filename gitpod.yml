@@ -4,6 +4,8 @@ tasks:
       sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
       npm install &&
       lerna exec npm install &&
+      export PATH=$PATH:/home/gitpod/.local/bin && 
+      flow project deploy --network=emualtor &&
       gp sync-done install
     command: echo "Finished install!"
 
