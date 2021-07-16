@@ -1,0 +1,12 @@
+tasks:
+  - name: Install and Deploy Contracts
+    init: >
+      sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
+      npm install &&
+      lerna exec npm install &&
+      gp sync-done install
+    command: echo "Finished install!"
+
+  - name: Run Project
+    init: gp sync-await install
+    command: npm run start:dev
