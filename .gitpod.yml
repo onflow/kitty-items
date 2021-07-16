@@ -4,12 +4,6 @@ tasks:
       sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
       npm install &&
       npx lerna exec npm install &&
-      gp sync-done install
-    command: echo "Finished install!"
-
-  - name: Run Project
-    init: >
-      gp sync-await install &&
       export PATH=$PATH:/home/gitpod/.local/bin && 
       npm run start:gitpod
     command: flow project deploy --network=emulator
