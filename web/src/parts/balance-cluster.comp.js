@@ -3,7 +3,7 @@ import {useFlowBalance} from "../hooks/use-flow-balance.hook"
 import {useFUSDBalance} from "../hooks/use-fusd-balance.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
-import {fmtKibbles} from "../util/fmt-fusd"
+import {fmtFUSD} from "../util/fmt-fusd"
 import {
   Box,
   Button,
@@ -42,7 +42,7 @@ export function BalanceCluster({address}) {
             <Tr>
               <Td>FUSD</Td>
               {fusd.status === IDLE ? (
-                <Td isNumeric>{fmtKibbles(fusd.balance)}</Td>
+                <Td isNumeric>{fmtFUSD(fusd.balance)}</Td>
               ) : (
                 <Td isNumeric>
                   <Spinner size="sm" />

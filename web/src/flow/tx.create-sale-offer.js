@@ -11,7 +11,7 @@ const CODE = fcl.cdc`
 
   transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
-    let FUSDReceiver: Capability<&FUSD.Vault{FungibleToken.Receiver}>
+    let fusdReceiver: Capability<&FUSD.Vault{FungibleToken.Receiver}>
     let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
     let storefront: &NFTStorefront.Storefront
 
@@ -19,9 +19,9 @@ const CODE = fcl.cdc`
       // We need a provider capability, but one is not provided by default so we create one if needed.
       let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-      self.FUSDReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)!
+      self.fusdReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)!
 
-      assert(self.FUSDReceiver.borrow() != nil, message: "Missing or mis-typed FUSD receiver")
+      assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed FUSD receiver")
 
       if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
         account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
@@ -36,7 +36,7 @@ const CODE = fcl.cdc`
 
     execute {
       let saleCut = NFTStorefront.SaleCut(
-        receiver: self.FUSDReceiver,
+        receiver: self.fusdReceiver,
         amount: saleItemPrice
       )
 

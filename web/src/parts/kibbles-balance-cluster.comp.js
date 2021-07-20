@@ -4,7 +4,7 @@ import {useFUSDBalance} from "../hooks/use-fusd-balance.hook"
 import {Bar, Label, Button} from "../display/bar.comp"
 import {IDLE} from "../global/constants"
 import {Loading} from "../parts/loading.comp"
-import {fmtKibbles} from "../util/fmt-fusd"
+import {fmtFUSD} from "../util/fmt-fusd"
 
 export function KibblesBalanceCluster({address}) {
   const init = useInitialized(address)
