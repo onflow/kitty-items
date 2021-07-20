@@ -31,7 +31,7 @@ function initFUSDRouter(fusdService: FUSDService): Router {
     "/fusd/transfer",
     [
       body("recipient").exists(),
-      body("amount").isInt({
+      body("amount").isDecimal({
         gt: 0
       })
     ],
