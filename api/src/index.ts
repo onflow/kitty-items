@@ -61,7 +61,10 @@ async function run() {
   );
 
   // Make sure we're pointing to the correct Flow Access API.
-  fcl.config().put("accessNode.api", config.accessApi);
+  fcl
+    .config()
+    .put("accessNode.api", config.accessApi)
+    .put("decoder.Type", (val) => val.staticType);
 
   const startWorker = () => {
     console.log("Starting Flow event worker ....");
