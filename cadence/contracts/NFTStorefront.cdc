@@ -1,5 +1,5 @@
-import FungibleToken from 0xFUNGIBLETOKENADDRESS
-import NonFungibleToken from 0xNONFUNGIBLETOKEN
+import FungibleToken from "./FungibleToken.cdc"
+import NonFungibleToken from "./NonFungibleToken.cdc";
 
 // NFTStorefront
 //
