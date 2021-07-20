@@ -2,8 +2,6 @@ import "@testing-library/cypress/add-commands";
 
 import "cypress-iframe";
 
-cy.configureCypressTestingLibrary();
-
 it("loads the page", () => {
   cy.visit("/");
   cy.contains("Kitty Items").should("be.visible");

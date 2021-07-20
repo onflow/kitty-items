@@ -3,5 +3,8 @@
   "supportFile": false,
   "pluginsFile": false,
   "baseUrl": "http://localhost:3001",
-  "chromeWebSecurity": false
+  "chromeWebSecurity": false,
+  "video": false,
+  "screenshotOnRunFailure": false,
+  "videoUploadOnPasses": false
 }

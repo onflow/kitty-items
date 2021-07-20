@@ -21,7 +21,7 @@
     "start:testnet": "docker-compose --env-file .env.testnet --profile testnet up -d --build",
     "start:gitpod": "docker-compose --env-file .env.gitpod --profile dev up -d --build",
     "heroku-postbuild": "npx lerna exec npm install && npx lerna exec npm run build",
-    "test": "cypress run --headless --browser chrome --record 'false'"
+    "test": "cypress run --headless --browser chrome"
   },
   "repository": {
     "type": "git",
