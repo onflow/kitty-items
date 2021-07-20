@@ -1,5 +1,5 @@
-import FungibleToken from "./FungibleToken.cdc"
-import NonFungibleToken from "./NonFungibleToken.cdc"
+import FungibleToken from 0xFUNGIBLETOKENADDRESS
+import NonFungibleToken from 0xNONFUNGIBLETOKEN
 
 // NFTStorefront
 //
@@ -28,7 +28,7 @@ pub contract NFTStorefront {
     //
     pub event NFTStorefrontInitialized()
 
-    // StorefrontInitialied
+    // StorefrontInitialized
     // A Storefront resource has been created.
     // Event consumers can now expect events from this Storefront.
     // Note that we do not specify an address: we cannot and should not.
@@ -40,9 +40,9 @@ pub contract NFTStorefront {
     // If the offerer moves the Storefront while the offer is valid, that
     // is on them.
     //
-    pub event StorefrontInitialied(storefrontResourceID: UInt64)
+    pub event StorefrontInitialized(storefrontResourceID: UInt64)
 
-    // StorefrontCreated
+    // StorefrontDestroyed
     // A Storefront has been destroyed.
     // Event consumers can now stop processing events from this Storefront.
     // Note that we do not specify an address.
@@ -56,9 +56,12 @@ pub contract NFTStorefront {
     // NFTStorefront workflow, so be careful to check when using them.
     //
     pub event SaleOfferAvailable(
-        saleOfferResourceID: UInt64,
-        storefrontResourceID: UInt64,
         storefrontAddress: Address,
+        saleOfferResourceID: UInt64,
+        nftType: Type,
+        nftID: UInt64,
+        ftVaultType: Type,
+        price: UFix64
     )
 
     // SaleOfferCompleted
@@ -394,22 +397,20 @@ pub contract NFTStorefront {
             )
 
             let saleOfferResourceID = saleOffer.uuid
+            let saleOfferPrice = saleOffer.getDetails().salePrice
 
             // Add the new offer to the dictionary.
             let oldOffer <- self.saleOffers[saleOfferResourceID] <- saleOffer
             // Note that oldOffer will always be nil, but we have to handle it.
             destroy oldOffer
 
-            // Format up the cuts in order to include them in the event
-            let cutsRepresentation: {Address: UFix64} = {}
-            for cut in saleCuts {
-                cutsRepresentation[cut.receiver.address] = cut.amount
-            }
-
             emit SaleOfferAvailable(
-                saleOfferResourceID: saleOfferResourceID,
-                storefrontResourceID: self.uuid,
                 storefrontAddress: self.owner?.address!,
+                saleOfferResourceID: saleOfferResourceID,
+                nftType: nftType,
+                nftID: nftID,
+                ftVaultType: salePaymentVaultType,
+                price: saleOfferPrice
             )
 
             return saleOfferResourceID
@@ -474,7 +475,7 @@ pub contract NFTStorefront {
             self.saleOffers <- {}
 
             // Let event consumers know that this storefront exists
-            emit StorefrontInitialied(storefrontResourceID: self.uuid)
+            emit StorefrontInitialized(storefrontResourceID: self.uuid)
         }
     }
 
