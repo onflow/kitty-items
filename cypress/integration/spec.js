@@ -1,5 +1,8 @@
-/// <reference types="cypress-iframe" />
-require("cypress-iframe");
+import "@testing-library/cypress/add-commands";
+
+import "cypress-iframe";
+
+cy.configureCypressTestingLibrary();
 
 it("loads the page", () => {
   cy.visit("/");
