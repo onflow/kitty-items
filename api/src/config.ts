@@ -29,6 +29,8 @@ export function getConfig(env) {
 
   const nonFungibleTokenAddress = env.NON_FUNGIBLE_TOKEN_ADDRESS!;
 
+  const fusdAddress = env.FUSD_TOKEN_ADDRESS! || env.MINTER_ADDRESS!;
+
   const databaseUrl = env.DATABASE_URL!;
 
   const databaseMigrationPath =
@@ -42,7 +44,8 @@ export function getConfig(env) {
     minterAccountKeyIndex,
     fungibleTokenAddress,
     nonFungibleTokenAddress,
+    fusdAddress,
     databaseUrl,
-    databaseMigrationPath,
+    databaseMigrationPath
   };
 }

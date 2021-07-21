@@ -15,7 +15,7 @@ const Link = ({address, name}) => {
 }
 
 export function ContractsCluster() {
-  const kibble = useConfig("0xKibble")
+  const kibble = useConfig("0xFUSD")
   const items = useConfig("0xKittyItems")
   const market = useConfig("0xKittyItemsMarket")
 
