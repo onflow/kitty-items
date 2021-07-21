@@ -17,10 +17,10 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
                 NFTStorefront.StorefrontPublicPath
             )!
             .borrow()
-            ?? panic("Could not borrow Storefront from provided address")
+            ?? panic("Cannot borrow Storefront from provided address")
 
         self.saleOffer = self.storefront.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID)
-            ?? panic("No Offer with that ID in Storefront")
+            ?? panic("No offer with that ID in Storefront")
         
         let price = self.saleOffer.getDetails().salePrice
 

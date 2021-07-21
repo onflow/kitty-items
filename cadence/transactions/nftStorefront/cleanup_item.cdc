@@ -9,7 +9,7 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
                 NFTStorefront.StorefrontPublicPath
             )!
             .borrow()
-            ?? panic("Could not borrow Storefront from provided address")
+            ?? panic("Cannot borrow Storefront from provided address")
     }
 
     execute {

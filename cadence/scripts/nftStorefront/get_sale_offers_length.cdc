@@ -1,14 +1,14 @@
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
-// This script returns an array of all the NFTs uuids for sale through a Storefront
+// This script returns the number of NFTs for sale in a given account's storefront.
 
-pub fun main(account: Address): [UInt64] {
-  let storefrontRef = account
+pub fun main(address: Address): Int {
+  let storefrontRef = getAccount(address)
     .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(
       NFTStorefront.StorefrontPublicPath
     )
     .borrow()
     ?? panic("Could not borrow public storefront from address")
   
-  return storefrontRef.getSaleOfferIDs()
+  return storefrontRef.getSaleOfferIDs().length
 }

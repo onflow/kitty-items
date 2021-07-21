@@ -4,11 +4,11 @@ import { deployKibble, setupKibbleOnAccount } from "./kibble";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
 
 /*
- * Deploys Kibble, KittyItems and KittyItemsMarket contracts to KittyAdmin.
+ * Deploys Kibble, KittyItems and NFTStorefront contracts to KittyAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const deployMarketplace = async () => {
+export const deployNFTStorefront = async () => {
 	const KittyAdmin = await getKittyAdminAddress();
 
 	await deployKibble();
@@ -20,21 +20,21 @@ export const deployMarketplace = async () => {
 		KittyItems: KittyAdmin,
 	};
 
-	return deployContractByName({ to: KittyAdmin, name: "KittyItemsMarket", addressMap });
+	return deployContractByName({ to: KittyAdmin, name: "NFTStorefront", addressMap });
 };
 
 /*
- * Setups KittyItemsMarket collection on account and exposes public capability.
+ * Sets up NFTStorefront.Storefront on account and exposes public capability.
  * @param {string} account - account address
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const setupMarketplaceOnAccount = async (account) => {
+export const setupStorefrontOnAccount = async (account) => {
 	// Account shall be able to store kitty items and operate Kibbles
 	await setupKibbleOnAccount(account);
 	await setupKittyItemsOnAccount(account);
 
-	const name = "kittyItemsMarket/setup_account";
+	const name = "nftStorefront/setup_account";
 	const signers = [account];
 
 	return sendTransaction({ name, signers });
@@ -48,8 +48,8 @@ export const setupMarketplaceOnAccount = async (account) => {
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const listItemForSale = async (seller, itemId, price) => {
-	const name = "kittyItemsMarket/create_sale_offer";
+export const sellItem = async (seller, itemId, price) => {
+	const name = "nftStorefront/sell_item";
 	const args = [itemId, price];
 	const signers = [seller];
 
@@ -59,14 +59,14 @@ export const listItemForSale = async (seller, itemId, price) => {
 /*
  * Buys item with id equal to **item** id for **price** from **seller**.
  * @param {string} buyer - buyer account address
- * @param {UInt64} itemId - id of item to sell
+ * @param {UInt64} resourceId - resource uuid of item to sell
  * @param {string} seller - seller account address
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const buyItem = async (buyer, itemId, seller) => {
-	const name = "kittyItemsMarket/buy_market_item";
-	const args = [itemId, seller];
+export const buyItem = async (buyer, resourceId, seller) => {
+	const name = "nftStorefront/buy_item";
+	const args = [resourceId, seller];
 	const signers = [buyer];
 
 	return sendTransaction({ name, args, signers });
@@ -80,7 +80,7 @@ export const buyItem = async (buyer, itemId, seller) => {
  * @returns {Promise<*>}
  * */
 export const removeItem = async (owner, itemId) => {
-	const name = "kittyItemsMarket/remove_sale_offer";
+	const name = "nftStorefront/remove_item";
 	const signers = [owner];
 	const args = [itemId];
 
@@ -88,14 +88,14 @@ export const removeItem = async (owner, itemId) => {
 };
 
 /*
- * Returns the length of list of items for sale.
+ * Returns the number of items for sale in a given account's storefront.
  * @param {string} account - account address
  * @throws Will throw an error if execution will be halted
  * @returns {UInt64}
  * */
-export const getMarketCollectionLength = async (account) => {
-	const name = "kittyItemsMarket/get_collection_length";
-	const args = [account, account];
+export const getSaleOfferCount = async (account) => {
+	const name = "nftStorefront/get_sale_offers_length";
+	const args = [account];
 
 	return executeScript({ name, args });
 };

@@ -3,8 +3,6 @@ import { getKittyAdminAddress } from "./common";
 
 // KittyItems types
 export const typeID1 = 1000;
-export const typeID2 = 2000;
-export const typeID1337 = 1337;
 
 /*
  * Deploys NonFungibleToken and KittyItems contracts to KittyAdmin.
@@ -79,26 +77,26 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
 };
 
 /*
- * Returns the type of KittyItems NFT with **id** in account collection.
+ * Returns the KittyItem NFT with the provided **id** from an account collection.
  * @param {string} account - account address
- * @param {UInt64} id - NFT id
+ * @param {UInt64} itemID - NFT id
  * @throws Will throw an error if execution will be halted
  * @returns {UInt64}
  * */
-export const getKittyItemById = async (account, id) => {
-	const name = "kittyItems/get_kitty_item_type_id";
-	const args = [account, id];
+export const getKittyItem = async (account, itemID) => {
+	const name = "kittyItems/get_kitty_item";
+	const args = [account, itemID];
 
 	return executeScript({ name, args });
 };
 
 /*
- * Returns the length of account's KittyItems collection.
+ * Returns the number of Kitty Items in an account's collection.
  * @param {string} account - account address
  * @throws Will throw an error if execution will be halted
  * @returns {UInt64}
  * */
-export const getCollectionLength = async (account) => {
+export const getKittyItemCount = async (account) => {
 	const name = "kittyItems/get_collection_length";
 	const args = [account];
 

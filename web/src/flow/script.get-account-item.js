@@ -9,11 +9,13 @@ import KittyItems from 0xKittyItems
 pub struct AccountItem {
   pub let itemID: UInt64
   pub let typeID: UInt64
+  pub let resourceID: UInt64
   pub let owner: Address
 
-  init(itemID: UInt64, typeID: UInt64, owner: Address) {
+  init(itemID: UInt64, typeID: UInt64, resourceID: UInt64, owner: Address) {
     self.itemID = itemID
     self.typeID = typeID
+    self.resourceID = resourceID
     self.owner = owner
   }
 }
