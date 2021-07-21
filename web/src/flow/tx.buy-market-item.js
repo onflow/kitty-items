@@ -6,7 +6,7 @@ import {invariant} from "@onflow/util-invariant"
 const CODE = fcl.cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import Kibble from 0xKibble
+  import FUSD from 0xFUSD
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
@@ -30,10 +30,10 @@ const CODE = fcl.cdc`
       
       let price = self.saleOffer.getDetails().salePrice
 
-      let mainKibbleVault = account.borrow<&Kibble.Vault>(from: Kibble.VaultStoragePath)
+      let mainFUSDVault = account.borrow<&FUSD.Vault>(from: /storage/fusdVault)
         ?? panic("Cannot borrow Kibble vault from account storage")
       
-      self.paymentVault <- mainKibbleVault.withdraw(amount: price)
+      self.paymentVault <- mainFUSDVault.withdraw(amount: price)
 
       self.kittyItemsCollection = account.borrow<&KittyItems.Collection{NonFungibleToken.Receiver}>(
         from: KittyItems.CollectionStoragePath
