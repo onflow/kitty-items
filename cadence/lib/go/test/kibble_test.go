@@ -23,7 +23,6 @@ const (
 	kibbleSetupAccountPath   = kibbleRootPath + "/transactions/kibble/setup_account.cdc"
 	kibbleTransferTokensPath = kibbleRootPath + "/transactions/kibble/transfer_tokens.cdc"
 	kibbleMintTokensPath     = kibbleRootPath + "/transactions/kibble/mint_tokens.cdc"
-	kibbleBurnTokensPath     = kibbleRootPath + "/transactions/kibble/burn_tokens.cdc"
 	kibbleGetBalancePath     = kibbleRootPath + "/scripts/kibble/get_balance.cdc"
 	kibbleGetSupplyPath      = kibbleRootPath + "/scripts/kibble/get_supply.cdc"
 )
@@ -266,7 +265,7 @@ func kibbleReplaceAddressPlaceholders(code string, fungibleAddress, kibbleAddres
 	return []byte(replaceImports(
 		code,
 		map[string]*regexp.Regexp{
-			fungibleAddress: ftAddressPlaceholder,
+			fungibleAddress: fungibleTokenAddressPlaceholder,
 			kibbleAddress:   kibbleAddressPlaceHolder,
 		},
 	))
@@ -280,7 +279,7 @@ func loadKibble(fungibleAddr flow.Address) []byte {
 	return []byte(replaceImports(
 		string(readFile(kibbleContractPath)),
 		map[string]*regexp.Regexp{
-			fungibleAddr.String(): ftAddressPlaceholder,
+			fungibleAddr.String(): fungibleTokenAddressPlaceholder,
 		},
 	))
 }

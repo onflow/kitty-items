@@ -1,4 +1,4 @@
-import NFTStorefront from 0xNFTSTOREFRONT
+import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
 transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}

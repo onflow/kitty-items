@@ -38,7 +38,7 @@ func KittyItemsDeployContracts(b *emulator.Blockchain, t *testing.T) (flow.Addre
 
 	// should be able to deploy a contract as a new account with no keys
 	nftCode := loadNonFungibleToken()
-	nftAddr, err := b.CreateAccount(
+	nftAddress, err := b.CreateAccount(
 		nil,
 		[]sdktemplates.Contract{
 			{
@@ -54,7 +54,7 @@ func KittyItemsDeployContracts(b *emulator.Blockchain, t *testing.T) (flow.Addre
 
 	// should be able to deploy a contract as a new account with one key
 	kittyItemsAccountKey, kittyItemsSigner := accountKeys.NewWithSigner()
-	kittyItemsCode := loadKittyItems(nftAddr.String())
+	kittyItemsCode := loadKittyItems(nftAddress.String())
 	kittyItemsAddr, err := b.CreateAccount(
 		[]*flow.AccountKey{kittyItemsAccountKey},
 		[]sdktemplates.Contract{
@@ -70,17 +70,17 @@ func KittyItemsDeployContracts(b *emulator.Blockchain, t *testing.T) (flow.Addre
 	assert.NoError(t, err)
 
 	// simplify the workflow by having the contract address also be our initial test collection
-	KittyItemsSetupAccount(t, b, kittyItemsAddr, kittyItemsSigner, nftAddr, kittyItemsAddr)
+	KittyItemsSetupAccount(t, b, kittyItemsAddr, kittyItemsSigner, nftAddress, kittyItemsAddr)
 
-	return nftAddr, kittyItemsAddr, kittyItemsSigner
+	return nftAddress, kittyItemsAddr, kittyItemsSigner
 }
 
 func KittyItemsSetupAccount(
 	t *testing.T, b *emulator.Blockchain,
-	userAddress sdk.Address, userSigner crypto.Signer, nftAddr sdk.Address, kittyItemsAddr sdk.Address,
+	userAddress sdk.Address, userSigner crypto.Signer, nftAddress sdk.Address, kittyItemsAddr sdk.Address,
 ) {
 	tx := flow.NewTransaction().
-		SetScript(kittyItemsGenerateSetupAccountScript(nftAddr.String(), kittyItemsAddr.String())).
+		SetScript(kittyItemsGenerateSetupAccountScript(nftAddress.String(), kittyItemsAddr.String())).
 		SetGasLimit(100).
 		SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
 		SetPayer(b.ServiceKey().Address).
@@ -96,11 +96,11 @@ func KittyItemsSetupAccount(
 
 func KittyItemsMintItem(
 	t *testing.T, b *emulator.Blockchain,
-	nftAddr, kittyItemsAddr flow.Address,
+	nftAddress, kittyItemsAddr flow.Address,
 	kittyItemsSigner crypto.Signer, typeID uint64,
 ) {
 	tx := flow.NewTransaction().
-		SetScript(kittyItemsGenerateMintKittyItemScript(nftAddr.String(), kittyItemsAddr.String())).
+		SetScript(kittyItemsGenerateMintKittyItemScript(nftAddress.String(), kittyItemsAddr.String())).
 		SetGasLimit(100).
 		SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
 		SetPayer(b.ServiceKey().Address).
@@ -119,12 +119,12 @@ func KittyItemsMintItem(
 
 func KittyItemsTransferItem(
 	t *testing.T, b *emulator.Blockchain,
-	nftAddr, kittyItemsAddr flow.Address, kittyItemsSigner crypto.Signer,
+	nftAddress, kittyItemsAddr flow.Address, kittyItemsSigner crypto.Signer,
 	typeID uint64, recipientAddr flow.Address, shouldFail bool,
 ) {
 
 	tx := flow.NewTransaction().
-		SetScript(kittyItemsGenerateTransferKittyItemScript(nftAddr.String(), kittyItemsAddr.String())).
+		SetScript(kittyItemsGenerateTransferKittyItemScript(nftAddress.String(), kittyItemsAddr.String())).
 		SetGasLimit(100).
 		SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
 		SetPayer(b.ServiceKey().Address).
@@ -149,11 +149,11 @@ func TestKittyItemsDeployContracts(t *testing.T) {
 func TestCreateKittyItem(t *testing.T) {
 	b := newEmulator()
 
-	nftAddr, kittyItemsAddr, kittyItemsSigner := KittyItemsDeployContracts(b, t)
+	nftAddress, kittyItemsAddr, kittyItemsSigner := KittyItemsDeployContracts(b, t)
 
 	supply := executeScriptAndCheck(
 		t, b,
-		kittyItemsGenerateInspectKittyItemSupplyScript(nftAddr.String(), kittyItemsAddr.String()),
+		kittyItemsGenerateInspectKittyItemSupplyScript(nftAddress.String(), kittyItemsAddr.String()),
 		nil,
 	)
 	assert.EqualValues(t, cadence.NewUInt64(0), supply)
@@ -162,19 +162,19 @@ func TestCreateKittyItem(t *testing.T) {
 	length := executeScriptAndCheck(
 		t,
 		b,
-		kittyItemsGenerateInspectCollectionLenScript(nftAddr.String(), kittyItemsAddr.String()),
+		kittyItemsGenerateInspectCollectionLenScript(nftAddress.String(), kittyItemsAddr.String()),
 		[][]byte{jsoncdc.MustEncode(cadence.NewAddress(kittyItemsAddr))},
 	)
 	assert.EqualValues(t, cadence.NewInt(0), length)
 
 	t.Run("Should be able to mint a kittyItems", func(t *testing.T) {
-		KittyItemsMintItem(t, b, nftAddr, kittyItemsAddr, kittyItemsSigner, typeID)
+		KittyItemsMintItem(t, b, nftAddress, kittyItemsAddr, kittyItemsSigner, typeID)
 
 		// assert that the account collection is correct length
 		length = executeScriptAndCheck(
 			t,
 			b,
-			kittyItemsGenerateInspectCollectionLenScript(nftAddr.String(), kittyItemsAddr.String()),
+			kittyItemsGenerateInspectCollectionLenScript(nftAddress.String(), kittyItemsAddr.String()),
 			[][]byte{jsoncdc.MustEncode(cadence.NewAddress(kittyItemsAddr))},
 		)
 		assert.EqualValues(t, cadence.NewInt(1), length)
@@ -184,17 +184,17 @@ func TestCreateKittyItem(t *testing.T) {
 func TestTransferNFT(t *testing.T) {
 	b := newEmulator()
 
-	nftAddr, kittyItemsAddr, kittyItemsSigner := KittyItemsDeployContracts(b, t)
+	nftAddress, kittyItemsAddr, kittyItemsSigner := KittyItemsDeployContracts(b, t)
 
 	userAddress, userSigner, _ := createAccount(t, b)
 
 	// create a new Collection
 	t.Run("Should be able to create a new empty NFT Collection", func(t *testing.T) {
-		KittyItemsSetupAccount(t, b, userAddress, userSigner, nftAddr, kittyItemsAddr)
+		KittyItemsSetupAccount(t, b, userAddress, userSigner, nftAddress, kittyItemsAddr)
 
 		length := executeScriptAndCheck(
 			t,
-			b, kittyItemsGenerateInspectCollectionLenScript(nftAddr.String(), kittyItemsAddr.String()),
+			b, kittyItemsGenerateInspectCollectionLenScript(nftAddress.String(), kittyItemsAddr.String()),
 			[][]byte{jsoncdc.MustEncode(cadence.NewAddress(userAddress))},
 		)
 		assert.EqualValues(t, cadence.NewInt(0), length)
@@ -205,16 +205,16 @@ func TestTransferNFT(t *testing.T) {
 
 		KittyItemsTransferItem(
 			t, b,
-			nftAddr, kittyItemsAddr, kittyItemsSigner,
+			nftAddress, kittyItemsAddr, kittyItemsSigner,
 			nonExistentID, userAddress, true,
 		)
 	})
 
 	// transfer an NFT
 	t.Run("Should be able to withdraw an NFT and deposit to another accounts collection", func(t *testing.T) {
-		KittyItemsMintItem(t, b, nftAddr, kittyItemsAddr, kittyItemsSigner, typeID)
+		KittyItemsMintItem(t, b, nftAddress, kittyItemsAddr, kittyItemsSigner, typeID)
 		// Cheat: we have minted one item, its ID will be zero
-		KittyItemsTransferItem(t, b, nftAddr, kittyItemsAddr, kittyItemsSigner, 0, userAddress, false)
+		KittyItemsTransferItem(t, b, nftAddress, kittyItemsAddr, kittyItemsSigner, 0, userAddress, false)
 	})
 }
 
@@ -222,7 +222,7 @@ func replaceKittyItemsAddressPlaceholders(code, nftAddress, kittyItemsAddress st
 	return []byte(replaceImports(
 		code,
 		map[string]*regexp.Regexp{
-			nftAddress:        nftAddressPlaceholder,
+			nftAddress:        nonFungibleTokenAddressPlaceholder,
 			kittyItemsAddress: kittyItemsAddressPlaceHolder,
 		},
 	))
@@ -232,51 +232,51 @@ func loadNonFungibleToken() []byte {
 	return nft_contracts.NonFungibleToken()
 }
 
-func loadKittyItems(nftAddr string) []byte {
+func loadKittyItems(nftAddress string) []byte {
 	return []byte(replaceImports(
 		string(readFile(kittyItemsContractPath)),
 		map[string]*regexp.Regexp{
-			nftAddr: nftAddressPlaceholder,
+			nftAddress: nonFungibleTokenAddressPlaceholder,
 		},
 	))
 }
 
-func kittyItemsGenerateSetupAccountScript(nftAddr, kittyItemsAddr string) []byte {
+func kittyItemsGenerateSetupAccountScript(nftAddress, kittyItemsAddr string) []byte {
 	return replaceKittyItemsAddressPlaceholders(
 		string(readFile(kittyItemsSetupAccountPath)),
-		nftAddr,
+		nftAddress,
 		kittyItemsAddr,
 	)
 }
 
-func kittyItemsGenerateMintKittyItemScript(nftAddr, kittyItemsAddr string) []byte {
+func kittyItemsGenerateMintKittyItemScript(nftAddress, kittyItemsAddr string) []byte {
 	return replaceKittyItemsAddressPlaceholders(
 		string(readFile(kittyItemsMintKittyItemPath)),
-		nftAddr,
+		nftAddress,
 		kittyItemsAddr,
 	)
 }
 
-func kittyItemsGenerateTransferKittyItemScript(nftAddr, kittyItemsAddr string) []byte {
+func kittyItemsGenerateTransferKittyItemScript(nftAddress, kittyItemsAddr string) []byte {
 	return replaceKittyItemsAddressPlaceholders(
 		string(readFile(kittyItemsTransferKittyItemPath)),
-		nftAddr,
+		nftAddress,
 		kittyItemsAddr,
 	)
 }
 
-func kittyItemsGenerateInspectKittyItemSupplyScript(nftAddr, kittyItemsAddr string) []byte {
+func kittyItemsGenerateInspectKittyItemSupplyScript(nftAddress, kittyItemsAddr string) []byte {
 	return replaceKittyItemsAddressPlaceholders(
 		string(readFile(kittyItemsInspectKittyItemSupplyPath)),
-		nftAddr,
+		nftAddress,
 		kittyItemsAddr,
 	)
 }
 
-func kittyItemsGenerateInspectCollectionLenScript(nftAddr, kittyItemsAddr string) []byte {
+func kittyItemsGenerateInspectCollectionLenScript(nftAddress, kittyItemsAddr string) []byte {
 	return replaceKittyItemsAddressPlaceholders(
 		string(readFile(kittyItemsInspectCollectionLenPath)),
-		nftAddr,
+		nftAddress,
 		kittyItemsAddr,
 	)
 }
