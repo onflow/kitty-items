@@ -14,12 +14,29 @@ import (
 	"github.com/onflow/flow-go-sdk/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	sdk "github.com/onflow/flow-go-sdk"
 )
 
-// newEmulator returns a emulator object for testing
-func newEmulator() *emulator.Blockchain {
+type Contracts struct {
+	FungibleTokenAddress    flow.Address
+	KibbleAddress           flow.Address
+	KibbleSigner            crypto.Signer
+	NonFungibleTokenAddress flow.Address
+	KittyItemsAddress       flow.Address
+	KittyItemsSigner        crypto.Signer
+	NFTStorefrontAddress    flow.Address
+	NFTStorefrontSigner     crypto.Signer
+}
+
+var (
+	FungibleTokenAddressPlaceholder    = regexp.MustCompile(`"[^"\s].*/FungibleToken.cdc"`)
+	KibbleAddressPlaceHolder           = regexp.MustCompile(`"[^"\s].*/Kibble.cdc"`)
+	NonFungibleTokenAddressPlaceholder = regexp.MustCompile(`"[^"\s].*/NonFungibleToken.cdc"`)
+	KittyItemsAddressPlaceHolder       = regexp.MustCompile(`"[^"\s].*/KittyItems.cdc"`)
+	NFTStorefrontPlaceholder           = regexp.MustCompile(`"[^"\s].*/NFTStorefront.cdc"`)
+)
+
+// NewBlockchain returns a new emulated blockchain.
+func NewBlockchain() *emulator.Blockchain {
 	b, err := emulator.NewBlockchain()
 	if err != nil {
 		panic(err)
@@ -27,12 +44,12 @@ func newEmulator() *emulator.Blockchain {
 	return b
 }
 
-// signAndSubmit signs a transaction with an array of signers and adds their signatures to the transaction
+// SignAndSubmit signs a transaction with an array of signers and adds their signatures to the transaction
 // Then submits the transaction to the emulator. If the private keys don't match up with the addresses,
 // the transaction will not succeed.
 // shouldRevert parameter indicates whether the transaction should fail or not
 // This function asserts the correct result and commits the block if it passed
-func signAndSubmit(
+func SignAndSubmit(
 	t *testing.T,
 	b *emulator.Blockchain,
 	tx *flow.Transaction,
@@ -54,12 +71,11 @@ func signAndSubmit(
 		}
 	}
 
-	return submit(t, b, tx, shouldRevert)
+	return Submit(t, b, tx, shouldRevert)
 }
 
-// submit submits a transaction and checks
-// if it fails or not
-func submit(
+// Submit submits a transaction and checks if it succeeds.
+func Submit(
 	t *testing.T,
 	b *emulator.Blockchain,
 	tx *flow.Transaction,
@@ -86,8 +102,8 @@ func submit(
 	return result
 }
 
-// executeScriptAndCheck executes a script and checks that it succeeded.
-func executeScriptAndCheck(t *testing.T, b *emulator.Blockchain, script []byte, arguments [][]byte) cadence.Value {
+// ExecuteScriptAndCheck executes a script and checks if it succeeds.
+func ExecuteScriptAndCheck(t *testing.T, b *emulator.Blockchain, script []byte, arguments [][]byte) cadence.Value {
 	result, err := b.ExecuteScript(script, arguments)
 	require.NoError(t, err)
 
@@ -96,9 +112,8 @@ func executeScriptAndCheck(t *testing.T, b *emulator.Blockchain, script []byte, 
 	return result.Value
 }
 
-// readFile reads a file from the file system
-// and returns its contents
-func readFile(path string) []byte {
+// ReadFile reads a file from the filesystem.
+func ReadFile(path string) []byte {
 	contents, err := ioutil.ReadFile(path)
 	if err != nil {
 		panic(err)
@@ -106,7 +121,7 @@ func readFile(path string) []byte {
 	return contents
 }
 
-// CadenceUFix64 returns a UFix64 value
+// CadenceUFix64 returns a Cadence UFix64 value.
 func CadenceUFix64(value string) cadence.Value {
 	newValue, err := cadence.NewUFix64(value)
 
@@ -117,7 +132,7 @@ func CadenceUFix64(value string) cadence.Value {
 	return newValue
 }
 
-func replaceImports(
+func ReplaceImports(
 	code string,
 	importReplacements map[string]*regexp.Regexp,
 ) string {
@@ -131,11 +146,10 @@ func replaceImports(
 	return code
 }
 
-// Simple error-handling wrapper for Flow account creation.
-func createAccount(t *testing.T, b *emulator.Blockchain) (sdk.Address, crypto.Signer, *sdk.AccountKey) {
+func CreateAccount(t *testing.T, b *emulator.Blockchain) (flow.Address, crypto.Signer, *flow.AccountKey) {
 	accountKeys := test.AccountKeyGenerator()
 	accountKey, signer := accountKeys.NewWithSigner()
-	address, err := b.CreateAccount([]*sdk.AccountKey{accountKey}, nil)
+	address, err := b.CreateAccount([]*flow.AccountKey{accountKey}, nil)
 	require.NoError(t, err)
 	return address, signer, accountKey
 }
