@@ -13,7 +13,6 @@ import { KibblesService } from "./services/kibbles";
 import { KittyItemsService } from "./services/kitty-items";
 import { StorefrontService } from "./services/storefront";
 import { SaleOfferHandler } from "./workers/sale-offer-handler";
-import { FUSDService } from "./services/fusd";
 
 const argv = yargs(hideBin(process.argv)).argv;
 const DEV = argv.dev;
@@ -55,7 +54,6 @@ async function run() {
   const storefrontService = new StorefrontService(
     flowService,
     config.fungibleTokenAddress,
-    config.fusdAddress,
     config.minterAddress,
     config.nonFungibleTokenAddress,
     config.minterAddress,
@@ -84,12 +82,6 @@ async function run() {
   const startAPIServer = () => {
     console.log("Starting API server ....");
 
-    const fusdService = new FUSDService(
-      flowService,
-      config.fungibleTokenAddress,
-      config.minterAddress
-    );
-
     const kibblesService = new KibblesService(
       flowService,
       config.fungibleTokenAddress,
@@ -102,12 +94,7 @@ async function run() {
       config.minterAddress
     );
 
-    const app = initApp(
-      fusdService,
-      kibblesService,
-      kittyItemsService,
-      storefrontService
-    );
+    const app = initApp(kibblesService, kittyItemsService, storefrontService);
 
     app.listen(config.port, () => {
       console.log(`Listening on port ${config.port}!`);

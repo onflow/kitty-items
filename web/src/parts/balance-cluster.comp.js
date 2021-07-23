@@ -1,9 +1,9 @@
 import {Suspense} from "react"
 import {useFlowBalance} from "../hooks/use-flow-balance.hook"
-import {useFUSDBalance} from "../hooks/use-fusd-balance.hook"
+import {useKibblesBalance} from "../hooks/use-kibbles-balance.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
 import {IDLE} from "../global/constants"
-import {fmtFUSD} from "../util/fmt-fusd"
+import {fmtKibbles} from "../util/fmt-kibbles"
 import {
   Box,
   Button,
@@ -20,7 +20,7 @@ import {useInitialized} from "../hooks/use-initialized.hook"
 
 export function BalanceCluster({address}) {
   const flow = useFlowBalance(address)
-  const fusd = useFUSDBalance(address)
+  const kibbles = useKibblesBalance(address)
   const init = useInitialized(address)
   return (
     <Box mb="4">
@@ -29,7 +29,7 @@ export function BalanceCluster({address}) {
           <Heading size="md" mr="4">
             Balances
           </Heading>
-          {(flow.status !== IDLE || fusd.status !== IDLE) && (
+          {(flow.status !== IDLE || kibbles.status !== IDLE) && (
             <Center>
               <Spinner size="sm" />
             </Center>
@@ -40,9 +40,9 @@ export function BalanceCluster({address}) {
         <Table size="sm">
           <Tbody>
             <Tr>
-              <Td>FUSD</Td>
-              {fusd.status === IDLE ? (
-                <Td isNumeric>{fmtFUSD(fusd.balance)}</Td>
+              <Td>KIBBLE</Td>
+              {kibbles.status === IDLE ? (
+                <Td isNumeric>{fmtKibbles(kibbles.balance)}</Td>
               ) : (
                 <Td isNumeric>
                   <Spinner size="sm" />
@@ -56,10 +56,10 @@ export function BalanceCluster({address}) {
         <Flex>
           <Button
             colorScheme="blue"
-            disabled={fusd.status !== IDLE || !init.isInitialized}
-            onClick={fusd.mint}
+            disabled={kibbles.status !== IDLE || !init.isInitialized}
+            onClick={kibbles.mint}
           >
-            Request FUSD
+            Request Meowr Kibbles
           </Button>
         </Flex>
       </Box>

@@ -22,14 +22,6 @@ Run this script to set up the minter account and mint an initial supply of Kibbl
 Run the commands below to initialize the minter account to hold and mint Kibble,
 Kitty Items, and add offers to the marketplace.
 
-- **POST /v1/fusd/setup** - Create a resource that holds FUSD in the `MINTER_FLOW_ADDRESS` account.
-
-```sh
-curl --request POST \
-  --url http://localhost:3000/v1/fusd/setup \
-  --header 'Content-Type: application/json'
-```
-
 - **POST /v1/kibbles/setup** - Create a resource that holds Kibble in the `MINTER_FLOW_ADDRESS` account.
 
 ```sh
@@ -58,18 +50,6 @@ curl --request POST \
 
 Run the commands below to mint new Kibble, create new items,
 and list some items for sale.
-
-- **POST /v1/FUSD/mint** - Mint new FUSD and send it to the `recipient` account.
-
-```sh
-curl --request POST \
-  --url http://localhost:3000/v1/fusd/mint \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "recipient": "'$FLOW_ADDRESS'",
-    "amount": 2.0
-  }'
-```
 
 - **POST /v1/kibbles/mint** - Mint new Kibble
   and send it to the `recipient` account.
