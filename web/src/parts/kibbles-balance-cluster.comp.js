@@ -1,29 +1,29 @@
 import {Suspense} from "react"
 import {useInitialized} from "../hooks/use-initialized.hook"
-import {useFUSDBalance} from "../hooks/use-fusd-balance.hook"
+import {useKibblesBalance} from "../hooks/use-kibbles-balance.hook"
 import {Bar, Label, Button} from "../display/bar.comp"
 import {IDLE} from "../global/constants"
 import {Loading} from "../parts/loading.comp"
-import {fmtFUSD} from "../util/fmt-fusd"
+import {fmtKibbles} from "../util/fmt-kibbles"
 
 export function KibblesBalanceCluster({address}) {
   const init = useInitialized(address)
-  const fusd = useFUSDBalance(address)
+  const kibble = useKibblesBalance(address)
   if (address == null || !init.isInitialized) return null
 
   return (
     <Bar>
       <Label>Kibbles Balance:</Label>
-      <Label strong good={fusd.balance > 0} bad={fusd.balance <= 0}>
-        {fmtKibbles(fusd.balance)}
+      <Label strong good={kibble.balance > 0} bad={kibble.balance <= 0}>
+        {fmtKibbles(kibble.balance)}
       </Label>
-      <Button disabled={fusd.status !== IDLE} onClick={fusd.refresh}>
+      <Button disabled={kibble.status !== IDLE} onClick={kibble.refresh}>
         Refresh
       </Button>
-      <Button disabled={fusd.status !== IDLE} onClick={fusd.mint}>
+      <Button disabled={kibble.status !== IDLE} onClick={kibble.mint}>
         Mint
       </Button>
-      {kibble.status !== IDLE && <Loading label={fusd.status} />}
+      {kibble.status !== IDLE && <Loading label={kibble.status} />}
     </Bar>
   )
 }

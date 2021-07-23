@@ -4,17 +4,17 @@ import {Address} from "@onflow/types"
 const CODE = cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import FUSD from 0xFUSD
+  import Kibble from 0xKibble
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
-  pub fun hasFUSD(_ address: Address): Bool {
+  pub fun hasKibble(_ address: Address): Bool {
     let receiver: Bool = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)
+      .getCapability<&Kibble.Vault{FungibleToken.Receiver}>(Kibble.ReceiverPublicPath)
       .check()
 
     let balance: Bool = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Balance}>(/public/fusdBalance)
+      .getCapability<&Kibble.Vault{FungibleToken.Balance}>(Kibble.BalancePublicPath)
       .check()
 
     return receiver && balance
@@ -34,7 +34,7 @@ const CODE = cdc`
 
   pub fun main(address: Address): {String: Bool} {
     let ret: {String: Bool} = {}
-    ret["FUSD"] = hasFUSD(address)
+    ret["Kibble"] = hasKibble(address)
     ret["KittyItems"] = hasItems(address)
     ret["KittyItemsMarket"] = hasStorefront(address)
     return ret

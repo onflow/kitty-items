@@ -3,10 +3,10 @@ import {Address} from "@onflow/types"
 
 const CODE = cdc`
   import FungibleToken from 0xFungibleToken
-  import FUSD from 0xFUSD
+  import Kibble from 0xKibble
 
   pub fun main(address: Address): UFix64? {
-    if let vault = getAccount(address).getCapability<&{FungibleToken.Balance}>(/public/fusdBalance).borrow() {
+    if let vault = getAccount(address).getCapability<&{FungibleToken.Balance}>(Kibble.BalancePublicPath).borrow() {
       return vault.balance
     }
     return nil

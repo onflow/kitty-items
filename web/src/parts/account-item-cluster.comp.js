@@ -63,7 +63,7 @@ export function AccountItemCluster({address, id}) {
               >
                 <HStack>
                   {BUSY && <Spinner mr="2" size="xs" />}{" "}
-                  <Text>List for 10 FUSD</Text>
+                  <Text>List for 10 KIBBLE</Text>
                 </HStack>
               </Button>
             </Td>
