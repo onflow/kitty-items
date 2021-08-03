@@ -15,7 +15,7 @@ import {
 } from "../src/nft-storefront";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
-jest.setTimeout(50000);
+jest.setTimeout(500000);
 
 describe("NFT Storefront", () => {
 	beforeEach(async () => {

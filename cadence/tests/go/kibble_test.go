@@ -109,6 +109,7 @@ func TestKibbleTransfers(t *testing.T) {
 
 	userAddress, _ := kibble.CreateAccount(t, b, fungibleTokenAddress, kibbleAddress)
 
+	// Mint 1000 new Kibble into the Kibble contract account
 	kibble.Mint(
 		t, b,
 		fungibleTokenAddress,
