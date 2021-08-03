@@ -1,6 +1,8 @@
 import path from "path";
+
 import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
 
+import { getKittyAdminAddress } from "../src/common";
 import {
 	deployKittyItems,
 	getKittyItem,
@@ -11,7 +13,6 @@ import {
 	transferKittyItem,
 	typeID1,
 } from "../src/kitty-items";
-import { getKittyAdminAddress } from "../src/common";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(50000);

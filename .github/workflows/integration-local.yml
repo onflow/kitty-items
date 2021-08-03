@@ -10,11 +10,19 @@ jobs:
     name: Kitty Items Integration Tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: ["1.14", "1.13"]
     steps:
       - name: Install Node
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
+
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
 
       - name: Install Flow CLI
         run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
@@ -33,6 +41,10 @@ jobs:
 
       - name: Deploy Contracts
         run: flow project deploy --network=emulator
+
+      - name: Run Go Tests
+        run: go test
+        working-directory: cadence/tests/go
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
