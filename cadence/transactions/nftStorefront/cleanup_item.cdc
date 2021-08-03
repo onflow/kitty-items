@@ -1,4 +1,4 @@
-import NFTStorefront from 0xNFTSTOREFRONT
+import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
 transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
@@ -9,7 +9,7 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
                 NFTStorefront.StorefrontPublicPath
             )!
             .borrow()
-            ?? panic("Could not borrow Storefront from provided address")
+            ?? panic("Cannot borrow Storefront from provided address")
     }
 
     execute {

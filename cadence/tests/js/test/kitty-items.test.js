@@ -3,8 +3,8 @@ import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert
 
 import {
 	deployKittyItems,
-	getCollectionLength,
-	getKittyItemById,
+	getKittyItem,
+	getKittyItemCount,
 	getKittyItemSupply,
 	mintKittyItem,
 	setupKittyItemsOnAccount,
@@ -57,11 +57,11 @@ describe("Kitty Items", () => {
 		await shallPass(mintKittyItem(itemIdToMint, Alice));
 
 		await shallResolve(async () => {
-			const amount = await getCollectionLength(Alice);
-			expect(amount).toBe(1);
+			const itemCount = await getKittyItemCount(Alice);
+			expect(itemCount).toBe(1);
 
-			const id = await getKittyItemById(Alice, 0);
-			expect(id).toBe(itemIdToMint);
+			const item = await getKittyItem(Alice, 0);
+			expect(item.typeID).toBe(itemIdToMint);
 		});
 	});
 
@@ -73,8 +73,8 @@ describe("Kitty Items", () => {
 
 		// shall be able te read Alice collection and ensure it's empty
 		await shallResolve(async () => {
-			const length = await getCollectionLength(Alice);
-			expect(length).toBe(0);
+			const itemCount = await getKittyItemCount(Alice);
+			expect(itemCount).toBe(0);
 		});
 	});
 
