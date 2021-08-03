@@ -3,7 +3,6 @@ package kibble
 import (
 	"regexp"
 	"testing"
-
 	"github.com/onflow/cadence"
 	emulator "github.com/onflow/flow-emulator"
 	ftcontracts "github.com/onflow/flow-ft/lib/go/contracts"

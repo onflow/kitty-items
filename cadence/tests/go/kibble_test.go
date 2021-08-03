@@ -2,7 +2,6 @@ package test
 
 import (
 	"testing"
-
 	"github.com/onflow/cadence"
 	jsoncdc "github.com/onflow/cadence/encoding/json"
 	"github.com/onflow/flow-go-sdk"
@@ -72,6 +71,7 @@ func TestKibbleMinting(t *testing.T) {
 	})
 
 	t.Run("Should be able to mint tokens, deposit, update balance and total supply", func(t *testing.T) {
+
 		kibble.Mint(
 			t, b,
 			fungibleTokenAddress,
@@ -88,6 +88,7 @@ func TestKibbleMinting(t *testing.T) {
 			kibble.GetBalanceScript(fungibleTokenAddress, kibbleAddress),
 			[][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))},
 		)
+
 		assert.EqualValues(t, test.CadenceUFix64("50.0"), userBalance)
 
 		// Assert that total supply is correct
@@ -96,6 +97,7 @@ func TestKibbleMinting(t *testing.T) {
 			kibble.GetSupplyScript(fungibleTokenAddress, kibbleAddress),
 			nil,
 		)
+
 		assert.EqualValues(t, test.CadenceUFix64("50.0"), supply)
 	})
 }
@@ -142,6 +144,7 @@ func TestKibbleTransfers(t *testing.T) {
 			kibble.GetBalanceScript(fungibleTokenAddress, kibbleAddress),
 			[][]byte{jsoncdc.MustEncode(cadence.Address(kibbleAddress))},
 		)
+
 		assert.EqualValues(t, test.CadenceUFix64("1000.0"), kibbleBalance)
 
 		userBalance := test.ExecuteScriptAndCheck(
@@ -149,6 +152,7 @@ func TestKibbleTransfers(t *testing.T) {
 			kibble.GetBalanceScript(fungibleTokenAddress, kibbleAddress),
 			[][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))},
 		)
+
 		assert.EqualValues(t, test.CadenceUFix64("0.0"), userBalance)
 	})
 
@@ -158,7 +162,7 @@ func TestKibbleTransfers(t *testing.T) {
 			SetGasLimit(100).
 			SetProposalKey(b.ServiceKey().Address, b.ServiceKey().Index, b.ServiceKey().SequenceNumber).
 			SetPayer(b.ServiceKey().Address).
-			AddAuthorizer(fungibleTokenAddress)
+			AddAuthorizer(kibbleAddress)
 
 		_ = tx.AddArgument(test.CadenceUFix64("300.0"))
 		_ = tx.AddArgument(cadence.NewAddress(userAddress))
@@ -177,6 +181,7 @@ func TestKibbleTransfers(t *testing.T) {
 			kibble.GetBalanceScript(fungibleTokenAddress, kibbleAddress),
 			[][]byte{jsoncdc.MustEncode(cadence.Address(kibbleAddress))},
 		)
+
 		assert.EqualValues(t, test.CadenceUFix64("700.0"), kibbleBalance)
 
 		userBalance := test.ExecuteScriptAndCheck(
@@ -184,6 +189,7 @@ func TestKibbleTransfers(t *testing.T) {
 			kibble.GetBalanceScript(fungibleTokenAddress, kibbleAddress),
 			[][]byte{jsoncdc.MustEncode(cadence.Address(userAddress))},
 		)
+
 		assert.EqualValues(t, test.CadenceUFix64("300.0"), userBalance)
 
 		supply := test.ExecuteScriptAndCheck(
