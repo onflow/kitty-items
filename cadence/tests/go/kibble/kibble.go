@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	kibbleRootPath           = "../../.."
+	kibbleRootPath           = "../.."
 	kibbleContractPath       = kibbleRootPath + "/contracts/Kibble.cdc"
 	kibbleSetupAccountPath   = kibbleRootPath + "/transactions/kibble/setup_account.cdc"
 	kibbleTransferTokensPath = kibbleRootPath + "/transactions/kibble/transfer_tokens.cdc"

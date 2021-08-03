@@ -18,10 +18,10 @@ import (
 )
 
 const (
-	kittyItemsTransactionsRootPath = "../../../transactions/kittyItems"
-	kittyItemsScriptsRootPath      = "../../../scripts/kittyItems"
+	kittyItemsTransactionsRootPath = "../../transactions/kittyItems"
+	kittyItemsScriptsRootPath      = "../../scripts/kittyItems"
 
-	kittyItemsContractPath            = "../../../contracts/KittyItems.cdc"
+	kittyItemsContractPath            = "../../contracts/KittyItems.cdc"
 	kittyItemsSetupAccountPath        = kittyItemsTransactionsRootPath + "/setup_account.cdc"
 	kittyItemsMintKittyItemPath       = kittyItemsTransactionsRootPath + "/mint_kitty_item.cdc"
 	kittyItemsTransferKittyItemPath   = kittyItemsTransactionsRootPath + "/transfer_kitty_item.cdc"

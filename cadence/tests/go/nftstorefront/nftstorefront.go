@@ -19,9 +19,9 @@ import (
 )
 
 const (
-	nftStorefrontContractPath = "../../../contracts/NFTStorefront.cdc"
+	nftStorefrontContractPath = "../../contracts/NFTStorefront.cdc"
 
-	nftStorefrontTransactionRootPath = "../../../transactions/nftStorefront"
+	nftStorefrontTransactionRootPath = "../../transactions/nftStorefront"
 	nftStorefrontSetupAccountPath    = nftStorefrontTransactionRootPath + "/setup_account.cdc"
 	nftStorefrontSellItemPath        = nftStorefrontTransactionRootPath + "/sell_item.cdc"
 	nftStorefrontBuyItemPath         = nftStorefrontTransactionRootPath + "/buy_item.cdc"
