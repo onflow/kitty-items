@@ -1,4 +1,4 @@
-module github.com/onflow/kitty-items/kitty-items-cadence/lib/go/test
+module github.com/onflow/kitty-items/cadence/test/go
 
 go 1.14
 
