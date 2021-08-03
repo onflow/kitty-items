@@ -49,6 +49,8 @@ jobs:
       - name: Run JS Tests
         run: npx jest
         working-directory: cadence/tests/js
+        env:
+          IS_CI: true
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2

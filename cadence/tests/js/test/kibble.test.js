@@ -1,6 +1,8 @@
 import path from "path";
+
 import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
 
+import { toUFix64, getKittyAdminAddress } from "../src/common";
 import {
 	deployKibble,
 	setupKibbleOnAccount,
@@ -9,8 +11,6 @@ import {
 	mintKibble,
 	transferKibble,
 } from "../src/kibble";
-
-import { toUFix64, getKittyAdminAddress } from "../src/common";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(50000);
@@ -31,7 +31,7 @@ describe("Kibble", () => {
 
 	it("shall have initialized supply field correctly", async () => {
 		// Deploy contract
-		await shallPass(deployKibble());
+		!process.env.IS_CI && (await shallPass(deployKibble()));
 
 		await shallResolve(async () => {
 			const supply = await getKibbleSupply();
