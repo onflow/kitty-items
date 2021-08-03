@@ -4,6 +4,5 @@ WORKDIR /api
 RUN npm install typescript
 COPY ./api .
 COPY ./cadence /cadence
-RUN rm -rf /cadence/tests
 EXPOSE 3001
 CMD npm run dev
