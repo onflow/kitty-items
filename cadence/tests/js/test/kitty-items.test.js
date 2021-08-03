@@ -56,14 +56,6 @@ describe("Kitty Items", () => {
 
 		// Mint instruction for Alice account shall be resolved
 		await shallPass(mintKittyItem(itemIdToMint, Alice));
-
-		await shallResolve(async () => {
-			const itemCount = await getKittyItemCount(Alice);
-			expect(itemCount).toBe(1);
-
-			const item = await getKittyItem(Alice, 0);
-			expect(item.typeID).toBe(itemIdToMint);
-		});
 	});
 
 	it("shall be able to create a new empty NFT Collection", async () => {
