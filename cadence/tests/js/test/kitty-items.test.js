@@ -15,13 +15,13 @@ import {
 } from "../src/kitty-items";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
-jest.setTimeout(500000);
+jest.setTimeout(50000);
 
 describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 8084;
+		const port = 7002;
 		init(basePath, port);
 		return emulator.start(port, false);
 	});
@@ -32,7 +32,7 @@ describe("Kitty Items", () => {
 	});
 
 	it("shall deploy KittyItems contract", async () => {
-		await shallPass(deployKittyItems());
+		await deployKittyItems();
 	});
 
 	it("supply shall be 0 after contract is deployed", async () => {

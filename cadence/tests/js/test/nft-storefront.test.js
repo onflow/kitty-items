@@ -20,7 +20,7 @@ jest.setTimeout(500000);
 describe("NFT Storefront", () => {
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 8085;
+		const port = 7003;
 		init(basePath, port);
 		return emulator.start(port, false);
 	});
