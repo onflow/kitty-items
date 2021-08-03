@@ -36,9 +36,10 @@ jobs:
       - name: Root NPM Install
         run: npm i && npx lerna exec npm install
 
-      - name: Run JS Tests
-        run: npx jest
-        working-directory: cadence/tests/js
+      # Not working. See issue: https://github.com/onflow/flow-js-testing/issues/47
+      # - name: Run JS Tests
+      #   run: npx jest
+      #   working-directory: cadence/tests/js
 
       - name: Run Go Tests
         run: go test
