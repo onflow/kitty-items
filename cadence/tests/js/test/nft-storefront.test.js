@@ -58,7 +58,7 @@ describe("NFT Storefront", () => {
 
 	it("shall be able to accept a sale offer", async () => {
 		// Setup
-		!process.env.IS_CI && (await deployNFTStorefront());
+		await deployNFTStorefront();
 
 		// Setup seller account
 		const Alice = await getAccountAddress("Alice");

@@ -31,7 +31,7 @@ describe("Kibble", () => {
 
 	it("shall have initialized supply field correctly", async () => {
 		// Deploy contract
-		!process.env.IS_CI && (await shallPass(deployKibble()));
+		await shallPass(deployKibble());
 
 		await shallResolve(async () => {
 			const supply = await getKibbleSupply();
