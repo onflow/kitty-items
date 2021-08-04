@@ -1,6 +1,5 @@
 import * as fcl from "@onflow/fcl";
 
-import { BlockCursor } from "../models/block-cursor";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 
@@ -9,7 +8,6 @@ import { FlowService } from "../services/flow";
 abstract class BaseEventHandler {
   private stepSize: number = 200;
   private stepTimeMs: number = 1000;
-  private latestBlockOffset: number = 1;
 
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
@@ -21,6 +19,11 @@ abstract class BaseEventHandler {
     console.log("fetching latest block height");
 
     let startingBlockHeight = await this.flowService.getLatestBlockHeight();
+
+    // TODO: remove this once SDK fix is released: https://github.com/onflow/flow-js-sdk/pull/714
+    if (startingBlockHeight === 0) {
+      startingBlockHeight = 1;
+    }
 
     console.log("latestBlockHeight =", startingBlockHeight);
 
@@ -55,7 +58,7 @@ abstract class BaseEventHandler {
         if (fromBlock <= toBlock) {
           try {
             const result = await fcl.send([
-              fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock),
+              fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock)
             ]);
             const decoded = await fcl.decode(result);
 

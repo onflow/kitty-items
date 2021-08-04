@@ -1,0 +1,28 @@
+tasks:
+  - name: Install and Deploy Contracts
+    init: >
+      sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
+      npm install &&
+      npx lerna exec npm install &&
+      export PATH=$PATH:/home/gitpod/.local/bin && 
+      npm run start:gitpod
+    command: flow project deploy --network=emulator
+
+ports:
+  - port: 8080
+    onOpen: ignore
+    visibility: public
+  - port: 3569
+    onOpen: ignore
+    visibility: public
+  - port: 5432
+    onOpen: ignore
+  - port: 3000
+    onOpen: ignore
+    visibility: public
+  - port: 8701
+    onOpen: ignore
+    visibility: public
+  - port: 3001
+    onOpen: ignore
+    visibility: public

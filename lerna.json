@@ -2,7 +2,7 @@
   "packages": [
     "./web",
     "./api",
-    "./fcl-dev-wallet"
+    "./cadence/tests/js"
   ],
   "version": "0.0.1"
 }

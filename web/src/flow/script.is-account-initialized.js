@@ -6,7 +6,7 @@ const CODE = cdc`
   import NonFungibleToken from 0xNonFungibleToken
   import Kibble from 0xKibble
   import KittyItems from 0xKittyItems
-  import KittyItemsMarket from 0xKittyItemsMarket
+  import NFTStorefront from 0xNFTStorefront
 
   pub fun hasKibble(_ address: Address): Bool {
     let receiver: Bool = getAccount(address)
@@ -20,23 +20,23 @@ const CODE = cdc`
     return receiver && balance
   }
 
-  pub fun hasKittyItems(_ address: Address): Bool {
+  pub fun hasItems(_ address: Address): Bool {
     return getAccount(address)
       .getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath)
       .check()
   }
 
-  pub fun hasKittyItemsMarket(_ address: Address): Bool {
+  pub fun hasStorefront(_ address: Address): Bool {
     return getAccount(address)
-      .getCapability<&KittyItemsMarket.Collection{KittyItemsMarket.CollectionPublic}>(KittyItemsMarket.CollectionPublicPath)
+      .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath)
       .check()
   }
 
   pub fun main(address: Address): {String: Bool} {
     let ret: {String: Bool} = {}
     ret["Kibble"] = hasKibble(address)
-    ret["KittyItems"] = hasKittyItems(address)
-    ret["KittyItemsMarket"] = hasKittyItemsMarket(address)
+    ret["KittyItems"] = hasItems(address)
+    ret["KittyItemsMarket"] = hasStorefront(address)
     return ret
   }
 `

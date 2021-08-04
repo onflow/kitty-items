@@ -4,39 +4,8 @@
 - The majority of its features are directly powered by on-chain contracts.
 
 You can see a working demo of this app at 
-[https://dark-frost-1788.on.fleek.co/](https://dark-frost-1788.on.fleek.co/).
-It is hosted on IPFS via [https://fleek.co/](https://fleek.co/).
+[https://kitty-items-flow-testnet.herokuapp.com]([https://kitty-items-flow-testnet.herokuapp.com).
 
-## Run locally against Flow Testnet
-
-### Prerequisites
-
-You'll need to complete the following steps before launching this app:
-
-- [Deploy the Kitty Items contracts](https://github.com/onflow/kitty-items/tree/master/#4-deploy-the-contracts)
-- [Configure and start the API](https://github.com/onflow/kitty-items/tree/master/api#readme)
-
-Add your Testnet Flow address to the environment:
-
-```sh
-# Replace this value with your own!
-export FLOW_ADDRESS=0xabcdef12345689
-```
-
-### 1. Configure your environment
-
-Create a copy of `.env.example`:
-
-```sh
-cp .env.example .env.testnet
-```
-
-### 2. Install and run the app!
-
-```sh
-npm install       # install dependencies
-npm run start:testnet # start the web app
-```
 
 ## Learn more
 

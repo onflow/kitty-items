@@ -2,41 +2,43 @@ import * as fcl from "@onflow/fcl";
 
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
-import { MarketService } from "../services/market";
+import { StorefrontService } from "../services/storefront";
 
 import { BaseEventHandler } from "./base-event-handler";
 
 class SaleOfferHandler extends BaseEventHandler {
-  private eventCollectionInsertedSaleOffer;
-  private eventCollectionRemovedSaleOffer;
+
+  private eventSaleOfferAvailable;
+  private eventSaleOfferCompleted;
+
   constructor(
-    private readonly marketService: MarketService,
+    private readonly storefrontService: StorefrontService,
     blockCursorService: BlockCursorService,
     flowService: FlowService
   ) {
     super(blockCursorService, flowService, []);
 
-    this.eventCollectionInsertedSaleOffer = `A.${fcl.sansPrefix(
-      marketService.marketAddress
-    )}.KittyItemsMarket.CollectionInsertedSaleOffer`;
+    this.eventSaleOfferAvailable = `A.${fcl.sansPrefix(
+      storefrontService.storefrontAddress
+    )}.NFTStorefront.SaleOfferAvailable`;
 
-    this.eventCollectionRemovedSaleOffer = `A.${fcl.sansPrefix(
-      marketService.marketAddress
-    )}.KittyItemsMarket.CollectionRemovedSaleOffer`;
+    this.eventSaleOfferCompleted = `A.${fcl.sansPrefix(
+      storefrontService.storefrontAddress
+    )}.NFTStorefront.SaleOfferCompleted`;
 
     this.eventNames = [
-      this.eventCollectionInsertedSaleOffer,
-      this.eventCollectionRemovedSaleOffer,
+      this.eventSaleOfferAvailable,
+      this.eventSaleOfferCompleted,
     ];
   }
 
   async onEvent(event: any): Promise<void> {
     switch (event.type) {
-      case this.eventCollectionInsertedSaleOffer:
-        await this.marketService.addSaleOffer(event);
+      case this.eventSaleOfferAvailable:
+        await this.storefrontService.addSaleOffer(event);
         break;
-      case this.eventCollectionRemovedSaleOffer:
-        await this.marketService.removeSaleOffer(event);
+      case this.eventSaleOfferCompleted:
+        await this.storefrontService.removeSaleOffer(event);
         break;
       default:
         return;

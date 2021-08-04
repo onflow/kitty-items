@@ -4,21 +4,21 @@ import {tx} from "./util/tx"
 import {invariant} from "@onflow/util-invariant"
 
 const CODE = fcl.cdc`
-  import KittyItemsMarket from 0xKittyItemsMarket
+  import NFTStorefront from 0xNFTStorefront
 
-transaction(itemID: UInt64) {
-    let marketCollection: &KittyItemsMarket.Collection
+  transaction(saleOfferResourceID: UInt64) {
+    let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontManager}
 
-    prepare(signer: AuthAccount) {
-        self.marketCollection = signer.borrow<&KittyItemsMarket.Collection>(from: KittyItemsMarket.CollectionStoragePath)
-            ?? panic("Missing or mis-typed KittyItemsMarket Collection")
+    prepare(acct: AuthAccount) {
+      self.storefront = acct.borrow<&NFTStorefront.Storefront{NFTStorefront.StorefrontManager}>(from: NFTStorefront.StorefrontStoragePath)
+        ?? panic("Missing or mis-typed NFTStorefront.Storefront")
     }
 
     execute {
-        let offer <-self.marketCollection.remove(itemID: itemID)
-        destroy offer
+      self.storefront.removeSaleOffer(saleOfferResourceID: saleOfferResourceID)
     }
-}`
+  }
+`
 
 // prettier-ignore
 export function cancelMarketListing({ itemID }, opts = {}) {

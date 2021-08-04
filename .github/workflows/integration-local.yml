@@ -1,0 +1,66 @@
+name: Kitty Items Integration Tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  vm-job:
+    name: Kitty Items Integration Tests
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: ["1.16"]
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Install Flow CLI
+        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+
+      - name: Update PATH
+        run: echo "/root/.local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Root NPM Install
+        run: npm i && npx lerna exec npm install
+
+      # Not working. See issue: https://github.com/onflow/flow-js-testing/issues/47
+      # - name: Run JS Tests
+      #   run: npx jest
+      #   working-directory: cadence/tests/js
+
+      - name: Run Go Tests
+        run: go test
+        working-directory: cadence/tests/go
+
+      - name: Build & Run
+        run: npm run start:dev
+
+      - name: Deploy Contracts
+        run: flow project deploy --network=emulator
+
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: npm run test
+          browser: chrome
+          headless: true
+          record: false
+          config: baseUrl=http://localhost:3001,chromeWebSecurity=false
+
+      - name: Stop Containers
+        if: always()
+        run: docker-compose down
