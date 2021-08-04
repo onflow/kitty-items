@@ -20,8 +20,8 @@ describe("Kibble", () => {
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
 		const port = 7001;
-		init(basePath, port);
-		return emulator.start(port, false);
+		await init(basePath, { port});
+		return emulator.start(port);
 	});
 
 	// Stop emulator, so it could be restarted
