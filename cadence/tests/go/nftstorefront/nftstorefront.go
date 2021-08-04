@@ -23,8 +23,8 @@ const (
 
 	nftStorefrontTransactionRootPath = "../../transactions/nftStorefront"
 	nftStorefrontSetupAccountPath    = nftStorefrontTransactionRootPath + "/setup_account.cdc"
-	nftStorefrontSellItemPath        = nftStorefrontTransactionRootPath + "/sell_item.cdc"
-	nftStorefrontBuyItemPath         = nftStorefrontTransactionRootPath + "/buy_item.cdc"
+	nftStorefrontSellItemPath        = nftStorefrontTransactionRootPath + "/sell_item_kibble.cdc"
+	nftStorefrontBuyItemPath         = nftStorefrontTransactionRootPath + "/buy_item_kibble.cdc"
 	nftStorefrontRemoveItemPath      = nftStorefrontTransactionRootPath + "/remove_item.cdc"
 )
 
