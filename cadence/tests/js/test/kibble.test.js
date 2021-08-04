@@ -26,7 +26,8 @@ describe("Kibble", () => {
 
 	// Stop emulator, so it could be restarted
 	afterEach(async () => {
-		return emulator.stop();
+		await emulator.stop();
+		await new Promise(resolve => setTimeout(resolve, 100));
 	});
 
 	it("shall have initialized supply field correctly", async () => {
