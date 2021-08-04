@@ -1,7 +1,9 @@
 import express, { Request, Response, Router } from "express";
-import { FUSDService } from "../services/fusd";
+
 import { body } from "express-validator";
+
 import { validateRequest } from "../middlewares/validate-request";
+import { FUSDService } from "../services/fusd";
 
 function initFUSDRouter(fusdService: FUSDService): Router {
   const router = express.Router();
@@ -29,12 +31,7 @@ function initFUSDRouter(fusdService: FUSDService): Router {
 
   router.post(
     "/fusd/transfer",
-    [
-      body("recipient").exists(),
-      body("amount").isDecimal({
-        gt: 0
-      })
-    ],
+    [body("recipient").exists(), body("amount").isDecimal()],
     validateRequest,
     async (req: Request, res: Response) => {
       const { recipient, amount } = req.body;
