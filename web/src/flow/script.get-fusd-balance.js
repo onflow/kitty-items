@@ -14,7 +14,7 @@ const CODE = cdc`
 
 `
 
-export function fetchKibblesBalance(address) {
+export function fetchFUSDBalance(address) {
   if (address == null) return Promise.resolve(false)
 
   // prettier-ignore
