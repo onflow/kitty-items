@@ -23,7 +23,8 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
         }
 
         self.kittyItemsProvider = account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!
-        assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed ExampleNFT.Collection provider")
+        
+        assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed KittyItems.Collection provider")
 
         self.storefront = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
             ?? panic("Missing or mis-typed NFTStorefront Storefront")
