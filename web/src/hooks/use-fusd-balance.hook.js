@@ -1,5 +1,5 @@
 import {atomFamily, selectorFamily, useRecoilState} from "recoil"
-import {fetchKibblesBalance} from "../flow/script.get-fusd-balance"
+import {fetchFUSDBalance} from "../flow/script.get-fusd-balance"
 import {IDLE, PROCESSING} from "../global/constants"
 
 export const valueAtom = atomFamily({

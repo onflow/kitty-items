@@ -59,7 +59,7 @@ curl --request POST \
 Run the commands below to mint new Kibble, create new items,
 and list some items for sale.
 
-- **POST /v1/FUSD/mint** - Mint new FUSD and send it to the `recipient` account.
+- **POST /v1/fusd/mint** - Mint new FUSD and send it to the `recipient` account.
 
 ```sh
 curl --request POST \
