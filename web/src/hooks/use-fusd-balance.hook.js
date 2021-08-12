@@ -6,7 +6,7 @@ export const valueAtom = atomFamily({
   key: "fusd-balance::state",
   default: selectorFamily({
     key: "fusd-balance::default",
-    get: address => async () => fetchKibblesBalance(address),
+    get: address => async () => fetchFUSDBalance(address),
   }),
 })
 
@@ -21,7 +21,7 @@ export function useFUSDBalance(address) {
 
   async function refresh() {
     setStatus(PROCESSING)
-    await fetchKibblesBalance(address).then(setBalance)
+    await fetchFUSDBalance(address).then(setBalance)
     setStatus(IDLE)
   }
 
@@ -41,7 +41,7 @@ export function useFUSDBalance(address) {
           amount: 50.0,
         }),
       })
-      await fetchKibblesBalance(address).then(setBalance)
+      await fetchFUSDBalance(address).then(setBalance)
       setStatus(IDLE)
     },
   }
