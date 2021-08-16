@@ -40,6 +40,7 @@ export function useAccountItem(address, id) {
     ...item,
     status,
     forSale: marketItems.has(item),
+    saleOfferResourceID: marketItems.findSaleOffer(item.itemID),
     owned: sansPrefix(cu.addr) === sansPrefix(address),
     async sell(price) {
       await createSaleOffer(

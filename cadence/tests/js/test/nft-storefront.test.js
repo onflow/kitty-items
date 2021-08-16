@@ -77,9 +77,9 @@ describe("NFT Storefront", () => {
 		const sellItemTransactionResult = await shallPass(sellItem(Alice, itemId, toUFix64(1.11)));
 
 		const saleOfferAvailableEvent = sellItemTransactionResult.events[0];
-		const saleOfferResourceId = saleOfferAvailableEvent.data.saleOfferResourceID;
+		const saleOfferResourceID = saleOfferAvailableEvent.data.saleOfferResourceID;
 
-		await shallPass(buyItem(Bob, saleOfferResourceId, Alice));
+		await shallPass(buyItem(Bob, saleOfferResourceID, Alice));
 
 		const itemCount = await getKittyItemCount(Bob);
 		expect(itemCount).toBe(1);
@@ -107,10 +107,10 @@ describe("NFT Storefront", () => {
 		const sellItemTransactionResult = await shallPass(sellItem(Alice, itemId, toUFix64(1.11)));
 
 		const saleOfferAvailableEvent = sellItemTransactionResult.events[0];
-		const saleOfferResourceId = saleOfferAvailableEvent.data.saleOfferResourceID;
+		const saleOfferResourceID = saleOfferAvailableEvent.data.saleOfferResourceID;
 
 		// Alice shall be able to remove item from sale
-		await shallPass(removeItem(Alice, saleOfferResourceId));
+		await shallPass(removeItem(Alice, saleOfferResourceID));
 
 		const offerCount = await getSaleOfferCount(Alice);
 		expect(offerCount).toBe(0);

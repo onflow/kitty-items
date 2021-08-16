@@ -99,6 +99,11 @@ abstract class BaseEventHandler {
       toBlock = await this.flowService.getLatestBlockHeight();
     }
 
+    if (fromBlock > toBlock) {
+      fromBlock = toBlock;
+      toBlock = blockCursor.currentBlockHeight;
+    }
+
     console.log(
       `fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${toBlock}`
     );

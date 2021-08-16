@@ -21,17 +21,21 @@ const CODE = fcl.cdc`
 `
 
 // prettier-ignore
-export function cancelMarketListing({ itemID }, opts = {}) {
-  invariant(itemID != null, "cancelMarketListing({itemID}) -- itemID required")
+export function cancelMarketListing({saleOfferResourceID}, opts = {}) {
+  invariant(
+    saleOfferResourceID != null,
+    "cancelMarketListing({saleOfferResourceID}) -- saleOfferResourceID required"
+  )
 
-  return tx([
-    fcl.transaction(CODE),
-    fcl.args([
-      fcl.arg(Number(itemID), t.UInt64),
-    ]),
-    fcl.proposer(fcl.authz),
-    fcl.payer(fcl.authz),
-    fcl.authorizations([fcl.authz]),
-    fcl.limit(1000),
-  ], opts)
+  return tx(
+    [
+      fcl.transaction(CODE),
+      fcl.args([fcl.arg(Number(saleOfferResourceID), t.UInt64)]),
+      fcl.proposer(fcl.authz),
+      fcl.payer(fcl.authz),
+      fcl.authorizations([fcl.authz]),
+      fcl.limit(1000),
+    ],
+    opts
+  )
 }
