@@ -294,7 +294,9 @@ pub contract NFTStorefront {
             // This is because we destroy the offer in Storefront.removeSaleOffer()
             // or Storefront.cleanup() .
             // If we change this destructor, revisit those functions.
+            
             if !self.details.accepted {
+              log("Destroying sale offer")
                 emit SaleOfferCompleted(
                     saleOfferResourceID: self.uuid,
                     storefrontResourceID: self.details.storefrontID,
@@ -420,6 +422,7 @@ pub contract NFTStorefront {
         // Remove a SaleOffer that has not yet been accepted from the collection and destroy it.
         //
         pub fun removeSaleOffer(saleOfferResourceID: UInt64) {
+
             let offer <- self.saleOffers.remove(key: saleOfferResourceID)
                 ?? panic("missing SaleOffer")
     
