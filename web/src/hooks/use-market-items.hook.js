@@ -42,5 +42,10 @@ export function useMarketItems() {
     has(item) {
       return asMap.has(item.itemID)
     },
+    findSaleOffer(itemId) {
+      const item = asMap.get(itemId)
+      if (item) return item.resourceID
+      return undefined
+    },
   }
 }
