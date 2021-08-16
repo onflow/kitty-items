@@ -3,7 +3,6 @@ import * as fcl from "@onflow/fcl";
 import { FlowService } from "./flow";
 import * as fs from "fs";
 import * as path from "path";
-import { ConstraintViolationError } from "objection";
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"';
 const fusdPath = '"../../contracts/FUSD.cdc"';
