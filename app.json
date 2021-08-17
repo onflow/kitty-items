@@ -40,7 +40,7 @@
       "description": "The address where the KittyItems contract is deployed on testnet for this app.",
       "value": ""
     },
-    "REACT_APP_CONTRACT_KITTY_ITEMS_MARKET": {
+    "REACT_APP_CONTRACT_NFT_STOREFRONT": {
       "description": "The address where the KittyItemsMarket contract is deployed on testnet for this app.",
       "value": ""
     },
