@@ -37,13 +37,17 @@
     }
   },
   "networks": {
-    "emulator": "127.0.0.1:3569",
-    "testnet": "access.devnet.nodes.onflow.org:9000"
+    "testnet": "access.devnet.nodes.onflow.org:9000",
+    "emulator": "127.0.0.1:3569"
   },
   "accounts": {
     "emulator-account": {
       "address": "f8d6e0586b0a20c7",
       "keys": "f8e188e8af0b8b414be59c4a1a15cc666c898fb34d94156e9b51e18bfde754a5"
+    },
+    "testnet-account": {
+      "address": "${FLOW_ADDRESS}",
+      "keys": "${FLOW_PRIVATE_KEY}"
     }
   },
   "deployments": {
@@ -53,6 +57,13 @@
         "Kibble",
         "KittyItems",
         "NonFungibleToken",
+        "NFTStorefront"
+      ]
+    },
+    "testnet": {
+      "testnet-account": [
+        "Kibble",
+        "KittyItems",
         "NFTStorefront"
       ]
     }

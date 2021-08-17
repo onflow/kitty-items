@@ -87,7 +87,7 @@ async function run() {
     const fusdService = new FUSDService(
       flowService,
       config.fungibleTokenAddress,
-      config.minterAddress
+      config.fusdAddress
     );
 
     const kibblesService = new KibblesService(

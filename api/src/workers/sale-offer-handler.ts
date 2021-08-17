@@ -7,7 +7,6 @@ import { StorefrontService } from "../services/storefront";
 import { BaseEventHandler } from "./base-event-handler";
 
 class SaleOfferHandler extends BaseEventHandler {
-
   private eventSaleOfferAvailable;
   private eventSaleOfferCompleted;
 
@@ -28,11 +27,13 @@ class SaleOfferHandler extends BaseEventHandler {
 
     this.eventNames = [
       this.eventSaleOfferAvailable,
-      this.eventSaleOfferCompleted,
+      this.eventSaleOfferCompleted
     ];
   }
 
   async onEvent(event: any): Promise<void> {
+    console.log("👀", event.type);
+
     switch (event.type) {
       case this.eventSaleOfferAvailable:
         await this.storefrontService.addSaleOffer(event);
