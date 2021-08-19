@@ -79,7 +79,7 @@ _⚠️ Note: It's important that these variables are exported in each shell whe
 1)  Run: `npm run start:testnet`
     - Testnet development will connect the application to Flow's testnet
   
-2) Run: `flow project deploy --network testnet -f flow.json -f flow.testnet.json`
+2) Run: `flow project deploy --network testnet -f flow.json`
    - All contracts are deployed to the Flow testnet.
 
 ---
