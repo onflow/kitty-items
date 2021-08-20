@@ -12,7 +12,6 @@
     "port": 8701
   },
   "contracts": {
-    "FCL": "./cadence/contracts/FCL.cdc",
     "FUSD": {
       "source": "./cadence/contracts/FUSD.cdc",
       "aliases": {
@@ -38,8 +37,8 @@
     }
   },
   "networks": {
-    "testnet": "access.devnet.nodes.onflow.org:9000",
-    "emulator": "127.0.0.1:3569"
+    "emulator": "127.0.0.1:3569",
+    "testnet": "access.devnet.nodes.onflow.org:9000"
   },
   "accounts": {
     "emulator-account": {
@@ -54,8 +53,7 @@
         "Kibble",
         "KittyItems",
         "NonFungibleToken",
-        "NFTStorefront",
-        "FCL"
+        "NFTStorefront"
       ]
     }
   }
