@@ -55,7 +55,7 @@ services:
   dev-wallet:
     profiles:
       - dev
-    image: gcr.io/flow-container-registry/fcl-dev-wallet:v0.0.2
+    image: ghcr.io/onflow/fcl-dev-wallet:latest
     ports:
       - "8701:8701"
     environment:
