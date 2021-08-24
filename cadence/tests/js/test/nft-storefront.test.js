@@ -20,7 +20,7 @@ jest.setTimeout(500000);
 describe("NFT Storefront", () => {
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 7003;
+		const port = 8082;
 		await init(basePath, { port });
 		return emulator.start(port, true);
 	});
@@ -28,7 +28,7 @@ describe("NFT Storefront", () => {
 	// Stop emulator, so it could be restarted
 	afterEach(async () => {
 		await emulator.stop();
-		await new Promise(resolve => setTimeout(resolve, 100));
+		await new Promise(resolve => setTimeout(resolve, 2000));
 	});
 
 	it("shall deploy NFTStorefront contract", async () => {

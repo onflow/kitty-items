@@ -19,7 +19,7 @@ describe("Kibble", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 7001;
+		const port = 8080;
 		await init(basePath, { port });
 		return emulator.start(port, false);
 	});

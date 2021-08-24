@@ -21,7 +21,7 @@ describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 7002;
+		const port = 8081;
 		await init(basePath, { port });
 		return emulator.start(port, true);
 	});
@@ -29,7 +29,7 @@ describe("Kitty Items", () => {
 	// Stop emulator, so it could be restarted
 	afterEach(async () => {
 		await emulator.stop();
-		await new Promise(resolve => setTimeout(resolve, 100));
+		await new Promise(resolve => setTimeout(resolve, 2000));
 	});
 
 	it("shall deploy KittyItems contract", async () => {
