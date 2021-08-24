@@ -18,6 +18,7 @@ services:
       - WALLET_DISCOVERY=${WALLET_DISCOVERY}
       - FUNGIBLE_TOKEN_ADDRESS=${FUNGIBLE_TOKEN_ADDRESS}
       - NON_FUNGIBLE_TOKEN_ADDRESS=${NON_FUNGIBLE_TOKEN_ADDRESS}
+      - FUSD_ADDRESS=${FUSD_ADDRESS}
       - API_URL=${API_URL}
       - FLOW_ADDRESS=${FLOW_ADDRESS}
       - CHOKIDAR_USEPOLLING=true
@@ -54,7 +55,7 @@ services:
   dev-wallet:
     profiles:
       - dev
-    image: gcr.io/flow-container-registry/fcl-dev-wallet:v0.0.2
+    image: ghcr.io/onflow/fcl-dev-wallet:latest
     ports:
       - "8701:8701"
     environment:

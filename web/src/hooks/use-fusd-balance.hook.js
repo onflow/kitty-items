@@ -1,27 +1,27 @@
 import {atomFamily, selectorFamily, useRecoilState} from "recoil"
-import {fetchKibblesBalance} from "../flow/script.get-kibbles-balance"
+import {fetchFUSDBalance} from "../flow/script.get-fusd-balance"
 import {IDLE, PROCESSING} from "../global/constants"
 
 export const valueAtom = atomFamily({
-  key: "kibbles-balance::state",
+  key: "fusd-balance::state",
   default: selectorFamily({
-    key: "kibbles-balance::default",
-    get: address => async () => fetchKibblesBalance(address),
+    key: "fusd-balance::default",
+    get: address => async () => fetchFUSDBalance(address),
   }),
 })
 
 export const statusAtom = atomFamily({
-  key: "kibbles-balance::status",
+  key: "fusd-balance::status",
   default: IDLE,
 })
 
-export function useKibblesBalance(address) {
+export function useFUSDBalance(address) {
   const [balance, setBalance] = useRecoilState(valueAtom(address))
   const [status, setStatus] = useRecoilState(statusAtom(address))
 
   async function refresh() {
     setStatus(PROCESSING)
-    await fetchKibblesBalance(address).then(setBalance)
+    await fetchFUSDBalance(address).then(setBalance)
     setStatus(IDLE)
   }
 
@@ -31,7 +31,7 @@ export function useKibblesBalance(address) {
     refresh,
     async mint() {
       setStatus(PROCESSING)
-      await fetch(process.env.REACT_APP_API_KIBBLE_MINT, {
+      await fetch(process.env.REACT_APP_API_FUSD_MINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export function useKibblesBalance(address) {
           amount: 50.0,
         }),
       })
-      await fetchKibblesBalance(address).then(setBalance)
+      await fetchFUSDBalance(address).then(setBalance)
       setStatus(IDLE)
     },
   }
