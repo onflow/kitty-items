@@ -21,7 +21,7 @@ describe("Kibble", () => {
 		const basePath = path.resolve(__dirname, "../../../");
 		const port = 7001;
 		await init(basePath, { port });
-		return emulator.start(port, true);
+		return emulator.start(port, false);
 	});
 
 	// Stop emulator, so it could be restarted
