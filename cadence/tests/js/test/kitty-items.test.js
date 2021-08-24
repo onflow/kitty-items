@@ -22,7 +22,7 @@ describe("Kitty Items", () => {
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
 		const port = 7002;
-		init(basePath, port);
+		await init(basePath, { port });
 		return emulator.start(port, false);
 	});
 

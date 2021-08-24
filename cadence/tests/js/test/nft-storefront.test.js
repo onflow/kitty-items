@@ -21,7 +21,7 @@ describe("NFT Storefront", () => {
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
 		const port = 7003;
-		init(basePath, port);
+		await init(basePath, { port });
 		return emulator.start(port, false);
 	});
 
