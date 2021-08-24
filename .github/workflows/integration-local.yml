@@ -50,7 +50,7 @@ jobs:
         run: npm i && npx lerna exec npm install
 
       - name: Run JS Tests
-        run: npx jest --maxWorkers=2
+        run: npx jest --maxWorkers=2 --runInBand
         working-directory: cadence/tests/js
 
       - name: Run Go Tests
