@@ -204,14 +204,19 @@ pub contract FUSD: FungibleToken {
         emit TokensInitialized(initialSupply: 0.0)
 
         let minter <- admin.createNewMinter()
-
         let mintedVault <- minter.mintTokens(amount: 1000000.0)
+        let minterProxy <- self.createMinterProxy()
 
         destroy minter
 
+        self.account.save(<- minterProxy, to: FUSD.MinterProxyStoragePath)   
         self.account.save(<-admin, to: self.AdminStoragePath)
-
         self.account.save(<-mintedVault, to: /storage/fusdVault)
+
+        self.account.link<&FUSD.MinterProxy{FUSD.MinterProxyPublic}>(
+            FUSD.MinterProxyPublicPath,
+            target: FUSD.MinterProxyStoragePath
+        )
 
         self.account.link<&FUSD.Vault{FungibleToken.Receiver}>(
             /public/fusdReceiver,
