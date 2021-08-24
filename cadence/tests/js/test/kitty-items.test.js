@@ -17,17 +17,20 @@ import {
 // We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(50000);
 
+let portIncrement = 0;
+
 describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../../");
-		const port = 8081;
+		const port = 8090 + portIncrement;
 		await init(basePath, { port });
-		return emulator.start(port, true);
+		return emulator.start(port);
 	});
 
 	// Stop emulator, so it could be restarted
 	afterEach(async () => {
+		portIncrement += 1;
 		await emulator.stop();
 		await new Promise(resolve => setTimeout(resolve, 2000));
 	});
