@@ -192,13 +192,29 @@ pub contract FUSD: FungibleToken {
     }
 
     init() {
-        self.AdminStoragePath = /storage/fusdAdmin
-        self.MinterProxyPublicPath = /public/fusdMinterProxy
-        self.MinterProxyStoragePath = /storage/fusdMinterProxy
+        let admin <- create Administrator()
 
-        self.totalSupply = 0.0
+        // Emit an event that shows that the contract was initialized
+        emit TokensInitialized(initialSupply: 0.0)
 
-        log("These are not the droids you're looking for.")
-        return
+        let minter <- admin.createNewMinter()
+
+        let mintedVault <- minter.mintTokens(amount: 1000000.0)
+
+        destroy minter
+
+        self.account.save(<-admin, to: self.AdminStoragePath)
+
+        self.account.save(<-mintedVault, to: /storage/fusdVault)
+
+        self.account.link<&FUSD.Vault{FungibleToken.Receiver}>(
+            /public/fusdReceiver,
+            target: /storage/fusdVault
+        )
+
+        self.account.link<&FUSD.Vault{FungibleToken.Balance}>(
+            /public/fusdBalance,
+            target: /storage/fusdVault
+        )
     }
 }
