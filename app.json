@@ -61,7 +61,7 @@
     },
     "NON_FUNGIBLE_TOKEN_ADDRESS": {
       "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
-      "value": "0xe223d8a629e49c68"
+      "value": "0x631e88ae7f1d7c20"
     },
     "MIGRATION_PATH": {
       "description": "Location of database migrations.",
