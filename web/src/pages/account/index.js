@@ -1,5 +1,4 @@
 import {Suspense} from "react"
-import * as fcl from "@onflow/fcl"
 import {Base} from "../../parts/base.comp"
 import {IDLE} from "../../global/constants"
 import {useAddress} from "../../hooks/use-url-address.hook"
