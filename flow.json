@@ -55,13 +55,6 @@
         "NonFungibleToken",
         "NFTStorefront"
       ]
-    },
-    "testnet": {
-      "testnet-account": [
-        "Kibble",
-        "KittyItems",
-        "NFTStorefront"
-      ]
     }
   }
 }
