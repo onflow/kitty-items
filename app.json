@@ -100,7 +100,7 @@
     },
     "REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN": {
       "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
-      "value": "0xe223d8a629e49c68"
+      "value": "0x631e88ae7f1d7c20"
     },
     "REACT_APP_WALLET_DISCOVERY": {
       "description": "URL for fcl wallet discovery service for testnet wallets.",
