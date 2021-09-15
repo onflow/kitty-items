@@ -24,7 +24,7 @@
       "source": "./cadence/contracts/NonFungibleToken.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7",
-        "testnet": "0xe223d8a629e49c68"
+        "testnet": "0x631e88ae7f1d7c20"
       }
     },
     "NFTStorefront": "./cadence/contracts/NFTStorefront.cdc",
