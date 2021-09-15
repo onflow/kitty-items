@@ -15,7 +15,7 @@
     "FUSD": {
       "source": "./cadence/contracts/FUSD.cdc",
       "aliases": {
-        "testnet": "0x6b28e3d04931c8e3"
+        "testnet": "0xe223d8a629e49c68"
       }
     },
     "Kibble": "./cadence/contracts/Kibble.cdc",
