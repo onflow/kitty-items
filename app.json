@@ -34,7 +34,7 @@
     },
     "REACT_APP_CONTRACT_FUSD": {
       "description": "The address where the FUSD contract is deployed on testnet for this app.",
-      "value": "0x6b28e3d04931c8e3"
+      "value": "0xe223d8a629e49c68"
     },
     "REACT_APP_CONTRACT_KITTY_ITEMS": {
       "description": "The address where the KittyItems contract is deployed on testnet for this app.",
