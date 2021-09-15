@@ -14,6 +14,7 @@ services:
       - "/web/node_modules"
     environment:
       - CHAIN_ENV=${CHAIN_ENV}
+      - FAUCET_ADDRESS=${FAUCET_ADDRESS}
       - ACCESS_API_WEB=${ACCESS_API_WEB}
       - WALLET_DISCOVERY=${WALLET_DISCOVERY}
       - FUNGIBLE_TOKEN_ADDRESS=${FUNGIBLE_TOKEN_ADDRESS}

@@ -2,6 +2,7 @@ import {Suspense} from "react"
 import {useFlowBalance} from "../hooks/use-flow-balance.hook"
 import {useFUSDBalance} from "../hooks/use-fusd-balance.hook"
 import {useCurrentUser} from "../hooks/use-current-user.hook"
+import {useConfig} from "../hooks/use-config.hook"
 import {IDLE} from "../global/constants"
 import {fmtFUSD} from "../util/fmt-fusd"
 import {
@@ -22,6 +23,12 @@ export function BalanceCluster({address}) {
   const flow = useFlowBalance(address)
   const fusd = useFUSDBalance(address)
   const init = useInitialized(address)
+  const testnetFaucet = useConfig("faucet")
+
+  function openFaucet() {
+    window.open(testnetFaucet)
+  }
+
   return (
     <Box mb="4">
       <Box mb="2">
@@ -57,7 +64,7 @@ export function BalanceCluster({address}) {
           <Button
             colorScheme="blue"
             disabled={fusd.status !== IDLE || !init.isInitialized}
-            onClick={fusd.mint}
+            onClick={() => (testnetFaucet ? openFaucet() : fusd.mint())}
           >
             Request FUSD
           </Button>
