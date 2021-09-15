@@ -28,7 +28,7 @@
     "url": "git+https://github.com/onflow/kitty-items.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache 2",
   "bugs": {
     "url": "https://github.com/onflow/kitty-items/issues"
   },

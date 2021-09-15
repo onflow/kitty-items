@@ -34,7 +34,7 @@
     },
     "REACT_APP_CONTRACT_FUSD": {
       "description": "The address where the FUSD contract is deployed on testnet for this app.",
-      "value": ""
+      "value": "0x6b28e3d04931c8e3"
     },
     "REACT_APP_CONTRACT_KITTY_ITEMS": {
       "description": "The address where the KittyItems contract is deployed on testnet for this app.",
@@ -61,7 +61,7 @@
     },
     "NON_FUNGIBLE_TOKEN_ADDRESS": {
       "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
-      "value": "0x631e88ae7f1d7c20"
+      "value": "0xe223d8a629e49c68"
     },
     "MIGRATION_PATH": {
       "description": "Location of database migrations.",
@@ -100,7 +100,7 @@
     },
     "REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN": {
       "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
-      "value": "0x631e88ae7f1d7c20"
+      "value": "0xe223d8a629e49c68"
     },
     "REACT_APP_WALLET_DISCOVERY": {
       "description": "URL for fcl wallet discovery service for testnet wallets.",
