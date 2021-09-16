@@ -192,12 +192,6 @@ pub contract FUSD: FungibleToken {
     }
 
     init() {
-        self.AdminStoragePath = /storage/fusdAdmin
-        self.MinterProxyPublicPath = /public/fusdMinterProxy
-        self.MinterProxyStoragePath = /storage/fusdMinterProxy
-
-        self.totalSupply = 0.0
-
         let admin <- create Administrator()
 
         // Emit an event that shows that the contract was initialized

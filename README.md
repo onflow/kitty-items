@@ -72,6 +72,7 @@ After your account has been created, export the following environment variables 
 
 export FLOW_ADDRESS=address
 export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
+export FLOW_PUBLIC_KEY=xxxxxxxxxxxx
 ```
 
 _⚠️ Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough._

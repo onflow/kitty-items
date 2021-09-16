@@ -9,7 +9,7 @@ transaction {
     if(signer.borrow<&FUSD.Vault>(from: /storage/fusdVault) != nil) {
       return
     }
-    
+  
     // Create a new FUSD Vault and put it in storage
     signer.save(<-FUSD.createEmptyVault(), to: /storage/fusdVault)
 
