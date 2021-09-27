@@ -3,13 +3,11 @@ import {Address} from "@onflow/types"
 
 const CODE = cdc`
   import FungibleToken from 0xFungibleToken
-  import FUSD from 0xFUSD
 
-  pub fun main(address: Address): UFix64? {
-    if let vault = getAccount(address).getCapability<&{FungibleToken.Balance}>(/public/fusdBalance).borrow() {
-      return vault.balance
-    }
-    return nil
+  pub fun main(addr: Address): UFix64 {
+    return getAccount(addr)
+      .getCapability<&{FungibleToken.Balance}>(/public/fusdBalance)
+      .borrow()?.balance ?? 0.0
   }
 
 `

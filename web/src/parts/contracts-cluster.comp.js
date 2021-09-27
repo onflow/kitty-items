@@ -15,7 +15,7 @@ const Link = ({address, name}) => {
 }
 
 export function ContractsCluster() {
-  const kibble = useConfig("0xFUSD")
+  const fusd = useConfig("0xFUSD")
   const items = useConfig("0xKittyItems")
   const market = useConfig("0xKittyItemsMarket")
 
@@ -25,7 +25,7 @@ export function ContractsCluster() {
         <Label>Contracts</Label>
       </Bar>
       <ul>
-        <Link address={kibble} name="Kibble" />
+        <Link address={fusd} name="FUSD" />
         <Link address={items} name="KittyItems" />
         <Link address={market} name="KittyItemsMarket" />
       </ul>
