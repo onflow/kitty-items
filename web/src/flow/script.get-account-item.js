@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import {batch} from "src/flow/util/batch"
+import {expandAccountItemKey} from "src/hooks/useAccountItem"
 
 const CODE = fcl.cdc`
 import NonFungibleToken from 0xNonFungibleToken
@@ -72,9 +73,7 @@ const {enqueue} = batch("FETCH_ACCOUNT_ITEM", async px => {
 })
 
 export async function fetchAccountItem(key) {
-  const paths = key.split("/")
-  const address = paths[0]
-  const id = Number(paths[paths.length - 1])
+  const {address, id} = expandAccountItemKey(key)
 
   if (!address) return Promise.resolve(null)
   if (!id) return Promise.resolve(null)

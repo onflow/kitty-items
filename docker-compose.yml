@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   web:
     profiles:
@@ -10,9 +10,10 @@ services:
     ports:
       - 3001:3001
     volumes:
-      - "./web:/web"
-      - "/web/node_modules"
+      - './web:/web'
+      - '/web/node_modules'
     environment:
+      - NODE_ENV=${NODE_ENV}
       - CHAIN_ENV=${CHAIN_ENV}
       - FAUCET_ADDRESS=${FAUCET_ADDRESS}
       - ACCESS_API_WEB=${ACCESS_API_WEB}
@@ -34,12 +35,12 @@ services:
       context: ./
       dockerfile: ./api/Dockerfile.dev
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
-      - "./api:/api"
-      - "/api/node_modules"
+      - './api:/api'
+      - '/api/node_modules'
     links:
-      - "db:database"
+      - 'db:database'
     environment:
       - MINTER_ADDRESS=${FLOW_ADDRESS}
       - MINTER_PRIVATE_KEY=${FLOW_PRIVATE_KEY}
@@ -59,7 +60,7 @@ services:
       - dev
     image: ghcr.io/onflow/fcl-dev-wallet:latest
     ports:
-      - "8701:8701"
+      - '8701:8701'
     environment:
       - FLOW_ACCESS_NODE=${ACCESS_API_BACKEND}
       - FLOW_ACCOUNT_ADDRESS=${FLOW_ADDRESS}
@@ -74,8 +75,8 @@ services:
       - api
     image: gcr.io/flow-container-registry/emulator:v0.22.0
     ports:
-      - "8080:8080"
-      - "3569:3569"
+      - '8080:8080'
+      - '3569:3569'
     environment:
       - FLOW_SERVICEPRIVATEKEY=${FLOW_PRIVATE_KEY}
       - FLOW_SERVICEKEYSIGALGO=ECDSA_P256
@@ -87,7 +88,7 @@ services:
       - testnet
     image: postgres:13-alpine
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_DB=kittyitems
       - POSTGRES_USER=kittyuser

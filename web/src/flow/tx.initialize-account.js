@@ -1,7 +1,7 @@
 // prettier-ignore
-import {transaction, limit, proposer, payer, authorizations, authz, cdc} from "@onflow/fcl"
+import { authorizations, authz, cdc, limit, payer, proposer, transaction } from "@onflow/fcl"
 import {invariant} from "@onflow/util-invariant"
-import {tx} from "./util/tx"
+import {tx} from "src/flow/util/tx"
 
 const CODE = cdc`
   import FungibleToken from 0xFungibleToken

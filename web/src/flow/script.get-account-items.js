@@ -1,5 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import {Address} from "@onflow/types"
+import {expandAccountItemsKey} from "src/hooks/useAccountItems"
 
 const CODE = fcl.cdc`
   import NonFungibleToken from 0xNonFungibleToken
@@ -14,7 +15,8 @@ const CODE = fcl.cdc`
   }
 `
 
-export function fetchAccountItems(address) {
+export function fetchAccountItems(key) {
+  const {address} = expandAccountItemsKey(key)
   if (address == null) return Promise.resolve([])
 
   // prettier-ignore
