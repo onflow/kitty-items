@@ -1,6 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {batch} from "./util/batch"
+import {batch} from "src/flow/util/batch"
 
 const CODE = fcl.cdc`
 import NonFungibleToken from 0xNonFungibleToken
@@ -9,11 +9,13 @@ import KittyItems from 0xKittyItems
 pub struct AccountItem {
   pub let itemID: UInt64
   pub let typeID: UInt64
+  pub let rarityID: UInt64
   pub let owner: Address
 
-  init(itemID: UInt64, typeID: UInt64, owner: Address) {
+  init(itemID: UInt64, typeID: UInt64, rarityID: UInt64, owner: Address) {
     self.itemID = itemID
     self.typeID = typeID
+    self.rarityID = rarityID
     self.owner = owner
   }
 }
@@ -21,7 +23,7 @@ pub struct AccountItem {
 pub fun fetch(address: Address, id: UInt64): AccountItem? {
   if let col = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
     if let item = col.borrowKittyItem(id: id) {
-      return AccountItem(itemID: id, typeID: item.typeID, owner: address)
+      return AccountItem(itemID: id, typeID: item.typeID, rarityID: item.rarityID, owner: address)
     }
   }
 
@@ -69,8 +71,12 @@ const {enqueue} = batch("FETCH_ACCOUNT_ITEM", async px => {
     .then(fcl.decode)
 })
 
-export async function fetchAccountItem(address, id) {
-  if (address == null) return Promise.resolve(null)
-  if (id == null) return Promise.resolve(null)
+export async function fetchAccountItem(key) {
+  const paths = key.split("/")
+  const address = paths[0]
+  const id = Number(paths[paths.length - 1])
+
+  if (!address) return Promise.resolve(null)
+  if (!id) return Promise.resolve(null)
   return enqueue(address, id)
 }
