@@ -1,7 +1,7 @@
-import express, { Request, Response, Router } from "express";
-import { body } from "express-validator";
-import { validateRequest } from "../middlewares/validate-request";
-import { StorefrontService } from "../services/storefront";
+import express, { Request, Response, Router } from "express"
+import { body } from "express-validator"
+import { validateRequest } from "../middlewares/validate-request"
+import { StorefrontService } from "../services/storefront"
 
 function initStorefrontRouter(storefrontService: StorefrontService): Router {
   const router = express.Router();
@@ -63,10 +63,8 @@ function initStorefrontRouter(storefrontService: StorefrontService): Router {
   );
 
   router.get("/market/latest", async (req: Request, res: Response) => {
-    const latestSaleOffers = await storefrontService.findMostRecentSales();
-    return res.send({
-      latestSaleOffers,
-    });
+    const latestSaleOffers = await storefrontService.findMostRecentSales(req.params.owner);
+    return res.send(latestSaleOffers);
   });
 
   return router;

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"
 import {useReducer} from "react"
 import {createSaleOffer} from "src/flow/tx.create-sale-offer"
+import {paths} from "src/global/constants"
 import {
   ERROR,
   initialState,
@@ -9,8 +10,8 @@ import {
   SUCCESS,
 } from "src/reducers/requestReducer"
 import {useSWRConfig} from "swr"
-import {compAccountItemsKey} from "./useAccountItems"
 import useAppContext from "./useAppContext"
+import {compSaleOffersKey} from "./useSaleOffers"
 
 export default function useItemSale(saleOfferId, price) {
   const {mutate} = useSWRConfig()
@@ -27,7 +28,10 @@ export default function useItemSale(saleOfferId, price) {
         },
         async onSuccess() {
           dispatch({type: SUCCESS})
-          mutate(compAccountItemsKey(currentUser))
+          if (!currentUser?.addr) throw "Missing logged in user"
+
+          mutate(paths.apiMarketItemsList(currentUser.addr)) // TODO: Does not mutate (useMarketplaceItems)
+          mutate(compSaleOffersKey(currentUser.addr))
         },
         async onError() {
           dispatch({type: ERROR})
