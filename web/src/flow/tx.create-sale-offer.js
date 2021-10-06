@@ -1,6 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {tx} from "./util/tx"
+import {tx} from "src/flow/util/tx"
 
 const CODE = fcl.cdc`
   import FungibleToken from 0xFungibleToken
@@ -29,7 +29,7 @@ const CODE = fcl.cdc`
 
       self.kittyItemsCollection = account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!
       assert(self.kittyItemsCollection.borrow() != nil, message: "Missing or mis-typed KittyItemsCollection provider")
-      
+
       self.storefront = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
         ?? panic("Missing or mis-typed NFTStorefront Storefront")
     }

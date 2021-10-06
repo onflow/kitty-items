@@ -1,0 +1,59 @@
+const chainEnv = process.env.NEXT_PUBLIC_CHAIN_ENV
+if (!chainEnv) throw "Missing NEXT_PUBLIC_CHAIN_ENV"
+
+const flowAccessApiUrl = process.env.NEXT_PUBLIC_FLOW_ACCESS_API_URL
+if (!flowAccessApiUrl) throw "Missing NEXT_PUBLIC_FLOW_ACCESS_API_URL"
+
+const walletDiscovery = process.env.NEXT_PUBLIC_WALLET_DISCOVERY
+if (!walletDiscovery) throw "Missing NEXT_PUBLIC_WALLET_DISCOVERY"
+
+const apiKibbleMint = process.env.NEXT_PUBLIC_API_KIBBLE_MINT
+if (!apiKibbleMint) throw "Missing NEXT_PUBLIC_API_KIBBLE_MINT"
+
+const apiFUSDMint = process.env.NEXT_PUBLIC_API_FUSD_MINT
+if (!apiFUSDMint) throw "Missing NEXT_PUBLIC_API_FUSD_MINT"
+
+const apiKittyItemMint = process.env.NEXT_PUBLIC_API_KITTY_ITEM_MINT
+if (!apiKittyItemMint) throw "Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT"
+
+const apiMarketItemsList = process.env.NEXT_PUBLIC_API_MARKET_ITEMS_LIST
+if (!apiMarketItemsList) throw "Missing NEXT_PUBLIC_API_MARKET_ITEMS_LIST"
+
+const contractFungibleToken = process.env.NEXT_PUBLIC_CONTRACT_FUNGIBLE_TOKEN
+if (!contractFungibleToken) throw "Missing NEXT_PUBLIC_CONTRACT_FUNGIBLE_TOKEN"
+
+const contractNonFungibleToken =
+  process.env.NEXT_PUBLIC_CONTRACT_NON_FUNGIBLE_TOKEN
+if (!contractNonFungibleToken)
+  throw "Missing NEXT_PUBLIC_CONTRACT_NON_FUNGIBLE_TOKEN"
+
+const contractFUSD = process.env.NEXT_PUBLIC_CONTRACT_FUSD
+if (!contractFUSD) throw "Missing NEXT_PUBLIC_CONTRACT_FUSD"
+
+const contractKibble = process.env.NEXT_PUBLIC_CONTRACT_KIBBLE
+if (!contractKibble) throw "Missing NEXT_PUBLIC_CONTRACT_KIBBLE"
+
+const contractKittyItems = process.env.NEXT_PUBLIC_CONTRACT_KITTY_ITEMS
+if (!contractKittyItems) throw "Missing NEXT_PUBLIC_CONTRACT_KITTY_ITEMS"
+
+const contractNftStorefront = process.env.NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT
+if (!contractNftStorefront) throw "Missing NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT"
+
+const publicConfig = {
+  faucetAddress: process.env.NEXT_PUBLIC_FAUCET_ADDRESS,
+  chainEnv,
+  flowAccessApiUrl,
+  walletDiscovery,
+  apiKibbleMint,
+  apiFUSDMint,
+  apiKittyItemMint,
+  apiMarketItemsList,
+  contractFungibleToken,
+  contractNonFungibleToken,
+  contractFUSD,
+  contractKibble,
+  contractKittyItems,
+  contractNftStorefront,
+}
+
+export default publicConfig

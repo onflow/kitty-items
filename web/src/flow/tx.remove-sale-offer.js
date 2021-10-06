@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {tx} from "./util/tx"
 import {invariant} from "@onflow/util-invariant"
+import {tx} from "src/flow/util/tx"
 
 const CODE = fcl.cdc`
   import NFTStorefront from 0xNFTStorefront
