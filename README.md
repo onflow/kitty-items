@@ -83,6 +83,12 @@ _⚠️ Note: It's important that these variables are exported in each shell whe
 2) Run: `flow project deploy --network testnet -f flow.json -f flow.testnet.json`
    - All contracts are deployed to the Flow testnet.
 
+3) Select "Blocto" to log in.
+
+Thats it! 🏁
+
+Visit `http://localhost:3001` to interact with your new instance of Kitty Items!
+
 ---
 ### (Optional) Heroku Deployment
 
