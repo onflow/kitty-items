@@ -33,7 +33,9 @@ git clone https://github.com/onflow/kitty-items.git
 - Run `npm install` in the root of the project.
 - Run `npx lerna exec npm install` to install project dependencies.
 
-### 4. Start the project
+### 4. Start the project 
+
+Continue reading the sections below for instructions on how to start the project for local development, or testnet development.
 
 ## Local development
 
