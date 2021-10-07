@@ -43,6 +43,12 @@ git clone https://github.com/onflow/kitty-items.git
 2)  Run `flow project deploy --network emulator`
     - All contracts are deployed to the emulator.
 
+
+Thats it! 🏁
+
+Visit `http://localhost:3001` to interact with your new instance of Kitty Items!
+
+
 ## Testnet development
 ### Create a Flow Testnet account 
 
