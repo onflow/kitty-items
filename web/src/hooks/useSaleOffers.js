@@ -14,7 +14,6 @@ export function expandSaleOffersKey(key) {
 
 export default function useSaleOffers(address) {
   const {data, error} = useSWR(compSaleOffersKey(address), fetchSaleOffers)
-
   return {data, error, isLoading: !data && !error}
 }
 

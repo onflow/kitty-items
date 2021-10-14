@@ -41,3 +41,10 @@ export const ITEM_RARITY_MAP = {
   3: "Green",
   4: "Blue",
 }
+
+export const RARITY_COLORS = {
+  1: "gold",
+  2: "purple",
+  3: "green-dark",
+  4: "blue",
+}

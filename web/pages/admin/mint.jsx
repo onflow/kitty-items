@@ -13,7 +13,12 @@ export default function Mint() {
       <PageTitle>Mint</PageTitle>
       <main>
         <h1>Mint</h1>
-        <button onClick={mint} disabled={isLoading}>
+        <br />
+        <button
+          className="bg-gray-200 hover:bg-gray-100 rounded-4"
+          onClick={mint}
+          disabled={isLoading}
+        >
           Mint Item
         </button>
       </main>
