@@ -46,6 +46,8 @@ export default function LatestDrops({items}) {
     200
   )
 
+  if (drops.length === 0) return null
+
   const scrollToItem = index =>
     listRef.current?.scrollTo({
       top: 0,
@@ -57,65 +59,63 @@ export default function LatestDrops({items}) {
   const nextPage = () => scrollToItem(firstVisibleItem + 1)
 
   return (
-    <div className="bg-gray-50">
-      <div className="grid grid-cols-12 md:gap-10">
-        <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex items-center pl-4 2xl:latest-drops-left-content">
-          <div className="">
-            <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-16 lg:mt-0">
-              Latest <br />
-              Kitty Items
-            </h1>
-            <div className="text-gray sm:max-w-2xl lg:max-w-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-              quis gravida nunc, luctus sodales erat. Ut sit amet lectus tempor
-              dipiscing. Curabitur quis gravida nunc, lelit scelerisque ornare
-              ut non lectus.{" "}
-            </div>
-            <div className="flex mt-14">
-              <div className="mr-5">
-                <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
-                  <Image
-                    src="/images/arrow-left.svg"
-                    alt="Previous Page"
-                    width="16"
-                    height="16"
-                  />
-                </PageButton>
-              </div>
-              <PageButton onClick={nextPage} disabled={reachedScrollEnd}>
+    <div className="grid grid-cols-12 md:gap-10">
+      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex items-center pl-4 2xl:latest-drops-left-content">
+        <div className="">
+          <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-16 lg:mt-0">
+            Latest <br />
+            Kitty Items
+          </h1>
+          <div className="text-gray sm:max-w-2xl lg:max-w-sm">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            quis gravida nunc, luctus sodales erat. Ut sit amet lectus tempor
+            dipiscing. Curabitur quis gravida nunc, lelit scelerisque ornare ut
+            non lectus.{" "}
+          </div>
+          <div className="flex mt-14">
+            <div className="mr-5">
+              <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
                 <Image
-                  src="/images/arrow-right.svg"
-                  alt="Next Page"
+                  src="/images/arrow-left.svg"
+                  alt="Previous Page"
                   width="16"
                   height="16"
                 />
               </PageButton>
             </div>
+            <PageButton onClick={nextPage} disabled={reachedScrollEnd}>
+              <Image
+                src="/images/arrow-right.svg"
+                alt="Next Page"
+                width="16"
+                height="16"
+              />
+            </PageButton>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-14">
-          <div
-            className="overflow-x-scroll"
-            onScroll={onDebouncedScroll}
-            ref={listRef}
-          >
-            <div className="whitespace-nowrap pb-10 lg:px-3">
-              {drops.map(item => (
-                <div
-                  key={item.itemID}
-                  className="inline-flex justify-center"
-                  style={{width: DROP_ITEM_WIDTH}}
-                >
-                  <ListItem
-                    address={publicConfig.flowAddress}
-                    id={item.itemID}
-                    price={item.price}
-                    saleOfferId={item.resourceID}
-                    size="md"
-                  />
-                </div>
-              ))}
-            </div>
+      </div>
+      <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-14">
+        <div
+          className="overflow-x-scroll"
+          onScroll={onDebouncedScroll}
+          ref={listRef}
+        >
+          <div className="whitespace-nowrap pb-10 lg:px-3">
+            {drops.map(item => (
+              <div
+                key={item.itemID}
+                className="inline-flex justify-center"
+                style={{width: DROP_ITEM_WIDTH}}
+              >
+                <ListItem
+                  address={publicConfig.flowAddress}
+                  id={item.itemID}
+                  price={item.price}
+                  saleOfferId={item.resourceID}
+                  size="md"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -129,6 +129,6 @@ LatestDrops.propTypes = {
 
 PageButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.boolean,
+  disabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
 }

@@ -13,7 +13,7 @@ export default function ProfileAccountItems({address}) {
   const isLoading =
     isSalesOffersLoading || isAccountItemsLoading || !saleOffers || !itemIds
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return null
 
   const saleOfferItemIds = saleOffers.map(offer => offer.itemID)
   const itemIdsNotForSale = itemIds?.filter(

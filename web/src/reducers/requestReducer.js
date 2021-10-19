@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 
+export const IDLE = "IDLE"
 export const START = "START"
 export const SUCCESS = "SUCCESS"
 export const ERROR = "ERROR"
@@ -12,6 +13,8 @@ export const initialState = {
 
 export const requestReducer = (state, action) => {
   switch (action.type) {
+    case "IDLE":
+      return initialState
     case "START":
       return {
         ...state,

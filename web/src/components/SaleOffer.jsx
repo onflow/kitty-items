@@ -2,10 +2,10 @@ import PropTypes from "prop-types"
 import useSaleOffer from "src/hooks/useSaleOffer"
 import ListItem from "./ListItem"
 
-export default function SaleOffer({address, id}) {
+export default function SaleOffer({address, id, showOwnerInfo}) {
   const {data: saleOffer, isLoading} = useSaleOffer(address, id)
 
-  if (isLoading || !saleOffer.itemID) return <div>...</div>
+  if (isLoading || !saleOffer.itemID) return null
 
   return (
     <ListItem
@@ -13,6 +13,7 @@ export default function SaleOffer({address, id}) {
       id={saleOffer.itemID}
       saleOfferId={id}
       price={saleOffer.price}
+      showOwnerInfo={showOwnerInfo}
     />
   )
 }
@@ -20,5 +21,5 @@ export default function SaleOffer({address, id}) {
 SaleOffer.propTypes = {
   address: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  price: PropTypes.number,
+  showOwnerInfo: PropTypes.bool,
 }

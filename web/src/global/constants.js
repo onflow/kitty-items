@@ -19,12 +19,14 @@ export const paths = {
   marketplace: "/marketplace",
   adminMint: "/admin/mint",
   profile: address => `/profiles/${address}`,
+  profileItem: (address, id) => `/profiles/${address}/kitty-items/${id}`,
   apiMarketItemsList: address => {
     const params = address
       ? `?${new URLSearchParams({owner: address}).toString()}`
       : ""
     return `${publicConfig.apiMarketItemsList}${params}`
   },
+  apiSaleOffer: id => `${publicConfig.apiUrl}/v1/market/${id}`,
 }
 
 export const ITEM_TYPE_MAP = {
@@ -33,6 +35,7 @@ export const ITEM_TYPE_MAP = {
   3: "Milkshake",
   4: "TukTuk",
   5: "Skateboard",
+  6: "Shades",
 }
 
 export const ITEM_RARITY_MAP = {

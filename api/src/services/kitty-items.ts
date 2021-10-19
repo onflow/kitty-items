@@ -43,8 +43,8 @@ class KittyItemsService {
   mint = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    // Random typeID between 1 - 5
-    const typeID = Math.floor(Math.random() * (5 - 1)) + 1
+    // Random typeID between 1 - 6
+    const typeID = Math.floor(Math.random() * 6) + 1
     const rarityID = rarityProbabilities[Math.floor(Math.random() * rarityProbabilities.length)]
 
     const transaction = fs

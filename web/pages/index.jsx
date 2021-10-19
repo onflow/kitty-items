@@ -9,7 +9,6 @@ export default function Home() {
     <div>
       <PageTitle>Drops</PageTitle>
       <main>
-        {isLoading && "Loading..."}
         {saleOffers?.length > 0 && (
           <div className="divide-y divide-solid">
             <LatestDrops items={saleOffers} />

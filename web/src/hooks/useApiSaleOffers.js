@@ -5,7 +5,6 @@ import fetcher from "src/util/fetcher"
 import normalizeItem from "src/util/normalize-item"
 import useSWR from "swr"
 
-// Loads sale offers from the API
 export default function useApiSaleOffers(address) {
   const {data, error} = useSWR(paths.apiMarketItemsList(address), fetcher)
   const saleOffers = useMemo(
