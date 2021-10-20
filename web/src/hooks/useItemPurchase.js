@@ -1,7 +1,6 @@
 import PropTypes from "prop-types"
 import {useReducer} from "react"
 import {buyMarketItem} from "src/flow/tx.buy-market-item"
-import {paths} from "src/global/constants"
 import {
   ERROR,
   initialState,
@@ -10,8 +9,11 @@ import {
   SUCCESS,
 } from "src/reducers/requestReducer"
 import {useSWRConfig} from "swr"
+import useAppContext from "./useAppContext"
+import {compFUSDBalanceKey} from "./useFUSDBalance"
 
 export default function useItemPurchase(id, ownerAddress) {
+  const {currentUser} = useAppContext()
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const {mutate} = useSWRConfig()
 
@@ -23,8 +25,8 @@ export default function useItemPurchase(id, ownerAddress) {
           dispatch({type: START})
         },
         async onSuccess() {
+          mutate(compFUSDBalanceKey(currentUser?.addr))
           dispatch({type: SUCCESS})
-          mutate(paths.apiMarketItemsList()) // TODO: Does not mutate (useMarketplaceItems)
         },
         async onError() {
           dispatch({type: ERROR})

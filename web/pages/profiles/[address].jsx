@@ -10,13 +10,13 @@ export default function Marketplace() {
   if (!address) return null
 
   return (
-    <div>
+    <div className="main-container">
       <PageTitle>Profile</PageTitle>
       {address}
       <main>
-        <h1>My Items</h1>
+        <h1 className="text-4xl my-12">My Items</h1>
         <ProfileAccountItems address={address} />
-        <h1>Listed Items</h1>
+        <h1 className="text-4xl my-12">Listed Items</h1>
         <ProfileSaleOffers address={address} />
       </main>
     </div>

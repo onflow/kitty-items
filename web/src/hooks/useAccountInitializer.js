@@ -1,6 +1,7 @@
 import {initializeAccount as initializeAccountTx} from "src/flow/tx.initialize-account"
 import useAppContext from "src/hooks/useAppContext"
 
+const DECLINE_RESPONSE = "Declined: Externally Halted"
 export default function useAccountInitializer() {
   const {currentUser, checkIsAccountInitialized} = useAppContext()
 
@@ -12,8 +13,10 @@ export default function useAccountInitializer() {
       onSuccess: () => {
         checkIsAccountInitialized()
       },
-      onError() {
-        alert("Account initialization has failed, please try again.")
+      onError(e) {
+        if (e !== DECLINE_RESPONSE) {
+          alert("Account initialization has failed, please try again.")
+        }
       },
     })
   }

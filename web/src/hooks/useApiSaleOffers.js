@@ -5,12 +5,16 @@ import fetcher from "src/util/fetcher"
 import normalizeItem from "src/util/normalize-item"
 import useSWR from "swr"
 
-export default function useMarketplaceItems(address) {
+// Loads sale offers from the API
+export default function useApiSaleOffers(address) {
   const {data, error} = useSWR(paths.apiMarketItemsList(address), fetcher)
-  const items = useMemo(() => data?.map(item => normalizeItem(item)), [data])
-  return {items, error, isLoading: !data && !error}
+  const saleOffers = useMemo(
+    () => data?.map(item => normalizeItem(item)),
+    [data]
+  )
+  return {saleOffers, error, isLoading: !data && !error}
 }
 
-useMarketplaceItems.propTypes = {
+useApiSaleOffers.propTypes = {
   address: PropTypes.string,
 }

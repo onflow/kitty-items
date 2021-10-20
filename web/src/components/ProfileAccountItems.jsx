@@ -1,11 +1,13 @@
 import PropTypes from "prop-types"
-import ListItem from "src/components/ListItem"
+import ListItems from "src/components/ListItems"
 import useAccountItems from "src/hooks/useAccountItems"
-import useMarketplaceItems from "src/hooks/useMarketplaceItems"
+import useApiSaleOffers from "src/hooks/useApiSaleOffers"
 
 export default function ProfileAccountItems({address}) {
-  const {items: saleOffers, isLoading: isSalesOffersLoading} =
-    useMarketplaceItems(address)
+  // The Storefront only returns sale offer ids, so we need to fetch
+  // the sale offer objects from the API.
+  const {saleOffers, isLoading: isSalesOffersLoading} =
+    useApiSaleOffers(address)
   const {data: itemIds, isAccountItemsLoading} = useAccountItems(address)
 
   const isLoading =
@@ -20,9 +22,9 @@ export default function ProfileAccountItems({address}) {
 
   return (
     <div>
-      {itemIdsNotForSale?.map(id => (
-        <ListItem key={id} address={address} id={id} />
-      ))}
+      <ListItems
+        items={itemIdsNotForSale.map(id => ({itemID: id, owner: address}))}
+      />
     </div>
   )
 }
