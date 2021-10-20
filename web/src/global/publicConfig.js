@@ -27,6 +27,9 @@ const contractNonFungibleToken =
 if (!contractNonFungibleToken)
   throw "Missing NEXT_PUBLIC_CONTRACT_NON_FUNGIBLE_TOKEN"
 
+const flowAddress = process.env.NEXT_PUBLIC_FLOW_ADDRESS
+if (!flowAddress) throw "Missing NEXT_PUBLIC_FLOW_ADDRESS"
+
 const contractFUSD = process.env.NEXT_PUBLIC_CONTRACT_FUSD
 if (!contractFUSD) throw "Missing NEXT_PUBLIC_CONTRACT_FUSD"
 
@@ -48,6 +51,7 @@ const publicConfig = {
   apiFUSDMint,
   apiKittyItemMint,
   apiMarketItemsList,
+  flowAddress,
   contractFungibleToken,
   contractNonFungibleToken,
   contractFUSD,

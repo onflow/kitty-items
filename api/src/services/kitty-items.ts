@@ -51,8 +51,7 @@ class KittyItemsService {
       .readFileSync(path.join(__dirname, `../../../cadence/transactions/kittyItems/mint_kitty_item.cdc`), 'utf8')
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
-    console.log('---')
-    console.log(rarityID)
+
     return this.flowService.sendTx({
       transaction,
       args: [fcl.arg(recipient, t.Address), fcl.arg(typeID, t.UInt64), fcl.arg(Number(rarityID), t.UInt64)],

@@ -1,3 +1,5 @@
+import publicConfig from "./publicConfig"
+
 export const LOADING = "LOADING"
 
 // Exposed states of a Flow Transaction
@@ -16,6 +18,13 @@ export const paths = {
   root: "/",
   marketplace: "/marketplace",
   adminMint: "/admin/mint",
+  profile: address => `/profiles/${address}`,
+  apiMarketItemsList: address => {
+    const params = address
+      ? `?${new URLSearchParams({owner: address}).toString()}`
+      : ""
+    return `${publicConfig.apiMarketItemsList}${params}`
+  },
 }
 
 export const ITEM_TYPE_MAP = {

@@ -25,7 +25,7 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
         let price = self.saleOffer.getDetails().salePrice
 
         let mainFUSDVault = account.borrow<&FUSD.Vault>(from: /storage/fusdVault)
-            ?? panic("Cannot borrow Kibble vault from account storage")
+            ?? panic("Cannot borrow FUSD vault from account storage")
         
         self.paymentVault <- mainFUSDVault.withdraw(amount: price)
 
