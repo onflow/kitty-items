@@ -14,7 +14,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
         // We need a provider capability, but one is not provided by default so we create one if needed.
         let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-        self.fusdReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReciever)!
+        self.fusdReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)!
         
         assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
 
