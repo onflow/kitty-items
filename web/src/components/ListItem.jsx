@@ -12,19 +12,6 @@ import ListItemImage from "./ListItemImage"
 import ListItemPrice from "./ListItemPrice"
 import OwnerInfo from "./OwnerInfo"
 
-const parameterize = str => str.trim().toLowerCase().replace(" ", "-")
-
-const IMAGE_SIZES = {
-  md: {
-    width: 350,
-    height: 480,
-  },
-  lg: {
-    width: 546,
-    height: 750,
-  },
-}
-
 export const listItemName = (typeId, rarityId) => {
   const typeString = ITEM_TYPE_MAP[typeId]
   const rarityString = ITEM_RARITY_MAP[rarityId]
@@ -61,9 +48,9 @@ export default function ListItem({
             classes="hover:shadow-2xl"
           >
             {isBuyable && (
-              <div className="hidden group-hover:block absolute bottom-10">
+              <div className="hidden group-hover:block absolute bottom-7">
                 <div
-                  className={`bg-white py-4 px-9 font-bold text-md rounded-full shadow-md uppercase text-${
+                  className={`bg-white py-3 px-9 font-bold text-md rounded-full shadow-md uppercase text-${
                     RARITY_COLORS[item.rarityID]
                   }`}
                 >
@@ -88,7 +75,7 @@ export default function ListItem({
             </Link>
           </div>
           <div className="flex items-center">
-            {!!saleOfferId && <ListItemPrice price={price} />}
+            {!!saleOfferId && <ListItemPrice price={parseFloat(price)} />}
           </div>
         </div>
       </div>
@@ -101,6 +88,6 @@ ListItem.propTypes = {
   id: PropTypes.number.isRequired,
   price: PropTypes.number,
   saleOfferId: PropTypes.number,
-  showOwnerInfo: PropTypes.boolean,
+  showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
 }

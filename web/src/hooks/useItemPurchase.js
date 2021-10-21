@@ -7,6 +7,7 @@ import {
   initialState,
   requestReducer,
   START,
+  SUCCESS,
 } from "src/reducers/requestReducer"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
@@ -16,7 +17,7 @@ export default function useItemPurchase() {
   const router = useRouter()
   const {currentUser} = useAppContext()
   const [state, dispatch] = useReducer(requestReducer, initialState)
-  const {mutate} = useSWRConfig()
+  const {mutate, cache} = useSWRConfig()
 
   const buy = async (saleOfferId, itemId, ownerAddress) => {
     if (!saleOfferId) throw "Missing saleOffer id"
@@ -30,6 +31,7 @@ export default function useItemPurchase() {
         },
         async onSuccess() {
           mutate(compFUSDBalanceKey(currentUser?.addr))
+          cache.delete(paths.apiSaleOffer(itemId))
           router.push(paths.profileItem(currentUser.addr, itemId))
           dispatch({type: SUCCESS})
         },

@@ -6,8 +6,8 @@ const parameterize = str => str.trim().toLowerCase().replace(" ", "-")
 
 const IMAGE_SIZES = {
   sm: {
-    width: 350,
-    height: 480,
+    width: 291,
+    height: 400,
   },
   md: {
     width: 350,
@@ -51,8 +51,8 @@ export default function ListItemImage({
 }
 
 ListItemImage.propTypes = {
-  typeId: PropTypes.string.isRequired,
-  rarityId: PropTypes.string.isRequired,
+  typeId: PropTypes.number.isRequired,
+  rarityId: PropTypes.number.isRequired,
   size: PropTypes.string,
   classes: PropTypes.string,
   children: PropTypes.node,

@@ -13,22 +13,22 @@ export const initialState = {
 
 export const requestReducer = (state, action) => {
   switch (action.type) {
-    case "IDLE":
+    case IDLE:
       return initialState
-    case "START":
+    case START:
       return {
         ...state,
         isLoading: true,
         isError: false,
       }
-    case "SUCCESS":
+    case SUCCESS:
       return {
         ...state,
         isLoading: false,
         isError: false,
         data: action.payload,
       }
-    case "ERROR":
+    case ERROR:
       return {
         ...state,
         isLoading: false,

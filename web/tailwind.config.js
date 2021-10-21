@@ -11,10 +11,10 @@ module.exports = {
     },
     extend: {
       screens: {
-        "2xl": "1340px",
+        "2xl": "1372px",
       },
       screens: {
-        "2xl": "1340px",
+        "2xl": "1372px",
         "3xl": "1536px",
       },
       colors: {

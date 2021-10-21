@@ -12,7 +12,7 @@ export default function SaleOffer({address, id, showOwnerInfo}) {
       address={address}
       id={saleOffer.itemID}
       saleOfferId={id}
-      price={saleOffer.price}
+      price={parseFloat(saleOffer.price)}
       showOwnerInfo={showOwnerInfo}
     />
   )

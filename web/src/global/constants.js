@@ -1,3 +1,4 @@
+import {cleanObject} from "src/util/object"
 import publicConfig from "./publicConfig"
 
 export const LOADING = "LOADING"
@@ -14,18 +15,21 @@ export const IDLE_DELAY = 1000
 
 export const BASE_HTML_TITLE = "Kitty Items"
 
+export const getParamsString = params => {
+  if (typeof params !== "object") return ""
+  return Object.keys(params).length === 0
+    ? ""
+    : `?${new URLSearchParams(cleanObject(params)).toString()}`
+}
+
 export const paths = {
   root: "/",
   marketplace: "/marketplace",
   adminMint: "/admin/mint",
   profile: address => `/profiles/${address}`,
   profileItem: (address, id) => `/profiles/${address}/kitty-items/${id}`,
-  apiMarketItemsList: address => {
-    const params = address
-      ? `?${new URLSearchParams({owner: address}).toString()}`
-      : ""
-    return `${publicConfig.apiMarketItemsList}${params}`
-  },
+  apiMarketItemsList: params =>
+    `${publicConfig.apiMarketItemsList}${getParamsString(params)}`,
   apiSaleOffer: id => `${publicConfig.apiUrl}/v1/market/${id}`,
 }
 
