@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import ListItem from "src/components/ListItem"
 
 export const listItemsRootClasses =
-  "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-16"
+  "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-x-5 sm:gap-y-16"
 
 export default function ListItems({items, Component = ListItem}) {
   return (

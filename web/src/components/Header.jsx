@@ -12,7 +12,7 @@ export default function Header() {
   const logIn = () => fcl.logIn()
 
   return (
-    <header className="border-b border-gray-200">
+    <header className="border-b bg-white border-gray-200">
       <div className="bg-green-dark text-white text-sm sm:text-lg font-bold text-center py-4 px-2">
         <span className="mr-3 text-sm">💻</span>Kitty Items is a demo
         application running on the{" "}

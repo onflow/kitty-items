@@ -19,6 +19,9 @@ if (!apiKittyItemMint) throw "Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT"
 const apiMarketItemsList = process.env.NEXT_PUBLIC_API_MARKET_ITEMS_LIST
 if (!apiMarketItemsList) throw "Missing NEXT_PUBLIC_API_MARKET_ITEMS_LIST"
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
+if (!apiUrl) throw "Missing NEXT_PUBLIC_API_URL"
+
 const contractFungibleToken = process.env.NEXT_PUBLIC_CONTRACT_FUNGIBLE_TOKEN
 if (!contractFungibleToken) throw "Missing NEXT_PUBLIC_CONTRACT_FUNGIBLE_TOKEN"
 
@@ -54,6 +57,7 @@ const publicConfig = {
   apiFUSDMint,
   apiKittyItemMint,
   apiMarketItemsList,
+  apiUrl,
   flowAddress,
   avatarUrl,
   contractFungibleToken,

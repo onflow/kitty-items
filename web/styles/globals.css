@@ -32,18 +32,6 @@
     background: linear-gradient(180deg, #0aa6ff 0%, #1972a4 100%);
   }
 
-  .item-size-sm {
-    width: 100%;
-  }
-
-  .item-size-md {
-    width: 22rem;
-  }
-
-  .item-size-lg {
-    width: 38rem;
-  }
-
   @responsive {
     .latest-drops-left-content {
       margin-left: calc((100vw - theme("screens.2xl")) / 2);

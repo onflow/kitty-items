@@ -149,6 +149,12 @@ class StorefrontService {
     })
   }
 
+  findSaleOffer = (itemId) => {
+    return SaleOffer.transaction(async (tx) => {
+      return await SaleOffer.query(tx).select('*').where('sale_item_id', itemId).limit(1)
+    })
+  }
+
   findMostRecentSales = (owner) => {
     return SaleOffer.transaction(async (tx) => {
       if (!!owner) {

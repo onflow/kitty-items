@@ -4,13 +4,12 @@ import SaleOffer from "src/components/SaleOffer"
 import useSaleOffers from "src/hooks/useSaleOffers"
 
 export default function ProfileSaleOffers({address}) {
-  const {data: itemIds, isLoading} = useSaleOffers(address)
+  const {data: itemIds} = useSaleOffers(address)
   return (
     <div>
-      {isLoading && "Loading..."}
       <div className={listItemsRootClasses}>
         {itemIds?.map(id => (
-          <SaleOffer key={id} address={address} id={id} />
+          <SaleOffer key={id} address={address} id={id} showOwnerInfo={true} />
         ))}
       </div>
     </div>

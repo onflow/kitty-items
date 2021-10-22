@@ -1,5 +1,5 @@
 import {useReducer} from "react"
-import {createSaleOffer} from "src/flow/tx.create-sale-offer"
+import {cancelMarketListing} from "src/flow/tx.remove-sale-offer"
 import {paths, SUCCESS} from "src/global/constants"
 import {
   ERROR,
@@ -9,23 +9,22 @@ import {
 } from "src/reducers/requestReducer"
 import {useSWRConfig} from "swr"
 
-export default function useItemSale() {
+export default function useItemRemoval() {
   const {mutate} = useSWRConfig()
 
   const [state, dispatch] = useReducer(requestReducer, initialState)
 
-  const sell = async (itemId, price) => {
-    if (!itemId) throw "Missing itemId"
-    if (!price) throw "Missing price"
+  const remove = async (saleOfferId, itemId) => {
+    if (!saleOfferId) throw "Missing saleOfferId"
 
-    await createSaleOffer(
-      {itemID: itemId, price: price},
+    await cancelMarketListing(
+      {saleOfferResourceID: saleOfferId},
       {
         onStart() {
           dispatch({type: START})
         },
         async onSuccess() {
-          // TODO: Poll for created API offer instead of setTimeout
+          // TODO: Poll for removed API offer instead of setTimeout
           setTimeout(() => {
             mutate(paths.apiSaleOffer(itemId))
             dispatch({type: SUCCESS})
@@ -38,5 +37,5 @@ export default function useItemSale() {
     )
   }
 
-  return [state, sell]
+  return [state, remove]
 }
