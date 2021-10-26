@@ -38,6 +38,9 @@ module.exports = {
         purple: {
           DEFAULT: "#512BBD",
         },
+        red: {
+          DEFAULT: "#E55A3D",
+        },
       },
       minWidth: {
         40: "10rem",

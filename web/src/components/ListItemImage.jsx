@@ -1,8 +1,7 @@
 import Image from "next/image"
 import PropTypes from "prop-types"
 import {ITEM_RARITY_MAP, ITEM_TYPE_MAP} from "src/global/constants"
-
-const parameterize = str => str.trim().toLowerCase().replace(" ", "-")
+import parameterize from "src/util/parameterize"
 
 const IMAGE_SIZES = {
   sm: {

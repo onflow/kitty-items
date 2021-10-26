@@ -40,6 +40,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
             fusdBalance === 0 ||
             !currentUser
           }
+          roundedFull={true}
         >
           {isBuyLoading ? "Purchasing..." : "Purchase"}
         </Button>
@@ -63,6 +64,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
         <Button
           onClick={onSellClick}
           disabled={isSellLoading || !isAccountInitialized}
+          roundedFull={true}
         >
           {isSellLoading ? "Selling..." : "Sell"}
         </Button>
@@ -80,6 +82,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
           onClick={onRemoveClick}
           disabled={isRemoveLoading || !isAccountInitialized}
           color="gray"
+          roundedFull={true}
         >
           {isRemoveLoading
             ? "Removing From Marketplace..."

@@ -1,11 +1,27 @@
 import PropTypes from "prop-types"
 import {useState} from "react"
+import parameterize from "src/util/parameterize"
 
-export default function TextInput({value, onChange, label, type, min, step}) {
+export default function TextInput({
+  value,
+  onChange,
+  label,
+  type,
+  min,
+  step,
+  required,
+  labelClasses,
+}) {
   const [internalValue, setInternalValue] = useState(value)
+  const id = parameterize(label)
   return (
     <div>
-      <label className="block text-md text-gray-light mb-2">{label}</label>
+      <label
+        htmlFor={id}
+        className={labelClasses || "block text-md text-gray-light mb-2"}
+      >
+        {label}
+      </label>
       <input
         onChange={e => {
           setInternalValue(e.target.value)
@@ -17,6 +33,9 @@ export default function TextInput({value, onChange, label, type, min, step}) {
         type={type}
         min={min}
         step={step}
+        required={required}
+        id={id}
+        name={id}
       />
     </div>
   )
@@ -29,4 +48,6 @@ TextInput.propTypes = {
   type: PropTypes.string,
   min: PropTypes.string,
   step: PropTypes.string,
+  required: PropTypes.bool,
+  labelClasses: PropTypes.string,
 }
