@@ -17,11 +17,14 @@ deployed on the Flow Testnet.
 If you'd like to deploy your own version, see the [deploy to Heroku](#optional-heroku-deployment) instructions near the bottom to this setup guide.
 
 ## ✨ Getting Started
-### 1. Install the Flow CLI
 
-Before you start, install the [Flow command-line interface (CLI)](https://docs.onflow.org/flow-cli).
 
-_⚠️ This project requires `flow-cli v0.15.0` or above._
+
+### 1. Install Dependencies
+
+_🛠 This project requires `Docker`._ See: [Docker installation instructions](https://www.docker.com/get-started) <br/>
+_🛠 This project requires `NodeJS v14.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
+_🛠 This project requires `flow-cli v0.15.0` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
 
 ### 2. Clone the project
 
