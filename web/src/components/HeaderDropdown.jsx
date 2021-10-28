@@ -4,7 +4,7 @@ import Link from "next/link"
 import {useRouter} from "next/router"
 import {Fragment} from "react"
 import Avatar from "src/components/Avatar"
-import {paths} from "src/global/constants"
+import {flashMessages, paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 import useFUSDMinter from "src/hooks/useFUSDMinter"
 
@@ -19,7 +19,7 @@ export default function HeaderDropdown() {
     isAccountInitialized,
     isLoggedInAsAdmin,
     setShowAdminLoginDialog,
-    logOutAdmin,
+    setFlashMessage,
   } = useAppContext()
   const router = useRouter()
   const address = currentUser.addr
@@ -29,7 +29,7 @@ export default function HeaderDropdown() {
 
   const signOut = () => {
     fcl.unauthenticate()
-    logOutAdmin()
+    setFlashMessage(flashMessages.loggedOutSuccess)
   }
   const mint = () => mintFUSD(currentUser.addr)
 

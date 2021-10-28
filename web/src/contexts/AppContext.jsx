@@ -14,6 +14,8 @@ export const AppContext = createContext({
   isLoggedInAsAdmin: () => false,
   logInAdmin: () => null,
   logOutAdmin: () => null,
+  flashMessage: null,
+  setFlashMessage: _message => null,
 })
 
 export const AppContextProvider = ({children}) => {
@@ -21,6 +23,8 @@ export const AppContextProvider = ({children}) => {
   const [isAccountInitialized, setIsAccountInitialized] = useState(null)
   const [isLoggedInAsAdmin, setIsLoggedInAsAdmin] = useState(false)
   const [showAdminLoginDialog, setShowAdminLoginDialog] = useState(false)
+  const [flashMessage, setFlashMessage] = useState(null)
+
   const router = useRouter()
 
   const checkIsAccountInitialized = useCallback(() => {
@@ -32,17 +36,17 @@ export const AppContextProvider = ({children}) => {
       })
   }, [currentUser?.addr])
 
-  useEffect(
-    () =>
-      fcl.currentUser().subscribe(newUser => {
-        if (newUser?.loggedIn) {
-          setCurrentUser(newUser)
-        } else {
-          logOutAdmin()
-        }
-      }),
-    []
-  )
+  useEffect(() => {
+    fcl.currentUser().subscribe(newUser => {
+      if (newUser?.loggedIn) {
+        setCurrentUser(newUser)
+        setFlashMessage(null)
+      } else {
+        setCurrentUser(null)
+        logOutAdmin()
+      }
+    })
+  }, [])
 
   useEffect(() => {
     checkIsAccountInitialized()
@@ -55,6 +59,17 @@ export const AppContextProvider = ({children}) => {
           window?.sessionStorage.getItem(LOGGED_IN_ADMIN_ADDRESS_KEY)
     )
   }, [currentUser?.addr])
+
+  useEffect(() => {
+    if (flashMessage !== null) window.scrollTo({top: 0, behavior: "smooth"})
+  }, [flashMessage])
+
+  useEffect(() => {
+    setFlashMessage(prev => {
+      if (prev !== null) return null
+      return prev
+    })
+  }, [router.pathname])
 
   const logInAdmin = () => {
     window?.sessionStorage.setItem(
@@ -81,6 +96,8 @@ export const AppContextProvider = ({children}) => {
     setIsLoggedInAsAdmin,
     logInAdmin,
     logOutAdmin,
+    flashMessage,
+    setFlashMessage,
   }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

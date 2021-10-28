@@ -64,7 +64,9 @@ export default function AdminLogInDialog() {
             </div>
           </div>
 
-          <Button rounded={false}>Log In</Button>
+          <Button type="submit" rounded={false}>
+            Log In
+          </Button>
         </form>
       </Dialog>
     </div>

@@ -10,6 +10,7 @@ export default function Button({
   disabled,
   color = "green",
   roundedFull,
+  type,
   children,
 }) {
   return (
@@ -19,6 +20,7 @@ export default function Button({
       } font-bold text-sm uppercase py-4 w-full disabled:cursor-default disabled:opacity-50 hover:opacity-80`}
       onClick={onClick}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>
@@ -26,9 +28,10 @@ export default function Button({
 }
 
 Button.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   disabled: PropTypes.bool,
   color: PropTypes.string,
   roundedFull: PropTypes.bool,
+  type: PropTypes.string,
   children: PropTypes.node.isRequired,
 }

@@ -15,15 +15,15 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
         let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
         self.fusdReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReciever)!
-        
-        assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
+
+        assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed FUSD receiver")
 
         if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
             account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
         }
 
         self.kittyItemsProvider = account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!
-        
+
         assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed KittyItems.Collection provider")
 
         self.storefront = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)

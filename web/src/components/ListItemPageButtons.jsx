@@ -21,7 +21,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const [{isLoading: isRemoveLoading}, remove] = useItemRemoval()
 
   const onPurchaseClick = () => buy(saleOffer?.resourceID, id, address)
-  const onSellClick = () => sell(id, item.typeID, Number(10).toFixed(2))
+  const onSellClick = () => sell(id, item.typeID, item.rarityID)
   const onRemoveClick = () => remove(saleOffer?.resourceID, id)
 
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr

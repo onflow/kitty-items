@@ -1,6 +1,11 @@
 import {useReducer} from "react"
 import {createSaleOffer} from "src/flow/tx.create-sale-offer"
-import {paths, SUCCESS} from "src/global/constants"
+import {
+  flashMessages,
+  ITEM_RARITY_PRICE_MAP,
+  paths,
+  SUCCESS,
+} from "src/global/constants"
 import {
   ERROR,
   initialState,
@@ -13,16 +18,16 @@ import useAppContext from "./useAppContext"
 
 export default function useItemSale() {
   const {mutate} = useSWRConfig()
-  const currentUser = useAppContext()
+  const {currentUser, setFlashMessage} = useAppContext()
 
   const [state, dispatch] = useReducer(requestReducer, initialState)
 
-  const sell = async (itemId, itemType, price) => {
+  const sell = async (itemId, itemType, itemRarityId) => {
     if (!itemId) throw "Missing itemId"
-    if (!price) throw "Missing price"
+    if (!itemRarityId) throw "Missing itemRarityId"
 
     await createSaleOffer(
-      {itemID: itemId, price: price},
+      {itemID: itemId, price: ITEM_RARITY_PRICE_MAP[itemRarityId]},
       {
         onStart() {
           dispatch({type: START})
@@ -36,9 +41,11 @@ export default function useItemSale() {
           if (!newSaleOffer) throw "Missing saleOffer"
           mutate(paths.apiSaleOffer(itemId), [newSaleOffer], false)
           dispatch({type: SUCCESS})
+          setFlashMessage(flashMessages.itemSaleSuccess)
         },
         async onError() {
           dispatch({type: ERROR})
+          setFlashMessage(flashMessages.itemSaleError)
         },
       }
     )

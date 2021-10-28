@@ -63,7 +63,7 @@ export function createSaleOffer({itemID, price}, opts = {}) {
     fcl.transaction(CODE),
     fcl.args([
       fcl.arg(Number(itemID), t.UInt64),
-      fcl.arg(String(price), t.UFix64),
+      fcl.arg(String(price.toFixed(2)), t.UFix64),
     ]),
     fcl.proposer(fcl.authz),
     fcl.payer(fcl.authz),

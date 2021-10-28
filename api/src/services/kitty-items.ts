@@ -8,10 +8,10 @@ const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 
 const ITEM_RARITY_PROBABILITIES = {
-  1: 1,
-  2: 2,
-  3: 3,
-  4: 4,
+  1: 2,
+  2: 8,
+  3: 10,
+  4: 80,
 }
 const rarityTypes = Object.keys(ITEM_RARITY_PROBABILITIES)
 const rarityProbabilities = rarityTypes.flatMap((rarityId) => Array(ITEM_RARITY_PROBABILITIES[rarityId]).fill(rarityId))

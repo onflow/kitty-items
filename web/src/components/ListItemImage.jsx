@@ -23,10 +23,12 @@ export default function ListItemImage({
   rarityId,
   children,
   size = "sm",
+  grayscale,
+  priority,
   classes = "",
 }) {
-  const typeString = ITEM_TYPE_MAP[typeId]
-  const rarityString = ITEM_RARITY_MAP[rarityId]
+  const typeString = typeId === 0 ? "question" : ITEM_TYPE_MAP[typeId]
+  const rarityString = rarityId === 0 ? "gray" : ITEM_RARITY_MAP[rarityId]
   const name = [rarityString, typeString].join(" ")
   const imageSrc = `/images/kitty-items/${parameterize(
     typeString
@@ -34,7 +36,9 @@ export default function ListItemImage({
 
   return (
     <div
-      className={`group relative item-gradient-${rarityId} rounded-3xl relative flex w-full items-center justify-center ${classes}`}
+      className={`group relative item-gradient-${
+        grayscale ? "gray" : rarityId
+      } rounded-3xl relative flex w-full items-center justify-center ${classes}`}
     >
       <Image
         src={imageSrc}
@@ -42,6 +46,7 @@ export default function ListItemImage({
         width={IMAGE_SIZES[size].width}
         height={IMAGE_SIZES[size].height}
         quality={90}
+        priority={priority}
       />
 
       {children}
@@ -54,5 +59,7 @@ ListItemImage.propTypes = {
   rarityId: PropTypes.number.isRequired,
   size: PropTypes.string,
   classes: PropTypes.string,
+  grayscale: PropTypes.bool,
+  priority: PropTypes.bool,
   children: PropTypes.node,
 }

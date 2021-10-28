@@ -1,18 +1,13 @@
 import * as fcl from "@onflow/fcl"
+import AdminNav from "src/components/AdminNav"
+import Minter from "src/components/Minter"
 import PageTitle from "src/components/PageTitle"
 import useAppContext from "src/hooks/useAppContext"
-import useMinter from "src/hooks/useMinter"
 
 export default function Mint() {
   const {currentUser, isLoggedInAsAdmin, setShowAdminLoginDialog} =
     useAppContext()
   const logIn = () => fcl.logIn()
-
-  const onSuccess = data => {
-    console.log(data)
-  }
-
-  const [{isLoading}, mint] = useMinter(onSuccess)
 
   const onAdminLoginClick = () => {
     setShowAdminLoginDialog(true)
@@ -38,15 +33,10 @@ export default function Mint() {
     <div>
       <PageTitle>Mint</PageTitle>
       <main>
-        <h1>Mint</h1>
-        <br />
-        <button
-          className="bg-gray-200 hover:bg-gray-100 rounded-4"
-          onClick={mint}
-          disabled={isLoading}
-        >
-          Mint Item
-        </button>
+        <div className="main-container py-14">
+          <AdminNav />
+          <Minter />
+        </div>
       </main>
     </div>
   )

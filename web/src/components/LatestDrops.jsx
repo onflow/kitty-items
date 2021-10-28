@@ -59,7 +59,7 @@ export default function LatestDrops({items}) {
   const nextPage = () => scrollToItem(firstVisibleItem + 1)
 
   return (
-    <div className="grid grid-cols-12 md:gap-10">
+    <div className="grid grid-cols-12 md:gap-10" style={{minHeight: 700}}>
       <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex items-center pl-4 2xl:latest-drops-left-content">
         <div className="">
           <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-16 lg:mt-0">

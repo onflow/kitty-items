@@ -1,9 +1,11 @@
 import {initializeAccount as initializeAccountTx} from "src/flow/tx.initialize-account"
+import {flashMessages} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 
 const DECLINE_RESPONSE = "Declined: Externally Halted"
 export default function useAccountInitializer() {
-  const {currentUser, checkIsAccountInitialized} = useAppContext()
+  const {currentUser, checkIsAccountInitialized, setFlashMessage} =
+    useAppContext()
 
   const initializeAccount = () => {
     if (!currentUser?.addr) throw "Missing signed in user"
@@ -12,10 +14,11 @@ export default function useAccountInitializer() {
       onStart() {},
       onSuccess: () => {
         checkIsAccountInitialized()
+        setFlashMessage(flashMessages.initializeAccountSuccess)
       },
       onError(e) {
         if (e !== DECLINE_RESPONSE) {
-          alert("Account initialization has failed, please try again.")
+          setFlashMessage(flashMessages.initializeAccountError)
         }
       },
     })

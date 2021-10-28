@@ -1,7 +1,7 @@
 import {useRouter} from "next/dist/client/router"
 import {useReducer} from "react"
 import {buyMarketItem} from "src/flow/tx.buy-market-item"
-import {paths} from "src/global/constants"
+import {flashMessages, paths} from "src/global/constants"
 import {
   ERROR,
   initialState,
@@ -15,7 +15,7 @@ import {compFUSDBalanceKey} from "./useFUSDBalance"
 
 export default function useItemPurchase() {
   const router = useRouter()
-  const {currentUser} = useAppContext()
+  const {currentUser, setFlashMessage} = useAppContext()
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const {mutate, cache} = useSWRConfig()
 
@@ -34,9 +34,11 @@ export default function useItemPurchase() {
           cache.delete(paths.apiSaleOffer(itemId))
           router.push(paths.profileItem(currentUser.addr, itemId))
           dispatch({type: SUCCESS})
+          setFlashMessage(flashMessages.purchaseSuccess)
         },
         async onError() {
           dispatch({type: ERROR})
+          setFlashMessage(flashMessages.purchaseError)
         },
       }
     )

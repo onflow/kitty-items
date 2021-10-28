@@ -8,7 +8,6 @@ import { FlowService } from './flow'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const fusdPath = '"../../contracts/FUSD.cdc"'
-const kibblePath = '"../../contracts/Kibble.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
@@ -19,7 +18,6 @@ class StorefrontService {
     private readonly flowService: FlowService,
     private readonly fungibleTokenAddress: string,
     private readonly fusdAddress: string,
-    private readonly kibbleAddress: string,
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
     public readonly storefrontAddress: string
@@ -90,7 +88,7 @@ class StorefrontService {
       .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/sell_item_fusd.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
+      .replace(fusdPath, fcl.withPrefix(this.fusdAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
