@@ -113,12 +113,12 @@ class KittyItemsService {
     });
   };
 
-  getKittyItemType = async (itemID: number): Promise<number> => {
+  getKittyItem = async (itemID: number, address: string): Promise<number> => {
     const script = fs
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/scripts/kittyItems/get_kitty_item_type_id.cdc`
+          `../../../cadence/scripts/kittyItems/get_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -130,7 +130,7 @@ class KittyItemsService {
 
     return this.flowService.executeScript<number>({
       script,
-      args: [fcl.arg(itemID, t.UInt64)],
+      args: [fcl.arg(address, t.Address), fcl.arg(itemID, t.UInt64)],
     });
   };
 
