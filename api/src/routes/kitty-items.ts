@@ -54,7 +54,7 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
   router.get(
     "/kitty-items/item/:itemID",
     async (req: Request, res: Response) => {
-      const item = await kittyItemsService.getKittyItemType(
+      const item = await kittyItemsService.getKittyItem(
         parseInt(req.params.itemID)
       );
       return res.send({
