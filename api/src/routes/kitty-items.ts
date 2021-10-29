@@ -55,8 +55,8 @@ function initKittyItemsRouter(kittyItemsService: KittyItemsService): Router {
     "/kitty-items/item/:address/:itemID",
     async (req: Request, res: Response) => {
       const item = await kittyItemsService.getKittyItem(
-        req.params.address,
-        parseInt(req.params.itemID)
+        parseInt(req.params.itemID),
+        req.params.address
       );
       return res.send({
         item,
