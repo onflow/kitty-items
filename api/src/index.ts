@@ -1,19 +1,19 @@
-import * as fcl from "@onflow/fcl";
+import * as fcl from "@onflow/fcl"
+import { hideBin } from "yargs/helpers"
+import yargs from "yargs/yargs"
+import initApp from "./app"
+import { getConfig } from "./config"
+import initDB from "./db"
+import { BlockCursorService } from "./services/block-cursor"
+import { FlowService } from "./services/flow"
+import { FUSDService } from "./services/fusd"
+import { KibblesService } from "./services/kibbles"
+import { KittyItemsService } from "./services/kitty-items"
+import { StorefrontService } from "./services/storefront"
+import { SaleOfferHandler } from "./workers/sale-offer-handler"
 
-import yargs from "yargs/yargs";
-import { hideBin } from "yargs/helpers";
 
-import initApp from "./app";
-import { getConfig } from "./config";
-import initDB from "./db";
 
-import { BlockCursorService } from "./services/block-cursor";
-import { FlowService } from "./services/flow";
-import { KibblesService } from "./services/kibbles";
-import { KittyItemsService } from "./services/kitty-items";
-import { StorefrontService } from "./services/storefront";
-import { SaleOfferHandler } from "./workers/sale-offer-handler";
-import { FUSDService } from "./services/fusd";
 
 const argv = yargs(hideBin(process.argv)).argv;
 const DEV = argv.dev;
@@ -56,7 +56,6 @@ async function run() {
     flowService,
     config.fungibleTokenAddress,
     config.fusdAddress,
-    config.minterAddress,
     config.nonFungibleTokenAddress,
     config.minterAddress,
     config.minterAddress

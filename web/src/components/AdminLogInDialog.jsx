@@ -18,7 +18,11 @@ export default function AdminLogInDialog() {
     logInAdmin,
   } = useAppContext()
 
-  const closeDialog = () => setShowAdminLoginDialog(false)
+  const closeDialog = () => {
+    setShowAdminLoginDialog(false)
+    setPasswordError(false)
+    setPassword("")
+  }
 
   const onSubmit = e => {
     e.preventDefault()
