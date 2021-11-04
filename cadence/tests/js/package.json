@@ -19,10 +19,15 @@
 	"devDependencies": {
 		"@babel/core": "^7.14.0",
 		"@babel/preset-env": "^7.14.1",
-		"@onflow/types": "^0.0.4",
+		"@onflow/types": "0.0.4",
 		"babel-jest": "^27.0.2",
 		"flow-js-testing": "^0.1.13",
 		"jest": "^27.0.4",
 		"prettier": "^2.3.0"
+	},
+	"dependencies": {
+		"@onflow/fcl": "0.0.77",
+		"api": "^3.4.1",
+		"web": "0.0.2"
 	}
 }
