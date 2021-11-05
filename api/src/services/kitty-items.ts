@@ -58,6 +58,7 @@ class KittyItemsService {
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
+      skipSeal: true,
     })
   }
 

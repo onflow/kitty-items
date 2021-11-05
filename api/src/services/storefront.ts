@@ -98,6 +98,7 @@ class StorefrontService {
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
+      skipSeal: true
     })
   }
 
@@ -176,7 +177,7 @@ class StorefrontService {
       }
 
       if (params.marketplace) {
-        query.where('sale_item_owner', this.storefrontAddress)
+        query.where('sale_item_owner', '!=', this.storefrontAddress)
       }
 
       if (params.page) {

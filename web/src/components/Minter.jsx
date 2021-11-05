@@ -1,11 +1,14 @@
 import Image from "next/image"
+import {useRouter} from "next/router"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Button from "src/components/Button"
 import {
   ITEM_RARITY_MAP,
   ITEM_RARITY_PROBABILITIES,
   ITEM_TYPE_MAP,
+  paths,
 } from "src/global/constants"
+import publicConfig from "src/global/publicConfig"
 import useMinter from "src/hooks/useMinter"
 import ListItemImage from "./ListItemImage"
 
@@ -13,13 +16,17 @@ const ITEM_TYPE_COUNT = Object.keys(ITEM_TYPE_MAP).length
 
 export default function Minter() {
   const loadingIntervalRef = useRef()
+  const router = useRouter()
+
+  const onSuccess = itemId => {
+    router.push({
+      pathname: paths.profileItem(publicConfig.flowAddress, itemId),
+      query: {flash: "itemMintedSuccess"},
+    })
+  }
 
   const [loadingTypeId, setLoadingTypeId] = useState(1)
-  const [{isLoading}, mint] = useMinter(onSuccess)
-
-  const onSuccess = data => {
-    console.log(data)
-  }
+  const [{isLoading, transactionStatus}, mint] = useMinter(onSuccess)
 
   const onClickMint = () => mint()
 
@@ -105,7 +112,7 @@ export default function Minter() {
               width={70}
               height={70}
             />
-            <div className="mt-4">Minting Item</div>
+            <div className="mt-4">{transactionStatus}</div>
           </div>
         ) : (
           <Button onClick={onClickMint} disabled={isLoading} roundedFull={true}>

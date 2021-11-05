@@ -128,3 +128,11 @@ export const ITEM_RARITY_PRICE_MAP = {
   3: 5,
   4: 1,
 }
+
+export const TRANSACTION_STATUS_MAP = {
+  1: "Awaiting Finalization",
+  2: "Awaiting Execution",
+  3: "Awaiting Sealing",
+  4: "Transaction Sealed",
+  5: "Transaction Expired",
+}
