@@ -47,18 +47,6 @@ export default function KittyItem() {
             </div>
 
             <div className="lg:max-w-lg">
-              <p className="text-gray mt-8 mb-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse sed maximus leo, sed pretium dui. Nullam eu
-                consectetur nulla. Fusce faucibus magna odio, cursus convallis
-                lectus condimentum at. Maecenas nec pharetra felis. Phasellus
-                tincidunt luctus laoreet. Integer ornare libero sed massa
-                egestas, et eleifend ipsum efficitur. Donec ornare nisi vitae
-                rhoncus tincidunt. Phasellus dui sapien, posuere ut pharetra a,
-                lacinia in leo. Fusce viverra elit vitae sagittis lobortis.
-                Vivamus eu ante posuere, iaculis eros nec, mattis erat.
-              </p>
-
               <ListItemPageButtons item={item} saleOffer={saleOffer} />
             </div>
           </div>

@@ -67,10 +67,7 @@ export default function LatestDrops({items}) {
             Kitty Items
           </h1>
           <div className="text-gray sm:max-w-2xl lg:max-w-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            quis gravida nunc, luctus sodales erat. Ut sit amet lectus tempor
-            dipiscing. Curabitur quis gravida nunc, lelit scelerisque ornare ut
-            non lectus.{" "}
+            Check out the latest freshly minted Kitty Items here.
           </div>
           <div className="flex mt-14">
             <div className="mr-5">
