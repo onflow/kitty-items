@@ -8,14 +8,20 @@ import {
 } from "src/util/storefrontEvents"
 import useSWR from "swr"
 
-export function extractApiSaleOfferFromEvents(events, itemType, owner) {
+export function extractApiSaleOfferFromEvents(
+  events,
+  itemType,
+  itemRarity,
+  owner
+) {
   const event = getStorefrontEventByType(events, EVENT_SALE_OFFER_AVAILABLE)
-  if (!event) return undefined
 
+  if (!event) return undefined
   return {
     sale_item_id: event.data.nftID,
     sale_item_resource_id: event.data.saleOfferResourceID,
     sale_item_type: itemType,
+    sale_item_rarity: itemRarity,
     sale_item_owner: owner,
     sale_price: event.data.price,
     transaction_id: event.transactionId,

@@ -16,6 +16,7 @@ export default function KittyItem() {
     id
   )
   const {saleOffer} = useApiSaleOffer(id)
+  console.log(saleOffer)
   if (isAccountItemLoading) return null
   const name = listItemName(item.typeID, item.rarityID)
 

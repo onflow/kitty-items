@@ -126,6 +126,7 @@ class StorefrontService {
         .insert({
           sale_item_id: item.itemID,
           sale_item_resource_id: saleOfferResourceID,
+          sale_item_rarity: item.rarityID,
           sale_item_type: item.typeID,
           sale_item_owner: owner,
           sale_price: item.price,
@@ -166,6 +167,10 @@ class StorefrontService {
 
       if (params.typeId) {
         query.where('sale_item_type', params.typeId)
+      }
+
+      if (params.rarityId) {
+        query.where('sale_item_rarity', Number(params.rarityId))
       }
 
       if (params.minPrice) {

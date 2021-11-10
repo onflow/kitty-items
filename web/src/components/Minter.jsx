@@ -19,10 +19,14 @@ export default function Minter() {
   const router = useRouter()
 
   const onSuccess = itemId => {
-    router.push({
-      pathname: paths.profileItem(publicConfig.flowAddress, itemId),
-      query: {flash: "itemMintedSuccess"},
-    })
+    // Wait for new SaleOffer to be created by the API
+    // Mutations don't work because they get overwritten when the new page is loaded
+    setTimeout(() => {
+      router.push({
+        pathname: paths.profileItem(publicConfig.flowAddress, itemId),
+        query: {flash: "itemMintedSuccess"},
+      })
+    }, 1000)
   }
 
   const [loadingTypeId, setLoadingTypeId] = useState(1)

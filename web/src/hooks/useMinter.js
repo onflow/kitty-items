@@ -61,13 +61,11 @@ export default function useMinter(onSuccess) {
         const newSaleOffer = extractApiSaleOfferFromEvents(
           transactionData.events,
           typeId,
+          rarityId,
           currentUser.addr
         )
         if (!newSaleOffer) throw "Missing saleOffer"
 
-        mutate(paths.apiSaleOffer(itemId), [newSaleOffer], false)
-
-        resetLoading()
         onSuccess(itemId)
       },
       onError: () => {

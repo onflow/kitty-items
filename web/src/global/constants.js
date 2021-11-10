@@ -136,3 +136,5 @@ export const TRANSACTION_STATUS_MAP = {
   4: "Transaction Sealed",
   5: "Transaction Expired",
 }
+
+export const DECLINE_RESPONSE = "Declined: Externally Halted"

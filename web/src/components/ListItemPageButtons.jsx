@@ -2,6 +2,7 @@ import {useRouter} from "next/dist/client/router"
 import PropTypes from "prop-types"
 import Button from "src/components/Button"
 import ListItemUninitializedWarning from "src/components/ListItemUninitializedWarning"
+import publicConfig from "src/global/publicConfig"
 import useAppContext from "src/hooks/useAppContext"
 import useFUSDBalance from "src/hooks/useFUSDBalance"
 import useItemPurchase from "src/hooks/useItemPurchase"
@@ -28,6 +29,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const isSellable = currentUserIsOwner && !saleOffer
   const isBuyable = !currentUser || (!currentUserIsOwner && !!saleOffer)
   const isRemovable = currentUserIsOwner && !!saleOffer
+  const userHasEnoughFunds = isBuyable && saleOffer.price > fusdBalance
 
   if (isBuyable) {
     return (
@@ -37,7 +39,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
           disabled={
             isBuyLoading ||
             !isAccountInitialized ||
-            fusdBalance === 0 ||
+            userHasEnoughFunds ||
             !currentUser
           }
           roundedFull={true}
@@ -49,7 +51,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
             {!isAccountInitialized && (
               <ListItemUninitializedWarning action="buy" />
             )}
-            {fusdBalance === 0 && <ListItemMintFusdWarning />}
+            {userHasEnoughFunds && <ListItemMintFusdWarning />}
           </>
         ) : (
           <ListItemLogInWarning />
@@ -76,6 +78,9 @@ export default function ListItemPageButtons({item, saleOffer}) {
   }
 
   if (isRemovable) {
+    const location =
+      item.owner === publicConfig.flowAddress ? "Drops" : "Marketplace"
+
     return (
       <div>
         <Button
@@ -85,8 +90,8 @@ export default function ListItemPageButtons({item, saleOffer}) {
           roundedFull={true}
         >
           {isRemoveLoading
-            ? "Removing From Marketplace..."
-            : "Remove From Marketplace"}
+            ? `Removing From ${location}...`
+            : `Remove From ${location}`}
         </Button>
         {!isAccountInitialized && (
           <ListItemUninitializedWarning action="remove" />

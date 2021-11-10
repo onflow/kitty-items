@@ -1,7 +1,7 @@
 import {useRouter} from "next/dist/client/router"
 import {useReducer} from "react"
 import {buyMarketItem} from "src/flow/tx.buy-market-item"
-import {flashMessages, paths} from "src/global/constants"
+import {DECLINE_RESPONSE, flashMessages, paths} from "src/global/constants"
 import {
   ERROR,
   initialState,
@@ -36,9 +36,13 @@ export default function useItemPurchase() {
           dispatch({type: SUCCESS})
           setFlashMessage(flashMessages.purchaseSuccess)
         },
-        async onError() {
-          dispatch({type: ERROR})
-          setFlashMessage(flashMessages.purchaseError)
+        async onError(e) {
+          if (e === DECLINE_RESPONSE) {
+            dispatch({type: IDLE})
+          } else {
+            dispatch({type: ERROR})
+            setFlashMessage(flashMessages.purchaseError)
+          }
         },
       }
     )

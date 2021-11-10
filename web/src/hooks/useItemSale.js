@@ -1,7 +1,9 @@
 import {useReducer} from "react"
 import {createSaleOffer} from "src/flow/tx.create-sale-offer"
 import {
+  DECLINE_RESPONSE,
   flashMessages,
+  IDLE,
   ITEM_RARITY_PRICE_MAP,
   paths,
   SUCCESS,
@@ -43,9 +45,13 @@ export default function useItemSale() {
           dispatch({type: SUCCESS})
           setFlashMessage(flashMessages.itemSaleSuccess)
         },
-        async onError() {
-          dispatch({type: ERROR})
-          setFlashMessage(flashMessages.itemSaleError)
+        async onError(e) {
+          if (e === DECLINE_RESPONSE) {
+            dispatch({type: IDLE})
+          } else {
+            dispatch({type: ERROR})
+            setFlashMessage(flashMessages.itemSaleError)
+          }
         },
       }
     )
