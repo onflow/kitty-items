@@ -69,26 +69,28 @@ export default function LatestDrops({items}) {
           <div className="text-gray sm:max-w-2xl lg:max-w-sm">
             Check out the latest freshly minted Kitty Items here.
           </div>
-          <div className="flex mt-14">
-            <div className="mr-5">
-              <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
+          {drops.length > 2 && (
+            <div className="flex mt-14">
+              <div className="mr-5">
+                <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
+                  <Image
+                    src="/images/arrow-left.svg"
+                    alt="Previous Page"
+                    width="16"
+                    height="16"
+                  />
+                </PageButton>
+              </div>
+              <PageButton onClick={nextPage} disabled={reachedScrollEnd}>
                 <Image
-                  src="/images/arrow-left.svg"
-                  alt="Previous Page"
+                  src="/images/arrow-right.svg"
+                  alt="Next Page"
                   width="16"
                   height="16"
                 />
               </PageButton>
             </div>
-            <PageButton onClick={nextPage} disabled={reachedScrollEnd}>
-              <Image
-                src="/images/arrow-right.svg"
-                alt="Next Page"
-                width="16"
-                height="16"
-              />
-            </PageButton>
-          </div>
+          )}
         </div>
       </div>
       <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-14">
