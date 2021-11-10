@@ -29,7 +29,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const isSellable = currentUserIsOwner && !saleOffer
   const isBuyable = !currentUser || (!currentUserIsOwner && !!saleOffer)
   const isRemovable = currentUserIsOwner && !!saleOffer
-  const userHasEnoughFunds = isBuyable && saleOffer.price > fusdBalance
+  const userHasEnoughFunds = !!saleOffer && saleOffer.price > fusdBalance
 
   if (isBuyable) {
     return (

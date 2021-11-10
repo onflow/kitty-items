@@ -5,6 +5,7 @@ import ListItemPageButtons from "src/components/ListItemPageButtons"
 import ListItemPrice from "src/components/ListItemPrice"
 import OwnerInfo from "src/components/OwnerInfo"
 import PageTitle from "src/components/PageTitle"
+import RarityScale from "src/components/RarityScale"
 import useAccountItem from "src/hooks/useAccountItem"
 import useApiSaleOffer from "src/hooks/useApiSaleOffer"
 
@@ -16,7 +17,6 @@ export default function KittyItem() {
     id
   )
   const {saleOffer} = useApiSaleOffer(id)
-  console.log(saleOffer)
   if (isAccountItemLoading) return null
   const name = listItemName(item.typeID, item.rarityID)
 
@@ -46,18 +46,9 @@ export default function KittyItem() {
             </div>
 
             <div className="lg:max-w-lg">
-              <p className="text-gray mt-8 mb-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse sed maximus leo, sed pretium dui. Nullam eu
-                consectetur nulla. Fusce faucibus magna odio, cursus convallis
-                lectus condimentum at. Maecenas nec pharetra felis. Phasellus
-                tincidunt luctus laoreet. Integer ornare libero sed massa
-                egestas, et eleifend ipsum efficitur. Donec ornare nisi vitae
-                rhoncus tincidunt. Phasellus dui sapien, posuere ut pharetra a,
-                lacinia in leo. Fusce viverra elit vitae sagittis lobortis.
-                Vivamus eu ante posuere, iaculis eros nec, mattis erat.
-              </p>
-
+              <div className="mt-8">
+                <RarityScale highlightedRarityId={item.rarityID} />
+              </div>
               <ListItemPageButtons item={item} saleOffer={saleOffer} />
             </div>
           </div>

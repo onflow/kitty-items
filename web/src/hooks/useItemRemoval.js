@@ -1,6 +1,12 @@
 import {useReducer} from "react"
 import {cancelMarketListing} from "src/flow/tx.remove-sale-offer"
-import {flashMessages, paths, SUCCESS} from "src/global/constants"
+import {
+  DECLINE_RESPONSE,
+  flashMessages,
+  IDLE,
+  paths,
+  SUCCESS,
+} from "src/global/constants"
 import {
   ERROR,
   initialState,
@@ -34,9 +40,13 @@ export default function useItemRemoval() {
             setFlashMessage(flashMessages.itemRemovalSuccess)
           }, 1000)
         },
-        async onError() {
-          dispatch({type: ERROR})
-          setFlashMessage(flashMessages.itemRemovalError)
+        async onError(e) {
+          if (e === DECLINE_RESPONSE) {
+            dispatch({type: IDLE})
+          } else {
+            dispatch({type: ERROR})
+            setFlashMessage(flashMessages.itemRemovalError)
+          }
         },
       }
     )

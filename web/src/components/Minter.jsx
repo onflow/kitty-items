@@ -2,15 +2,11 @@ import Image from "next/image"
 import {useRouter} from "next/router"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Button from "src/components/Button"
-import {
-  ITEM_RARITY_MAP,
-  ITEM_RARITY_PROBABILITIES,
-  ITEM_TYPE_MAP,
-  paths,
-} from "src/global/constants"
+import {ITEM_TYPE_MAP, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useMinter from "src/hooks/useMinter"
 import ListItemImage from "./ListItemImage"
+import RarityScale from "./RarityScale"
 
 const ITEM_TYPE_COUNT = Object.keys(ITEM_TYPE_MAP).length
 
@@ -85,28 +81,7 @@ export default function Minter() {
 
       <div className="flex flex-col mt-14 pr-4 lg:mt-24 lg:pt-20 lg:pl-14">
         <h1 className="text-5xl text-gray-darkest mb-10">Mint a New Item</h1>
-        <div className="mb-10 text-gray-light text-sm">
-          <div className="flex justify-between items-center uppercase font-bold text-xs pb-2">
-            <div>Rarity Scale</div>
-            <div>Minting Chance</div>
-          </div>
-          {Object.keys(ITEM_RARITY_MAP)
-            .reverse()
-            .map(key => (
-              <div
-                key={key}
-                className="flex items-center border-t border-gray-200 py-1"
-              >
-                <div
-                  className={`item-gradient-${key} w-2.5 h-2.5 rounded-full mr-3`}
-                />
-                <div className="">{ITEM_RARITY_MAP[key]}</div>
-                <div className="ml-auto text-gray-darkest">
-                  {ITEM_RARITY_PROBABILITIES[key]}%
-                </div>
-              </div>
-            ))}
-        </div>
+        <RarityScale />
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center bg-white pt-12 pb-11 border border-gray-200 rounded-sm text-gray-lightest text-xs uppercase">

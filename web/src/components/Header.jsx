@@ -36,7 +36,7 @@ export default function Header() {
       </div>
       <div className="main-container py-4 max-w-2 flex justify-between">
         <Link href={paths.root} passHref>
-          <a className="flex items-center">
+          <a className="flex items-center hover:opacity-80">
             <div className="w-12 sm:w-auto flex">
               <Image
                 src="/images/kitty-items-logo.svg"
