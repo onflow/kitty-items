@@ -1,7 +1,6 @@
 import {Menu, Transition} from "@headlessui/react"
 import * as fcl from "@onflow/fcl"
 import Link from "next/link"
-import {useRouter} from "next/router"
 import {Fragment} from "react"
 import Avatar from "src/components/Avatar"
 import {flashMessages, paths} from "src/global/constants"
@@ -17,11 +16,10 @@ export default function HeaderDropdown() {
   const {
     currentUser,
     isAccountInitialized,
-    isLoggedInAsAdmin,
-    setShowAdminLoginDialog,
+    switchToAdminView,
     setFlashMessage,
   } = useAppContext()
-  const router = useRouter()
+
   const address = currentUser.addr
   const [{isLoading: isFUSDMinterLoading}, mintFUSD] = useFUSDMinter()
 
@@ -32,14 +30,6 @@ export default function HeaderDropdown() {
     setFlashMessage(flashMessages.loggedOutSuccess)
   }
   const mint = () => mintFUSD(currentUser.addr)
-
-  const switchToAdminView = () => {
-    if (isLoggedInAsAdmin) {
-      router.push(paths.adminMint)
-    } else {
-      setShowAdminLoginDialog(true)
-    }
-  }
 
   return (
     <div className="flex items-center flex">

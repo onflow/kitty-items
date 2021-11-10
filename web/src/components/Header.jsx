@@ -1,39 +1,20 @@
-import * as fcl from "@onflow/fcl"
 import Image from "next/image"
 import Link from "next/link"
-import {useRouter} from "next/router"
 import HeaderDropdown from "src/components/HeaderDropdown"
 import HeaderFUSDAmount from "src/components/HeaderFUSDAmount"
 import HeaderLink from "src/components/HeaderLink"
 import {paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
+import useLogin from "src/hooks/useLogin"
+import HeaderMessage from "./HeaderMessage"
 
 export default function Header() {
   const {currentUser} = useAppContext()
-  const router = useRouter()
-
-  const logIn = async () => {
-    const user = await fcl.logIn()
-    if (user.addr) {
-      router.push(paths.profile(user.addr))
-    }
-  }
+  const logIn = useLogin()
 
   return (
     <header className="border-b bg-white border-gray-200">
-      <div className="bg-green-dark text-white text-sm sm:text-lg font-bold text-center py-4 px-2">
-        <span className="mr-3 text-sm">💻</span>Kitty Items is a demo
-        application running on the{" "}
-        <a
-          className="border-b border-white"
-          href="https://docs.onflow.org/concepts/accessing-testnet/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Flow test network
-        </a>
-        .
-      </div>
+      <HeaderMessage />
       <div className="main-container py-4 max-w-2 flex justify-between">
         <Link href={paths.root} passHref>
           <a className="flex items-center hover:opacity-80">

@@ -66,6 +66,7 @@ export default function useMinter(onSuccess) {
         )
         if (!newSaleOffer) throw "Missing saleOffer"
 
+        mutate(paths.apiMarketItemsList())
         onSuccess(itemId)
       },
       onError: () => {
@@ -99,8 +100,10 @@ export default function useMinter(onSuccess) {
           transactionData.events,
           EVENT_ITEM_MINTED
         )
-        if (!event?.data?.id) throw "Minting error, missing id"
-        if (!event?.data?.typeID) throw "Minting error, missing typeID"
+        if (!Number.isInteger(event?.data?.id))
+          throw "Minting error, missing id"
+        if (!Number.isInteger(event?.data?.typeID))
+          throw "Minting error, missing typeID"
         listForSale(event.data.id, event.data.typeID, event.data.rarityID)
       },
       onError: () => {

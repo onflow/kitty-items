@@ -86,6 +86,14 @@ export const AppContextProvider = ({children}) => {
     setIsLoggedInAsAdmin(false)
   }
 
+  const switchToAdminView = () => {
+    if (isLoggedInAsAdmin) {
+      router.push(paths.adminMint)
+    } else {
+      setShowAdminLoginDialog(true)
+    }
+  }
+
   const value = {
     currentUser,
     isAccountInitialized,
@@ -93,7 +101,7 @@ export const AppContextProvider = ({children}) => {
     showAdminLoginDialog,
     setShowAdminLoginDialog,
     isLoggedInAsAdmin,
-    setIsLoggedInAsAdmin,
+    switchToAdminView,
     logInAdmin,
     logOutAdmin,
     flashMessage,

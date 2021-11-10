@@ -76,6 +76,6 @@ export async function fetchAccountItem(key) {
   const {address, id} = expandAccountItemKey(key)
 
   if (!address) return Promise.resolve(null)
-  if (!id) return Promise.resolve(null)
+  if (!Number.isInteger(id)) return Promise.resolve(null)
   return enqueue(address, id)
 }

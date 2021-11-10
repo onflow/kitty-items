@@ -1,3 +1,5 @@
+const isDev = process.env.NODE_ENV === "development"
+
 const chainEnv = process.env.NEXT_PUBLIC_CHAIN_ENV
 if (!chainEnv) throw "Missing NEXT_PUBLIC_CHAIN_ENV"
 
@@ -52,6 +54,7 @@ const contractNftStorefront = process.env.NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT
 if (!contractNftStorefront) throw "Missing NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT"
 
 const publicConfig = {
+  isDev,
   faucetAddress: process.env.NEXT_PUBLIC_FAUCET_ADDRESS,
   chainEnv,
   flowAccessApiUrl,

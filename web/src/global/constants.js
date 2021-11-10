@@ -40,7 +40,7 @@ export const paths = {
 export const flashMessages = {
   itemMintedSuccess: {
     type: "notice",
-    message: "Your item has been minted!",
+    message: "Kitty item has been minted!",
   },
   itemMintedError: {
     type: "error",

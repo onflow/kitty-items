@@ -2,7 +2,7 @@ import {initializeAccount as initializeAccountTx} from "src/flow/tx.initialize-a
 import {DECLINE_RESPONSE, flashMessages} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 
-export default function useAccountInitializer() {
+export default function useAccountInitializer(onSuccess) {
   const {currentUser, checkIsAccountInitialized, setFlashMessage} =
     useAppContext()
 
@@ -13,6 +13,7 @@ export default function useAccountInitializer() {
       onStart() {},
       onSuccess: () => {
         checkIsAccountInitialized()
+        if (typeof onSuccess === "function") onSuccess()
         setFlashMessage(flashMessages.initializeAccountSuccess)
       },
       onError(e) {
