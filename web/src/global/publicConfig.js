@@ -4,6 +4,9 @@ if (!chainEnv) throw "Missing NEXT_PUBLIC_CHAIN_ENV"
 const flowAccessApiUrl = process.env.NEXT_PUBLIC_FLOW_ACCESS_API_URL
 if (!flowAccessApiUrl) throw "Missing NEXT_PUBLIC_FLOW_ACCESS_API_URL"
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL
+if (!appUrl) throw "Missing NEXT_PUBLIC_APP_URL"
+
 const walletDiscovery = process.env.NEXT_PUBLIC_WALLET_DISCOVERY
 if (!walletDiscovery) throw "Missing NEXT_PUBLIC_WALLET_DISCOVERY"
 
@@ -52,6 +55,7 @@ const publicConfig = {
   faucetAddress: process.env.NEXT_PUBLIC_FAUCET_ADDRESS,
   chainEnv,
   flowAccessApiUrl,
+  appUrl,
   walletDiscovery,
   apiKibbleMint,
   apiFUSDMint,
