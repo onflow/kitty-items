@@ -1,4 +1,3 @@
-import Image from "next/image"
 import PropTypes from "prop-types"
 import publicConfig from "src/global/publicConfig"
 const SEED = "kitty-items"
@@ -10,7 +9,7 @@ const avatarUrl = hash =>
 
 export default function Avatar({address}) {
   if (address === publicConfig.flowAddress) {
-    return <Image src="/images/flow-logo.svg" alt="Kitty Items" layout="fill" />
+    return <img src="/images/flow-logo.svg" alt="Kitty Items" width="100%" />
   }
 
   return (

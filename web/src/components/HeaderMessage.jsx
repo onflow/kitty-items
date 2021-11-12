@@ -75,7 +75,7 @@ export default function HeaderMessage() {
     )
   }
 
-  if (saleOffers.length === 0) {
+  if (!saleOffers || saleOffers.length === 0) {
     return (
       <HeaderContainer>
         <button

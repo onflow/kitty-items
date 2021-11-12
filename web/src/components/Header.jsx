@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import HeaderDropdown from "src/components/HeaderDropdown"
 import HeaderFUSDAmount from "src/components/HeaderFUSDAmount"
@@ -19,7 +18,7 @@ export default function Header() {
         <Link href={paths.root} passHref>
           <a className="flex items-center hover:opacity-80">
             <div className="w-12 sm:w-auto flex">
-              <Image
+              <img
                 src="/images/kitty-items-logo.svg"
                 alt="Kitty Items"
                 width="60"

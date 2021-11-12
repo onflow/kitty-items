@@ -1,54 +1,37 @@
-import Image from "next/image"
 import PropTypes from "prop-types"
 import {ITEM_RARITY_MAP, ITEM_TYPE_MAP} from "src/global/constants"
 import parameterize from "src/util/parameterize"
 
-const IMAGE_SIZES = {
-  sm: {
-    width: 291,
-    height: 400,
-  },
-  md: {
-    width: 350,
-    height: 480,
-  },
-  lg: {
-    width: 546,
-    height: 750,
-  },
+const getImageSrc = (typeString, rarityString, size, is2X) => {
+  return `/images/kitty-items/${parameterize(typeString)}-${parameterize(
+    rarityString
+  )}-${size}${is2X ? "@2x" : ""}.png`
 }
 
 export default function ListItemImage({
   typeId,
   rarityId,
-  children,
   size = "sm",
   grayscale,
-  priority,
   classes = "",
+  isDrop,
+  children,
 }) {
   const typeString = typeId === 0 ? "question" : ITEM_TYPE_MAP[typeId]
   const rarityString = rarityId === 0 ? "gray" : ITEM_RARITY_MAP[rarityId]
   const name = [rarityString, typeString].join(" ")
-  const imageSrc = `/images/kitty-items/${parameterize(
-    typeString
-  )}-${parameterize(rarityString)}@2x.png`
+  const imageSrc1X = getImageSrc(typeString, rarityString, size, false)
+  const imageSrc2X = getImageSrc(typeString, rarityString, size, true)
+  const imageSrcSet = `${imageSrc1X}, ${imageSrc2X} 2x`
 
   return (
     <div
       className={`group relative item-gradient-${
         grayscale ? "gray" : rarityId
       } rounded-3xl relative flex w-full items-center justify-center ${classes}`}
+      style={isDrop ? {width: 350, height: 480} : {}}
     >
-      <Image
-        src={imageSrc}
-        alt={name}
-        width={IMAGE_SIZES[size].width}
-        height={IMAGE_SIZES[size].height}
-        quality={90}
-        priority={priority}
-      />
-
+      <img src={imageSrc1X} srcSet={imageSrcSet} alt={name} />
       {children}
     </div>
   )
@@ -60,6 +43,6 @@ ListItemImage.propTypes = {
   size: PropTypes.string,
   classes: PropTypes.string,
   grayscale: PropTypes.bool,
-  priority: PropTypes.bool,
+  isDrop: PropTypes.bool,
   children: PropTypes.node,
 }

@@ -1,5 +1,4 @@
 import {Dialog as HUIDialog, Transition} from "@headlessui/react"
-import Image from "next/image"
 import PropTypes from "prop-types"
 import {Fragment, useRef} from "react"
 
@@ -30,7 +29,7 @@ export default function Dialog({title, isOpen, close, children}) {
           <div className="relative bg-white rounded-lg max-w-lg mx-auto">
             <div className="flex items-center justify-between h-12 pl-3 pr-1 border-b border-b-gray-200">
               <div className="flex items-center">
-                <Image
+                <img
                   src="/images/flow-logo-full.svg"
                   alt="Flow"
                   width={58}
@@ -45,7 +44,7 @@ export default function Dialog({title, isOpen, close, children}) {
                 className="w-10 h-10 flex items-center justify-center opacity-50 hover:opacity-100"
                 ref={closeButtonRef}
               >
-                <Image
+                <img
                   src="/images/x-icon.svg"
                   alt="Flow"
                   width={10}

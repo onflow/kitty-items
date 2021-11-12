@@ -1,7 +1,12 @@
 import {useRouter} from "next/dist/client/router"
 import {useReducer} from "react"
 import {buyMarketItem} from "src/flow/tx.buy-market-item"
-import {DECLINE_RESPONSE, flashMessages, paths} from "src/global/constants"
+import {
+  DECLINE_RESPONSE,
+  flashMessages,
+  IDLE,
+  paths,
+} from "src/global/constants"
 import {
   ERROR,
   initialState,

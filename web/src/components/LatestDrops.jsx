@@ -1,4 +1,3 @@
-import Image from "next/image"
 import PropTypes from "prop-types"
 import {useMemo, useRef, useState} from "react"
 import ListItem from "src/components/ListItem"
@@ -73,7 +72,7 @@ export default function LatestDrops({items}) {
             <div className="flex mt-14">
               <div className="mr-5">
                 <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
-                  <Image
+                  <img
                     src="/images/arrow-left.svg"
                     alt="Previous Page"
                     width="16"
@@ -82,7 +81,7 @@ export default function LatestDrops({items}) {
                 </PageButton>
               </div>
               <PageButton onClick={nextPage} disabled={reachedScrollEnd}>
-                <Image
+                <img
                   src="/images/arrow-right.svg"
                   alt="Next Page"
                   width="16"
@@ -111,7 +110,8 @@ export default function LatestDrops({items}) {
                   id={item.itemID}
                   price={item.price}
                   saleOfferId={item.resourceID}
-                  size="md"
+                  size="sm"
+                  isDrop={true}
                 />
               </div>
             ))}

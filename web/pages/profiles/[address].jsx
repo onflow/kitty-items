@@ -1,6 +1,5 @@
 import {Tab} from "@headlessui/react"
 import {useRouter} from "next/dist/client/router"
-import Image from "next/image"
 import {Fragment} from "react"
 import Avatar from "src/components/Avatar"
 import PageTitle from "src/components/PageTitle"
@@ -24,7 +23,7 @@ export default function Profile() {
       <main>
         <div className="bg-white border border-gray-200 p-6 mb-12 rounded-md flex flex-col items-center justify-center relative">
           <button className="border border-gray-200 h-10 w-10 rounded-full absolute flex items-center justify-center top-5 right-5 hover:opacity-80">
-            <Image
+            <img
               src="/images/question.svg"
               alt="Questions?"
               width="10"

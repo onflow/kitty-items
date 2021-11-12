@@ -1,4 +1,3 @@
-import Image from "next/image"
 import {useRouter} from "next/router"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Button from "src/components/Button"
@@ -74,7 +73,6 @@ export default function Minter() {
               rarityId={1}
               size="lg"
               grayscale={true}
-              priority={true}
             />
           </div>
         ))}
@@ -85,12 +83,7 @@ export default function Minter() {
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center bg-white pt-12 pb-11 border border-gray-200 rounded-sm text-gray-lightest text-xs uppercase">
-            <Image
-              src="/images/loading.svg"
-              alt="Flow"
-              width={70}
-              height={70}
-            />
+            <img src="/images/loading.svg" alt="Flow" width={70} height={70} />
             <div className="mt-4">{transactionStatus}</div>
           </div>
         ) : (

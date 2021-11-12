@@ -9,6 +9,7 @@
     "plugin:react/jsx-runtime"
   ],
   "rules": {
-    "semi": "off"
+    "semi": "off",
+    "@next/next/no-img-element": "off"
   }
 }
