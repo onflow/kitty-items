@@ -1,4 +1,5 @@
 import Link from "next/link"
+import {useRouter} from "next/router"
 import HeaderDropdown from "src/components/HeaderDropdown"
 import HeaderFUSDAmount from "src/components/HeaderFUSDAmount"
 import HeaderLink from "src/components/HeaderLink"
@@ -9,7 +10,9 @@ import HeaderMessage from "./HeaderMessage"
 
 export default function Header() {
   const {currentUser} = useAppContext()
+  const router = useRouter()
   const logIn = useLogin()
+  const isAdminPath = router.pathname === paths.adminMint
 
   return (
     <header className="border-b bg-white border-gray-200">
@@ -30,27 +33,29 @@ export default function Header() {
             </div>
           </a>
         </Link>
-        <div className="flex items-center">
-          <div className="mr-2 md:mr-4">
-            <HeaderLink href={paths.root}>Drops</HeaderLink>
-            <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
-          </div>
-          {!!currentUser && (
-            <div className="mr-2 hidden md:flex">
-              <HeaderFUSDAmount />
+        {!isAdminPath && (
+          <div className="flex items-center">
+            <div className="mr-2 md:mr-4">
+              <HeaderLink href={paths.root}>Drops</HeaderLink>
+              <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
             </div>
-          )}
-          {currentUser ? (
-            <HeaderDropdown />
-          ) : (
-            <button
-              onClick={logIn}
-              className="text-sm sm:text-lg md:text-xl text-gray-700 mr-2"
-            >
-              Log In
-            </button>
-          )}
-        </div>
+            {!!currentUser && (
+              <div className="mr-2 hidden md:flex">
+                <HeaderFUSDAmount />
+              </div>
+            )}
+            {currentUser ? (
+              <HeaderDropdown />
+            ) : (
+              <button
+                onClick={logIn}
+                className="text-sm sm:text-lg md:text-xl text-gray-700 mr-2"
+              >
+                Log In
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </header>
   )

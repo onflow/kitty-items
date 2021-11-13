@@ -13,14 +13,12 @@ import {
   EVENT_ITEM_MINTED,
   getStorefrontEventByType,
 } from "src/util/storefrontEvents"
-import {useSWRConfig} from "swr"
 import {extractApiSaleOfferFromEvents} from "./useApiSaleOffer"
 import useAppContext from "./useAppContext"
 
 // Mints an item and lists it for sale. The item is minted on the service account.
 export default function useMinter(onSuccess) {
   const {setFlashMessage, currentUser} = useAppContext()
-  const {mutate} = useSWRConfig()
 
   const [_mintState, executeMintRequest] = useRequest()
   const [_sellState, executeSaleRequest] = useRequest()
@@ -65,8 +63,6 @@ export default function useMinter(onSuccess) {
           currentUser.addr
         )
         if (!newSaleOffer) throw "Missing saleOffer"
-
-        mutate(paths.apiMarketItemsList())
         onSuccess(itemId)
       },
       onError: () => {

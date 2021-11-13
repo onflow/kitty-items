@@ -22,11 +22,9 @@ const initApp = (
   storefrontService: StorefrontService
 ) => {
   const app = express()
-  const enableCors = process.env.NODE_ENV !== 'development'
-  if (enableCors) {
-    // @ts-ignore
-    app.use(cors({ origin: enableCors }))
-  }
+
+
+  app.use(cors())
   app.use(json())
   app.use(urlencoded({ extended: false }))
   app.use(V1, initFUSDRouter(fusdService))
@@ -35,9 +33,9 @@ const initApp = (
   app.use(V1, initStorefrontRouter(storefrontService))
 
   const serveReactApp = () => {
-    app.use(express.static(path.resolve(__dirname, '../../web/build')))
+    app.use(express.static(path.resolve(__dirname, '../../web/out')))
     app.get('*', function (req, res) {
-      res.sendFile(path.resolve(__dirname, '../../web/build/index.html'))
+      res.sendFile(path.resolve(__dirname, '../../web/out/ndex.html'))
     })
   }
 

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 import {ITEM_RARITY_MAP, ITEM_RARITY_PROBABILITIES} from "src/global/constants"
+import {itemGradientClass} from "src/util/classes"
 
 export default function RarityScale({highlightedRarityId}) {
   return (
@@ -18,7 +19,9 @@ export default function RarityScale({highlightedRarityId}) {
             }`}
           >
             <div
-              className={`item-gradient-${key} w-2.5 h-2.5 rounded-full mr-3`}
+              className={`${itemGradientClass(
+                key
+              )} w-2.5 h-2.5 rounded-full mr-3`}
             />
             <div className="">{ITEM_RARITY_MAP[key]}</div>
             <div className="ml-auto text-gray-darkest">

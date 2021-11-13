@@ -76,7 +76,7 @@ export const flashMessages = {
   },
   itemRemovalSuccess: {
     type: "success",
-    message: "Your item has been removed from the marketplace.",
+    message: "Your item has been removed.",
   },
   itemRemovalError: {
     type: "error",

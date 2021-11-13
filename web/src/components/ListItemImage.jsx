@@ -1,5 +1,6 @@
 import PropTypes from "prop-types"
 import {ITEM_RARITY_MAP, ITEM_TYPE_MAP} from "src/global/constants"
+import {itemGradientClass} from "src/util/classes"
 import parameterize from "src/util/parameterize"
 
 const getImageSrc = (typeString, rarityString, size, is2X) => {
@@ -26,9 +27,9 @@ export default function ListItemImage({
 
   return (
     <div
-      className={`group relative item-gradient-${
+      className={`group relative ${itemGradientClass(
         grayscale ? "gray" : rarityId
-      } rounded-3xl relative flex w-full items-center justify-center ${classes}`}
+      )} rounded-3xl relative flex w-full items-center justify-center ${classes}`}
       style={isDrop ? {width: 350, height: 480} : {}}
     >
       <img src={imageSrc1X} srcSet={imageSrcSet} alt={name} />

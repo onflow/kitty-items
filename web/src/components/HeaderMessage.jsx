@@ -75,7 +75,7 @@ export default function HeaderMessage() {
     )
   }
 
-  if (!saleOffers || saleOffers.length === 0) {
+  if (publicConfig.isDev && (!saleOffers || saleOffers.length === 0)) {
     return (
       <HeaderContainer>
         <button

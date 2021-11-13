@@ -18,17 +18,19 @@
     "@onflow/util-actor": "^0.0.2",
     "@onflow/util-invariant": "^0.0.0",
     "@onflow/util-uid": "^0.0.1",
-    "next": "11.1.2",
+    "autoprefixer": "^10.3.7",
+    "next": "^12.0.3",
     "prop-types": "^15.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-router-dom": "^5.3.0",
     "swr": "^1.0.1",
-    "use-debounce": "^7.0.0"
+    "tailwindcss": "^2.2.19",
+    "use-debounce": "^7.0.0",
+    "postcss": "^8.3.11"
   },
   "devDependencies": {
     "@jjordy/swr-devtools": "^2.0.7",
-    "autoprefixer": "^10.3.7",
     "cypress": "^8.5.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
@@ -36,8 +38,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss": "^8.3.9",
-    "prettier": "^2.4.1",
-    "tailwindcss": "^2.2.16"
+    "prettier": "^2.4.1"
   }
 }

@@ -4,6 +4,7 @@ import Button from "src/components/Button"
 import {ITEM_TYPE_MAP, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useMinter from "src/hooks/useMinter"
+import {useSWRConfig} from "swr"
 import ListItemImage from "./ListItemImage"
 import RarityScale from "./RarityScale"
 
@@ -12,11 +13,13 @@ const ITEM_TYPE_COUNT = Object.keys(ITEM_TYPE_MAP).length
 export default function Minter() {
   const loadingIntervalRef = useRef()
   const router = useRouter()
+  const {mutate} = useSWRConfig()
 
   const onSuccess = itemId => {
     // Wait for new SaleOffer to be created by the API
     // Mutations don't work because they get overwritten when the new page is loaded
     setTimeout(() => {
+      mutate(paths.apiMarketItemsList())
       router.push({
         pathname: paths.profileItem(publicConfig.flowAddress, itemId),
         query: {flash: "itemMintedSuccess"},
