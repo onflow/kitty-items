@@ -26,11 +26,11 @@
     "swr": "^1.0.1",
     "tailwindcss": "^2.2.19",
     "use-debounce": "^7.0.0",
-    "postcss": "^8.3.11"
+    "postcss": "^8.3.11",
+    "autoprefixer": "^10.3.7"
   },
   "devDependencies": {
     "@jjordy/swr-devtools": "^2.0.7",
-    "autoprefixer": "^10.3.7",
     "cypress": "^8.5.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
