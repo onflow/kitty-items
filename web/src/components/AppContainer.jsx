@@ -1,4 +1,5 @@
 import Head from "next/head"
+import PropTypes from "prop-types"
 import Header from "src/components/Header"
 import {BASE_HTML_TITLE} from "src/global/constants"
 import "src/global/fclConfig"
