@@ -25,14 +25,14 @@ export default function useMinter(onSuccess) {
 
   const [isMintingLoading, setIsMintingLoading] = useState(false)
   const [isSaleLoading, setIsSaleLoading] = useState(false)
-  const [transactionStatus, setTransactionStatus] = useState()
-
-  const fullTransactionStatus =
+  const [transactionStatus, setTransactionStatus] = useState(null)
+  const fullTransactionStatus = `${
+    isSaleLoading ? "Listing Item" : "Minting Item"
+  }: ${
     transactionStatus === null
-      ? "Minting Item"
-      : `${isSaleLoading ? "Listing Item" : "Minting Item"}: ${
-          TRANSACTION_STATUS_MAP[transactionStatus]
-        }`
+      ? "Initializing"
+      : TRANSACTION_STATUS_MAP[transactionStatus]
+  }`
 
   const resetLoading = () => {
     setIsMintingLoading(false)
@@ -53,7 +53,9 @@ export default function useMinter(onSuccess) {
         const transactionId = data?.transactionId?.transactionId
         if (!transactionId) throw "Missing transactionId"
 
-        fcl.tx(transactionId).subscribe(res => setTransactionStatus(res.status))
+        fcl.tx(transactionId).subscribe(res => {
+          if (Number.isInteger(res.status)) setTransactionStatus(res.status)
+        })
 
         const transactionData = await fcl.tx(transactionId).onceSealed()
         const newSaleOffer = extractApiSaleOfferFromEvents(
