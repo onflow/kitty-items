@@ -1,9 +1,10 @@
 import {Menu, Transition} from "@headlessui/react"
 import * as fcl from "@onflow/fcl"
 import Link from "next/link"
+import {useRouter} from "next/router"
 import {Fragment} from "react"
 import Avatar from "src/components/Avatar"
-import {paths} from "src/global/constants"
+import {flashMessages, paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 import useFUSDMinter from "src/hooks/useFUSDMinter"
 
@@ -13,14 +14,32 @@ const menuItemClasses = active =>
   } hover:bg-green text-sm group flex rounded-md items-center w-full px-2 py-1`
 
 export default function HeaderDropdown() {
-  const {currentUser, isAccountInitialized} = useAppContext()
+  const {
+    currentUser,
+    isAccountInitialized,
+    isLoggedInAsAdmin,
+    setShowAdminLoginDialog,
+    setFlashMessage,
+  } = useAppContext()
+  const router = useRouter()
   const address = currentUser.addr
   const [{isLoading: isFUSDMinterLoading}, mintFUSD] = useFUSDMinter()
 
   if (!address) return null
 
-  const signOut = () => fcl.unauthenticate()
+  const signOut = () => {
+    fcl.unauthenticate()
+    setFlashMessage(flashMessages.loggedOutSuccess)
+  }
   const mint = () => mintFUSD(currentUser.addr)
+
+  const switchToAdminView = () => {
+    if (isLoggedInAsAdmin) {
+      router.push(paths.adminMint)
+    } else {
+      setShowAdminLoginDialog(true)
+    }
+  }
 
   return (
     <div className="flex items-center flex">
@@ -51,11 +70,12 @@ export default function HeaderDropdown() {
               </Menu.Item>
               <Menu.Item>
                 {({active}) => (
-                  <Link href={paths.adminMint}>
-                    <a className={menuItemClasses(active)}>
-                      Switch to Admin View
-                    </a>
-                  </Link>
+                  <button
+                    onClick={switchToAdminView}
+                    className={menuItemClasses(active)}
+                  >
+                    Switch to Admin View
+                  </button>
                 )}
               </Menu.Item>
               {isAccountInitialized && (

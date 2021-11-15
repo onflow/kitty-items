@@ -8,16 +8,16 @@ import { FlowService } from './flow'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const fusdPath = '"../../contracts/FUSD.cdc"'
-const kibblePath = '"../../contracts/Kibble.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
+
+const PER_PAGE = 12
 
 class StorefrontService {
   constructor(
     private readonly flowService: FlowService,
     private readonly fungibleTokenAddress: string,
     private readonly fusdAddress: string,
-    private readonly kibbleAddress: string,
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
     public readonly storefrontAddress: string
@@ -88,7 +88,7 @@ class StorefrontService {
       .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/sell_item_fusd.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kibblePath, fcl.withPrefix(this.kibbleAddress))
+      .replace(fusdPath, fcl.withPrefix(this.fusdAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
@@ -155,13 +155,35 @@ class StorefrontService {
     })
   }
 
-  findMostRecentSales = (owner) => {
+  findMostRecentSales = (params) => {
     return SaleOffer.transaction(async (tx) => {
-      if (!!owner) {
-        return await SaleOffer.query(tx).select('*').where('sale_item_owner', owner)
+      const query = SaleOffer.query(tx).select('*').orderBy('updated_at', 'desc')
+
+      if (params.owner) {
+        query.where('sale_item_owner', params.owner)
       }
 
-      return await SaleOffer.query(tx).select('*')
+      if (params.typeId) {
+        query.where('sale_item_type', params.typeId)
+      }
+
+      if (params.minPrice) {
+        query.where('sale_price', '>=', parseFloat(params.minPrice))
+      }
+
+      if (params.maxPrice) {
+        query.where('sale_price', '<=', parseFloat(params.maxPrice))
+      }
+
+      if (params.marketplace) {
+        query.where('sale_item_owner', this.storefrontAddress)
+      }
+
+      if (params.page) {
+        query.page(Number(params.page) - 1, PER_PAGE)
+      }
+
+      return await query
     })
   }
 }

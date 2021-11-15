@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import Header from "src/components/Header"
 import {BASE_HTML_TITLE} from "src/global/constants"
 import "src/global/fclConfig"
+import FlashMessage from "./FlashMessage"
 
 export default function AppContainer({children}) {
   return (
@@ -11,6 +12,7 @@ export default function AppContainer({children}) {
         <title>{BASE_HTML_TITLE}</title>
       </Head>
       <Header />
+      <FlashMessage />
       <main>{children}</main>
       <footer></footer>
     </div>

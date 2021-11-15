@@ -1,4 +1,5 @@
 import PropTypes from "prop-types"
+import AdminLogInDialog from "src/components/AdminLogInDialog"
 import AppContainer from "src/components/AppContainer"
 import {AppContextProvider} from "src/contexts/AppContext"
 import "styles/fonts.css"
@@ -12,6 +13,7 @@ export default function MyApp({Component}) {
         <AppContextProvider>
           <AppContainer>
             <Component />
+            <AdminLogInDialog />
           </AppContainer>
         </AppContextProvider>
       </SWRConfig>

@@ -16,6 +16,15 @@
     max-width: theme("screens.2xl");
   }
 
+  .item-gradient-gray {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f4f4 100%);
+    @apply border border-gray-200;
+  }
+
+  .item-gradient-gray img {
+    filter: grayscale(100%);
+  }
+
   .item-gradient-1 {
     background: linear-gradient(360deg, #fe9666 0%, #fceda3 100%);
   }

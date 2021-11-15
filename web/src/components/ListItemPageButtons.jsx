@@ -7,6 +7,8 @@ import useFUSDBalance from "src/hooks/useFUSDBalance"
 import useItemPurchase from "src/hooks/useItemPurchase"
 import useItemRemoval from "src/hooks/useItemRemoval"
 import useItemSale from "src/hooks/useItemSale"
+import ListItemLogInWarning from "./ListItemLogInWarning"
+import ListItemMintFusdWarning from "./ListItemMintFusdWarning"
 
 export default function ListItemPageButtons({item, saleOffer}) {
   const router = useRouter()
@@ -19,7 +21,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const [{isLoading: isRemoveLoading}, remove] = useItemRemoval()
 
   const onPurchaseClick = () => buy(saleOffer?.resourceID, id, address)
-  const onSellClick = () => sell(id, Number(10).toFixed(2))
+  const onSellClick = () => sell(id, item.typeID, item.rarityID)
   const onRemoveClick = () => remove(saleOffer?.resourceID, id)
 
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
@@ -32,15 +34,25 @@ export default function ListItemPageButtons({item, saleOffer}) {
       <div>
         <Button
           onClick={onPurchaseClick}
-          disabled={isBuyLoading || !isAccountInitialized || fusdBalance === 0}
+          disabled={
+            isBuyLoading ||
+            !isAccountInitialized ||
+            fusdBalance === 0 ||
+            !currentUser
+          }
+          roundedFull={true}
         >
           {isBuyLoading ? "Purchasing..." : "Purchase"}
         </Button>
-        {!isAccountInitialized && <ListItemUninitializedWarning action="buy" />}
-        {fusdBalance === 0 && (
-          <div className="text-sm text-center mt-2 text-gray-600">
-            Mint some new FUSD from the main menu to purchase this Kitty Item.
-          </div>
+        {!!currentUser ? (
+          <>
+            {!isAccountInitialized && (
+              <ListItemUninitializedWarning action="buy" />
+            )}
+            {fusdBalance === 0 && <ListItemMintFusdWarning />}
+          </>
+        ) : (
+          <ListItemLogInWarning />
         )}
       </div>
     )
@@ -52,6 +64,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
         <Button
           onClick={onSellClick}
           disabled={isSellLoading || !isAccountInitialized}
+          roundedFull={true}
         >
           {isSellLoading ? "Selling..." : "Sell"}
         </Button>
@@ -69,6 +82,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
           onClick={onRemoveClick}
           disabled={isRemoveLoading || !isAccountInitialized}
           color="gray"
+          roundedFull={true}
         >
           {isRemoveLoading
             ? "Removing From Marketplace..."

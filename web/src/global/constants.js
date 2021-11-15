@@ -1,3 +1,5 @@
+import {currency} from "src/util/currency"
+import {cleanObject} from "src/util/object"
 import publicConfig from "./publicConfig"
 
 export const LOADING = "LOADING"
@@ -12,7 +14,16 @@ export const ERROR = "ERROR"
 // before transitioning back to an IDLE state.
 export const IDLE_DELAY = 1000
 
+export const FUSD_MINT_AMOUNT = 50.0
+
 export const BASE_HTML_TITLE = "Kitty Items"
+
+export const getParamsString = params => {
+  if (typeof params !== "object") return ""
+  return Object.keys(params).length === 0
+    ? ""
+    : `?${new URLSearchParams(cleanObject(params)).toString()}`
+}
 
 export const paths = {
   root: "/",
@@ -20,13 +31,65 @@ export const paths = {
   adminMint: "/admin/mint",
   profile: address => `/profiles/${address}`,
   profileItem: (address, id) => `/profiles/${address}/kitty-items/${id}`,
-  apiMarketItemsList: address => {
-    const params = address
-      ? `?${new URLSearchParams({owner: address}).toString()}`
-      : ""
-    return `${publicConfig.apiMarketItemsList}${params}`
-  },
+  apiMarketItemsList: params =>
+    `${publicConfig.apiMarketItemsList}${getParamsString(params)}`,
   apiSaleOffer: id => `${publicConfig.apiUrl}/v1/market/${id}`,
+  apiSell: `${publicConfig.apiUrl}/v1/market/sell`,
+}
+
+export const flashMessages = {
+  itemMintedSuccess: {
+    type: "notice",
+    message: "Your item has been minted!",
+  },
+  itemMintedError: {
+    type: "error",
+    message: "Minting has failed. Please try again.",
+  },
+  loggedOutSuccess: {
+    type: "success",
+    message: "You have logged out.",
+  },
+  initializeAccountSuccess: {
+    type: "success",
+    message: "Your account has been initialized!",
+  },
+  initializeAccountError: {
+    type: "success",
+    message: "Your account has not been initialized. Please try again.",
+  },
+  mintedFUSDSuccess: {
+    type: "success",
+    message: `You have minted ${currency(FUSD_MINT_AMOUNT)} FUSD!`,
+  },
+  mintedFUSDError: {
+    type: "error",
+    message: "FUSD minting has failed. Please try again.",
+  },
+  purchaseSuccess: {
+    type: "success",
+    message: "Your have purchased this Kitty Item!",
+  },
+  purchaseError: {
+    type: "error",
+    message: "Item purchase has failed. Please try again.",
+  },
+  itemRemovalSuccess: {
+    type: "success",
+    message: "Your item has been removed from the marketplace.",
+  },
+  itemRemovalError: {
+    type: "error",
+    message: "Your item was not removed. Please try again.",
+  },
+  itemSaleSuccess: {
+    type: "success",
+    message: "Your item is now for sale!",
+  },
+  itemSaleError: {
+    type: "error",
+    message: "Your was not listed. Please try again.",
+  },
 }
 
 export const ITEM_TYPE_MAP = {
@@ -50,4 +113,18 @@ export const RARITY_COLORS = {
   2: "purple",
   3: "green-dark",
   4: "blue",
+}
+
+export const ITEM_RARITY_PROBABILITIES = {
+  1: 2,
+  2: 8,
+  3: 10,
+  4: 80,
+}
+
+export const ITEM_RARITY_PRICE_MAP = {
+  1: 125,
+  2: 25,
+  3: 5,
+  4: 1,
 }

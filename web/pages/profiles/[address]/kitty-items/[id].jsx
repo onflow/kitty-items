@@ -15,10 +15,8 @@ export default function KittyItem() {
     address,
     id
   )
-  const {saleOffer, isLoading: isApiSaleOfferLoading} = useApiSaleOffer(id)
-
-  if (isAccountItemLoading || isApiSaleOfferLoading) return null
-
+  const {saleOffer} = useApiSaleOffer(id)
+  if (isAccountItemLoading) return null
   const name = listItemName(item.typeID, item.rarityID)
 
   return (
@@ -40,7 +38,7 @@ export default function KittyItem() {
             <div className="flex items-center h-6">
               {!!saleOffer && (
                 <div className="mr-5">
-                  <ListItemPrice price={saleOffer.price} />
+                  <ListItemPrice price={parseFloat(saleOffer.price)} />
                 </div>
               )}
               <div className="font-mono text-sm">#{id}</div>

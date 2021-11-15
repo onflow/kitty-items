@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import Image from "next/image"
 import Link from "next/link"
+import {useRouter} from "next/router"
 import HeaderDropdown from "src/components/HeaderDropdown"
 import HeaderFUSDAmount from "src/components/HeaderFUSDAmount"
 import HeaderLink from "src/components/HeaderLink"
@@ -9,7 +10,14 @@ import useAppContext from "src/hooks/useAppContext"
 
 export default function Header() {
   const {currentUser} = useAppContext()
-  const logIn = () => fcl.logIn()
+  const router = useRouter()
+
+  const logIn = async () => {
+    const user = await fcl.logIn()
+    if (user.addr) {
+      router.push(paths.profile(user.addr))
+    }
+  }
 
   return (
     <header className="border-b bg-white border-gray-200">

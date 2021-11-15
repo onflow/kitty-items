@@ -4,7 +4,7 @@ import PageTitle from "src/components/PageTitle"
 import useApiSaleOffers from "src/hooks/useApiSaleOffers"
 
 export default function Home() {
-  const {saleOffers, isLoading} = useApiSaleOffers()
+  const {saleOffers} = useApiSaleOffers()
   return (
     <div>
       <PageTitle>Drops</PageTitle>

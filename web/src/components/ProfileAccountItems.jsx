@@ -9,7 +9,6 @@ export default function ProfileAccountItems({address}) {
   const {saleOffers, isLoading: isSalesOffersLoading} =
     useApiSaleOffers(address)
   const {data: itemIds, isAccountItemsLoading} = useAccountItems(address)
-
   const isLoading =
     isSalesOffersLoading || isAccountItemsLoading || !saleOffers || !itemIds
 
