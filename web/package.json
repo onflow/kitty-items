@@ -25,7 +25,8 @@
     "react-router-dom": "^5.3.0",
     "swr": "^1.0.1",
     "tailwindcss": "^2.2.19",
-    "use-debounce": "^7.0.0"
+    "use-debounce": "^7.0.0",
+    "postcss": "^8.3.11"
   },
   "devDependencies": {
     "@jjordy/swr-devtools": "^2.0.7",
@@ -37,7 +38,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.4.1",
-    "postcss": "^8.3.11"
+    "prettier": "^2.4.1"
   }
 }
