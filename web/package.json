@@ -6,10 +6,8 @@
     "dev": "next dev -p 3001",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint",
     "testnet": "next start -p 3001",
-    "test": "cypress run",
-    "check": "npm run lint && npm run test"
+    "test": "cypress run"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
