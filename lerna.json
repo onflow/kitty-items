@@ -1,8 +1,7 @@
 {
   "packages": [
     "./web",
-    "./api",
-    "./cadence/tests/js"
+    "./api"
   ],
   "version": "0.0.1"
 }
