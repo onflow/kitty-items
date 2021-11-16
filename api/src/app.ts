@@ -34,8 +34,22 @@ const initApp = (
 
   const serveReactApp = () => {
     app.use(express.static(path.resolve(__dirname, '../../web/out')))
-    app.get('*', function (req, res) {
-      res.sendFile(path.resolve(__dirname, '../../web/out/ndex.html'))
+
+    app.get("/profiles/:address", function (req, res) {
+      res.sendFile(path.resolve(__dirname, "./out/profiles/[address]/index.html"))
+    })
+
+    app.get("/profiles/:address/kitty-items/:id", function (req, res) {
+      res.sendFile(
+        path.resolve(
+          __dirname,
+          "./out/profiles/[address]/kitty-items/[id]/index.html"
+        )
+      )
+    })
+
+    app.get("*", function (req, res) {
+      res.sendFile(path.resolve(__dirname, "./out/index.html"))
     })
   }
 
