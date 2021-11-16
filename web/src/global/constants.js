@@ -108,13 +108,6 @@ export const ITEM_RARITY_MAP = {
   4: "Blue",
 }
 
-export const RARITY_COLORS = {
-  1: "gold",
-  2: "purple",
-  3: "green-dark",
-  4: "blue",
-}
-
 export const ITEM_RARITY_PROBABILITIES = {
   1: 2,
   2: 8,

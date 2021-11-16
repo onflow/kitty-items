@@ -1,13 +1,9 @@
 import Link from "next/link"
 import PropTypes from "prop-types"
-import {
-  ITEM_RARITY_MAP,
-  ITEM_TYPE_MAP,
-  paths,
-  RARITY_COLORS,
-} from "src/global/constants"
+import {ITEM_RARITY_MAP, ITEM_TYPE_MAP, paths} from "src/global/constants"
 import useAccountItem from "src/hooks/useAccountItem"
 import useAppContext from "src/hooks/useAppContext"
+import {rarityTextColors} from "src/util/classes"
 import ListItemImage from "./ListItemImage"
 import ListItemPrice from "./ListItemPrice"
 import OwnerInfo from "./OwnerInfo"
@@ -52,9 +48,9 @@ export default function ListItem({
             {isBuyable && (
               <div className="hidden group-hover:block absolute bottom-7">
                 <div
-                  className={`bg-white py-3 px-9 font-bold text-md rounded-full shadow-md uppercase text-${
-                    RARITY_COLORS[item.rarityID]
-                  }`}
+                  className={`bg-white py-3 px-9 font-bold text-md rounded-full shadow-md uppercase ${rarityTextColors(
+                    item.rarityID
+                  )}`}
                 >
                   Purchase
                 </div>
