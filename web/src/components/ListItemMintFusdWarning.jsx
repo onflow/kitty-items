@@ -21,6 +21,7 @@ export default function ListItemMintFusdWarning() {
         <a
           href="https://testnet-faucet.onflow.org/fund-account"
           className="mx-1 font-bold underline hover:opacity-80"
+          rel="noreferrer"
           target="_blank"
         >
           Get some FUSD
