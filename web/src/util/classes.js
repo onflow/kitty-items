@@ -15,3 +15,18 @@ export function itemGradientClass(typeId) {
       throw new Error()
   }
 }
+
+export function rarityTextColors(rarityId) {
+  switch (String(rarityId)) {
+    case "1":
+      return "text-gold"
+    case "2":
+      return "text-purple"
+    case "3":
+      return "text-green-dark"
+    case "4":
+      return "text-blue"
+    default:
+      throw new Error()
+  }
+}

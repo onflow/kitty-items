@@ -28,11 +28,7 @@ export default function useMinter(onSuccess) {
   const [transactionStatus, setTransactionStatus] = useState(null)
   const fullTransactionStatus = `${
     isSaleLoading ? "Listing Item" : "Minting Item"
-  }: ${
-    transactionStatus === null
-      ? "Initializing"
-      : TRANSACTION_STATUS_MAP[transactionStatus]
-  }`
+  }: ${TRANSACTION_STATUS_MAP[transactionStatus] || "Initializing"}`
 
   const resetLoading = () => {
     setIsMintingLoading(false)
