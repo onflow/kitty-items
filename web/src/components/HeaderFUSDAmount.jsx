@@ -5,7 +5,8 @@ import {currency} from "src/util/currency"
 
 export default function HeaderFUSDAmount() {
   const {isAccountInitialized, currentUser} = useAppContext()
-  const {initializeAccount} = useAccountInitializer()
+  const [{isLoading: isInitLoading}, initializeAccount] =
+    useAccountInitializer()
   const {data: fusdBalance} = useFUSDBalance(currentUser?.addr)
 
   return (
@@ -14,8 +15,12 @@ export default function HeaderFUSDAmount() {
       {isAccountInitialized ? (
         <div className="font-mono">{currency(fusdBalance)}</div>
       ) : (
-        <button onClick={initializeAccount} className="hover:opacity-80">
-          Initialize
+        <button
+          onClick={initializeAccount}
+          className="hover:opacity-80"
+          disabled={isInitLoading}
+        >
+          {isInitLoading ? "Initializing..." : "Initialize"}
         </button>
       )}
     </div>

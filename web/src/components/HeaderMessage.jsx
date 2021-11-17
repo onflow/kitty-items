@@ -36,7 +36,7 @@ export default function HeaderMessage() {
     })
   }
 
-  const {initializeAccount} = useAccountInitializer(
+  const [{isLoading: isInitLoading}, initializeAccount] = useAccountInitializer(
     checkIsServiceAccountInitialized
   )
 
@@ -54,8 +54,9 @@ export default function HeaderMessage() {
             <button
               onClick={initializeAccount}
               className={`${HEADER_MESSAGE_BUTTON_CLASSES} mr-1`}
+              disabled={isInitLoading}
             >
-              Initialize
+              {isInitLoading ? "Initializing..." : "Initialize"}
             </button>
             the Service Account to mint Kitty Items.
           </>
