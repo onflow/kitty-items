@@ -1,9 +1,13 @@
 import PropTypes from "prop-types"
 import useAccountInitializer from "src/hooks/useAccountInitializer"
+import useAppContext from "src/hooks/useAppContext"
 
 export default function ListItemUninitializedWarning({action}) {
   const [{isLoading: isInitLoading}, initializeAccount] =
     useAccountInitializer()
+  const {isAccountInitStateLoading} = useAppContext()
+
+  if (isAccountInitStateLoading) return null
 
   return (
     <div className="text-sm text-center mt-2 text-gray-600">

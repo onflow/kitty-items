@@ -4,7 +4,8 @@ import useFUSDBalance from "src/hooks/useFUSDBalance"
 import {currency} from "src/util/currency"
 
 export default function HeaderFUSDAmount() {
-  const {isAccountInitialized, currentUser} = useAppContext()
+  const {isAccountInitialized, isAccountInitStateLoading, currentUser} =
+    useAppContext()
   const [{isLoading: isInitLoading}, initializeAccount] =
     useAccountInitializer()
   const {data: fusdBalance} = useFUSDBalance(currentUser?.addr)
@@ -12,9 +13,10 @@ export default function HeaderFUSDAmount() {
   return (
     <div className="text-sm bg-gray-50 border-1 border-gray-200 border rounded-3xl h-10 flex items-center content-center justify-between px-4">
       <div className="mr-10 text-gray">FUSD</div>
-      {isAccountInitialized ? (
+      {isAccountInitialized && (
         <div className="font-mono">{currency(fusdBalance)}</div>
-      ) : (
+      )}
+      {!isAccountInitialized && !isAccountInitStateLoading && (
         <button
           onClick={initializeAccount}
           className="hover:opacity-80"
