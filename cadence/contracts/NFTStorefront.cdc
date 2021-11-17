@@ -490,8 +490,8 @@ pub contract NFTStorefront {
     }
 
     init () {
-        self.StorefrontStoragePath = /storage/NFTStorefront
-        self.StorefrontPublicPath = /public/NFTStorefront
+        self.StorefrontStoragePath = /storage/NFTStorefrontV2
+        self.StorefrontPublicPath = /public/NFTStorefrontV2
 
         emit NFTStorefrontInitialized()
     }
