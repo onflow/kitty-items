@@ -98,11 +98,11 @@ export default function LatestDrops({items}) {
           onScroll={onDebouncedScroll}
           ref={listRef}
         >
-          <div className="whitespace-nowrap pb-10 lg:px-3">
+          <div className="whitespace-nowrap pb-10 flex lg:px-3">
             {drops.map(item => (
               <div
                 key={item.itemID}
-                className="inline-flex justify-center"
+                className="flex justify-center px-4"
                 style={{width: DROP_ITEM_WIDTH}}
               >
                 <ListItem
