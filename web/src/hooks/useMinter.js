@@ -1,12 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import PropTypes from "prop-types"
 import {useState} from "react"
-import {
-  flashMessages,
-  ITEM_RARITY_PRICE_MAP,
-  paths,
-  TRANSACTION_STATUS_MAP,
-} from "src/global/constants"
+import {flashMessages, ITEM_RARITY_PRICE_MAP, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
 import {
@@ -26,9 +21,7 @@ export default function useMinter(onSuccess) {
   const [isMintingLoading, setIsMintingLoading] = useState(false)
   const [isSaleLoading, setIsSaleLoading] = useState(false)
   const [transactionStatus, setTransactionStatus] = useState(null)
-  const fullTransactionStatus = `${
-    isSaleLoading ? "Listing Item" : "Minting Item"
-  }: ${TRANSACTION_STATUS_MAP[transactionStatus] || "Initializing"}`
+  const transactionAction = isSaleLoading ? "Listing Item" : "Minting Item"
 
   const resetLoading = () => {
     setIsMintingLoading(false)
@@ -49,11 +42,12 @@ export default function useMinter(onSuccess) {
         const transactionId = data?.transactionId?.transactionId
         if (!transactionId) throw "Missing transactionId"
 
-        fcl.tx(transactionId).subscribe(res => {
+        const unsub = await fcl.tx(transactionId).subscribe(res => {
           if (Number.isInteger(res.status)) setTransactionStatus(res.status)
         })
-
         const transactionData = await fcl.tx(transactionId).onceSealed()
+        unsub()
+
         const newSaleOffer = extractApiSaleOfferFromEvents(
           transactionData.events,
           typeId,
@@ -86,9 +80,11 @@ export default function useMinter(onSuccess) {
         const transactionId = data?.transaction?.transactionId
         if (!transactionId) throw "Missing transactionId"
 
-        fcl.tx(transactionId).subscribe(res => setTransactionStatus(res.status))
-
+        const unsub = await fcl
+          .tx(transactionId)
+          .subscribe(res => setTransactionStatus(res.status))
         const transactionData = await fcl.tx(transactionId).onceSealed()
+        unsub()
 
         const event = getStorefrontEventByType(
           transactionData.events,
@@ -108,7 +104,7 @@ export default function useMinter(onSuccess) {
   }
 
   const isLoading = isMintingLoading || isSaleLoading
-  return [{isLoading, transactionStatus: fullTransactionStatus}, mint]
+  return [{isLoading, transactionAction, transactionStatus}, mint]
 }
 
 useMinter.propTypes = {

@@ -7,6 +7,7 @@ import useMinter from "src/hooks/useMinter"
 import {useSWRConfig} from "swr"
 import ListItemImage from "./ListItemImage"
 import RarityScale from "./RarityScale"
+import TransactionLoading from "./TransactionLoading"
 
 const ITEM_TYPE_COUNT = Object.keys(ITEM_TYPE_MAP).length
 
@@ -28,7 +29,8 @@ export default function Minter() {
   }
 
   const [loadingTypeId, setLoadingTypeId] = useState(1)
-  const [{isLoading, transactionStatus}, mint] = useMinter(onSuccess)
+  const [{isLoading, transactionAction, transactionStatus}, mint] =
+    useMinter(onSuccess)
 
   const onClickMint = () => mint()
 
@@ -85,10 +87,10 @@ export default function Minter() {
         <RarityScale />
 
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center bg-white pt-12 pb-11 border border-gray-200 rounded-sm text-gray-lightest text-xs uppercase">
-            <img src="/images/loading.svg" alt="Flow" width={70} height={70} />
-            <div className="mt-4">{transactionStatus}</div>
-          </div>
+          <TransactionLoading
+            action={transactionAction}
+            status={transactionStatus}
+          />
         ) : (
           <Button onClick={onClickMint} disabled={isLoading} roundedFull={true}>
             Mint Item
