@@ -1,4 +1,4 @@
-import {useReducer} from "react"
+import {useReducer, useState} from "react"
 import {cancelMarketListing} from "src/flow/tx.remove-sale-offer"
 import {
   DECLINE_RESPONSE,
@@ -21,15 +21,19 @@ export default function useItemRemoval() {
 
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const {setFlashMessage} = useAppContext()
+  const [txStatus, setTxStatus] = useState(null)
 
-  const remove = async (saleOfferId, itemId) => {
+  const remove = (saleOfferId, itemId) => {
     if (!saleOfferId) throw "Missing saleOfferId"
 
-    await cancelMarketListing(
+    cancelMarketListing(
       {saleOfferResourceID: saleOfferId},
       {
         onStart() {
           dispatch({type: START})
+        },
+        onUpdate(t) {
+          setTxStatus(t.status)
         },
         async onSuccess() {
           // TODO: Poll for removed API offer instead of setTimeout
@@ -48,9 +52,12 @@ export default function useItemRemoval() {
             setFlashMessage(flashMessages.itemRemovalError)
           }
         },
+        onComplete() {
+          setTxStatus(null)
+        },
       }
     )
   }
 
-  return [state, remove]
+  return [state, remove, txStatus]
 }

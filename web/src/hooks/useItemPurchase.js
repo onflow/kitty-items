@@ -1,5 +1,5 @@
 import {useRouter} from "next/dist/client/router"
-import {useReducer} from "react"
+import {useReducer, useState} from "react"
 import {buyMarketItem} from "src/flow/tx.buy-market-item"
 import {
   DECLINE_RESPONSE,
@@ -23,16 +23,20 @@ export default function useItemPurchase() {
   const {currentUser, setFlashMessage} = useAppContext()
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const {mutate, cache} = useSWRConfig()
+  const [txStatus, setTxStatus] = useState(null)
 
-  const buy = async (saleOfferId, itemId, ownerAddress) => {
+  const buy = (saleOfferId, itemId, ownerAddress) => {
     if (!saleOfferId) throw "Missing saleOffer id"
     if (!ownerAddress) throw "Missing ownerAddress"
 
-    await buyMarketItem(
+    buyMarketItem(
       {itemID: saleOfferId, ownerAddress},
       {
         onStart() {
           dispatch({type: START})
+        },
+        onUpdate(t) {
+          setTxStatus(t.status)
         },
         async onSuccess() {
           mutate(compFUSDBalanceKey(currentUser?.addr))
@@ -49,9 +53,12 @@ export default function useItemPurchase() {
             setFlashMessage(flashMessages.purchaseError)
           }
         },
+        onComplete() {
+          setTxStatus(null)
+        },
       }
     )
   }
 
-  return [state, buy]
+  return [state, buy, txStatus]
 }
