@@ -23,6 +23,9 @@ pub contract KittyItems: NonFungibleToken {
     //
     pub var totalSupply: UInt64
 
+    // Rarity -> Price mapping
+    pub var itemRarityPriceMap: {UInt64: UFix64}
+
     // NFT
     // A Kitty Item as an NFT
     //
@@ -162,6 +165,7 @@ pub contract KittyItems: NonFungibleToken {
 			recipient.deposit(token: <-create KittyItems.NFT(initID: KittyItems.totalSupply, initTypeID: typeID, initRarityID: rarityID))
 
             KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
+
 		}
 	}
 
@@ -184,6 +188,14 @@ pub contract KittyItems: NonFungibleToken {
     // initializer
     //
 	init() {
+        // set rarity price mapping
+        self.itemRarityPriceMap = {
+            1: 125.0,
+            2: 25.0,
+            3: 5.0,
+            4: 1.0
+        } 
+
         // Set our named paths
         self.CollectionStoragePath = /storage/kittyItemsCollectionV3
         self.CollectionPublicPath = /public/kittyItemsCollectionV3

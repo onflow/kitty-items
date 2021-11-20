@@ -1,8 +1,8 @@
 {
   "accounts": {
     "testnet-account": {
-      "address": "0x28a6bb26e6cc04f4",
-      "keys": "060ce5e0a8d86aba2fc61d33d27ef080c126fadc5dad2e7e7cbaa3e3423b9572"
+     "address": "${FLOW_ADDRESS}",
+     "keys": "${FLOW_PRIVATE_KEY}"
     }
   },
   "deployments": {

@@ -21,6 +21,11 @@ if (!apiFUSDMint) throw "Missing NEXT_PUBLIC_API_FUSD_MINT"
 const apiKittyItemMint = process.env.NEXT_PUBLIC_API_KITTY_ITEM_MINT
 if (!apiKittyItemMint) throw "Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT"
 
+const apiKittyItemMintAndList =
+  process.env.NEXT_PUBLIC_API_KITTY_ITEM_MINT_AND_LIST
+if (!apiKittyItemMintAndList)
+  throw "Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT_AND_LIST"
+
 const apiMarketItemsList = process.env.NEXT_PUBLIC_API_MARKET_ITEMS_LIST
 if (!apiMarketItemsList) throw "Missing NEXT_PUBLIC_API_MARKET_ITEMS_LIST"
 
@@ -64,6 +69,7 @@ const publicConfig = {
   apiFUSDMint,
   apiKittyItemMint,
   apiMarketItemsList,
+  apiKittyItemMintAndList,
   apiUrl,
   flowAddress,
   avatarUrl,

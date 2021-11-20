@@ -3,7 +3,7 @@ import {useCallback, useEffect, useRef, useState} from "react"
 import Button from "src/components/Button"
 import {ITEM_TYPE_MAP, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
-import useMinter from "src/hooks/useMinter"
+import useMintAndList from "src/hooks/useMintAndList"
 import {useSWRConfig} from "swr"
 import ListItemImage from "./ListItemImage"
 import RarityScale from "./RarityScale"
@@ -30,7 +30,7 @@ export default function Minter() {
 
   const [loadingTypeId, setLoadingTypeId] = useState(1)
   const [{isLoading, transactionAction, transactionStatus}, mint] =
-    useMinter(onSuccess)
+    useMintAndList(onSuccess)
 
   const onClickMint = () => mint()
 
@@ -82,8 +82,8 @@ export default function Minter() {
           </div>
         ))}
 
-      <div className="flex flex-col mt-14 pr-4 lg:mt-24 lg:pt-20 lg:pl-14">
-        <h1 className="text-5xl text-gray-darkest mb-10">Mint a New Item</h1>
+      <div className="flex flex-col pr-4 mt-14 lg:mt-24 lg:pt-20 lg:pl-14">
+        <h1 className="mb-10 text-5xl text-gray-darkest">Mint a New Item</h1>
         <RarityScale />
 
         {isLoading ? (
