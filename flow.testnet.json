@@ -2,7 +2,7 @@
   "accounts": {
     "testnet-account": {
      "address": "${FLOW_ADDRESS}",
-     "keys": "${FLOW_PRIVATE_KEY}"
+      "keys": "${FLOW_PRIVATE_KEY}"
     }
   },
   "deployments": {
