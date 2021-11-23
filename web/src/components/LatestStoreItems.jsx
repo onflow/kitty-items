@@ -59,7 +59,7 @@ export default function LatestStoreItems({items}) {
 
   return (
     <div className="grid grid-cols-12 md:gap-10" style={{minHeight: 700}}>
-      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex items-center pl-4 2xl:latest-store-items-left-content">
+      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex relative items-center pl-4 sm:latest-store-items-left-shadow 2xl:latest-store-items-left-content">
         <div className="">
           <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-16 lg:mt-0">
             Latest <br />
@@ -92,13 +92,13 @@ export default function LatestStoreItems({items}) {
           )}
         </div>
       </div>
-      <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-14">
+      <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-14 ">
         <div
           className="overflow-x-scroll"
           onScroll={onDebouncedScroll}
           ref={listRef}
         >
-          <div className="whitespace-nowrap pb-10 flex lg:px-3">
+          <div className="whitespace-nowrap pb-10 flex lg:pr-3 lg:pl-4">
             {storeItems.map(item => (
               <div
                 key={item.itemID}
