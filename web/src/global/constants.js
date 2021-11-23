@@ -88,7 +88,7 @@ export const flashMessages = {
   },
   itemSaleError: {
     type: "error",
-    message: "Your was not listed. Please try again.",
+    message: "Your item was not listed. Please try again.",
   },
 }
 

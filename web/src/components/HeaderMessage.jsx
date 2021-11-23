@@ -92,14 +92,14 @@ export default function HeaderMessage() {
   return (
     <HeaderContainer>
       <span className="mr-3 text-sm">💻</span>Kitty Items is a demo application
-      running on the{" "}
+      running on the Flow test network.{" "}
       <a
         className="border-b border-white"
-        href="https://docs.onflow.org/concepts/accessing-testnet/"
+        href="https://github.com/onflow/kitty-items"
         target="_blank"
         rel="noreferrer"
       >
-        Flow test network
+        Learn more
       </a>
       .
     </HeaderContainer>
