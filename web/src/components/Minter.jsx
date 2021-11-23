@@ -87,10 +87,7 @@ export default function Minter() {
         <RarityScale />
 
         {isLoading ? (
-          <TransactionLoading
-            action={transactionAction}
-            status={transactionStatus}
-          />
+          <TransactionLoading status={transactionStatus} />
         ) : (
           <Button onClick={onClickMint} disabled={isLoading} roundedFull={true}>
             Mint Item

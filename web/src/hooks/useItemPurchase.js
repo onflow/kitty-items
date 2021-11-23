@@ -14,13 +14,26 @@ import {
   START,
   SUCCESS,
 } from "src/reducers/requestReducer"
+import {
+  EVENT_KITTY_ITEM_DEPOSIT,
+  getStorefrontEventByType,
+} from "src/util/storefrontEvents"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
 import {compFUSDBalanceKey} from "./useFUSDBalance"
 
+const getNewlySignedInUserAddress = txData => {
+  const depositEvent = getStorefrontEventByType(
+    txData.events,
+    EVENT_KITTY_ITEM_DEPOSIT
+  )
+  if (!depositEvent?.data?.to) throw "Missing KittyItem deposit address"
+  return depositEvent.data.to
+}
+
 export default function useItemPurchase() {
   const router = useRouter()
-  const {currentUser, setFlashMessage} = useAppContext()
+  const {setFlashMessage} = useAppContext()
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const {mutate, cache} = useSWRConfig()
   const [txStatus, setTxStatus] = useState(null)
@@ -28,7 +41,6 @@ export default function useItemPurchase() {
   const buy = (saleOfferId, itemId, ownerAddress) => {
     if (!saleOfferId) throw "Missing saleOffer id"
     if (!ownerAddress) throw "Missing ownerAddress"
-
     buyMarketItem(
       {itemID: saleOfferId, ownerAddress},
       {
@@ -38,10 +50,11 @@ export default function useItemPurchase() {
         onUpdate(t) {
           setTxStatus(t.status)
         },
-        async onSuccess() {
-          mutate(compFUSDBalanceKey(currentUser?.addr))
+        async onSuccess(txData) {
+          const currentUserAddress = getNewlySignedInUserAddress(txData)
+          mutate(compFUSDBalanceKey(currentUserAddress))
           cache.delete(paths.apiSaleOffer(itemId))
-          router.push(paths.profileItem(currentUser.addr, itemId))
+          router.push(paths.profileItem(currentUserAddress, itemId))
           dispatch({type: SUCCESS})
           setFlashMessage(flashMessages.purchaseSuccess)
         },

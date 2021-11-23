@@ -8,7 +8,6 @@ import useFUSDBalance from "src/hooks/useFUSDBalance"
 import useItemPurchase from "src/hooks/useItemPurchase"
 import useItemRemoval from "src/hooks/useItemRemoval"
 import useItemSale from "src/hooks/useItemSale"
-import ListItemLogInWarning from "./ListItemLogInWarning"
 import ListItemMintFusdWarning from "./ListItemMintFusdWarning"
 import TransactionLoading from "./TransactionLoading"
 
@@ -31,7 +30,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const isSellable = currentUserIsOwner && !saleOffer
   const isBuyable = !currentUser || (!currentUserIsOwner && !!saleOffer)
   const isRemovable = currentUserIsOwner && !!saleOffer
-  const userHasEnoughFunds = !!saleOffer && saleOffer.price > fusdBalance
+  const userHasEnoughFunds = !!saleOffer && saleOffer.price <= fusdBalance
 
   if (isBuyable) {
     return (
@@ -43,9 +42,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
             onClick={onPurchaseClick}
             disabled={
               isBuyLoading ||
-              !isAccountInitialized ||
-              userHasEnoughFunds ||
-              !currentUser
+              (!!currentUser && (!isAccountInitialized || !userHasEnoughFunds))
             }
             roundedFull={true}
           >
@@ -53,16 +50,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
           </Button>
         )}
 
-        {!!currentUser ? (
-          <>
-            {!isAccountInitialized && (
-              <ListItemUninitializedWarning action="buy" />
-            )}
-            {userHasEnoughFunds && <ListItemMintFusdWarning />}
-          </>
-        ) : (
-          <ListItemLogInWarning />
-        )}
+        {!!currentUser && !userHasEnoughFunds && <ListItemMintFusdWarning />}
       </div>
     )
   }
