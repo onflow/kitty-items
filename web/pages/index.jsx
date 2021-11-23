@@ -1,5 +1,5 @@
-import LatestDrops from "src/components/LatestDrops"
 import LatestMarketplaceItems from "src/components/LatestMarketplaceItems"
+import LatestStoreItems from "src/components/LatestStoreItems"
 import PageTitle from "src/components/PageTitle"
 import useApiSaleOffers from "src/hooks/useApiSaleOffers"
 
@@ -7,11 +7,11 @@ export default function Home() {
   const {saleOffers} = useApiSaleOffers()
   return (
     <div>
-      <PageTitle>Drops</PageTitle>
+      <PageTitle>Store</PageTitle>
       <main>
         {saleOffers?.length > 0 && (
           <div className="divide-y divide-solid">
-            <LatestDrops items={saleOffers} />
+            <LatestStoreItems items={saleOffers} />
             <LatestMarketplaceItems items={saleOffers} />
           </div>
         )}

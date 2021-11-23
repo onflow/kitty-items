@@ -78,7 +78,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
 
   if (isRemovable) {
     const location =
-      item.owner === publicConfig.flowAddress ? "Drops" : "Marketplace"
+      item.owner === publicConfig.flowAddress ? "Store" : "Marketplace"
 
     return (
       <div>

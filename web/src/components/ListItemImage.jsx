@@ -15,7 +15,7 @@ export default function ListItemImage({
   size = "sm",
   grayscale,
   classes = "",
-  isDrop,
+  isStoreItem,
   children,
 }) {
   const typeString = typeId === 0 ? "question" : ITEM_TYPE_MAP[typeId]
@@ -30,7 +30,7 @@ export default function ListItemImage({
       className={`group relative ${itemGradientClass(
         grayscale ? "gray" : rarityId
       )} rounded-3xl relative flex w-full items-center justify-center ${classes}`}
-      style={isDrop ? {width: 350, height: 480} : {}}
+      style={isStoreItem ? {width: 350, height: 480} : {}}
     >
       <img src={imageSrc1X} srcSet={imageSrcSet} alt={name} />
       {children}
@@ -44,6 +44,6 @@ ListItemImage.propTypes = {
   size: PropTypes.string,
   classes: PropTypes.string,
   grayscale: PropTypes.bool,
-  isDrop: PropTypes.bool,
+  isStoreItem: PropTypes.bool,
   children: PropTypes.node,
 }

@@ -2,11 +2,11 @@ import PropTypes from "prop-types"
 import {useMemo, useRef, useState} from "react"
 import ListItem from "src/components/ListItem"
 import publicConfig from "src/global/publicConfig"
-import {dropsItemsSelector} from "src/global/selectors"
+import {storeItemsSelector} from "src/global/selectors"
 import {useDebouncedCallback} from "use-debounce"
 
-const DROPS_LENGTH = 10
-const DROP_ITEM_WIDTH = 382
+const ITEMS_LENGTH = 10
+const ITEM_WIDTH = 382
 
 const PageButton = ({onClick, disabled, children}) => (
   <button
@@ -18,16 +18,16 @@ const PageButton = ({onClick, disabled, children}) => (
   </button>
 )
 
-export default function LatestDrops({items}) {
+export default function LatestStoreItems({items}) {
   const listRef = useRef()
   const [scrollLeft, setScrollLeft] = useState(0)
 
-  const drops = dropsItemsSelector(items)
-    .slice(0, DROPS_LENGTH)
+  const storeItems = storeItemsSelector(items)
+    .slice(0, ITEMS_LENGTH)
     .sort((a, b) => b.itemID - a.itemID)
 
   const firstVisibleItem = useMemo(
-    () => Math.ceil(scrollLeft / DROP_ITEM_WIDTH),
+    () => Math.ceil(scrollLeft / ITEM_WIDTH),
     [scrollLeft]
   )
 
@@ -45,12 +45,12 @@ export default function LatestDrops({items}) {
     200
   )
 
-  if (drops.length === 0) return null
+  if (storeItems.length === 0) return null
 
   const scrollToItem = index =>
     listRef.current?.scrollTo({
       top: 0,
-      left: index * DROP_ITEM_WIDTH,
+      left: index * ITEM_WIDTH,
       behavior: "smooth",
     })
 
@@ -59,7 +59,7 @@ export default function LatestDrops({items}) {
 
   return (
     <div className="grid grid-cols-12 md:gap-10" style={{minHeight: 700}}>
-      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex items-center pl-4 2xl:latest-drops-left-content">
+      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex items-center pl-4 2xl:latest-store-items-left-content">
         <div className="">
           <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-16 lg:mt-0">
             Latest <br />
@@ -68,7 +68,7 @@ export default function LatestDrops({items}) {
           <div className="text-gray sm:max-w-2xl lg:max-w-sm">
             Check out the latest freshly minted Kitty Items here.
           </div>
-          {drops.length > 2 && (
+          {storeItems.length > 2 && (
             <div className="flex mt-14">
               <div className="mr-5">
                 <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
@@ -99,11 +99,11 @@ export default function LatestDrops({items}) {
           ref={listRef}
         >
           <div className="whitespace-nowrap pb-10 flex lg:px-3">
-            {drops.map(item => (
+            {storeItems.map(item => (
               <div
                 key={item.itemID}
                 className="flex justify-center px-4"
-                style={{width: DROP_ITEM_WIDTH}}
+                style={{width: ITEM_WIDTH}}
               >
                 <ListItem
                   address={publicConfig.flowAddress}
@@ -111,7 +111,7 @@ export default function LatestDrops({items}) {
                   price={item.price}
                   saleOfferId={item.resourceID}
                   size="sm"
-                  isDrop={true}
+                  isStoreItem={true}
                 />
               </div>
             ))}
@@ -122,7 +122,7 @@ export default function LatestDrops({items}) {
   )
 }
 
-LatestDrops.propTypes = {
+LatestStoreItems.propTypes = {
   items: PropTypes.array.isRequired,
 }
 

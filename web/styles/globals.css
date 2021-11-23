@@ -42,7 +42,7 @@
   }
 
   @responsive {
-    .latest-drops-left-content {
+    .latest-store-items-left-content {
       margin-left: calc((100vw - theme("screens.2xl")) / 2);
     }
   }

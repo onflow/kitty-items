@@ -36,7 +36,7 @@ export default function Header() {
         {!isAdminPath && (
           <div className="flex items-center">
             <div className="mr-2 md:mr-4">
-              <HeaderLink href={paths.root}>Drops</HeaderLink>
+              <HeaderLink href={paths.root}>Store</HeaderLink>
               <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
             </div>
             {!!currentUser && (

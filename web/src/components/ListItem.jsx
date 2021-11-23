@@ -21,7 +21,7 @@ export default function ListItem({
   saleOfferId,
   showOwnerInfo,
   size = "sm",
-  isDrop,
+  isStoreItem,
 }) {
   const {currentUser} = useAppContext()
   const {data: item, isLoading} = useAccountItem(address, id)
@@ -43,7 +43,7 @@ export default function ListItem({
             id={item.itemID}
             size={size}
             classes="hover:shadow-2xl"
-            isDrop={isDrop}
+            isStoreItem={isStoreItem}
           >
             {isBuyable && (
               <div className="hidden group-hover:block absolute bottom-7">
@@ -88,5 +88,5 @@ ListItem.propTypes = {
   saleOfferId: PropTypes.number,
   showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
-  isDrop: PropTypes.bool,
+  isStoreItem: PropTypes.bool,
 }
