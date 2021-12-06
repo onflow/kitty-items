@@ -93,7 +93,7 @@ describe("NFT Storefront", () => {
 		await shallPass(buyItem("fusd", Bob, saleOfferFUSDResourceID, Alice));
 
 		const itemCount = await getKittyItemCount(Bob);
-		expect(itemCount).toBe(1);
+		expect(itemCount).toBe(2);
 
 		const offerCount = await getSaleOfferCount(Alice);
 		expect(offerCount).toBe(0);

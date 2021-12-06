@@ -39,26 +39,26 @@ describe("FUSD", () => {
 		await deployFUSD();
 		const Admin = await getAdminAddress();
 		const Alice = await getAccountAddress("Alice");
-		await setupFUSDOnAccount(Admin);
+		const Bob = await getAccountAddress("Bob");
+
 		await setupFUSDOnAccount(Alice);
+		await setupFUSDOnAccount(Bob);
 
 		// Set amounts
 		const amount = toUFix64(2);
 		const overflowAmount = toUFix64(3);
 
-		// Mint instruction shall resolve
-		await shallResolve(mintFUSD(Admin, amount));
-
+		await shallPass(sendFUSD(Admin, Alice, amount));
 		// Transaction shall revert
-		await shallRevert(sendFUSD(Admin, Alice, overflowAmount));
+		await shallRevert(sendFUSD(Alice, Bob, overflowAmount));
 
 		// Balances shall be intact
 		await shallResolve(async () => {
 			const aliceBalance = await getFUSDBalance(Alice);
-			expect(aliceBalance).toBe(toUFix64(0));
+			expect(aliceBalance).toBe(toUFix64(2));
 
-			const AdminBalance = await getFUSDBalance(Admin);
-			expect(AdminBalance).toBe(toUFix64(1000002));
+			const bobBalance = await getFUSDBalance(Bob);
+			expect(bobBalance).toBe(toUFix64(0));
 		});
 	});
 
