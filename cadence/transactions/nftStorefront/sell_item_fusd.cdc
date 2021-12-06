@@ -16,7 +16,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
         self.fusdReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)!
         
-        assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed Kibble receiver")
+        assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed FUSD receiver")
 
         if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
             account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
