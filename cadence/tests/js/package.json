@@ -4,7 +4,7 @@
 	"description": "Integration tests for Kitty Items using Flow JS Testing Framework",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest --runInBand"
+		"test": "jest"
 	},
 	"repository": {
 		"type": "git",
@@ -19,6 +19,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.14.0",
 		"@babel/preset-env": "^7.14.1",
+		"@codejedi365/jest-serial-runner": "^2.0.0",
 		"@onflow/types": "0.0.4",
 		"babel-jest": "^27.0.2",
 		"flow-js-testing": "^0.1.13",
