@@ -2,6 +2,7 @@ import { deployContractByName, executeScript, sendTransaction } from "flow-js-te
 import { getKittyAdminAddress } from "./common";
 import { deployKibble, setupKibbleOnAccount } from "./kibble";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
+import { deployFUSD, setupFUSDOnAccount } from "./FUSD";
 
 /*
  * Deploys Kibble, KittyItems and NFTStorefront contracts to KittyAdmin.
@@ -12,6 +13,7 @@ export const deployNFTStorefront = async () => {
 	const KittyAdmin = await getKittyAdminAddress();
 
 	await deployKibble();
+	await deployFUSD();
 	await deployKittyItems();
 
 	const addressMap = {
@@ -31,6 +33,7 @@ export const deployNFTStorefront = async () => {
  * */
 export const setupStorefrontOnAccount = async (account) => {
 	// Account shall be able to store kitty items and operate Kibbles
+	await setupFUSDOnAccount(account);
 	await setupKibbleOnAccount(account);
 	await setupKittyItemsOnAccount(account);
 
@@ -48,8 +51,8 @@ export const setupStorefrontOnAccount = async (account) => {
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const sellItem = async (seller, itemId, price) => {
-	const name = "nftStorefront/sell_item";
+export const sellItem = async (token, seller, itemId, price) => {
+	const name = `nftStorefront/sell_item_${token}`;
 	const args = [itemId, price];
 	const signers = [seller];
 
@@ -64,8 +67,8 @@ export const sellItem = async (seller, itemId, price) => {
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const buyItem = async (buyer, resourceId, seller) => {
-	const name = "nftStorefront/buy_item";
+export const buyItem = async (token, buyer, resourceId, seller) => {
+	const name = `nftStorefront/buy_item_${token}`;
 	const args = [resourceId, seller];
 	const signers = [buyer];
 

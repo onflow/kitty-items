@@ -4,7 +4,7 @@ import { emulator, init, getAccountAddress, shallPass } from "flow-js-testing";
 
 import { toUFix64 } from "../src/common";
 import { mintKibble } from "../src/kibble";
-import { getKittyItemCount, mintKittyItem, getKittyItem, typeID1 } from "../src/kitty-items";
+import { getKittyItemCount, mintKittyItem, getKittyItem, typeID1, typeID2 } from "../src/kitty-items";
 import {
 	deployNFTStorefront,
 	buyItem,
@@ -13,6 +13,7 @@ import {
 	setupStorefrontOnAccount,
 	getSaleOfferCount,
 } from "../src/nft-storefront";
+import { mintFUSD } from "../src/FUSD";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
 jest.setTimeout(500000);
@@ -42,21 +43,24 @@ describe("NFT Storefront", () => {
 		await shallPass(setupStorefrontOnAccount(Alice));
 	});
 
-	it("shall be able to create a sale offer", async () => {
+	it("shall be able to create a sale offers", async () => {
 		// Setup
 		await deployNFTStorefront();
 		const Alice = await getAccountAddress("Alice");
 		await setupStorefrontOnAccount(Alice);
 
-		// Mint KittyItem for Alice's account
+		// Mint KittyItems for Alice's account
 		await shallPass(mintKittyItem(typeID1, Alice));
+		await shallPass(mintKittyItem(typeID2, Alice));
 
-		const itemID = 0;
+		const firstID = 0;
+		const secondID = 1;
 
-		await shallPass(sellItem(Alice, itemID, toUFix64(1.11)));
+		await shallPass(sellItem("fusd", Alice, firstID, toUFix64(1.11)));
+		await shallPass(sellItem("kibble", Alice, secondID, toUFix64(1.11)));
 	});
 
-	it("shall be able to accept a sale offer", async () => {
+	it("shall be able to accept a sale offers", async () => {
 		// Setup
 		await deployNFTStorefront();
 
@@ -64,22 +68,29 @@ describe("NFT Storefront", () => {
 		const Alice = await getAccountAddress("Alice");
 		await setupStorefrontOnAccount(Alice);
 		await mintKittyItem(typeID1, Alice);
+		await shallPass(mintKittyItem(typeID2, Alice));
 
-		const itemId = 0;
+		const firstID = 0;
+		const secondID = 1;
 
 		// Setup buyer account
 		const Bob = await getAccountAddress("Bob");
 		await setupStorefrontOnAccount(Bob);
 
 		await shallPass(mintKibble(Bob, toUFix64(100)));
+		await shallPass(mintFUSD(Bob, toUFix64(100)));
 
 		// Bob shall be able to buy from Alice
-		const sellItemTransactionResult = await shallPass(sellItem(Alice, itemId, toUFix64(1.11)));
+		const sellForKibbleTx = await shallPass(sellItem("kibble", Alice, firstID, toUFix64(1.11)));
+		const sellForFUSDTx = await shallPass(sellItem("fusd", Alice, secondID, toUFix64(1.11)));
 
-		const saleOfferAvailableEvent = sellItemTransactionResult.events[0];
-		const saleOfferResourceID = saleOfferAvailableEvent.data.saleOfferResourceID;
+		const saleOfferAvailableKibbleEvent = sellForKibbleTx.events[0];
+		const saleOfferAvailableFUSDEvent = sellForFUSDTx.events[0];
+		const saleOfferKibbleResourceID = saleOfferAvailableKibbleEvent.data.saleOfferResourceID;
+		const saleOfferFUSDResourceID = saleOfferAvailableFUSDEvent.data.saleOfferResourceID;
 
-		await shallPass(buyItem(Bob, saleOfferResourceID, Alice));
+		await shallPass(buyItem("kibble", Bob, saleOfferKibbleResourceID, Alice));
+		await shallPass(buyItem("fusd", Bob, saleOfferFUSDResourceID, Alice));
 
 		const itemCount = await getKittyItemCount(Bob);
 		expect(itemCount).toBe(1);
@@ -104,7 +115,7 @@ describe("NFT Storefront", () => {
 		const item = await getKittyItem(Alice, itemId);
 
 		// Listing item for sale shall pass
-		const sellItemTransactionResult = await shallPass(sellItem(Alice, itemId, toUFix64(1.11)));
+		const sellItemTransactionResult = await shallPass(sellItem("kibble", Alice, itemId, toUFix64(1.11)));
 
 		const saleOfferAvailableEvent = sellItemTransactionResult.events[0];
 		const saleOfferResourceID = saleOfferAvailableEvent.data.saleOfferResourceID;

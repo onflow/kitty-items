@@ -4,6 +4,7 @@ import { getKittyAdminAddress } from "./common";
 
 // KittyItems types
 export const typeID1 = 1000;
+export const typeID2 = 1001;
 
 /*
  * Deploys NonFungibleToken and KittyItems contracts to KittyAdmin.
