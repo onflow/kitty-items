@@ -26,16 +26,18 @@
     "tailwindcss": "^2.2.19",
     "use-debounce": "^7.0.0",
     "postcss": "^8.3.11",
-		"eslint": "7.32.0",
-		"eslint-config-next": "11.1.2",
+    "api": "^3.4.1",
+    "web": "0.0.2"
+  },
+  "devDependencies": {
+    "@jjordy/swr-devtools": "^2.0.7",
+    "cypress": "^8.5.0",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.4.1"
-  },
-  "devDependencies": {
-    "@jjordy/swr-devtools": "^2.0.7",
-    "cypress": "^8.5.0"
   }
 }
