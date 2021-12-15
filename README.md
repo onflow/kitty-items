@@ -1,6 +1,6 @@
 <p align="center">
     <a href="http://kitty-items-flow-testnet.herokuapp.com/">
-        <img width="400" src="kitty-items-banner.png" />
+        <img width="400" src="kitty-items-banner-1.png" />
     </a>
 </p>
 
