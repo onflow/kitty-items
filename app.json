@@ -20,7 +20,7 @@
     }
   },
   "env": {
-    "CHAIN_ENV: {
+    "CHAIN_ENV": {
       "description": "Which Flow network to contect to.",
       "value": "testnet"
     },
