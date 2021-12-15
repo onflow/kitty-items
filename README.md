@@ -24,7 +24,7 @@ If you'd like to deploy your own version, see the [deploy to Heroku](#optional-h
 
 _🛠 This project requires `Docker`._ See: [Docker installation instructions](https://www.docker.com/get-started) <br/>
 _🛠 This project requires `NodeJS v14.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
-_🛠 This project requires `flow-cli v0.15.0` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
+_🛠 This project requires `flow-cli v0.28.0` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
 
 ### 2. Clone the project
 
@@ -71,7 +71,7 @@ _⚠️ Make sure to save these keys in a safe place, you'll need them later._
 
 #### Create your account
 
-Go to the [Flow Testnet Faucet](https://testnet-faucet-v2.onflow.org/) to create a new account. Use the **public key** from the previous step.
+Go to the [Flow Testnet Faucet](https://testnet-faucet.onflow.org/) to create a new account. Use the **public key** from the previous step.
 
 #### Save your keys
 
@@ -118,10 +118,10 @@ MINTER_PRIVATE_KEY
 # The Flow address where you have deployed your Kitty Items contract.
 # (usually the same Flow address as above)
 
-REACT_APP_CONTRACT_KIBBLE
-REACT_APP_CONTRACT_FUSD
-REACT_APP_CONTRACT_KITTY_ITEMS
-REACT_APP_CONTRACT_NFT_STOREFRONT
+NEXT_PUBLIC_CONTRACT_KIBBLE
+NEXT_PUBLIC_CONTRACT_FUSD
+NEXT_PIBLIC_CONTRACT_KITTY_ITEMS
+NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT
 ```
 
 ## Project Overview
