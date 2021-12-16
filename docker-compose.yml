@@ -72,7 +72,7 @@ services:
     profiles:
       - dev
       - api
-    image: gcr.io/flow-container-registry/emulator:v0.22.0
+    image: gcr.io/flow-container-registry/emulator:latest
     ports:
       - "8080:8080"
       - "3569:3569"
