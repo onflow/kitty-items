@@ -1,45 +1,30 @@
 import FungibleToken from "./FungibleToken.cdc"
 
-pub contract Kibble: FungibleToken {
-    // TokensInitialized
-    //
-    // The event that is emitted when the contract is created
+pub contract FlowToken: FungibleToken {
+
+    // Total supply of Flow tokens in existence
+    pub var totalSupply: UFix64
+
+    // Event that is emitted when the contract is created
     pub event TokensInitialized(initialSupply: UFix64)
 
-    // TokensWithdrawn
-    //
-    // The event that is emitted when tokens are withdrawn from a Vault
+    // Event that is emitted when tokens are withdrawn from a Vault
     pub event TokensWithdrawn(amount: UFix64, from: Address?)
 
-    // TokensDeposited
-    //
-    // The event that is emitted when tokens are deposited to a Vault
+    // Event that is emitted when tokens are deposited to a Vault
     pub event TokensDeposited(amount: UFix64, to: Address?)
 
-    // TokensMinted
-    //
-    // The event that is emitted when new tokens are minted
+    // Event that is emitted when new tokens are minted
     pub event TokensMinted(amount: UFix64)
 
-    // TokensBurned
-    //
-    // The event that is emitted when tokens are destroyed
+    // Event that is emitted when tokens are destroyed
     pub event TokensBurned(amount: UFix64)
 
-    // MinterCreated
-    //
-    // The event that is emitted when a new minter resource is created
+    // Event that is emitted when a new minter resource is created
     pub event MinterCreated(allowedAmount: UFix64)
 
-    // Named paths
-    //
-    pub let VaultStoragePath: StoragePath
-    pub let ReceiverPublicPath: PublicPath
-    pub let BalancePublicPath: PublicPath
-    pub let AdminStoragePath: StoragePath
-
-    // Total supply of Kibbles in existence
-    pub var totalSupply: UFix64
+    // Event that is emitted when a new burner resource is created
+    pub event BurnerCreated()
 
     // Vault
     //
@@ -55,7 +40,7 @@ pub contract Kibble: FungibleToken {
     //
     pub resource Vault: FungibleToken.Provider, FungibleToken.Receiver, FungibleToken.Balance {
 
-        // The total balance of this vault
+        // holds the balance of a users tokens
         pub var balance: UFix64
 
         // initialize the balance at resource creation time
@@ -65,9 +50,8 @@ pub contract Kibble: FungibleToken {
 
         // withdraw
         //
-        // Function that takes an amount as an argument
+        // Function that takes an integer amount as an argument
         // and withdraws that amount from the Vault.
-        //
         // It creates a new temporary Vault that is used to hold
         // the money that is being transferred. It returns the newly
         // created Vault to the context that called so it can be deposited
@@ -83,13 +67,11 @@ pub contract Kibble: FungibleToken {
         //
         // Function that takes a Vault object as an argument and adds
         // its balance to the balance of the owners Vault.
-        //
         // It is allowed to destroy the sent Vault because the Vault
         // was a temporary holder of the tokens. The Vault's balance has
         // been consumed and therefore can be destroyed.
-        //
         pub fun deposit(from: @FungibleToken.Vault) {
-            let vault <- from as! @Kibble.Vault
+            let vault <- from as! @FlowToken.Vault
             self.balance = self.balance + vault.balance
             emit TokensDeposited(amount: vault.balance, to: self.owner?.address)
             vault.balance = 0.0
@@ -97,10 +79,7 @@ pub contract Kibble: FungibleToken {
         }
 
         destroy() {
-            Kibble.totalSupply = Kibble.totalSupply - self.balance
-            if(self.balance > 0.0) {
-                emit TokensBurned(amount: self.balance)
-            }
+            FlowToken.totalSupply = FlowToken.totalSupply - self.balance
         }
     }
 
@@ -111,12 +90,11 @@ pub contract Kibble: FungibleToken {
     // and store the returned Vault in their storage in order to allow their
     // account to be able to receive deposits of this token type.
     //
-    pub fun createEmptyVault(): @Vault {
+    pub fun createEmptyVault(): @FungibleToken.Vault {
         return <-create Vault(balance: 0.0)
     }
 
     pub resource Administrator {
-
         // createNewMinter
         //
         // Function that creates and returns a new minter resource
@@ -124,6 +102,15 @@ pub contract Kibble: FungibleToken {
         pub fun createNewMinter(allowedAmount: UFix64): @Minter {
             emit MinterCreated(allowedAmount: allowedAmount)
             return <-create Minter(allowedAmount: allowedAmount)
+        }
+
+        // createNewBurner
+        //
+        // Function that creates and returns a new burner resource
+        //
+        pub fun createNewBurner(): @Burner {
+            emit BurnerCreated()
+            return <-create Burner()
         }
     }
 
@@ -133,7 +120,7 @@ pub contract Kibble: FungibleToken {
     //
     pub resource Minter {
 
-        // The amount of tokens that the minter is allowed to mint
+        // the amount of tokens that the minter is allowed to mint
         pub var allowedAmount: UFix64
 
         // mintTokens
@@ -141,12 +128,12 @@ pub contract Kibble: FungibleToken {
         // Function that mints new tokens, adds them to the total supply,
         // and returns them to the calling context.
         //
-        pub fun mintTokens(amount: UFix64): @Kibble.Vault {
+        pub fun mintTokens(amount: UFix64): @FlowToken.Vault {
             pre {
-                amount > 0.0: "Amount minted must be greater than zero"
+                amount > UFix64(0): "Amount minted must be greater than zero"
                 amount <= self.allowedAmount: "Amount minted must be less than the allowed amount"
             }
-            Kibble.totalSupply = Kibble.totalSupply + amount
+            FlowToken.totalSupply = FlowToken.totalSupply + amount
             self.allowedAmount = self.allowedAmount - amount
             emit TokensMinted(amount: amount)
             return <-create Vault(balance: amount)
@@ -157,22 +144,55 @@ pub contract Kibble: FungibleToken {
         }
     }
 
-    init() {
-        // Set our named paths.
-        //FIXME: REMOVE SUFFIX BEFORE RELEASE
-        self.VaultStoragePath = /storage/kibbleVaultV8
-        self.ReceiverPublicPath = /public/kibbleReceiverV8
-        self.BalancePublicPath = /public/kibbleBalanceV8
-        self.AdminStoragePath = /storage/kibbleAdminV8
+    // Burner
+    //
+    // Resource object that token admin accounts can hold to burn tokens.
+    //
+    pub resource Burner {
 
-        // Initialize contract state.
+        // burnTokens
+        //
+        // Function that destroys a Vault instance, effectively burning the tokens.
+        //
+        // Note: the burned tokens are automatically subtracted from the
+        // total supply in the Vault destructor.
+        //
+        pub fun burnTokens(from: @FungibleToken.Vault) {
+            let vault <- from as! @FlowToken.Vault
+            let amount = vault.balance
+            destroy vault
+            emit TokensBurned(amount: amount)
+        }
+    }
+
+    init(adminAccount: AuthAccount) {
         self.totalSupply = 0.0
 
-        // Create the one true Admin object and deposit it into the conttract account.
-        let admin <- create Administrator()
-        self.account.save(<-admin, to: self.AdminStoragePath)
+        // Create the Vault with the total supply of tokens and save it in storage
+        //
+        let vault <- create Vault(balance: self.totalSupply)
+        adminAccount.save(<-vault, to: /storage/flowTokenVault)
 
-        // Emit an event that shows that the contract was initialized.
+        // Create a public capability to the stored Vault that only exposes
+        // the `deposit` method through the `Receiver` interface
+        //
+        adminAccount.link<&FlowToken.Vault{FungibleToken.Receiver}>(
+            /public/flowTokenReceiver,
+            target: /storage/flowTokenVault
+        )
+
+        // Create a public capability to the stored Vault that only exposes
+        // the `balance` field through the `Balance` interface
+        //
+        adminAccount.link<&FlowToken.Vault{FungibleToken.Balance}>(
+            /public/flowTokenBalance,
+            target: /storage/flowTokenVault
+        )
+
+        let admin <- create Administrator()
+        adminAccount.save(<-admin, to: /storage/flowTokenAdmin)
+
+        // Emit an event that shows that the contract was initialized
         emit TokensInitialized(initialSupply: self.totalSupply)
     }
 }

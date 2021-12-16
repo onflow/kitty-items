@@ -1,23 +1,24 @@
 import FungibleToken from "../../contracts/FungibleToken.cdc"
-import Kibble from "../../contracts/Kibble.cdc"
+import FlowToken from "../../contracts/FlowToken.cdc"
 
 transaction(recipient: Address, amount: UFix64) {
-    let tokenAdmin: &Kibble.Administrator
+
+    let tokenAdmin: &FlowToken.Administrator
     let tokenReceiver: &{FungibleToken.Receiver}
 
     prepare(signer: AuthAccount) {
         self.tokenAdmin = signer
-        .borrow<&Kibble.Administrator>(from: Kibble.AdminStoragePath)
+        .borrow<&FlowToken.Administrator>(from: /storage/flowTokenAdmin)
         ?? panic("Signer is not the token admin")
 
         self.tokenReceiver = getAccount(recipient)
-        .getCapability(Kibble.ReceiverPublicPath)!
-        .borrow<&{FungibleToken.Receiver}>()
-        ?? panic("Unable to borrow receiver reference")
+            .getCapability(/public/flowTokenReceiver)!
+            .borrow<&{FungibleToken.Receiver}>()
+            ?? panic("Unable to borrow receiver reference")
     }
 
     execute {
-        let minter <- self.tokenAdmin.createNewMinter(allowedAmount: amount)
+        let minter <- self.tokenAdmin.createNewMinter()
         let mintedVault <- minter.mintTokens(amount: amount)
 
         self.tokenReceiver.deposit(from: <-mintedVault)
