@@ -1,9 +1,10 @@
-import { BaseModel } from "./base";
+import { BaseModel } from "./base"
 
 class SaleOffer extends BaseModel {
   sale_item_id!: number;
   sale_item_resource_id!: number;
   sale_item_type!: number;
+  sale_item_rarity!: number;
   sale_item_owner!: string;
   sale_price!: number;
   transaction_id!: string;
@@ -12,4 +13,4 @@ class SaleOffer extends BaseModel {
   }
 }
 
-export { SaleOffer };
+export { SaleOffer }

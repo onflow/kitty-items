@@ -1,0 +1,80 @@
+import Link from "next/link"
+import {useRouter} from "next/router"
+import ListItems from "src/components/ListItems"
+import MarketplaceFilters from "src/components/MarketplaceFilters"
+import PageTitle from "src/components/PageTitle"
+import Pagination from "src/components/Pagination"
+import {paths} from "src/global/constants"
+import useApiSaleOffers from "src/hooks/useApiSaleOffers"
+import useAppContext from "src/hooks/useAppContext"
+import {cleanObject} from "src/util/object"
+
+const PER_PAGE = 12
+
+export default function Marketplace() {
+  const router = useRouter()
+  const {currentUser} = useAppContext()
+
+  const queryState = {
+    ...router.query,
+    page: Number(router.query.page || 1),
+  }
+
+  const {saleOffers, data} = useApiSaleOffers({
+    ...queryState,
+    marketplace: true,
+  })
+
+  const updateQuery = payload => {
+    const newQueryObject = {...queryState, ...payload}
+    router.push({
+      pathname: router.pathname,
+      query: cleanObject({
+        ...newQueryObject,
+        page: newQueryObject.page === 1 ? undefined : newQueryObject.page,
+      }),
+    })
+  }
+
+  const onPageClick = newPage => updateQuery({page: newPage})
+
+  if (!router.isReady) return null
+
+  return (
+    <div>
+      <PageTitle>Marketplace</PageTitle>
+      <main>
+        <div className="main-container py-14">
+          <div className="flex justify-between items-center mb-12">
+            <h1 className="text-3xl text-gray-light">Marketplace</h1>
+            {!!currentUser && (
+              <Link href={paths.profile(currentUser.addr)}>
+                <a className="rounded uppercase font-bold text-sm rounded-full bg-green hover:opacity-80 py-2.5 px-5">
+                  List My Kitty Items
+                </a>
+              </Link>
+            )}
+          </div>
+
+          <hr className="pt-1 mb-8" />
+
+          <MarketplaceFilters
+            queryState={queryState}
+            updateQuery={updateQuery}
+          />
+
+          {!!saleOffers && <ListItems items={saleOffers} />}
+
+          {data?.total !== undefined && (
+            <Pagination
+              currentPage={queryState.page}
+              total={data.total}
+              perPage={PER_PAGE}
+              onPageClick={onPageClick}
+            />
+          )}
+        </div>
+      </main>
+    </div>
+  )
+}

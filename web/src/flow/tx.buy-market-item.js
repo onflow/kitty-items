@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {tx} from "./util/tx"
 import {invariant} from "@onflow/util-invariant"
+import {tx} from "src/flow/util/tx"
 
 const CODE = fcl.cdc`
   import FungibleToken from 0xFungibleToken
@@ -27,19 +27,19 @@ const CODE = fcl.cdc`
 
       self.saleOffer = self.storefront.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID)
         ?? panic("No Offer with that ID in Storefront")
-      
+
       let price = self.saleOffer.getDetails().salePrice
 
       let mainFUSDVault = account.borrow<&FUSD.Vault>(from: /storage/fusdVault)
         ?? panic("Cannot borrow Kibble vault from account storage")
-      
+
       self.paymentVault <- mainFUSDVault.withdraw(amount: price)
 
       self.kittyItemsCollection = account.borrow<&KittyItems.Collection{NonFungibleToken.Receiver}>(
         from: KittyItems.CollectionStoragePath
       ) ?? panic("Cannot borrow KittyItems collection receiver from account")
     }
-  
+
     execute {
       let item <- self.saleOffer.accept(
         payment: <-self.paymentVault

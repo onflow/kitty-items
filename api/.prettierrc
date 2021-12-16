@@ -1,0 +1,6 @@
+{
+  "semi": false,
+  "trailingComma": "es5",
+  "bracketSpacing": false,
+  "arrowParens": "avoid"
+}

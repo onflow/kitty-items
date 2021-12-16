@@ -1,5 +1,6 @@
-import {send, decode, script, args, arg, cdc} from "@onflow/fcl"
+import {arg, args, cdc, decode, script, send} from "@onflow/fcl"
 import {Address} from "@onflow/types"
+import {expandFUSDBalanceKey} from "src/hooks/useFUSDBalance"
 
 const CODE = cdc`
   import FungibleToken from 0xFungibleToken
@@ -12,7 +13,8 @@ const CODE = cdc`
 
 `
 
-export function fetchFUSDBalance(address) {
+export function fetchFUSDBalance(key) {
+  const {address} = expandFUSDBalanceKey(key)
   if (address == null) return Promise.resolve(false)
 
   // prettier-ignore

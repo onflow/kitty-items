@@ -10,7 +10,7 @@ pub contract KittyItems: NonFungibleToken {
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
-    pub event Minted(id: UInt64, typeID: UInt64)
+    pub event Minted(id: UInt64, typeID: UInt64, rarityID: UInt64)
 
     // Named Paths
     //
@@ -23,20 +23,26 @@ pub contract KittyItems: NonFungibleToken {
     //
     pub var totalSupply: UInt64
 
+    // Rarity -> Price mapping
+    pub var itemRarityPriceMap: {UInt64: UFix64}
+
     // NFT
     // A Kitty Item as an NFT
     //
     pub resource NFT: NonFungibleToken.INFT {
         // The token's ID
         pub let id: UInt64
-        // The token's type, e.g. 3 == Hat
+        // The token's type, e.g. 1 == Fishbowl
         pub let typeID: UInt64
+        // The token's rarity, e.g. 1 == Gold
+        pub let rarityID: UInt64
 
         // initializer
         //
-        init(initID: UInt64, initTypeID: UInt64) {
+        init(initID: UInt64, initTypeID: UInt64, initRarityID: UInt64) {
             self.id = initID
             self.typeID = initTypeID
+            self.rarityID = initRarityID
         }
     }
 
@@ -111,7 +117,7 @@ pub contract KittyItems: NonFungibleToken {
 
         // borrowKittyItem
         // Gets a reference to an NFT in the collection as a KittyItem,
-        // exposing all of its fields (including the typeID).
+        // exposing all of its fields (including the typeID & rarityID).
         // This is safe as there are no functions that can be called on the KittyItem.
         //
         pub fun borrowKittyItem(id: UInt64): &KittyItems.NFT? {
@@ -152,13 +158,14 @@ pub contract KittyItems: NonFungibleToken {
         // Mints a new NFT with a new ID
 		// and deposit it in the recipients collection using their collection reference
         //
-		pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, typeID: UInt64) {
-            emit Minted(id: KittyItems.totalSupply, typeID: typeID)
+		pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, typeID: UInt64, rarityID: UInt64) {
+            emit Minted(id: KittyItems.totalSupply, typeID: typeID, rarityID: rarityID)
 
 			// deposit it in the recipient's account using their reference
-			recipient.deposit(token: <-create KittyItems.NFT(initID: KittyItems.totalSupply, initTypeID: typeID))
+			recipient.deposit(token: <-create KittyItems.NFT(initID: KittyItems.totalSupply, initTypeID: typeID, initRarityID: rarityID))
 
             KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
+
 		}
 	}
 
@@ -181,10 +188,18 @@ pub contract KittyItems: NonFungibleToken {
     // initializer
     //
 	init() {
+        // set rarity price mapping
+        self.itemRarityPriceMap = {
+            1: 125.0,
+            2: 25.0,
+            3: 5.0,
+            4: 1.0
+        } 
+
         // Set our named paths
-        self.CollectionStoragePath = /storage/kittyItemsCollection
-        self.CollectionPublicPath = /public/kittyItemsCollection
-        self.MinterStoragePath = /storage/kittyItemsMinter
+        self.CollectionStoragePath = /storage/kittyItemsCollectionV8
+        self.CollectionPublicPath = /public/kittyItemsCollectionV8
+        self.MinterStoragePath = /storage/kittyItemsMinterV8
 
         // Initialize the total supply
         self.totalSupply = 0
