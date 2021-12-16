@@ -1,5 +1,3 @@
-import * as fcl from "@onflow/fcl"
-import Image from "next/image"
 import Link from "next/link"
 import {useRouter} from "next/router"
 import HeaderDropdown from "src/components/HeaderDropdown"
@@ -7,38 +5,23 @@ import HeaderFUSDAmount from "src/components/HeaderFUSDAmount"
 import HeaderLink from "src/components/HeaderLink"
 import {paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
+import useLogin from "src/hooks/useLogin"
+import HeaderMessage from "./HeaderMessage"
 
 export default function Header() {
   const {currentUser} = useAppContext()
   const router = useRouter()
-
-  const logIn = async () => {
-    const user = await fcl.logIn()
-    if (user.addr) {
-      router.push(paths.profile(user.addr))
-    }
-  }
+  const logIn = useLogin()
+  const isAdminPath = router.pathname === paths.adminMint
 
   return (
     <header className="border-b bg-white border-gray-200">
-      <div className="bg-green-dark text-white text-sm sm:text-lg font-bold text-center py-4 px-2">
-        <span className="mr-3 text-sm">💻</span>Kitty Items is a demo
-        application running on the{" "}
-        <a
-          className="border-b border-white"
-          href="https://docs.onflow.org/concepts/accessing-testnet/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Flow test network
-        </a>
-        .
-      </div>
+      <HeaderMessage />
       <div className="main-container py-4 max-w-2 flex justify-between">
         <Link href={paths.root} passHref>
-          <a className="flex items-center">
+          <a className="flex items-center hover:opacity-80">
             <div className="w-12 sm:w-auto flex">
-              <Image
+              <img
                 src="/images/kitty-items-logo.svg"
                 alt="Kitty Items"
                 width="60"
@@ -50,27 +33,29 @@ export default function Header() {
             </div>
           </a>
         </Link>
-        <div className="flex items-center">
-          <div className="mr-2 md:mr-4">
-            <HeaderLink href={paths.root}>Drops</HeaderLink>
-            <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
-          </div>
-          {!!currentUser && (
-            <div className="mr-2 hidden md:flex">
-              <HeaderFUSDAmount />
+        {!isAdminPath && (
+          <div className="flex items-center">
+            <div className="mr-2 md:mr-4">
+              <HeaderLink href={paths.root}>Store</HeaderLink>
+              <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
             </div>
-          )}
-          {currentUser ? (
-            <HeaderDropdown />
-          ) : (
-            <button
-              onClick={logIn}
-              className="text-sm sm:text-lg md:text-xl text-gray-700 mr-2"
-            >
-              Log In
-            </button>
-          )}
-        </div>
+            {!!currentUser && (
+              <div className="mr-2 hidden md:flex">
+                <HeaderFUSDAmount />
+              </div>
+            )}
+            {currentUser ? (
+              <HeaderDropdown />
+            ) : (
+              <button
+                onClick={logIn}
+                className="text-sm sm:text-lg md:text-xl text-gray-700 mr-2"
+              >
+                Log In
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </header>
   )

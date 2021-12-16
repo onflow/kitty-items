@@ -6,10 +6,8 @@
     "dev": "next dev -p 3001",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "next lint",
     "testnet": "next start -p 3001",
-    "test": "cypress run",
-    "check": "npm run lint && npm run test"
+    "test": "cypress run"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
@@ -18,6 +16,7 @@
     "@onflow/util-actor": "^0.0.2",
     "@onflow/util-invariant": "^0.0.0",
     "@onflow/util-uid": "^0.0.1",
+    "autoprefixer": "^10.3.7",
     "next": "^12.0.3",
     "prop-types": "^15.7.2",
     "react": "17.0.2",
@@ -27,7 +26,6 @@
     "tailwindcss": "^2.2.19",
     "use-debounce": "^7.0.0",
     "postcss": "^8.3.11",
-    "autoprefixer": "^10.3.7",
     "api": "^3.4.1",
     "web": "0.0.2"
   },

@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import {paths} from "src/global/constants"
 
@@ -12,7 +11,7 @@ export default function AdminNav() {
       <Link href={paths.root} passHref>
         <a className="flex items-center hover:opacity-80">
           <span className="mr-3">Back to user view</span>
-          <Image
+          <img
             src="/images/arrow-right-b.svg"
             alt="Flow"
             width={15}

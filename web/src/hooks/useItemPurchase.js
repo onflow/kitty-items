@@ -1,7 +1,12 @@
 import {useRouter} from "next/dist/client/router"
-import {useReducer} from "react"
+import {useReducer, useState} from "react"
 import {buyMarketItem} from "src/flow/tx.buy-market-item"
-import {flashMessages, paths} from "src/global/constants"
+import {
+  DECLINE_RESPONSE,
+  flashMessages,
+  IDLE,
+  paths,
+} from "src/global/constants"
 import {
   ERROR,
   initialState,
@@ -9,40 +14,64 @@ import {
   START,
   SUCCESS,
 } from "src/reducers/requestReducer"
+import {
+  EVENT_KITTY_ITEM_DEPOSIT,
+  getStorefrontEventByType,
+} from "src/util/storefrontEvents"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
 import {compFUSDBalanceKey} from "./useFUSDBalance"
 
+const getNewlySignedInUserAddress = txData => {
+  const depositEvent = getStorefrontEventByType(
+    txData.events,
+    EVENT_KITTY_ITEM_DEPOSIT
+  )
+  if (!depositEvent?.data?.to) throw "Missing KittyItem deposit address"
+  return depositEvent.data.to
+}
+
 export default function useItemPurchase() {
   const router = useRouter()
-  const {currentUser, setFlashMessage} = useAppContext()
+  const {setFlashMessage} = useAppContext()
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const {mutate, cache} = useSWRConfig()
+  const [txStatus, setTxStatus] = useState(null)
 
-  const buy = async (saleOfferId, itemId, ownerAddress) => {
+  const buy = (saleOfferId, itemId, ownerAddress) => {
     if (!saleOfferId) throw "Missing saleOffer id"
     if (!ownerAddress) throw "Missing ownerAddress"
-
-    await buyMarketItem(
+    buyMarketItem(
       {itemID: saleOfferId, ownerAddress},
       {
         onStart() {
           dispatch({type: START})
         },
-        async onSuccess() {
-          mutate(compFUSDBalanceKey(currentUser?.addr))
+        onUpdate(t) {
+          setTxStatus(t.status)
+        },
+        async onSuccess(txData) {
+          const currentUserAddress = getNewlySignedInUserAddress(txData)
+          mutate(compFUSDBalanceKey(currentUserAddress))
           cache.delete(paths.apiSaleOffer(itemId))
-          router.push(paths.profileItem(currentUser.addr, itemId))
+          router.push(paths.profileItem(currentUserAddress, itemId))
           dispatch({type: SUCCESS})
           setFlashMessage(flashMessages.purchaseSuccess)
         },
-        async onError() {
-          dispatch({type: ERROR})
-          setFlashMessage(flashMessages.purchaseError)
+        async onError(e) {
+          if (e === DECLINE_RESPONSE) {
+            dispatch({type: IDLE})
+          } else {
+            dispatch({type: ERROR})
+            setFlashMessage(flashMessages.purchaseError)
+          }
+        },
+        onComplete() {
+          setTxStatus(null)
         },
       }
     )
   }
 
-  return [state, buy]
+  return [state, buy, txStatus]
 }

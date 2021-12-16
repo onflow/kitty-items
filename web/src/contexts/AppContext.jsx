@@ -20,6 +20,8 @@ export const AppContext = createContext({
 
 export const AppContextProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(null)
+  const [isAccountInitStateLoading, setIsAccountInitStateLoading] =
+    useState(false)
   const [isAccountInitialized, setIsAccountInitialized] = useState(null)
   const [isLoggedInAsAdmin, setIsLoggedInAsAdmin] = useState(false)
   const [showAdminLoginDialog, setShowAdminLoginDialog] = useState(false)
@@ -28,12 +30,15 @@ export const AppContextProvider = ({children}) => {
   const router = useRouter()
 
   const checkIsAccountInitialized = useCallback(() => {
-    if (currentUser?.addr)
-      isAccountInitializedTx(currentUser.addr).then(data => {
+    if (currentUser?.addr) {
+      setIsAccountInitStateLoading(true)
+      isAccountInitializedTx(currentUser?.addr).then(data => {
         setIsAccountInitialized(
           data.FUSD && data.KittyItems && data.KittyItemsMarket
         )
+        setIsAccountInitStateLoading(false)
       })
+    }
   }, [currentUser?.addr])
 
   useEffect(() => {
@@ -86,14 +91,23 @@ export const AppContextProvider = ({children}) => {
     setIsLoggedInAsAdmin(false)
   }
 
+  const switchToAdminView = () => {
+    if (isLoggedInAsAdmin) {
+      router.push(paths.adminMint)
+    } else {
+      setShowAdminLoginDialog(true)
+    }
+  }
+
   const value = {
     currentUser,
+    isAccountInitStateLoading,
     isAccountInitialized,
     checkIsAccountInitialized,
     showAdminLoginDialog,
     setShowAdminLoginDialog,
     isLoggedInAsAdmin,
-    setIsLoggedInAsAdmin,
+    switchToAdminView,
     logInAdmin,
     logOutAdmin,
     flashMessage,

@@ -27,7 +27,7 @@ export default function FlashMessage() {
 
   const flashMessage = contextFlashMessage
   if (!flashMessage) return null
-  console.log(flashMessage)
+
   return (
     <div className="main-container mt-10">
       <div

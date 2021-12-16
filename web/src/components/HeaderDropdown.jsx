@@ -1,10 +1,10 @@
 import {Menu, Transition} from "@headlessui/react"
 import * as fcl from "@onflow/fcl"
 import Link from "next/link"
-import {useRouter} from "next/router"
 import {Fragment} from "react"
 import Avatar from "src/components/Avatar"
 import {flashMessages, paths} from "src/global/constants"
+import publicConfig from "src/global/publicConfig"
 import useAppContext from "src/hooks/useAppContext"
 import useFUSDMinter from "src/hooks/useFUSDMinter"
 
@@ -17,11 +17,10 @@ export default function HeaderDropdown() {
   const {
     currentUser,
     isAccountInitialized,
-    isLoggedInAsAdmin,
-    setShowAdminLoginDialog,
     setFlashMessage,
+    switchToAdminView,
   } = useAppContext()
-  const router = useRouter()
+
   const address = currentUser.addr
   const [{isLoading: isFUSDMinterLoading}, mintFUSD] = useFUSDMinter()
 
@@ -33,20 +32,23 @@ export default function HeaderDropdown() {
   }
   const mint = () => mintFUSD(currentUser.addr)
 
-  const switchToAdminView = () => {
-    if (isLoggedInAsAdmin) {
-      router.push(paths.adminMint)
-    } else {
-      setShowAdminLoginDialog(true)
-    }
-  }
-
   return (
     <div className="flex items-center flex">
       <Menu as="div" className="relative inline-block flex text-left">
         <Menu.Button className="h-10 w-10 hover:opacity-80">
           <Avatar address={address} />
         </Menu.Button>
+        <button
+          onClick={switchToAdminView}
+          className="bg-black text-white text-sm rounded-full flex items-center justify-center h-10 px-5 ml-2 hover:opacity-80"
+        >
+          Admin
+          <img
+            src="/images/sliders.svg"
+            alt="Switch to Admin View"
+            className="ml-2"
+          />
+        </button>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"
@@ -68,17 +70,7 @@ export default function HeaderDropdown() {
                   </Link>
                 )}
               </Menu.Item>
-              <Menu.Item>
-                {({active}) => (
-                  <button
-                    onClick={switchToAdminView}
-                    className={menuItemClasses(active)}
-                  >
-                    Switch to Admin View
-                  </button>
-                )}
-              </Menu.Item>
-              {isAccountInitialized && (
+              {publicConfig.isDev && isAccountInitialized && (
                 <Menu.Item>
                   {({active}) => (
                     <button

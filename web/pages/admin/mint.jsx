@@ -1,13 +1,14 @@
-import * as fcl from "@onflow/fcl"
 import AdminNav from "src/components/AdminNav"
 import Minter from "src/components/Minter"
 import PageTitle from "src/components/PageTitle"
 import useAppContext from "src/hooks/useAppContext"
+import useLogin from "src/hooks/useLogin"
 
 export default function Mint() {
   const {currentUser, isLoggedInAsAdmin, setShowAdminLoginDialog} =
     useAppContext()
-  const logIn = () => fcl.logIn()
+
+  const logIn = useLogin()
 
   const onAdminLoginClick = () => {
     setShowAdminLoginDialog(true)

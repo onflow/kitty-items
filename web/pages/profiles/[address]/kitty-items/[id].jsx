@@ -5,6 +5,7 @@ import ListItemPageButtons from "src/components/ListItemPageButtons"
 import ListItemPrice from "src/components/ListItemPrice"
 import OwnerInfo from "src/components/OwnerInfo"
 import PageTitle from "src/components/PageTitle"
+import RarityScale from "src/components/RarityScale"
 import useAccountItem from "src/hooks/useAccountItem"
 import useApiSaleOffer from "src/hooks/useApiSaleOffer"
 
@@ -45,6 +46,9 @@ export default function KittyItem() {
             </div>
 
             <div className="lg:max-w-lg">
+              <div className="mt-8">
+                <RarityScale highlightedRarityId={item.rarityID} />
+              </div>
               <ListItemPageButtons item={item} saleOffer={saleOffer} />
             </div>
           </div>

@@ -5,11 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "lerna": "^4.0.0",
-    "yargs": "^16.2.0"
+    "yargs": "^16.2.0",
+    "@types/node": "^14.14.37"
   },
   "devDependencies": {
     "@testing-library/cypress": "^7.0.7",
-    "@types/node": "^14.14.37",
     "@types/yargs": "^16.0.1",
     "cypress": "^7.7.0",
     "cypress-iframe": "^1.0.1"

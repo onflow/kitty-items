@@ -1,20 +1,21 @@
 import PropTypes from "prop-types"
 import Select from "src/components/Select"
-import TextInput from "src/components/TextInput"
-import {ITEM_TYPE_MAP} from "src/global/constants"
-import {useDebouncedCallback} from "use-debounce"
+import {ITEM_RARITY_MAP, ITEM_TYPE_MAP} from "src/global/constants"
 
 const TYPE_OPTIONS = Object.keys(ITEM_TYPE_MAP).map(key => ({
   label: ITEM_TYPE_MAP[key],
   value: key,
 }))
 
+const RARITY_OPTIONS = Object.keys(ITEM_RARITY_MAP)
+  .reverse()
+  .map(key => ({
+    label: ITEM_RARITY_MAP[key],
+    value: key,
+  }))
+
 export default function MarketplaceFilters({queryState, updateQuery}) {
   const updateFilter = payload => updateQuery({page: 1, ...payload})
-  const debouncedUpdateFilter = useDebouncedCallback(
-    payload => updateFilter(payload),
-    300
-  )
 
   return (
     <div className="grid gap-y-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-x-5 mb-8">
@@ -24,21 +25,11 @@ export default function MarketplaceFilters({queryState, updateQuery}) {
         value={queryState.typeId}
         onChange={value => updateFilter({typeId: value})}
       />
-      <TextInput
-        value={queryState.minPrice || ""}
-        onChange={value => debouncedUpdateFilter({minPrice: value})}
-        type="number"
-        min="0.01"
-        step="0.01"
-        label="Min Price"
-      />
-      <TextInput
-        value={queryState.maxPrice || ""}
-        onChange={value => debouncedUpdateFilter({maxPrice: value})}
-        type="number"
-        min="0.01"
-        step="0.01"
-        label="Max Price"
+      <Select
+        label="Rarity"
+        options={RARITY_OPTIONS}
+        value={queryState.rarityId}
+        onChange={value => updateFilter({rarityId: value})}
       />
     </div>
   )

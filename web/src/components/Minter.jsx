@@ -1,25 +1,36 @@
-import Image from "next/image"
+import {useRouter} from "next/router"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Button from "src/components/Button"
-import {
-  ITEM_RARITY_MAP,
-  ITEM_RARITY_PROBABILITIES,
-  ITEM_TYPE_MAP,
-} from "src/global/constants"
-import useMinter from "src/hooks/useMinter"
+import {ITEM_TYPE_MAP, paths} from "src/global/constants"
+import publicConfig from "src/global/publicConfig"
+import useMintAndList from "src/hooks/useMintAndList"
+import {useSWRConfig} from "swr"
 import ListItemImage from "./ListItemImage"
+import RarityScale from "./RarityScale"
+import TransactionLoading from "./TransactionLoading"
 
 const ITEM_TYPE_COUNT = Object.keys(ITEM_TYPE_MAP).length
 
 export default function Minter() {
   const loadingIntervalRef = useRef()
+  const router = useRouter()
+  const {mutate} = useSWRConfig()
+
+  const onSuccess = itemId => {
+    // Wait for new SaleOffer to be created by the API
+    // Mutations don't work because they get overwritten when the new page is loaded
+    setTimeout(() => {
+      mutate(paths.apiMarketItemsList())
+      router.push({
+        pathname: paths.profileItem(publicConfig.flowAddress, itemId),
+        query: {flash: "itemMintedSuccess"},
+      })
+    }, 1000)
+  }
 
   const [loadingTypeId, setLoadingTypeId] = useState(1)
-  const [{isLoading}, mint] = useMinter(onSuccess)
-
-  const onSuccess = data => {
-    console.log(data)
-  }
+  const [{isLoading, transactionAction, transactionStatus}, mint] =
+    useMintAndList(onSuccess)
 
   const onClickMint = () => mint()
 
@@ -67,46 +78,16 @@ export default function Minter() {
               rarityId={1}
               size="lg"
               grayscale={true}
-              priority={true}
             />
           </div>
         ))}
 
-      <div className="flex flex-col mt-14 pr-4 lg:mt-24 lg:pt-20 lg:pl-14">
-        <h1 className="text-5xl text-gray-darkest mb-10">Mint a New Item</h1>
-        <div className="mb-10 text-gray-light text-sm">
-          <div className="flex justify-between items-center uppercase font-bold text-xs pb-2">
-            <div>Rarity Scale</div>
-            <div>Minting Chance</div>
-          </div>
-          {Object.keys(ITEM_RARITY_MAP)
-            .reverse()
-            .map(key => (
-              <div
-                key={key}
-                className="flex items-center border-t border-gray-200 py-1"
-              >
-                <div
-                  className={`item-gradient-${key} w-2.5 h-2.5 rounded-full mr-3`}
-                />
-                <div className="">{ITEM_RARITY_MAP[key]}</div>
-                <div className="ml-auto text-gray-darkest">
-                  {ITEM_RARITY_PROBABILITIES[key]}%
-                </div>
-              </div>
-            ))}
-        </div>
+      <div className="flex flex-col pr-4 mt-14 lg:mt-24 lg:pt-20 lg:pl-14">
+        <h1 className="mb-10 text-5xl text-gray-darkest">Mint a New Item</h1>
+        <RarityScale />
 
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center bg-white pt-12 pb-11 border border-gray-200 rounded-sm text-gray-lightest text-xs uppercase">
-            <Image
-              src="/images/loading.svg"
-              alt="Flow"
-              width={70}
-              height={70}
-            />
-            <div className="mt-4">Minting Item</div>
-          </div>
+          <TransactionLoading status={transactionStatus} />
         ) : (
           <Button onClick={onClickMint} disabled={isLoading} roundedFull={true}>
             Mint Item

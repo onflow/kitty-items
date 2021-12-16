@@ -63,7 +63,8 @@ class FlowService {
     proposer,
     authorizations,
     payer,
-  }): Promise<any> => {
+    skipSeal
+  }: any): Promise<any> => {
     const response = await fcl.send([
       fcl.transaction`
         ${transaction}
@@ -74,6 +75,8 @@ class FlowService {
       fcl.payer(payer),
       fcl.limit(9999),
     ]);
+
+    if (skipSeal) return response;
     return await fcl.tx(response).onceSealed();
   };
 

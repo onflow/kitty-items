@@ -98,6 +98,9 @@ async function run() {
     const kittyItemsService = new KittyItemsService(
       flowService,
       config.nonFungibleTokenAddress,
+      config.minterAddress,
+      config.fungibleTokenAddress,
+      config.fusdAddress,
       config.minterAddress
     );
 

@@ -3,6 +3,10 @@ import publicConfig from "src/global/publicConfig"
 
 config()
   .put("app.detail.title", "Kitty Items")
+  .put(
+    "app.detail.icon",
+    `${new URL(publicConfig.appUrl).origin}/images/kitty-items-logo.svg`
+  )
   .put("env", publicConfig.chainEnv)
   .put("faucet", publicConfig.faucetAddress)
   .put("accessNode.api", publicConfig.flowAccessApiUrl)

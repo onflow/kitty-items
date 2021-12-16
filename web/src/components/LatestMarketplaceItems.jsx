@@ -6,6 +6,8 @@ const ITEMS_LENGTH = 20
 
 export default function LatestMarketplaceItems({items}) {
   const publicItems = publicItemsSelector(items).slice(0, ITEMS_LENGTH)
+  if (publicItems.length === 0) return null
+
   return (
     <div className="bg-white">
       <div className="main-container py-14">

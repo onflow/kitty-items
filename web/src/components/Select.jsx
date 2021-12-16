@@ -1,5 +1,4 @@
 import {Listbox, Transition} from "@headlessui/react"
-import Image from "next/image"
 import PropTypes from "prop-types"
 import {Fragment} from "react"
 
@@ -30,7 +29,7 @@ export default function Select({options, label, value, onChange}) {
                 {selectedOption?.label || placeholder}
               </span>
               <span className="absolute inset-y-0 right-2 flex items-center pr-2">
-                <Image
+                <img
                   src="/images/caret.svg"
                   alt={placeholder}
                   width={10}

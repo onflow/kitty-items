@@ -1,8 +1,13 @@
+const isDev = process.env.NODE_ENV === "development"
+
 const chainEnv = process.env.NEXT_PUBLIC_CHAIN_ENV
 if (!chainEnv) throw "Missing NEXT_PUBLIC_CHAIN_ENV"
 
 const flowAccessApiUrl = process.env.NEXT_PUBLIC_FLOW_ACCESS_API_URL
 if (!flowAccessApiUrl) throw "Missing NEXT_PUBLIC_FLOW_ACCESS_API_URL"
+
+const appUrl = process.env.NEXT_PUBLIC_APP_URL
+if (!appUrl) throw "Missing NEXT_PUBLIC_APP_URL"
 
 const walletDiscovery = process.env.NEXT_PUBLIC_WALLET_DISCOVERY
 if (!walletDiscovery) throw "Missing NEXT_PUBLIC_WALLET_DISCOVERY"
@@ -15,6 +20,11 @@ if (!apiFUSDMint) throw "Missing NEXT_PUBLIC_API_FUSD_MINT"
 
 const apiKittyItemMint = process.env.NEXT_PUBLIC_API_KITTY_ITEM_MINT
 if (!apiKittyItemMint) throw "Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT"
+
+const apiKittyItemMintAndList =
+  process.env.NEXT_PUBLIC_API_KITTY_ITEM_MINT_AND_LIST
+if (!apiKittyItemMintAndList)
+  throw "Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT_AND_LIST"
 
 const apiMarketItemsList = process.env.NEXT_PUBLIC_API_MARKET_ITEMS_LIST
 if (!apiMarketItemsList) throw "Missing NEXT_PUBLIC_API_MARKET_ITEMS_LIST"
@@ -49,14 +59,17 @@ const contractNftStorefront = process.env.NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT
 if (!contractNftStorefront) throw "Missing NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT"
 
 const publicConfig = {
+  isDev,
   faucetAddress: process.env.NEXT_PUBLIC_FAUCET_ADDRESS,
   chainEnv,
   flowAccessApiUrl,
+  appUrl,
   walletDiscovery,
   apiKibbleMint,
   apiFUSDMint,
   apiKittyItemMint,
   apiMarketItemsList,
+  apiKittyItemMintAndList,
   apiUrl,
   flowAddress,
   avatarUrl,

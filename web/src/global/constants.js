@@ -40,7 +40,7 @@ export const paths = {
 export const flashMessages = {
   itemMintedSuccess: {
     type: "notice",
-    message: "Your item has been minted!",
+    message: "Kitty item has been minted!",
   },
   itemMintedError: {
     type: "error",
@@ -76,7 +76,7 @@ export const flashMessages = {
   },
   itemRemovalSuccess: {
     type: "success",
-    message: "Your item has been removed from the marketplace.",
+    message: "Your item has been removed.",
   },
   itemRemovalError: {
     type: "error",
@@ -88,7 +88,7 @@ export const flashMessages = {
   },
   itemSaleError: {
     type: "error",
-    message: "Your was not listed. Please try again.",
+    message: "Your item was not listed. Please try again.",
   },
 }
 
@@ -108,13 +108,6 @@ export const ITEM_RARITY_MAP = {
   4: "Blue",
 }
 
-export const RARITY_COLORS = {
-  1: "gold",
-  2: "purple",
-  3: "green-dark",
-  4: "blue",
-}
-
 export const ITEM_RARITY_PROBABILITIES = {
   1: 2,
   2: 8,
@@ -128,3 +121,13 @@ export const ITEM_RARITY_PRICE_MAP = {
   3: 5,
   4: 1,
 }
+
+export const TRANSACTION_STATUS_MAP = {
+  1: "Awaiting Finalization",
+  2: "Awaiting Execution",
+  3: "Awaiting Sealing",
+  4: "Transaction Sealed",
+  5: "Transaction Expired",
+}
+
+export const DECLINE_RESPONSE = "Declined: Externally Halted"

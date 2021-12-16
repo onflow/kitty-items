@@ -1,7 +1,7 @@
-import * as fcl from "@onflow/fcl"
+import useLogin from "src/hooks/useLogin"
 
 export default function ListItemLogInWarning() {
-  const logIn = () => fcl.logIn()
+  const logIn = useLogin()
 
   return (
     <div className="text-sm text-center mt-2 text-gray-600">

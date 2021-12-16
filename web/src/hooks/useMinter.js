@@ -1,42 +1,71 @@
-import {useRouter} from "next/router"
+import * as fcl from "@onflow/fcl"
 import PropTypes from "prop-types"
 import {useState} from "react"
-import {flashMessages, paths} from "src/global/constants"
+import {flashMessages, ITEM_RARITY_PRICE_MAP, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
 import {
   EVENT_ITEM_MINTED,
   getStorefrontEventByType,
 } from "src/util/storefrontEvents"
+import {extractApiSaleOfferFromEvents} from "./useApiSaleOffer"
 import useAppContext from "./useAppContext"
 
+// Mints an item and lists it for sale. The item is minted on the service account.
 export default function useMinter(onSuccess) {
-  const {setFlashMessage} = useAppContext()
-  const router = useRouter()
+  const {setFlashMessage, currentUser} = useAppContext()
 
-  const [isArtificiallyLoading, setIsArtificiallyLoading] = useState(false)
-  const [mintState, executeMintRequest] = useRequest()
-  const [sellState, executeSaleRequest] = useRequest()
+  const [_mintState, executeMintRequest] = useRequest()
+  const [_sellState, executeSaleRequest] = useRequest()
 
-  const listForSale = itemId => {
+  const [isMintingLoading, setIsMintingLoading] = useState(false)
+  const [isSaleLoading, setIsSaleLoading] = useState(false)
+  const [transactionStatus, setTransactionStatus] = useState(null)
+  const transactionAction = isSaleLoading ? "Listing Item" : "Minting Item"
+
+  const resetLoading = () => {
+    setIsMintingLoading(false)
+    setIsSaleLoading(false)
+    setTransactionStatus(null)
+  }
+
+  const listForSale = (itemId, typeId, rarityId) => {
+    setIsSaleLoading(true)
     executeSaleRequest({
       url: paths.apiSell,
       method: "POST",
       data: {
         itemID: itemId,
-        price: 10,
+        price: ITEM_RARITY_PRICE_MAP[rarityId],
       },
-      onSuccess: data => {
-        onSuccess(data)
+      onSuccess: async data => {
+        const transactionId = data?.transactionId?.transactionId
+        if (!transactionId) throw "Missing transactionId"
+
+        const unsub = await fcl.tx(transactionId).subscribe(res => {
+          if (Number.isInteger(res.status)) setTransactionStatus(res.status)
+        })
+        const transactionData = await fcl.tx(transactionId).onceSealed()
+        unsub()
+
+        const newSaleOffer = extractApiSaleOfferFromEvents(
+          transactionData.events,
+          typeId,
+          rarityId,
+          currentUser.addr
+        )
+        if (!newSaleOffer) throw "Missing saleOffer"
+        onSuccess(itemId)
       },
-      onError: error => {
-        console.log(error)
+      onError: () => {
+        resetLoading()
+        setFlashMessage(flashMessages.itemMintedError)
       },
     })
   }
 
   const mint = () => {
-    setIsArtificiallyLoading(true)
+    setIsMintingLoading(true)
     const recipient = publicConfig.contractNftStorefront
 
     executeMintRequest({
@@ -45,39 +74,37 @@ export default function useMinter(onSuccess) {
       data: {
         recipient,
       },
-      onSuccess: data => {
+      onSuccess: async data => {
+        setIsMintingLoading(true)
+
+        const transactionId = data?.transaction?.transactionId
+        if (!transactionId) throw "Missing transactionId"
+
+        const unsub = await fcl
+          .tx(transactionId)
+          .subscribe(res => setTransactionStatus(res.status))
+        const transactionData = await fcl.tx(transactionId).onceSealed()
+        unsub()
+
         const event = getStorefrontEventByType(
-          data.transaction.events,
+          transactionData.events,
           EVENT_ITEM_MINTED
         )
-
-        if (!event?.data?.id) throw "Minting error, missing id"
-        if (!event?.data?.typeID) throw "Minting error, missing typeID"
-        listForSale(event.data.typeID)
-
-        setTimeout(() => {
-          setIsArtificiallyLoading(false)
-          router.push({
-            pathname: paths.profileItem(
-              publicConfig.flowAddress,
-              event.data.id
-            ),
-            query: {flash: "itemMintedSuccess"},
-          })
-        }, 4000)
+        if (!Number.isInteger(event?.data?.id))
+          throw "Minting error, missing id"
+        if (!Number.isInteger(event?.data?.typeID))
+          throw "Minting error, missing typeID"
+        listForSale(event.data.id, event.data.typeID, event.data.rarityID)
       },
-      onError: error => {
-        console.log(error)
+      onError: () => {
         setFlashMessage(flashMessages.itemMintedError)
-        setIsArtificiallyLoading(false)
+        resetLoading()
       },
     })
   }
 
-  const isLoading =
-    isArtificiallyLoading || mintState.isLoading || sellState.isLoading
-
-  return [{isLoading}, mint]
+  const isLoading = isMintingLoading || isSaleLoading
+  return [{isLoading, transactionAction, transactionStatus}, mint]
 }
 
 useMinter.propTypes = {
