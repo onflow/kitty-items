@@ -26,6 +26,7 @@
 		"prettier": "^2.3.0"
 	},
 	"dependencies": {
+		"postcss": "^8.3.11",
 		"@onflow/fcl": "0.0.77",
 		"api": "^3.4.1",
 		"web": "0.0.2"

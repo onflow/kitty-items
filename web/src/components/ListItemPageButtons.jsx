@@ -50,7 +50,16 @@ export default function ListItemPageButtons({item, saleOffer}) {
           </Button>
         )}
 
-        {!!currentUser && !userHasEnoughFunds && <ListItemMintFusdWarning />}
+        {!!currentUser && (
+          <>
+            {!isAccountInitialized && (
+              <ListItemUninitializedWarning action="buy" />
+            )}
+            {isAccountInitialized && !userHasEnoughFunds && (
+              <ListItemMintFusdWarning />
+            )}
+          </>
+        )}
       </div>
     )
   }
