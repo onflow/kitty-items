@@ -20,6 +20,10 @@
     }
   },
   "env": {
+    "CHAIN_ENV": {
+      "description": "Which Flow network to contect to.",
+      "value": "testnet"
+    },
     "MINTER_ADDRESS": {
       "description": "The address where the Kitty Items contract for your app is deployed.",
       "value": ""
@@ -28,21 +32,29 @@
       "description": "The the private key for the account where the Kitty Items contract for your app is deployed.",
       "value": ""
     },
-    "REACT_APP_CONTRACT_KIBBLE": {
+    "MINTER_ACCOUNT_KEY_INDEX": {
+      "description": "Which keypair from the minter account to use for transaction signing & verifying.", 
+       "value": "0"
+    },
+    "NEXT_PUBLIC_CONTRACT_KIBBLE": {
       "description": "The address where the Kibble contract is deployed on testnet for this app.",
       "value": ""
     },
-    "REACT_APP_CONTRACT_FUSD": {
+    "NEXT_PUBLIC_CONTRACT_FUSD": {
       "description": "The address where the FUSD contract is deployed on testnet for this app.",
       "value": "0xe223d8a629e49c68"
     },
-    "REACT_APP_CONTRACT_KITTY_ITEMS": {
+    "NEXT_PUBLIC_CONTRACT_KITTY_ITEMS": {
       "description": "The address where the KittyItems contract is deployed on testnet for this app.",
       "value": ""
     },
-    "REACT_APP_CONTRACT_NFT_STOREFRONT": {
+    "NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT": {
       "description": "The address where the KittyItemsMarket contract is deployed on testnet for this app.",
       "value": ""
+    },
+    "NEXT_PUBLIC_FLOW_ADDRESS": {
+      "description": "The address of the admin account. (Same address where Storefront contract is deployed).",
+      "value":""
     },
     "IS_HEROKU": {
       "value": true
@@ -63,48 +75,69 @@
       "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
       "value": "0x631e88ae7f1d7c20"
     },
+    "FUSD_TOKEN_ADDRESS": {
+      "description": "Address for the standard FUSD contract on testnet.",
+      "value": "0xe223d8a629e49c68"
+    },
     "MIGRATION_PATH": {
       "description": "Location of database migrations.",
       "value": "api/dist/migrations"
     },
-    "MINTER_ACCOUNT_KEY_INDEX": {
-      "description": "Which key the minter account will use to sign transactions.",
-      "value": "0"
-    },
-    "REACT_APP_FLOW_ACCESS_API_URL": {
+    "NEXT_PUBLIC_FLOW_ACCESS_API_URL": {
       "description": "URL for accessing the Flow tesntet gRPC API. (Used by @onflow/fcl)",
       "value": "https://access-testnet.onflow.org"
     },
-    "REACT_APP_API_KIBBLE_MINT": {
+    "NEXT_PUBLIC_API_KIBBLE_MINT": {
       "description": "RESTful endpoint for minting Kibble (Fungible Token).",
       "value": "/v1/kibbles/mint"
     },
-    "REACT_APP_API_FUSD_MINT": {
+    "NEXT_PUBLIC_API_FUSD_MINT": {
       "description": "RESTful endpoint for minting FUSD (Fungible Token / Stablecoin).",
       "value": "/v1/fusd/mint"
     },
-    "REACT_APP_API_KITTY_ITEM_MINT": {
+    "NEXT_PUBLIC_API_KITTY_ITEM_MINT": {
       "description": "RESTful endpoint for minting Kitty Items (Non-Fungible Token).",
       "value": "/v1/kitty-items/mint"
     },
-    "REACT_APP_API_MARKET_ITEMS_LIST": {
+    "NEXT_PUBLIC_API_MARKET_ITEMS_LIST": {
       "description": "RESTful endpoint for reading the latest marketplace SaleOffers.",
       "value": "/v1/market/latest"
     },
-    "REACT_APP_CHAIN_ENV": {
+    "NEXT_PUBLIC_CHAIN_ENV": {
       "value": "testnet"
+    },
+    "NEXT_PUBLIC_API_URL": {
+      "description": "The location of the API endpoint for this instance of Kitty Items. (The Heroku URL of your app).", 
+      "value": ""
+    },
+     "NEXT_PUBLIC_APP_URL": {
+      "description": "The location of this instance of Kitty Items. (The Heroku URL of your app).", 
+      "value": ""
+    },
+    "NEXT_PUBLIC_AVATAR_URL": {
+      "description": "Service that generates Flow avatars for profiles.", 
+      "value": "https://avatars.onflow.org/avatar/"
     },
     "REACT_APP_CONTRACT_FUNGIBLE_TOKEN": {
       "description": "Address for the standard Fungible Token contract on testnet.",
       "value": "0x9a0766d93b6608b7"
     },
-    "REACT_APP_CONTRACT_NON_FUNGIBLE_TOKEN": {
+    "NEXT_PUBLIC_CONTRACT_NON_FUNGIBLE_TOKEN": {
       "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
       "value": "0x631e88ae7f1d7c20"
     },
-    "REACT_APP_WALLET_DISCOVERY": {
+    "NEXT_PUBLIC_WALLET_DISCOVERY": {
       "description": "URL for fcl wallet discovery service for testnet wallets.",
       "value": "https://fcl-discovery.onflow.org/testnet/authn"
+    },
+    "NEXT_PUBLIC_FAUCET_ADDRESS": {
+      "value": "https://testnet-faucet.onflow.org/fund-account"
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "value": "true"
+    },
+    "NODE_MODULES_CACHE": {
+      "value": "false"
     }
   },
   "addons": [
