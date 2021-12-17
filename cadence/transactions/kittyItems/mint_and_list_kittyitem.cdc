@@ -60,7 +60,8 @@ transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
             receiver: self.flowReceiver,
             amount: KittyItems.itemRarityPriceMap[rarityID]!
         )
-        self.storefront.createSaleOffer(
+        
+        self.storefront.createListing(
             nftProviderCapability: self.kittyItemsProvider,
             nftType: Type<@KittyItems.NFT>(),
             nftID: KittyItems.totalSupply - 1,

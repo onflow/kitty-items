@@ -50,7 +50,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
             receiver: self.flowReceiver,
             amount: saleItemPrice
         )
-        self.storefront.createSaleOffer(
+        self.storefront.createListing(
             nftProviderCapability: self.kittyItemsProvider,
             nftType: Type<@KittyItems.NFT>(),
             nftID: saleItemID,
