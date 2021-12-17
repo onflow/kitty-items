@@ -7,7 +7,7 @@ import {FlowService} from "./flow"
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
-const fusdPath = '"../../contracts/FUSD.cdc"'
+const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
 const ITEM_RARITY_PROBABILITIES = {
@@ -27,7 +27,7 @@ class KittyItemsService {
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
-    private readonly fusdAddress: string,
+    private readonly flowTokenAddress: string,
     private readonly storefrontAddress: string
   ) {}
 
@@ -118,7 +118,7 @@ class KittyItemsService {
       )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
-      .replace(fusdPath, fcl.withPrefix(this.fusdAddress))
+      .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({

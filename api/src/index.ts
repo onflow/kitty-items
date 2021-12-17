@@ -6,14 +6,10 @@ import { getConfig } from "./config"
 import initDB from "./db"
 import { BlockCursorService } from "./services/block-cursor"
 import { FlowService } from "./services/flow"
-import { FUSDService } from "./services/fusd"
 import { KibblesService } from "./services/kibbles"
 import { KittyItemsService } from "./services/kitty-items"
 import { StorefrontService } from "./services/storefront"
 import { SaleOfferHandler } from "./workers/sale-offer-handler"
-
-
-
 
 const argv = yargs(hideBin(process.argv)).argv;
 const DEV = argv.dev;
@@ -55,7 +51,7 @@ async function run() {
   const storefrontService = new StorefrontService(
     flowService,
     config.fungibleTokenAddress,
-    config.fusdAddress,
+    config.flowTokenAddress,
     config.nonFungibleTokenAddress,
     config.minterAddress,
     config.minterAddress
@@ -83,12 +79,6 @@ async function run() {
   const startAPIServer = () => {
     console.log("Starting API server ....");
 
-    const fusdService = new FUSDService(
-      flowService,
-      config.fungibleTokenAddress,
-      config.fusdAddress
-    );
-
     const kibblesService = new KibblesService(
       flowService,
       config.fungibleTokenAddress,
@@ -100,12 +90,11 @@ async function run() {
       config.nonFungibleTokenAddress,
       config.minterAddress,
       config.fungibleTokenAddress,
-      config.fusdAddress,
+      config.flowTokenAddress,
       config.minterAddress
     );
 
     const app = initApp(
-      fusdService,
       kibblesService,
       kittyItemsService,
       storefrontService

@@ -1,7 +1,7 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import FungibleToken from "../../contracts/FungibleToken.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
+import FlowToken from "../../contracts/FlowToken.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
 // This transction uses the NFTMinter resource to mint a new NFT.
@@ -9,13 +9,11 @@ import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 // It must be run with the account that has the minter resource
 // stored at path /storage/NFTMinter.
 
-
-
 transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
 
     // local variable for storing the minter reference
     let minter: &KittyItems.NFTMinter
-    let fusdReceiver: Capability<&FUSD.Vault{FungibleToken.Receiver}>
+    let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
     let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
     let storefront: &NFTStorefront.Storefront
 
@@ -28,9 +26,9 @@ transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
          // We need a provider capability, but one is not provided by default so we create one if needed.
         let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-        self.fusdReceiver = signer.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)!
+        self.flowReceiver = signer.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
 
-        assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed FUSD receiver")
+        assert(self.flowReceiver.borrow() != nil, message: "Missing or mis-typed FLOW receiver")
 
         if !signer.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
             signer.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
@@ -59,14 +57,14 @@ transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
 
 
         let saleCut = NFTStorefront.SaleCut(
-            receiver: self.fusdReceiver,
+            receiver: self.flowReceiver,
             amount: KittyItems.itemRarityPriceMap[rarityID]!
         )
         self.storefront.createSaleOffer(
             nftProviderCapability: self.kittyItemsProvider,
             nftType: Type<@KittyItems.NFT>(),
             nftID: KittyItems.totalSupply - 1,
-            salePaymentVaultType: Type<@FUSD.Vault>(),
+            salePaymentVaultType: Type<@FlowToken.Vault>(),
             saleCuts: [saleCut]
         )
     }

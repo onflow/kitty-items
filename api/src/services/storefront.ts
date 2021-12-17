@@ -7,7 +7,7 @@ import { FlowService } from './flow'
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
-const fusdPath = '"../../contracts/FUSD.cdc"'
+const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
@@ -17,7 +17,7 @@ class StorefrontService {
   constructor(
     private readonly flowService: FlowService,
     private readonly fungibleTokenAddress: string,
-    private readonly fusdAddress: string,
+    private readonly flowTokenAddress: string,
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
     public readonly storefrontAddress: string
@@ -65,10 +65,10 @@ class StorefrontService {
     const authorization = this.flowService.authorizeMinter()
 
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/buy_item_fusd.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/buy_item.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(fusdPath, fcl.withPrefix(this.fusdAddress))
+      .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
@@ -85,10 +85,10 @@ class StorefrontService {
     const authorization = this.flowService.authorizeMinter()
 
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/sell_item_fusd.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/sell_item.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(fusdPath, fcl.withPrefix(this.fusdAddress))
+      .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
