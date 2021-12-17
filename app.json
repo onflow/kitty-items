@@ -36,10 +36,6 @@
       "description": "Which keypair from the minter account to use for transaction signing & verifying.", 
        "value": "0"
     },
-    "NEXT_PUBLIC_CONTRACT_KIBBLE": {
-      "description": "The address where the Kibble contract is deployed on testnet for this app.",
-      "value": ""
-    },
     "NEXT_PUBLIC_CONTRACT_FLOW_TOKEN": {
       "description": "The address where the FlowToken contract is deployed on testnet for this app.",
       "value": "0x7e60df042a9c0868"
@@ -86,10 +82,6 @@
     "NEXT_PUBLIC_FLOW_ACCESS_API_URL": {
       "description": "URL for accessing the Flow tesntet gRPC API. (Used by @onflow/fcl)",
       "value": "https://access-testnet.onflow.org"
-    },
-    "NEXT_PUBLIC_API_KIBBLE_MINT": {
-      "description": "RESTful endpoint for minting Kibble (Fungible Token).",
-      "value": "/v1/kibbles/mint"
     },
     "NEXT_PUBLIC_API_KITTY_ITEM_MINT": {
       "description": "RESTful endpoint for minting Kitty Items (Non-Fungible Token).",
