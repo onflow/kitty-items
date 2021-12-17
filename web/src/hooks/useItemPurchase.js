@@ -41,7 +41,7 @@ export default function useItemPurchase() {
   const purchase = (saleOfferId, itemId, ownerAddress) => {
     if (!saleOfferId) throw "Missing saleOffer id"
     if (!ownerAddress) throw "Missing ownerAddress"
-    buyItem(
+    purchaseItemListing(
       {itemID: saleOfferId, ownerAddress},
       {
         onStart() {

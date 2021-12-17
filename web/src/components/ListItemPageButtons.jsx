@@ -29,7 +29,10 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const isSellable = currentUserIsOwner && !saleOffer
   const isBuyable = !currentUser || (!currentUserIsOwner && !!saleOffer)
   const isRemovable = currentUserIsOwner && !!saleOffer
-  const userHasEnoughFunds = !!saleOffer && saleOffer.price <= flowBalance
+
+  // TODO: Use a library that supports UFix64 precision to avoid comparing rounded numbers
+  const userHasEnoughFunds =
+    !!saleOffer && saleOffer.price <= parseFloat(flowBalance)
 
   if (isBuyable) {
     return (
@@ -39,10 +42,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
         ) : (
           <Button
             onClick={onPurchaseClick}
-            disabled={
-              isBuyLoading ||
-              (!!currentUser && !userHasEnoughFunds)
-            }
+            disabled={isBuyLoading || (!!currentUser && !userHasEnoughFunds)}
             roundedFull={true}
           >
             Purchase
@@ -85,7 +85,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
         ) : (
           <Button
             onClick={onRemoveClick}
-            disabled={isRemoveLoading || isRemoveLoading}
+            disabled={isRemoveLoading}
             color="gray"
             roundedFull={true}
           >

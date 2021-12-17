@@ -1,4 +1,3 @@
-import {currency} from "src/util/currency"
 import {cleanObject} from "src/util/object"
 import publicConfig from "./publicConfig"
 
