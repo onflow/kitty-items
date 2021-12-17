@@ -6,7 +6,6 @@ import { getConfig } from "./config"
 import initDB from "./db"
 import { BlockCursorService } from "./services/block-cursor"
 import { FlowService } from "./services/flow"
-import { KibblesService } from "./services/kibbles"
 import { KittyItemsService } from "./services/kitty-items"
 import { StorefrontService } from "./services/storefront"
 import { SaleOfferHandler } from "./workers/sale-offer-handler"
@@ -79,12 +78,6 @@ async function run() {
   const startAPIServer = () => {
     console.log("Starting API server ....");
 
-    const kibblesService = new KibblesService(
-      flowService,
-      config.fungibleTokenAddress,
-      config.minterAddress
-    );
-
     const kittyItemsService = new KittyItemsService(
       flowService,
       config.nonFungibleTokenAddress,
@@ -95,7 +88,6 @@ async function run() {
     );
 
     const app = initApp(
-      kibblesService,
       kittyItemsService,
       storefrontService
     );

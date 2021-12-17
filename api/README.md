@@ -8,8 +8,7 @@ _💡 Learn more about `Vault` and `Collection` resources [in this tutorial](htt
 
 #### Minter setup script
 
-Run this script to set up the minter account and mint an initial supply of Kibble and Kitty Items:
-
+Run this script to set up the minter account and mint an initial supply of Kitty Items:
 
 ```sh
 ./setup-minter.sh
@@ -19,16 +18,8 @@ Run this script to set up the minter account and mint an initial supply of Kibbl
 
 ### Setup
 
-Run the commands below to initialize the minter account to hold and mint Kibble,
-Kitty Items, and add offers to the marketplace.
-
-- **POST /v1/kibbles/setup** - Create a resource that holds Kibble in the `MINTER_FLOW_ADDRESS` account.
-
-```sh
-curl --request POST \
-  --url http://localhost:3000/v1/kibbles/setup \
-  --header 'Content-Type: application/json'
-```
+Run the commands below to initialize the minter account to mint 
+Kitty Items and add offers to the marketplace.
 
 - **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
 
@@ -48,33 +39,7 @@ curl --request POST \
 
 ### Minting
 
-Run the commands below to mint new Kibble, create new items,
-and list some items for sale.
-
-- **POST /v1/fusd/mint** - Mint new FUSD and send it to the `recipient` account.
-
-```sh
-curl --request POST \
-  --url http://localhost:3000/v1/fusd/mint \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "recipient": "'$FLOW_ADDRESS'",
-    "amount": 2.0
-  }'
-```
-
-- **POST /v1/kibbles/mint** - Mint new Kibble
-  and send it to the `recipient` account.
-
-```sh
-curl --request POST \
-  --url http://localhost:3000/v1/kibbles/mint \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "recipient": "'$FLOW_ADDRESS'",
-    "amount": 2.0
-  }'
-```
+Run the commands below to mint new items and list them for sale.
 
 - **POST /v1/kitty-items/mint** - Mint a Kitty Item
   and send it to the `recipient` account.

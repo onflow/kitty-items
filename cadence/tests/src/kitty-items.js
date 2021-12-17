@@ -2,8 +2,21 @@ import { deployContractByName, executeScript, mintFlow, sendTransaction } from "
 
 import { getKittyAdminAddress } from "./common";
 
-// KittyItems types
-export const typeID1 = 1000;
+export const types = {
+	fishbowl: 1,
+	fishhat: 2,
+	milkshake: 3,
+	tuktuk: 4,
+	skateboard: 5,
+	shades: 6
+};
+
+export const rarities = {
+	blue: 1,
+	green: 2,
+	purple: 3,
+	gold: 4
+};
 
 /*
  * Deploys NonFungibleToken and KittyItems contracts to KittyAdmin.
@@ -51,11 +64,11 @@ export const getKittyItemSupply = async () => {
  * @throws Will throw an error if execution will be halted
  * @returns {Promise<*>}
  * */
-export const mintKittyItem = async (itemType, recipient) => {
+export const mintKittyItem = async (recipient, itemType, itemRarity) => {
 	const KittyAdmin = await getKittyAdminAddress();
 
 	const name = "kittyItems/mint_kitty_item";
-	const args = [recipient, itemType];
+	const args = [recipient, itemType, itemRarity];
 	const signers = [KittyAdmin];
 
 	return sendTransaction({ name, args, signers });

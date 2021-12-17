@@ -1,17 +1,24 @@
 import path from "path";
 
-import { emulator, init, getAccountAddress, shallPass, shallResolve, shallRevert } from "flow-js-testing";
+import { 
+	emulator,
+	init,
+	getAccountAddress,
+	shallPass,
+	shallResolve,
+	shallRevert,
+} from "flow-js-testing";
 
 import { getKittyAdminAddress } from "../src/common";
 import {
 	deployKittyItems,
-	getKittyItem,
 	getKittyItemCount,
 	getKittyItemSupply,
 	mintKittyItem,
 	setupKittyItemsOnAccount,
 	transferKittyItem,
-	typeID1,
+	types,
+	rarities,
 } from "../src/kitty-items";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
@@ -20,7 +27,7 @@ jest.setTimeout(50000);
 describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async () => {
-		const basePath = path.resolve(__dirname, "../../../");
+		const basePath = path.resolve(__dirname, "../../");
 		const port = 7002;
 		await init(basePath, { port });
 		return emulator.start(port, false);
@@ -52,10 +59,9 @@ describe("Kitty Items", () => {
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
 		await setupKittyItemsOnAccount(Alice);
-		const itemIdToMint = typeID1;
 
 		// Mint instruction for Alice account shall be resolved
-		await shallPass(mintKittyItem(itemIdToMint, Alice));
+		await shallPass(mintKittyItem(Alice, types.fishbowl, rarities.blue));
 	});
 
 	it("shall be able to create a new empty NFT Collection", async () => {
@@ -91,7 +97,7 @@ describe("Kitty Items", () => {
 		await setupKittyItemsOnAccount(Bob);
 
 		// Mint instruction for Alice account shall be resolved
-		await shallPass(mintKittyItem(typeID1, Alice));
+		await shallPass(mintKittyItem(Alice, types.fishbowl, rarities.blue));
 
 		// Transfer transaction shall pass
 		await shallPass(transferKittyItem(Alice, Bob, 0));

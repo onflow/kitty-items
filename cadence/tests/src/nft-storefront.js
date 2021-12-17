@@ -1,22 +1,19 @@
 import { deployContractByName, executeScript, sendTransaction } from "flow-js-testing";
 import { getKittyAdminAddress } from "./common";
-import { deployKibble, setupKibbleOnAccount } from "./kibble";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
 
 /*
- * Deploys Kibble, KittyItems and NFTStorefront contracts to KittyAdmin.
+ * Deploys KittyItems and NFTStorefront contracts to KittyAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
 export const deployNFTStorefront = async () => {
 	const KittyAdmin = await getKittyAdminAddress();
 
-	await deployKibble();
 	await deployKittyItems();
 
 	const addressMap = {
 		NonFungibleToken: KittyAdmin,
-		Kibble: KittyAdmin,
 		KittyItems: KittyAdmin,
 	};
 
@@ -30,8 +27,7 @@ export const deployNFTStorefront = async () => {
  * @returns {Promise<*>}
  * */
 export const setupStorefrontOnAccount = async (account) => {
-	// Account shall be able to store kitty items and operate Kibbles
-	await setupKibbleOnAccount(account);
+	// Account shall be able to store Kitty Items
 	await setupKittyItemsOnAccount(account);
 
 	const name = "nftStorefront/setup_account";
