@@ -1,15 +1,15 @@
 import Link from "next/link"
-import { useRouter } from "next/router"
+import {useRouter} from "next/router"
 import HeaderDropdown from "src/components/HeaderDropdown"
 import HeaderFLOWBalance from "src/components/HeaderFLOWBalance"
 import HeaderLink from "src/components/HeaderLink"
-import { paths } from "src/global/constants"
+import {paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
 import HeaderMessage from "./HeaderMessage"
 
 export default function Header() {
-  const { currentUser } = useAppContext()
+  const {currentUser} = useAppContext()
   const router = useRouter()
   const logIn = useLogin()
   const isAdminPath = router.pathname === paths.adminMint

@@ -1,4 +1,4 @@
-import { useRouter } from "next/dist/client/router"
+import {useRouter} from "next/dist/client/router"
 import PropTypes from "prop-types"
 import Button from "src/components/Button"
 import ListItemUninitializedWarning from "src/components/ListItemUninitializedWarning"
@@ -11,15 +11,15 @@ import useItemSale from "src/hooks/useItemSale"
 import ListItemInsufficientFundsWarning from "./ListItemInsufficientFundsWarning"
 import TransactionLoading from "./TransactionLoading"
 
-export default function ListItemPageButtons({ item, saleOffer }) {
+export default function ListItemPageButtons({item, saleOffer}) {
   const router = useRouter()
-  const { address, id } = router.query
-  const { isAccountInitialized, currentUser } = useAppContext()
-  const { data: flowBalance } = useFLOWBalance(currentUser?.addr)
+  const {address, id} = router.query
+  const {isAccountInitialized, currentUser} = useAppContext()
+  const {data: flowBalance} = useFLOWBalance(currentUser?.addr)
 
-  const [{ isLoading: isBuyLoading }, buy, buyTxStatus] = useItemPurchase()
-  const [{ isLoading: isSellLoading }, sell, sellTxStatus] = useItemSale()
-  const [{ isLoading: isRemoveLoading }, remove, removeTxStatus] =
+  const [{isLoading: isBuyLoading}, buy, buyTxStatus] = useItemPurchase()
+  const [{isLoading: isSellLoading}, sell, sellTxStatus] = useItemSale()
+  const [{isLoading: isRemoveLoading}, remove, removeTxStatus] =
     useItemRemoval()
 
   const onPurchaseClick = () => buy(saleOffer?.resourceID, id, address)

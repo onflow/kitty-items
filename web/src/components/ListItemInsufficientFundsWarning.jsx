@@ -2,7 +2,7 @@ import useAppContext from "src/hooks/useAppContext"
 import publicConfig from "src/global/publicConfig"
 
 export default function ListItemInsufficientFundsWarning() {
-  const { currentUser } = useAppContext()
+  const {currentUser} = useAppContext()
 
   return (
     <div className="mt-2 text-sm text-center text-gray-600">
