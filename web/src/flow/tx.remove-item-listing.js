@@ -6,7 +6,7 @@ import {tx} from "src/flow/util/tx"
 const CODE = fcl.cdc`
   import NFTStorefront from 0xNFTStorefront
 
-  transaction(saleOfferResourceID: UInt64) {
+  transaction(listingResourceID: UInt64) {
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontManager}
 
     prepare(acct: AuthAccount) {
@@ -15,22 +15,22 @@ const CODE = fcl.cdc`
     }
 
     execute {
-      self.storefront.removeSaleOffer(saleOfferResourceID: saleOfferResourceID)
+      self.storefront.removeListing(listingResourceID: listingResourceID)
     }
   }
 `
 
 // prettier-ignore
-export function removeItemListing({saleOfferResourceID}, opts = {}) {
+export function removeItemListing({listingResourceID}, opts = {}) {
   invariant(
-    saleOfferResourceID != null,
-    "cancelMarketListing({saleOfferResourceID}) -- saleOfferResourceID required"
+    listingResourceID != null,
+    "cancelMarketListing({listingResourceID}) -- listingResourceID required"
   )
 
   return tx(
     [
       fcl.transaction(CODE),
-      fcl.args([fcl.arg(Number(saleOfferResourceID), t.UInt64)]),
+      fcl.args([fcl.arg(Number(listingResourceID), t.UInt64)]),
       fcl.proposer(fcl.authz),
       fcl.payer(fcl.authz),
       fcl.authorizations([fcl.authz]),

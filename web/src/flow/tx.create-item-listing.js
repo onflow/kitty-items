@@ -56,7 +56,7 @@ const CODE = fcl.cdc`
         amount: saleItemPrice
       )
 
-      self.storefront.createSaleOffer(
+      self.storefront.createListing(
         nftProviderCapability: self.kittyItemsProvider,
         nftType: Type<@KittyItems.NFT>(),
         nftID: saleItemID,
@@ -69,9 +69,9 @@ const CODE = fcl.cdc`
 
 export function createItemListing({itemID, price}, opts = {}) {
   if (itemID == null)
-    throw new Error("createSaleOffer(itemID, price) -- itemID required")
+    throw new Error("createListing(itemID, price) -- itemID required")
   if (price == null)
-    throw new Error("createSaleOffer(itemID, price) -- price required")
+    throw new Error("createListing(itemID, price) -- price required")
 
   // prettier-ignore
   return tx([

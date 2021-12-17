@@ -1,6 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import {Address} from "@onflow/types"
-import {expandSaleOffersKey} from "src/hooks/useSaleOffers"
+import {expandListingsKey} from "src/hooks/useListings"
 
 const CODE = fcl.cdc`
   import NFTStorefront from 0xNFTStorefront
@@ -13,12 +13,12 @@ const CODE = fcl.cdc`
       .borrow()
       ?? panic("Could not borrow public storefront from address")
 
-  return storefrontRef.getSaleOfferIDs()
+  return storefrontRef.getListingIDs()
 }
 `
 
-export function fetchSaleOffers(key) {
-  const {address} = expandSaleOffersKey(key)
+export function fetchListings(key) {
+  const {address} = expandListingsKey(key)
   if (address === null) return Promise.resolve([])
 
   return fcl
