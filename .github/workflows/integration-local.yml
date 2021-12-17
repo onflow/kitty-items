@@ -19,11 +19,6 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Install Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: ${{ matrix.go }}
-
       - name: Install Flow CLI
         run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
 
@@ -40,10 +35,6 @@ jobs:
       # - name: Run JS Tests
       #   run: npx jest
       #   working-directory: cadence/tests/js
-
-      - name: Run Go Tests
-        run: go test
-        working-directory: cadence/tests/go
 
       - name: Build & Run
         run: npm run start:dev
