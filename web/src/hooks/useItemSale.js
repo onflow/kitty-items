@@ -1,5 +1,5 @@
 import {useReducer, useState} from "react"
-import {createSaleOffer} from "src/flow/tx.create-sale-offer"
+import {createItemListing} from "src/flow/tx.create-item-listing"
 import {
   DECLINE_RESPONSE,
   flashMessages,
@@ -29,7 +29,7 @@ export default function useItemSale() {
     if (!itemId) throw "Missing itemId"
     if (!itemRarityId) throw "Missing itemRarityId"
 
-    createSaleOffer(
+    createItemListing(
       {itemID: itemId, price: ITEM_RARITY_PRICE_MAP[itemRarityId]},
       {
         onStart() {

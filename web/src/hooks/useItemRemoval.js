@@ -1,5 +1,5 @@
 import {useReducer, useState} from "react"
-import {cancelMarketListing} from "src/flow/tx.remove-sale-offer"
+import {removeItemListing} from "src/flow/tx.remove-item-listing"
 import {
   DECLINE_RESPONSE,
   flashMessages,
@@ -26,7 +26,7 @@ export default function useItemRemoval() {
   const remove = (saleOfferId, itemId) => {
     if (!saleOfferId) throw "Missing saleOfferId"
 
-    cancelMarketListing(
+    removeItemListing(
       {saleOfferResourceID: saleOfferId},
       {
         onStart() {

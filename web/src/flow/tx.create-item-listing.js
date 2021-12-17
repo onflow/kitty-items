@@ -5,43 +5,59 @@ import {tx} from "src/flow/util/tx"
 const CODE = fcl.cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import FLowToken from 0xFlowToken
+  import FlowToken from 0xFlowToken
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
+  pub fun getOrCreateStorefront(account: AuthAccount): &NFTStorefront.Storefront {
+    if let storefrontRef = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) {
+      return storefrontRef
+    }
+
+    let storefront <- NFTStorefront.createStorefront()
+
+    let storefrontRef = &storefront as &NFTStorefront.Storefront
+
+    account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)
+
+    account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+
+    return storefrontRef
+  }
+
   transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
-    let flowTokenReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
-    let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
+    let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
+    let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
     let storefront: &NFTStorefront.Storefront
 
     prepare(account: AuthAccount) {
       // We need a provider capability, but one is not provided by default so we create one if needed.
       let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-      self.flowTokenReceiver = account.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
+      self.flowReceiver = account.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
 
-      assert(self.flowTokenReceiver.borrow() != nil, message: "Missing or mis-typed FlowToken receiver")
+      assert(self.flowReceiver.borrow() != nil, message: "Missing or mis-typed FLOW receiver")
 
       if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
         account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
       }
 
-      self.kittyItemsCollection = account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!
-      assert(self.kittyItemsCollection.borrow() != nil, message: "Missing or mis-typed KittyItemsCollection provider")
+      self.kittyItemsProvider = account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!
 
-      self.storefront = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
-        ?? panic("Missing or mis-typed NFTStorefront Storefront")
+      assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed KittyItems.Collection provider")
+
+      self.storefront = getOrCreateStorefront(account: account)
     }
 
     execute {
       let saleCut = NFTStorefront.SaleCut(
-        receiver: self.flowTokenReceiver,
+        receiver: self.flowReceiver,
         amount: saleItemPrice
       )
 
       self.storefront.createSaleOffer(
-        nftProviderCapability: self.kittyItemsCollection,
+        nftProviderCapability: self.kittyItemsProvider,
         nftType: Type<@KittyItems.NFT>(),
         nftID: saleItemID,
         salePaymentVaultType: Type<@FlowToken.Vault>(),
@@ -49,10 +65,9 @@ const CODE = fcl.cdc`
       )
     }
   }
-
 `
 
-export function createSaleOffer({itemID, price}, opts = {}) {
+export function createItemListing({itemID, price}, opts = {}) {
   if (itemID == null)
     throw new Error("createSaleOffer(itemID, price) -- itemID required")
   if (price == null)

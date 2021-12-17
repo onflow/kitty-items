@@ -129,6 +129,7 @@ class StorefrontService {
           sale_item_rarity: item.rarityID,
           sale_item_type: item.typeID,
           sale_item_owner: owner,
+          // TODO: Increase sale_price precision to match UFix64
           sale_price: item.price,
           transaction_id: saleOfferEvent.transactionId,
         })
