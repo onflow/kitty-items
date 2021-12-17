@@ -102,36 +102,36 @@ class StorefrontService {
     })
   }
 
-  getSaleOfferItem = async (account: string, saleOfferResourceID: string): Promise<any> => {
+  getListingItem = async (account: string, listingResourceID: string): Promise<any> => {
     const script = fs
-      .readFileSync(path.join(__dirname, '../../../cadence/scripts/nftStorefront/get_sale_offer_item.cdc'), 'utf8')
+      .readFileSync(path.join(__dirname, '../../../cadence/scripts/nftStorefront/get_listing_item.cdc'), 'utf8')
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.executeScript<any>({
       script,
-      args: [fcl.arg(account, t.Address), fcl.arg(saleOfferResourceID, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
     })
   }
 
-  addSaleOffer = async (saleOfferEvent) => {
-    const owner = saleOfferEvent.data.storefrontAddress
-    const saleOfferResourceID = saleOfferEvent.data.saleOfferResourceID
+  addListing = async (listingEvent) => {
+    const owner = listingEvent.data.storefrontAddress
+    const listingResourceID = listingEvent.data.listingResourceID
 
-    const item = await this.getSaleOfferItem(owner, saleOfferResourceID)
+    const item = await this.getListingItem(owner, listingResourceID)
 
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx)
         .insert({
           sale_item_id: item.itemID,
-          sale_item_resource_id: saleOfferResourceID,
+          sale_item_resource_id: listingResourceID,
           sale_item_rarity: item.rarityID,
           sale_item_type: item.typeID,
           sale_item_owner: owner,
           // TODO: Increase sale_price precision to match UFix64
           sale_price: item.price,
-          transaction_id: saleOfferEvent.transactionId,
+          transaction_id: listingEvent.transactionId,
         })
         .returning('transaction_id')
         .catch((e) => {
@@ -140,19 +140,19 @@ class StorefrontService {
     })
   }
 
-  removeSaleOffer = async (saleOfferEvent) => {
-    const saleOfferResourceID = saleOfferEvent.data.saleOfferResourceID
+  removeListing = async (listingEvent) => {
+    const listingResourceID = listingEvent.data.listingResourceID
 
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx)
         .where({
-          sale_item_resource_id: saleOfferResourceID,
+          sale_item_resource_id: listingResourceID,
         })
         .del()
     })
   }
 
-  findSaleOffer = (itemId) => {
+  findListing = (itemId) => {
     return SaleOffer.transaction(async (tx) => {
       return await SaleOffer.query(tx).select('*').where('sale_item_id', itemId).limit(1)
     })

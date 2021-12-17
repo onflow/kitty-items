@@ -63,15 +63,15 @@ function initStorefrontRouter(storefrontService: StorefrontService): Router {
   )
 
   router.get("/market/latest", async (req: Request, res: Response) => {
-    const latestSaleOffers = await storefrontService.findMostRecentSales(
+    const latestListings = await storefrontService.findMostRecentSales(
       req.query
     )
-    return res.send(latestSaleOffers)
+    return res.send(latestListings)
   })
 
   router.get("/market/:id", async (req: Request, res: Response) => {
-    const saleOffer = await storefrontService.findSaleOffer(req.params.id)
-    return res.send(saleOffer)
+    const listing = await storefrontService.findListing(req.params.id)
+    return res.send(listing)
   })
 
   return router
