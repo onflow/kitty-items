@@ -20,7 +20,7 @@ import {
 } from "src/util/storefrontEvents"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
-import {compFUSDBalanceKey} from "./useFUSDBalance"
+import {compFLOWBalanceKey} from "./useFLOWBalance"
 
 const getNewlySignedInUserAddress = txData => {
   const depositEvent = getStorefrontEventByType(
@@ -52,7 +52,7 @@ export default function useItemPurchase() {
         },
         async onSuccess(txData) {
           const currentUserAddress = getNewlySignedInUserAddress(txData)
-          mutate(compFUSDBalanceKey(currentUserAddress))
+          mutate(compFLOWBalanceKey(currentUserAddress))
           cache.delete(paths.apiSaleOffer(itemId))
           router.push(paths.profileItem(currentUserAddress, itemId))
           dispatch({type: SUCCESS})

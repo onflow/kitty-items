@@ -1,6 +1,6 @@
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
+import FlowToken from "../../contracts/FlowToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
@@ -24,10 +24,10 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
         
         let price = self.saleOffer.getDetails().salePrice
 
-        let mainFUSDVault = account.borrow<&FUSD.Vault>(from: /storage/fusdVault)
-            ?? panic("Cannot borrow FUSD vault from account storage")
+        let mainFLOWVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
+            ?? panic("Cannot borrow FLOW vault from account storage")
         
-        self.paymentVault <- mainFUSDVault.withdraw(amount: price)
+        self.paymentVault <- mainFLOWVault.withdraw(amount: price)
 
         self.kittyItemsCollection = account.borrow<&KittyItems.Collection{NonFungibleToken.Receiver}>(
             from: KittyItems.CollectionStoragePath

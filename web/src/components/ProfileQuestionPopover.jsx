@@ -1,4 +1,4 @@
-import { Popover } from "@headlessui/react"
+import {Popover} from "@headlessui/react"
 
 export default function ProfileQuestionPopover() {
   return (
@@ -14,7 +14,8 @@ export default function ProfileQuestionPopover() {
 
       <Popover.Panel className="absolute z-10 w-full p-4 bg-white border border-gray-100 rounded-lg shadow-lg mt-14">
         <p>
-          Welcome to your profile. Your Flow address is listed here. You can use it to send and receive Flow.
+          Welcome to your profile. Your Flow address is listed here. You can use
+          it to send and receive Flow.
         </p>
       </Popover.Panel>
     </Popover>

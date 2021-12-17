@@ -30,9 +30,7 @@ export default function HeaderMessage() {
 
   const checkIsServiceAccountInitialized = () => {
     isAccountInitializedTx(publicConfig.flowAddress).then(data => {
-      setIsServiceAccountInitialized(
-        data.FUSD && data.KittyItems && data.KittyItemsMarket
-      )
+      setIsServiceAccountInitialized(data.KittyItems && data.KittyItemsMarket)
     })
   }
 

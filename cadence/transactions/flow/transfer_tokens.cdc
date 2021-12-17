@@ -1,5 +1,5 @@
 import FungibleToken from "../../contracts/FungibleToken.cdc"
-import FUSD from "../../contracts/FUSD.cdc"
+import FlowToken from "../../contracts/FlowToken.cdc"
 
 transaction(amount: UFix64, recipient: Address) {
 
@@ -8,7 +8,7 @@ transaction(amount: UFix64, recipient: Address) {
 
   prepare(signer: AuthAccount) {
     // Get a reference to the signer's stored vault
-    let vaultRef = signer.borrow<&FUSD.Vault>(from: /storage/fusdVault)
+    let vaultRef = signer.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
       ?? panic("Could not borrow reference to the owner's Vault!")
 
     // Withdraw tokens from the signer's stored vault
@@ -20,7 +20,7 @@ transaction(amount: UFix64, recipient: Address) {
     let recipientAccount = getAccount(recipient)
 
     // Get a reference to the recipient's Receiver
-    let receiverRef = recipientAccount.getCapability(/public/fusdReceiver)!
+    let receiverRef = recipientAccount.getCapability(/public/flowTokenReceiver)!
       .borrow<&{FungibleToken.Receiver}>()
       ?? panic("Could not borrow receiver reference to the recipient's Vault")
 

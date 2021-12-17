@@ -4,18 +4,18 @@ import Button from "src/components/Button"
 import ListItemUninitializedWarning from "src/components/ListItemUninitializedWarning"
 import publicConfig from "src/global/publicConfig"
 import useAppContext from "src/hooks/useAppContext"
-import useFUSDBalance from "src/hooks/useFUSDBalance"
+import useFLOWBalance from "src/hooks/useFLOWBalance"
 import useItemPurchase from "src/hooks/useItemPurchase"
 import useItemRemoval from "src/hooks/useItemRemoval"
 import useItemSale from "src/hooks/useItemSale"
-import ListItemMintFusdWarning from "./ListItemMintFusdWarning"
+import ListItemInsufficientFundsWarning from "./ListItemInsufficientFundsWarning"
 import TransactionLoading from "./TransactionLoading"
 
 export default function ListItemPageButtons({item, saleOffer}) {
   const router = useRouter()
   const {address, id} = router.query
   const {isAccountInitialized, currentUser} = useAppContext()
-  const {data: fusdBalance} = useFUSDBalance(currentUser?.addr)
+  const {data: flowBalance} = useFLOWBalance(currentUser?.addr)
 
   const [{isLoading: isBuyLoading}, buy, buyTxStatus] = useItemPurchase()
   const [{isLoading: isSellLoading}, sell, sellTxStatus] = useItemSale()
@@ -30,7 +30,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const isSellable = currentUserIsOwner && !saleOffer
   const isBuyable = !currentUser || (!currentUserIsOwner && !!saleOffer)
   const isRemovable = currentUserIsOwner && !!saleOffer
-  const userHasEnoughFunds = !!saleOffer && saleOffer.price <= fusdBalance
+  const userHasEnoughFunds = !!saleOffer && saleOffer.price <= flowBalance
 
   if (isBuyable) {
     return (
@@ -56,7 +56,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
               <ListItemUninitializedWarning action="buy" />
             )}
             {isAccountInitialized && !userHasEnoughFunds && (
-              <ListItemMintFusdWarning />
+              <ListItemInsufficientFundsWarning />
             )}
           </>
         )}
