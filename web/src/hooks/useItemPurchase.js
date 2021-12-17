@@ -38,10 +38,10 @@ export default function useItemPurchase() {
   const {mutate, cache} = useSWRConfig()
   const [txStatus, setTxStatus] = useState(null)
 
-  const purchaseItemListing = (saleOfferId, itemId, ownerAddress) => {
+  const purchase = (saleOfferId, itemId, ownerAddress) => {
     if (!saleOfferId) throw "Missing saleOffer id"
     if (!ownerAddress) throw "Missing ownerAddress"
-    buyItem(
+    purchaseItemListing(
       {itemID: saleOfferId, ownerAddress},
       {
         onStart() {
@@ -73,5 +73,5 @@ export default function useItemPurchase() {
     )
   }
 
-  return [state, buy, txStatus]
+  return [state, purchase, txStatus]
 }

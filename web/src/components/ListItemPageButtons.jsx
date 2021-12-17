@@ -39,10 +39,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
         ) : (
           <Button
             onClick={onPurchaseClick}
-            disabled={
-              isBuyLoading ||
-              (!!currentUser && !userHasEnoughFunds)
-            }
+            disabled={isBuyLoading || (!!currentUser && !userHasEnoughFunds)}
             roundedFull={true}
           >
             Purchase
@@ -85,7 +82,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
         ) : (
           <Button
             onClick={onRemoveClick}
-            disabled={isRemoveLoading || isRemoveLoading}
+            disabled={isRemoveLoading}
             color="gray"
             roundedFull={true}
           >
