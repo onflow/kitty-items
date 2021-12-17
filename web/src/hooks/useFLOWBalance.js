@@ -14,9 +14,8 @@ export function expandFLOWBalanceKey(key) {
 }
 
 export default function useFLOWBalance(address) {
-  const {isAccountInitialized} = useAppContext()
   const {data, error} = useSWR(
-    isAccountInitialized ? compFLOWBalanceKey(address) : null,
+    compFLOWBalanceKey(address),
     fetchFLOWBalance
   )
 
