@@ -29,7 +29,10 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const isSellable = currentUserIsOwner && !saleOffer
   const isBuyable = !currentUser || (!currentUserIsOwner && !!saleOffer)
   const isRemovable = currentUserIsOwner && !!saleOffer
-  const userHasEnoughFunds = !!saleOffer && saleOffer.price <= flowBalance
+
+  // TODO: Use a library that supports UFix64 precision to avoid comparing rounded numbers
+  const userHasEnoughFunds =
+    !!saleOffer && saleOffer.price <= parseFloat(flowBalance)
 
   if (isBuyable) {
     return (

@@ -13,12 +13,12 @@ export function expandFLOWBalanceKey(key) {
 }
 
 export default function useFLOWBalance(address) {
-  const {data, error} = useSWR(
-    compFLOWBalanceKey(address),
-    fetchFLOWBalance
-  )
-
-  return {data: parseFloat(data), error, isLoading: !data && !error}
+  const {data, error} = useSWR(compFLOWBalanceKey(address), fetchFLOWBalance)
+  return {
+    data: data?.toString(),
+    error,
+    isLoading: typeof data === "undefined" && !error,
+  }
 }
 
 useFLOWBalance.propTypes = {
