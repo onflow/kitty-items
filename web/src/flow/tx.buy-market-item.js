@@ -31,7 +31,7 @@ const CODE = fcl.cdc`
       let price = self.saleOffer.getDetails().salePrice
 
       let mainFlowTokenVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
-        ?? panic("Cannot borrow Kibble vault from account storage")
+        ?? panic("Cannot borrow FLOW vault from account storage")
 
       self.paymentVault <- mainFlowTokenVault.withdraw(amount: price)
 
