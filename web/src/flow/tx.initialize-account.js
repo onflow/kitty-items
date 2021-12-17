@@ -27,7 +27,7 @@ const CODE = cdc`
         if acct.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) == nil {
           acct.save(<-KittyItems.createEmptyCollection(), to: KittyItems.CollectionStoragePath)
         }
-        acct.unlink(KittyItems.ColleccleartionPublicPath)
+        acct.unlink(KittyItems.CollectionPublicPath)
         acct.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
       }
 
