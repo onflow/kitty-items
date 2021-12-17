@@ -10,8 +10,26 @@ const CODE = fcl.cdc`
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
-  transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
+  pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonFungibleToken.Receiver} {
+    if let collectionRef = account.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) {
+      return collectionRef
+    }
 
+    // create a new empty collection
+    let collection <- KittyItems.createEmptyCollection() as! @KittyItems.Collection
+
+    let collectionRef = &collection as &KittyItems.Collection
+    
+    // save it to the account
+    account.save(<-collection, to: KittyItems.CollectionStoragePath)
+
+    // create a public capability for the collection
+    account.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
+
+    return collectionRef
+  }
+
+  transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
     let paymentVault: @FungibleToken.Vault
     let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
@@ -20,24 +38,22 @@ const CODE = fcl.cdc`
     prepare(account: AuthAccount) {
       self.storefront = getAccount(storefrontAddress)
         .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(
-          NFTStorefront.StorefrontPublicPath
+            NFTStorefront.StorefrontPublicPath
         )!
         .borrow()
         ?? panic("Could not borrow Storefront from provided address")
 
       self.saleOffer = self.storefront.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID)
         ?? panic("No Offer with that ID in Storefront")
-
+        
       let price = self.saleOffer.getDetails().salePrice
 
-      let mainFlowTokenVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
+      let mainFLOWVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
         ?? panic("Cannot borrow FLOW vault from account storage")
+        
+      self.paymentVault <- mainFLOWVault.withdraw(amount: price)
 
-      self.paymentVault <- mainFlowTokenVault.withdraw(amount: price)
-
-      self.kittyItemsCollection = account.borrow<&KittyItems.Collection{NonFungibleToken.Receiver}>(
-        from: KittyItems.CollectionStoragePath
-      ) ?? panic("Cannot borrow KittyItems collection receiver from account")
+      self.kittyItemsCollection = getOrCreateCollection(account: account)
     }
 
     execute {
@@ -53,7 +69,7 @@ const CODE = fcl.cdc`
 `
 
 // prettier-ignore
-export function buyMarketItem({itemID, ownerAddress}, opts = {}) {
+export function purchaseItemListing({itemID, ownerAddress}, opts = {}) {
   invariant(itemID != null, "buyMarketItem({itemID, ownerAddress}) -- itemID required")
   invariant(ownerAddress != null, "buyMarketItem({itemID, ownerAddress}) -- ownerAddress required")
 

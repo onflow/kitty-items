@@ -1,6 +1,6 @@
 import {useRouter} from "next/dist/client/router"
 import {useReducer, useState} from "react"
-import {buyMarketItem} from "src/flow/tx.buy-market-item"
+import {purchaseItemListing} from "src/flow/tx.purchase-item-listing"
 import {
   DECLINE_RESPONSE,
   flashMessages,
@@ -38,10 +38,10 @@ export default function useItemPurchase() {
   const {mutate, cache} = useSWRConfig()
   const [txStatus, setTxStatus] = useState(null)
 
-  const buy = (saleOfferId, itemId, ownerAddress) => {
+  const purchaseItemListing = (saleOfferId, itemId, ownerAddress) => {
     if (!saleOfferId) throw "Missing saleOffer id"
     if (!ownerAddress) throw "Missing ownerAddress"
-    buyMarketItem(
+    buyItem(
       {itemID: saleOfferId, ownerAddress},
       {
         onStart() {

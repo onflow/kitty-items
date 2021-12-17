@@ -1,7 +1,6 @@
 import {useRouter} from "next/dist/client/router"
 import PropTypes from "prop-types"
 import Button from "src/components/Button"
-import ListItemUninitializedWarning from "src/components/ListItemUninitializedWarning"
 import publicConfig from "src/global/publicConfig"
 import useAppContext from "src/hooks/useAppContext"
 import useFLOWBalance from "src/hooks/useFLOWBalance"
@@ -14,7 +13,7 @@ import TransactionLoading from "./TransactionLoading"
 export default function ListItemPageButtons({item, saleOffer}) {
   const router = useRouter()
   const {address, id} = router.query
-  const {isAccountInitialized, currentUser} = useAppContext()
+  const {currentUser} = useAppContext()
   const {data: flowBalance} = useFLOWBalance(currentUser?.addr)
 
   const [{isLoading: isBuyLoading}, buy, buyTxStatus] = useItemPurchase()
@@ -42,7 +41,7 @@ export default function ListItemPageButtons({item, saleOffer}) {
             onClick={onPurchaseClick}
             disabled={
               isBuyLoading ||
-              (!!currentUser && (!isAccountInitialized || !userHasEnoughFunds))
+              (!!currentUser && !userHasEnoughFunds)
             }
             roundedFull={true}
           >
@@ -50,15 +49,8 @@ export default function ListItemPageButtons({item, saleOffer}) {
           </Button>
         )}
 
-        {!!currentUser && (
-          <>
-            {!isAccountInitialized && (
-              <ListItemUninitializedWarning action="buy" />
-            )}
-            {isAccountInitialized && !userHasEnoughFunds && (
-              <ListItemInsufficientFundsWarning />
-            )}
-          </>
+        {!!currentUser && !userHasEnoughFunds && (
+          <ListItemInsufficientFundsWarning />
         )}
       </div>
     )
@@ -72,14 +64,11 @@ export default function ListItemPageButtons({item, saleOffer}) {
         ) : (
           <Button
             onClick={onSellClick}
-            disabled={isSellLoading || !isAccountInitialized}
+            disabled={isSellLoading}
             roundedFull={true}
           >
             Sell
           </Button>
-        )}
-        {!isAccountInitialized && (
-          <ListItemUninitializedWarning action="sell" />
         )}
       </div>
     )
@@ -96,18 +85,12 @@ export default function ListItemPageButtons({item, saleOffer}) {
         ) : (
           <Button
             onClick={onRemoveClick}
-            disabled={
-              isRemoveLoading || isRemoveLoading || !isAccountInitialized
-            }
+            disabled={isRemoveLoading || isRemoveLoading}
             color="gray"
             roundedFull={true}
           >
             {`Remove From ${location}`}
           </Button>
-        )}
-
-        {!isAccountInitialized && (
-          <ListItemUninitializedWarning action="remove" />
         )}
       </div>
     )

@@ -4,6 +4,25 @@ import FlowToken from "../../contracts/FlowToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
+pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonFungibleToken.Receiver} {
+    if let collectionRef = account.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) {
+        return collectionRef
+    }
+
+    // create a new empty collection
+    let collection <- KittyItems.createEmptyCollection() as! @KittyItems.Collection
+
+    let collectionRef = &collection as &KittyItems.Collection
+    
+    // save it to the account
+    account.save(<-collection, to: KittyItems.CollectionStoragePath)
+
+    // create a public capability for the collection
+    account.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
+
+    return collectionRef
+}
+
 transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
 
     let paymentVault: @FungibleToken.Vault
@@ -29,9 +48,7 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
         
         self.paymentVault <- mainFLOWVault.withdraw(amount: price)
 
-        self.kittyItemsCollection = account.borrow<&KittyItems.Collection{NonFungibleToken.Receiver}>(
-            from: KittyItems.CollectionStoragePath
-        ) ?? panic("Cannot borrow KittyItems collection receiver from account")
+        self.kittyItemsCollection = getOrCreateCollection(account: account)
     }
 
     execute {
