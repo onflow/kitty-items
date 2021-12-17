@@ -14,8 +14,6 @@ export const ERROR = "ERROR"
 // before transitioning back to an IDLE state.
 export const IDLE_DELAY = 1000
 
-export const FUSD_MINT_AMOUNT = 50.0
-
 export const BASE_HTML_TITLE = "Kitty Items"
 
 export const getParamsString = params => {
@@ -57,14 +55,6 @@ export const flashMessages = {
   initializeAccountError: {
     type: "success",
     message: "Your account has not been initialized. Please try again.",
-  },
-  mintedFUSDSuccess: {
-    type: "success",
-    message: `You have minted ${currency(FUSD_MINT_AMOUNT)} FUSD!`,
-  },
-  mintedFUSDError: {
-    type: "error",
-    message: "FUSD minting has failed. Please try again.",
   },
   purchaseSuccess: {
     type: "success",

@@ -6,7 +6,7 @@ import {tx} from "src/flow/util/tx"
 const CODE = fcl.cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import FUSD from 0xFUSD
+  import FlowToken from 0xFlowToken
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
@@ -30,10 +30,10 @@ const CODE = fcl.cdc`
 
       let price = self.saleOffer.getDetails().salePrice
 
-      let mainFUSDVault = account.borrow<&FUSD.Vault>(from: /storage/fusdVault)
+      let mainFlowTokenVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
         ?? panic("Cannot borrow Kibble vault from account storage")
 
-      self.paymentVault <- mainFUSDVault.withdraw(amount: price)
+      self.paymentVault <- mainFlowTokenVault.withdraw(amount: price)
 
       self.kittyItemsCollection = account.borrow<&KittyItems.Collection{NonFungibleToken.Receiver}>(
         from: KittyItems.CollectionStoragePath

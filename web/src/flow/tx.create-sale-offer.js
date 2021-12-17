@@ -5,13 +5,13 @@ import {tx} from "src/flow/util/tx"
 const CODE = fcl.cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import FUSD from 0xFUSD
+  import FLowToken from 0xFlowToken
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
 
   transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
-    let fusdReceiver: Capability<&FUSD.Vault{FungibleToken.Receiver}>
+    let flowTokenReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
     let kittyItemsCollection: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
     let storefront: &NFTStorefront.Storefront
 
@@ -19,9 +19,9 @@ const CODE = fcl.cdc`
       // We need a provider capability, but one is not provided by default so we create one if needed.
       let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
 
-      self.fusdReceiver = account.getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)!
+      self.flowTokenReceiver = account.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
 
-      assert(self.fusdReceiver.borrow() != nil, message: "Missing or mis-typed FUSD receiver")
+      assert(self.flowTokenReceiver.borrow() != nil, message: "Missing or mis-typed FlowToken receiver")
 
       if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {
         account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)
@@ -36,7 +36,7 @@ const CODE = fcl.cdc`
 
     execute {
       let saleCut = NFTStorefront.SaleCut(
-        receiver: self.fusdReceiver,
+        receiver: self.flowTokenReceiver,
         amount: saleItemPrice
       )
 
@@ -44,7 +44,7 @@ const CODE = fcl.cdc`
         nftProviderCapability: self.kittyItemsCollection,
         nftType: Type<@KittyItems.NFT>(),
         nftID: saleItemID,
-        salePaymentVaultType: Type<@FUSD.Vault>(),
+        salePaymentVaultType: Type<@FlowToken.Vault>(),
         saleCuts: [saleCut]
       )
     }

@@ -1,12 +1,12 @@
 {
   "extends": [
-    "eslint-config-next",
-    "next/core-web-vitals",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:prettier/recommended",
-    "plugin:react/jsx-runtime"
+    // "eslint-config-next",
+    // "next/core-web-vitals",
+    // "plugin:react/recommended",
+    // "plugin:prettier/recommended",
+    // "plugin:react-hooks/recommended",
+    // "plugin:prettier/recommended",
+    // "plugin:react/jsx-runtime"
   ],
   "rules": {
     "semi": "off",

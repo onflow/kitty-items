@@ -1,13 +1,13 @@
 import PropTypes from "prop-types"
-import {useEffect, useState} from "react"
-import {isAccountInitialized as isAccountInitializedTx} from "src/flow/script.is-account-initialized"
+import { useEffect, useState } from "react"
+import { isAccountInitialized as isAccountInitializedTx } from "src/flow/script.is-account-initialized"
 import publicConfig from "src/global/publicConfig"
 import useAccountInitializer from "src/hooks/useAccountInitializer"
 import useApiSaleOffers from "src/hooks/useApiSaleOffers"
 import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
 
-const HeaderContainer = ({children}) => {
+const HeaderContainer = ({ children }) => {
   return (
     <div className="bg-green-dark text-white text-sm sm:text-lg font-bold text-center py-4 px-2">
       {children}
@@ -21,8 +21,8 @@ export default function HeaderMessage() {
   const [isServiceAccountInitialized, setIsServiceAccountInitialized] =
     useState(null)
 
-  const {currentUser, switchToAdminView} = useAppContext()
-  const {saleOffers} = useApiSaleOffers()
+  const { currentUser, switchToAdminView } = useAppContext()
+  const { saleOffers } = useApiSaleOffers()
   const logIn = useLogin()
 
   const isServiceAccountLoggedIn =
@@ -31,12 +31,12 @@ export default function HeaderMessage() {
   const checkIsServiceAccountInitialized = () => {
     isAccountInitializedTx(publicConfig.flowAddress).then(data => {
       setIsServiceAccountInitialized(
-        data.FUSD && data.KittyItems && data.KittyItemsMarket
+        data.KittyItems && data.KittyItemsMarket
       )
     })
   }
 
-  const [{isLoading: isInitLoading}, initializeAccount] = useAccountInitializer(
+  const [{ isLoading: isInitLoading }, initializeAccount] = useAccountInitializer(
     checkIsServiceAccountInitialized
   )
 

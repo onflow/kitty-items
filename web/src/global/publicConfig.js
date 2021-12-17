@@ -12,12 +12,6 @@ if (!appUrl) throw "Missing NEXT_PUBLIC_APP_URL"
 const walletDiscovery = process.env.NEXT_PUBLIC_WALLET_DISCOVERY
 if (!walletDiscovery) throw "Missing NEXT_PUBLIC_WALLET_DISCOVERY"
 
-const apiKibbleMint = process.env.NEXT_PUBLIC_API_KIBBLE_MINT
-if (!apiKibbleMint) throw "Missing NEXT_PUBLIC_API_KIBBLE_MINT"
-
-const apiFUSDMint = process.env.NEXT_PUBLIC_API_FUSD_MINT
-if (!apiFUSDMint) throw "Missing NEXT_PUBLIC_API_FUSD_MINT"
-
 const apiKittyItemMint = process.env.NEXT_PUBLIC_API_KITTY_ITEM_MINT
 if (!apiKittyItemMint) throw "Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT"
 
@@ -46,17 +40,14 @@ if (!flowAddress) throw "Missing NEXT_PUBLIC_FLOW_ADDRESS"
 const avatarUrl = process.env.NEXT_PUBLIC_AVATAR_URL
 if (!avatarUrl) throw "Missing NEXT_PUBLIC_AVATAR_URL"
 
-const contractFUSD = process.env.NEXT_PUBLIC_CONTRACT_FUSD
-if (!contractFUSD) throw "Missing NEXT_PUBLIC_CONTRACT_FUSD"
-
-const contractKibble = process.env.NEXT_PUBLIC_CONTRACT_KIBBLE
-if (!contractKibble) throw "Missing NEXT_PUBLIC_CONTRACT_KIBBLE"
-
 const contractKittyItems = process.env.NEXT_PUBLIC_CONTRACT_KITTY_ITEMS
 if (!contractKittyItems) throw "Missing NEXT_PUBLIC_CONTRACT_KITTY_ITEMS"
 
 const contractNftStorefront = process.env.NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT
 if (!contractNftStorefront) throw "Missing NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT"
+
+const contractFlowToken = process.env.NEXT_PUBLIC_CONTRACT_FLOW_TOKEN
+if (!contractFlowToken) throw "Missing NEXT_PUBLIC_CONTRACT_FLOW_TOKEN"
 
 const publicConfig = {
   isDev,
@@ -65,8 +56,6 @@ const publicConfig = {
   flowAccessApiUrl,
   appUrl,
   walletDiscovery,
-  apiKibbleMint,
-  apiFUSDMint,
   apiKittyItemMint,
   apiMarketItemsList,
   apiKittyItemMintAndList,
@@ -75,8 +64,7 @@ const publicConfig = {
   avatarUrl,
   contractFungibleToken,
   contractNonFungibleToken,
-  contractFUSD,
-  contractKibble,
+  contractFlowToken,
   contractKittyItems,
   contractNftStorefront,
 }
