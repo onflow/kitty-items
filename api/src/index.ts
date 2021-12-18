@@ -84,7 +84,7 @@ async function run() {
       config.minterAddress,
       config.fungibleTokenAddress,
       config.flowTokenAddress,
-      config.minterAddress
+      config.storefrontAddress
     );
 
     const app = initApp(
