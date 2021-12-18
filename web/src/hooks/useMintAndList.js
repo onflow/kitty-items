@@ -27,7 +27,7 @@ export default function useMintAndList(onSuccess) {
 
   const mintAndList = () => {
     setIsMintingLoading(true)
-    const recipient = publicConfig.contractNftStorefront
+    const recipient = publicConfig.flowAddress
 
     executeMintRequest({
       url: publicConfig.apiKittyItemMintAndList,
