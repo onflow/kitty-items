@@ -21,7 +21,7 @@ const CODE = fcl.cdc`
 `
 
 // prettier-ignore
-export function removeItemListing({listingResourceID}, opts = {}) {
+export function removeListing({listingResourceID}, opts = {}) {
   invariant(
     listingResourceID != null,
     "cancelMarketListing({listingResourceID}) -- listingResourceID required"

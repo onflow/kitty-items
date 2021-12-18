@@ -18,12 +18,12 @@ export function extractApiListingFromEvents(
 
   if (!event) return undefined
   return {
-    sale_item_id: event.data.nftID,
-    sale_item_resource_id: event.data.listingResourceID,
-    sale_item_type: itemType,
-    sale_item_rarity: itemRarity,
-    sale_item_owner: owner,
-    sale_price: event.data.price,
+    item_id: event.data.nftID,
+    listing_id: event.data.listingResourceID,
+    item_type: itemType,
+    item_rarity: itemRarity,
+    owner: owner,
+    price: event.data.price,
     transaction_id: event.transactionId,
   }
 }

@@ -16,6 +16,7 @@ const ITEM_RARITY_PROBABILITIES = {
   3: 10,
   4: 80,
 }
+
 const rarityTypes = Object.keys(ITEM_RARITY_PROBABILITIES)
 const rarityProbabilities = rarityTypes.flatMap(rarityId =>
   Array(ITEM_RARITY_PROBABILITIES[rarityId]).fill(rarityId)
@@ -108,7 +109,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/mint_and_list_kittyitem.cdc`
+          `../../../cadence/transactions/kittyItems/mint_and_list_kitty_item.cdc`
         ),
         "utf8"
       )

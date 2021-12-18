@@ -2,7 +2,7 @@ import * as fcl from '@onflow/fcl'
 import * as t from '@onflow/types'
 import * as fs from 'fs'
 import * as path from 'path'
-import { SaleOffer } from '../models/sale-offer'
+import { Listing } from '../models/listing'
 import { FlowService } from './flow'
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
@@ -41,7 +41,7 @@ class StorefrontService {
 
   getItem = (account: string, itemID: number) => {
     const script = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/scripts/nftStorefront/get_sale_offer.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `../../../cadence/scripts/nftStorefront/get_listing.cdc`), 'utf8')
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.executeScript<any[]>({
@@ -52,7 +52,7 @@ class StorefrontService {
 
   getItems = (account: string) => {
     const script = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/scripts/nftStorefront/get_sale_offers.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `../../../cadence/scripts/nftStorefront/get_listings.cdc`), 'utf8')
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.executeScript<number[]>({
@@ -121,16 +121,16 @@ class StorefrontService {
 
     const item = await this.getListingItem(owner, listingResourceID)
 
-    return SaleOffer.transaction(async (tx) => {
-      return await SaleOffer.query(tx)
+    return Listing.transaction(async (tx) => {
+      return await Listing.query(tx)
         .insert({
-          sale_item_id: item.itemID,
-          sale_item_resource_id: listingResourceID,
-          sale_item_rarity: item.rarityID,
-          sale_item_type: item.typeID,
-          sale_item_owner: owner,
+          listing_id: listingResourceID,
+          item_id: item.itemID,
+          item_type: item.typeID,
+          item_rarity: item.rarityID,
+          owner: owner,
           // TODO: Increase sale_price precision to match UFix64
-          sale_price: item.price,
+          price: item.price,
           transaction_id: listingEvent.transactionId,
         })
         .returning('transaction_id')
@@ -143,47 +143,47 @@ class StorefrontService {
   removeListing = async (listingEvent) => {
     const listingResourceID = listingEvent.data.listingResourceID
 
-    return SaleOffer.transaction(async (tx) => {
-      return await SaleOffer.query(tx)
+    return Listing.transaction(async (tx) => {
+      return await Listing.query(tx)
         .where({
-          sale_item_resource_id: listingResourceID,
+          listing_id: listingResourceID,
         })
         .del()
     })
   }
 
   findListing = (itemId) => {
-    return SaleOffer.transaction(async (tx) => {
-      return await SaleOffer.query(tx).select('*').where('sale_item_id', itemId).limit(1)
+    return Listing.transaction(async (tx) => {
+      return await Listing.query(tx).select('*').where('item_id', itemId).limit(1)
     })
   }
 
   findMostRecentSales = (params) => {
-    return SaleOffer.transaction(async (tx) => {
-      const query = SaleOffer.query(tx).select('*').orderBy('updated_at', 'desc')
+    return Listing.transaction(async (tx) => {
+      const query = Listing.query(tx).select('*').orderBy('updated_at', 'desc')
 
       if (params.owner) {
-        query.where('sale_item_owner', params.owner)
+        query.where('owner', params.owner)
       }
 
       if (params.typeId) {
-        query.where('sale_item_type', params.typeId)
+        query.where('item_type', params.typeId)
       }
 
       if (params.rarityId) {
-        query.where('sale_item_rarity', Number(params.rarityId))
+        query.where('item_rarity', Number(params.rarityId))
       }
 
       if (params.minPrice) {
-        query.where('sale_price', '>=', parseFloat(params.minPrice))
+        query.where('price', '>=', parseFloat(params.minPrice))
       }
 
       if (params.maxPrice) {
-        query.where('sale_price', '<=', parseFloat(params.maxPrice))
+        query.where('price', '<=', parseFloat(params.maxPrice))
       }
 
       if (params.marketplace) {
-        query.where('sale_item_owner', '!=', this.storefrontAddress)
+        query.where('owner', '!=', this.storefrontAddress)
       }
 
       if (params.page) {

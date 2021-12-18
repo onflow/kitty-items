@@ -1,6 +1,6 @@
 import {useRouter} from "next/dist/client/router"
 import {useReducer, useState} from "react"
-import {purchaseItemListing} from "src/flow/tx.purchase-item-listing"
+import {purchaseListing} from "src/flow/tx.purchase-listing"
 import {
   DECLINE_RESPONSE,
   flashMessages,
@@ -41,7 +41,8 @@ export default function useItemPurchase() {
   const purchase = (listingId, itemId, ownerAddress) => {
     if (!listingId) throw "Missing listing id"
     if (!ownerAddress) throw "Missing ownerAddress"
-    purchaseItemListing(
+    
+    purchaseListing(
       {itemID: listingId, ownerAddress},
       {
         onStart() {

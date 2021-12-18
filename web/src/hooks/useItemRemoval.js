@@ -1,5 +1,5 @@
 import {useReducer, useState} from "react"
-import {removeItemListing} from "src/flow/tx.remove-item-listing"
+import {removeListing} from "src/flow/tx.remove-listing"
 import {
   DECLINE_RESPONSE,
   flashMessages,
@@ -26,7 +26,7 @@ export default function useItemRemoval() {
   const remove = (listingId, itemId) => {
     if (!listingId) throw "Missing listingId"
 
-    removeItemListing(
+    removeListing(
       {listingResourceID: listingId},
       {
         onStart() {

@@ -57,7 +57,7 @@ const CODE = fcl.cdc`
     }
 
     execute {
-      let item <- self.listing.accept(
+      let item <- self.listing.purchase(
         payment: <-self.paymentVault
       )
 
@@ -69,7 +69,7 @@ const CODE = fcl.cdc`
 `
 
 // prettier-ignore
-export function purchaseItemListing({itemID, ownerAddress}, opts = {}) {
+export function purchaseListing({itemID, ownerAddress}, opts = {}) {
   invariant(itemID != null, "buyMarketItem({itemID, ownerAddress}) -- itemID required")
   invariant(ownerAddress != null, "buyMarketItem({itemID, ownerAddress}) -- ownerAddress required")
 

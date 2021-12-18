@@ -67,7 +67,7 @@ const CODE = fcl.cdc`
   }
 `
 
-export function createItemListing({itemID, price}, opts = {}) {
+export function createListing({itemID, price}, opts = {}) {
   if (itemID == null)
     throw new Error("createListing(itemID, price) -- itemID required")
   if (price == null)
