@@ -7,7 +7,7 @@ import {FlowService} from "./flow"
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
-const fusdPath = '"../../contracts/FUSD.cdc"'
+const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
 const ITEM_RARITY_PROBABILITIES = {
@@ -16,6 +16,7 @@ const ITEM_RARITY_PROBABILITIES = {
   3: 10,
   4: 80,
 }
+
 const rarityTypes = Object.keys(ITEM_RARITY_PROBABILITIES)
 const rarityProbabilities = rarityTypes.flatMap(rarityId =>
   Array(ITEM_RARITY_PROBABILITIES[rarityId]).fill(rarityId)
@@ -27,7 +28,7 @@ class KittyItemsService {
     private readonly nonFungibleTokenAddress: string,
     private readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
-    private readonly fusdAddress: string,
+    private readonly flowTokenAddress: string,
     private readonly storefrontAddress: string
   ) {}
 
@@ -108,7 +109,7 @@ class KittyItemsService {
       .readFileSync(
         path.join(
           __dirname,
-          `../../../cadence/transactions/kittyItems/mint_and_list_kittyitem.cdc`
+          `../../../cadence/transactions/kittyItems/mint_and_list_kitty_item.cdc`
         ),
         "utf8"
       )
@@ -118,7 +119,7 @@ class KittyItemsService {
       )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
-      .replace(fusdPath, fcl.withPrefix(this.fusdAddress))
+      .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({

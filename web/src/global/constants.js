@@ -1,4 +1,3 @@
-import {currency} from "src/util/currency"
 import {cleanObject} from "src/util/object"
 import publicConfig from "./publicConfig"
 
@@ -13,8 +12,6 @@ export const ERROR = "ERROR"
 // How long to pause on a success or error message
 // before transitioning back to an IDLE state.
 export const IDLE_DELAY = 1000
-
-export const FUSD_MINT_AMOUNT = 50.0
 
 export const BASE_HTML_TITLE = "Kitty Items"
 
@@ -33,7 +30,7 @@ export const paths = {
   profileItem: (address, id) => `/profiles/${address}/kitty-items/${id}`,
   apiMarketItemsList: params =>
     `${publicConfig.apiMarketItemsList}${getParamsString(params)}`,
-  apiSaleOffer: id => `${publicConfig.apiUrl}/v1/market/${id}`,
+  apiListing: id => `${publicConfig.apiUrl}/v1/market/${id}`,
   apiSell: `${publicConfig.apiUrl}/v1/market/sell`,
 }
 
@@ -57,14 +54,6 @@ export const flashMessages = {
   initializeAccountError: {
     type: "success",
     message: "Your account has not been initialized. Please try again.",
-  },
-  mintedFUSDSuccess: {
-    type: "success",
-    message: `You have minted ${currency(FUSD_MINT_AMOUNT)} FUSD!`,
-  },
-  mintedFUSDError: {
-    type: "error",
-    message: "FUSD minting has failed. Please try again.",
   },
   purchaseSuccess: {
     type: "success",

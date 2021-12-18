@@ -36,13 +36,9 @@
       "description": "Which keypair from the minter account to use for transaction signing & verifying.", 
        "value": "0"
     },
-    "NEXT_PUBLIC_CONTRACT_KIBBLE": {
-      "description": "The address where the Kibble contract is deployed on testnet for this app.",
-      "value": ""
-    },
-    "NEXT_PUBLIC_CONTRACT_FUSD": {
-      "description": "The address where the FUSD contract is deployed on testnet for this app.",
-      "value": "0xe223d8a629e49c68"
+    "NEXT_PUBLIC_CONTRACT_FLOW_TOKEN": {
+      "description": "The address where the FlowToken contract is deployed on testnet for this app.",
+      "value": "0x7e60df042a9c0868"
     },
     "NEXT_PUBLIC_CONTRACT_KITTY_ITEMS": {
       "description": "The address where the KittyItems contract is deployed on testnet for this app.",
@@ -75,9 +71,9 @@
       "description": "Address for the standard Non-Fungible Token (NFT) contract on testnet.",
       "value": "0x631e88ae7f1d7c20"
     },
-    "FUSD_TOKEN_ADDRESS": {
-      "description": "Address for the standard FUSD contract on testnet.",
-      "value": "0xe223d8a629e49c68"
+    "FLOW_TOKEN_ADDRESS": {
+      "description": "Address for the standard FlowToken contract on testnet.",
+      "value": "0x7e60df042a9c0868"
     },
     "MIGRATION_PATH": {
       "description": "Location of database migrations.",
@@ -87,20 +83,12 @@
       "description": "URL for accessing the Flow tesntet gRPC API. (Used by @onflow/fcl)",
       "value": "https://access-testnet.onflow.org"
     },
-    "NEXT_PUBLIC_API_KIBBLE_MINT": {
-      "description": "RESTful endpoint for minting Kibble (Fungible Token).",
-      "value": "/v1/kibbles/mint"
-    },
-    "NEXT_PUBLIC_API_FUSD_MINT": {
-      "description": "RESTful endpoint for minting FUSD (Fungible Token / Stablecoin).",
-      "value": "/v1/fusd/mint"
-    },
     "NEXT_PUBLIC_API_KITTY_ITEM_MINT": {
       "description": "RESTful endpoint for minting Kitty Items (Non-Fungible Token).",
       "value": "/v1/kitty-items/mint"
     },
     "NEXT_PUBLIC_API_MARKET_ITEMS_LIST": {
-      "description": "RESTful endpoint for reading the latest marketplace SaleOffers.",
+      "description": "RESTful endpoint for reading the latest marketplace listings.",
       "value": "/v1/market/latest"
     },
     "NEXT_PUBLIC_CHAIN_ENV": {

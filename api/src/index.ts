@@ -6,14 +6,9 @@ import { getConfig } from "./config"
 import initDB from "./db"
 import { BlockCursorService } from "./services/block-cursor"
 import { FlowService } from "./services/flow"
-import { FUSDService } from "./services/fusd"
-import { KibblesService } from "./services/kibbles"
 import { KittyItemsService } from "./services/kitty-items"
 import { StorefrontService } from "./services/storefront"
-import { SaleOfferHandler } from "./workers/sale-offer-handler"
-
-
-
+import { ListingHandler } from "./workers/listing-handler"
 
 const argv = yargs(hideBin(process.argv)).argv;
 const DEV = argv.dev;
@@ -55,7 +50,7 @@ async function run() {
   const storefrontService = new StorefrontService(
     flowService,
     config.fungibleTokenAddress,
-    config.fusdAddress,
+    config.flowTokenAddress,
     config.nonFungibleTokenAddress,
     config.minterAddress,
     config.minterAddress
@@ -71,42 +66,28 @@ async function run() {
     console.log("Starting Flow event worker ....");
     const blockCursorService = new BlockCursorService();
 
-    const saleOfferWorker = new SaleOfferHandler(
+    const listingWorker = new ListingHandler(
       storefrontService,
       blockCursorService,
       flowService
     );
 
-    saleOfferWorker.run();
+    listingWorker.run();
   };
 
   const startAPIServer = () => {
     console.log("Starting API server ....");
-
-    const fusdService = new FUSDService(
-      flowService,
-      config.fungibleTokenAddress,
-      config.fusdAddress
-    );
-
-    const kibblesService = new KibblesService(
-      flowService,
-      config.fungibleTokenAddress,
-      config.minterAddress
-    );
 
     const kittyItemsService = new KittyItemsService(
       flowService,
       config.nonFungibleTokenAddress,
       config.minterAddress,
       config.fungibleTokenAddress,
-      config.fusdAddress,
+      config.flowTokenAddress,
       config.minterAddress
     );
 
     const app = initApp(
-      fusdService,
-      kibblesService,
       kittyItemsService,
       storefrontService
     );

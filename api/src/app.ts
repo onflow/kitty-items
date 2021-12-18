@@ -3,12 +3,8 @@ import cors from "cors"
 import express, {Request, Response} from "express"
 import "express-async-errors"
 import path from "path"
-import initFUSDRouter from "./routes/fusd"
-import initKibblesRouter from "./routes/kibbles"
 import initKittyItemsRouter from "./routes/kitty-items"
 import initStorefrontRouter from "./routes/storefront"
-import {FUSDService} from "./services/fusd"
-import {KibblesService} from "./services/kibbles"
 import {KittyItemsService} from "./services/kitty-items"
 import {StorefrontService} from "./services/storefront"
 
@@ -16,8 +12,6 @@ const V1 = "/v1/"
 
 // Init all routes, setup middlewares and dependencies
 const initApp = (
-  fusdService: FUSDService,
-  kibblesService: KibblesService,
   kittyItemsService: KittyItemsService,
   storefrontService: StorefrontService
 ) => {
@@ -26,8 +20,6 @@ const initApp = (
   app.use(cors())
   app.use(json())
   app.use(urlencoded({extended: false}))
-  app.use(V1, initFUSDRouter(fusdService))
-  app.use(V1, initKibblesRouter(kibblesService))
   app.use(V1, initKittyItemsRouter(kittyItemsService))
   app.use(V1, initStorefrontRouter(storefrontService))
 

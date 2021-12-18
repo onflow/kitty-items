@@ -5,7 +5,7 @@ import MarketplaceFilters from "src/components/MarketplaceFilters"
 import PageTitle from "src/components/PageTitle"
 import Pagination from "src/components/Pagination"
 import {paths} from "src/global/constants"
-import useApiSaleOffers from "src/hooks/useApiSaleOffers"
+import useApiListings from "src/hooks/useApiListings"
 import useAppContext from "src/hooks/useAppContext"
 import {cleanObject} from "src/util/object"
 
@@ -20,7 +20,7 @@ export default function Marketplace() {
     page: Number(router.query.page || 1),
   }
 
-  const {saleOffers, data} = useApiSaleOffers({
+  const {listings, data} = useApiListings({
     ...queryState,
     marketplace: true,
   })
@@ -63,7 +63,7 @@ export default function Marketplace() {
             updateQuery={updateQuery}
           />
 
-          {!!saleOffers && <ListItems items={saleOffers} />}
+          {!!listings && <ListItems items={listings} />}
 
           {data?.total !== undefined && (
             <Pagination

@@ -12,14 +12,13 @@
     "port": 8701
   },
   "contracts": {
-    "FUSD": {
-      "source": "./cadence/contracts/FUSD.cdc",
+    "KittyItems": "./cadence/contracts/KittyItems.cdc",
+    "NFTStorefront": {
+      "source": "./cadence/contracts/NFTStorefront.cdc",
       "aliases": {
-        "testnet": "0xe223d8a629e49c68"
+        "testnet": "0x94b06cfca1d8a476"
       }
     },
-    "Kibble": "./cadence/contracts/Kibble.cdc",
-    "KittyItems": "./cadence/contracts/KittyItems.cdc",
     "NonFungibleToken": {
       "source": "./cadence/contracts/NonFungibleToken.cdc",
       "aliases": {
@@ -27,12 +26,18 @@
         "testnet": "0x631e88ae7f1d7c20"
       }
     },
-    "NFTStorefront": "./cadence/contracts/NFTStorefront.cdc",
     "FungibleToken": {
       "source": "./cadence/contracts/FungibleToken.cdc",
       "aliases": {
         "emulator": "0xee82856bf20e2aa6",
         "testnet": "0x9a0766d93b6608b7"
+      }
+    },
+    "FlowToken": {
+      "source": "./cadence/contracts/FlowToken.cdc",
+      "aliases": {
+        "emulator": "0x0ae53cb6e3f42a79",
+        "testnet": "0x7e60df042a9c0868"
       }
     }
   },
@@ -49,11 +54,9 @@
   "deployments": {
     "emulator": {
       "emulator-account": [
-        "FUSD",
-        "Kibble",
         "KittyItems",
-        "NonFungibleToken",
-        "NFTStorefront"
+        "NFTStorefront",
+        "NonFungibleToken"
       ]
     }
   }

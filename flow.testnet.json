@@ -8,7 +8,6 @@
   "deployments": {
     "testnet": {
       "testnet-account": [
-        "Kibble",
         "KittyItems",
         "NFTStorefront"
       ]

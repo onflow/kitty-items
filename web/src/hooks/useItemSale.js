@@ -1,5 +1,5 @@
 import {useReducer, useState} from "react"
-import {createSaleOffer} from "src/flow/tx.create-sale-offer"
+import {createListing} from "src/flow/tx.create-listing"
 import {
   DECLINE_RESPONSE,
   flashMessages,
@@ -15,7 +15,7 @@ import {
   START,
 } from "src/reducers/requestReducer"
 import {useSWRConfig} from "swr"
-import {extractApiSaleOfferFromEvents} from "./useApiSaleOffer"
+import {extractApiListingFromEvents} from "./useApiListing"
 import useAppContext from "./useAppContext"
 
 export default function useItemSale() {
@@ -29,7 +29,7 @@ export default function useItemSale() {
     if (!itemId) throw "Missing itemId"
     if (!itemRarityId) throw "Missing itemRarityId"
 
-    createSaleOffer(
+    createListing(
       {itemID: itemId, price: ITEM_RARITY_PRICE_MAP[itemRarityId]},
       {
         onStart() {
@@ -39,13 +39,13 @@ export default function useItemSale() {
           setTxStatus(t.status)
         },
         async onSuccess(data) {
-          const newSaleOffer = extractApiSaleOfferFromEvents(
+          const newListing = extractApiListingFromEvents(
             data.events,
             itemType,
             currentUser.addr
           )
-          if (!newSaleOffer) throw "Missing saleOffer"
-          mutate(paths.apiSaleOffer(itemId), [newSaleOffer], false)
+          if (!newListing) throw "Missing listing"
+          mutate(paths.apiListing(itemId), [newListing], false)
           dispatch({type: SUCCESS})
           setFlashMessage(flashMessages.itemSaleSuccess)
         },

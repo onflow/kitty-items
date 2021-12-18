@@ -1,6 +1,6 @@
 import {useRouter} from "next/dist/client/router"
 import {useReducer, useState} from "react"
-import {buyMarketItem} from "src/flow/tx.buy-market-item"
+import {purchaseListing} from "src/flow/tx.purchase-listing"
 import {
   DECLINE_RESPONSE,
   flashMessages,
@@ -20,7 +20,7 @@ import {
 } from "src/util/storefrontEvents"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
-import {compFUSDBalanceKey} from "./useFUSDBalance"
+import {compFLOWBalanceKey} from "./useFLOWBalance"
 
 const getNewlySignedInUserAddress = txData => {
   const depositEvent = getStorefrontEventByType(
@@ -38,11 +38,12 @@ export default function useItemPurchase() {
   const {mutate, cache} = useSWRConfig()
   const [txStatus, setTxStatus] = useState(null)
 
-  const buy = (saleOfferId, itemId, ownerAddress) => {
-    if (!saleOfferId) throw "Missing saleOffer id"
+  const purchase = (listingId, itemId, ownerAddress) => {
+    if (!listingId) throw "Missing listing id"
     if (!ownerAddress) throw "Missing ownerAddress"
-    buyMarketItem(
-      {itemID: saleOfferId, ownerAddress},
+    
+    purchaseListing(
+      {itemID: listingId, ownerAddress},
       {
         onStart() {
           dispatch({type: START})
@@ -52,8 +53,8 @@ export default function useItemPurchase() {
         },
         async onSuccess(txData) {
           const currentUserAddress = getNewlySignedInUserAddress(txData)
-          mutate(compFUSDBalanceKey(currentUserAddress))
-          cache.delete(paths.apiSaleOffer(itemId))
+          mutate(compFLOWBalanceKey(currentUserAddress))
+          cache.delete(paths.apiListing(itemId))
           router.push(paths.profileItem(currentUserAddress, itemId))
           dispatch({type: SUCCESS})
           setFlashMessage(flashMessages.purchaseSuccess)
@@ -73,5 +74,5 @@ export default function useItemPurchase() {
     )
   }
 
-  return [state, buy, txStatus]
+  return [state, purchase, txStatus]
 }

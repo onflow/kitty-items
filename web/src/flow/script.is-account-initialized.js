@@ -4,21 +4,8 @@ import {Address} from "@onflow/types"
 const CODE = cdc`
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
-  import FUSD from 0xFUSD
   import KittyItems from 0xKittyItems
   import NFTStorefront from 0xNFTStorefront
-
-  pub fun hasFUSD(_ address: Address): Bool {
-    let receiver: Bool = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Receiver}>(/public/fusdReceiver)
-      .check()
-
-    let balance: Bool = getAccount(address)
-      .getCapability<&FUSD.Vault{FungibleToken.Balance}>(/public/fusdBalance)
-      .check()
-
-    return receiver && balance
-  }
 
   pub fun hasItems(_ address: Address): Bool {
     return getAccount(address)
@@ -34,7 +21,6 @@ const CODE = cdc`
 
   pub fun main(address: Address): {String: Bool} {
     let ret: {String: Bool} = {}
-    ret["FUSD"] = hasFUSD(address)
     ret["KittyItems"] = hasItems(address)
     ret["KittyItemsMarket"] = hasStorefront(address)
     return ret
