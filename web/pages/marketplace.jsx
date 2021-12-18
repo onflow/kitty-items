@@ -46,7 +46,7 @@ export default function Marketplace() {
       <main>
         <div className="main-container py-14">
           <div className="flex justify-between items-center mb-12">
-            <h1 className="text-3xl text-gray-light">Marketplace</h1>
+            <h1 className="text-3xl text-gray-darkest">Marketplace</h1>
             {!!currentUser && (
               <Link href={paths.profile(currentUser.addr)}>
                 <a className="rounded uppercase font-bold text-sm rounded-full bg-green hover:opacity-80 py-2.5 px-5">

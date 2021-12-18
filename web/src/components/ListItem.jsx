@@ -42,7 +42,6 @@ export default function ListItem({
             address={item.owner}
             id={item.itemID}
             size={size}
-            classes="hover:shadow-2xl"
             isStoreItem={isStoreItem}
           >
             {isBuyable && (

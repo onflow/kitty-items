@@ -6,7 +6,7 @@ import {storeItemsSelector} from "src/global/selectors"
 import {useDebouncedCallback} from "use-debounce"
 
 const ITEMS_LENGTH = 10
-const ITEM_WIDTH = 382
+const ITEM_WIDTH = 362
 
 const PageButton = ({onClick, disabled, children}) => (
   <button
@@ -58,18 +58,17 @@ export default function LatestStoreItems({items}) {
   const nextPage = () => scrollToItem(firstVisibleItem + 1)
 
   return (
-    <div className="grid grid-cols-12 md:gap-10" style={{minHeight: 700}}>
-      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex relative items-center pl-4 sm:latest-store-items-left-shadow 2xl:latest-store-items-left-content">
+    <div className="grid grid-cols-12 md:gap-10" style={{minHeight: 550}}>
+      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex relative items-center pl-4 2xl:latest-store-items-left-content">
         <div className="">
-          <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-16 lg:mt-0">
-            Latest <br />
-            Kitty Items
+          <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-10 lg:mt-0">
+            Latest items
           </h1>
           <div className="text-gray sm:max-w-2xl lg:max-w-sm">
-            Check out the latest freshly minted Kitty Items here.
+            Check out the latest freshly-minted Kitty Items.
           </div>
           {storeItems.length > 2 && (
-            <div className="flex mt-14">
+            <div className="flex mt-8">
               <div className="mr-5">
                 <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
                   <img
@@ -92,13 +91,13 @@ export default function LatestStoreItems({items}) {
           )}
         </div>
       </div>
-      <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-14 ">
+      <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-10 ">
         <div
           className="overflow-x-scroll"
           onScroll={onDebouncedScroll}
           ref={listRef}
         >
-          <div className="whitespace-nowrap pb-10 flex lg:pr-3 lg:pl-4">
+          <div className="whitespace-nowrap flex lg:pr-3 lg:pl-4">
             {storeItems.map(item => (
               <div
                 key={item.itemID}

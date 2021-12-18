@@ -30,7 +30,7 @@ export default function ListItemImage({
       className={`group relative ${itemGradientClass(
         grayscale ? "gray" : rarityId
       )} rounded-3xl relative flex w-full items-center justify-center ${classes}`}
-      style={isStoreItem ? {width: 350, height: 480} : {}}
+      style={isStoreItem ? {width: 330, height: 440} : {}}
     >
       <img src={imageSrc1X} srcSet={imageSrcSet} alt={name} />
       {children}
