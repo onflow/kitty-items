@@ -18,7 +18,7 @@ export default function ListItems({items, Component = ListItem}) {
           address={item.owner}
           id={item.itemID}
           price={item.price ? parseFloat(item.price) : undefined}
-          saleOfferId={item.resourceID}
+          listingId={item.resourceID}
           showOwnerInfo={true}
         />
       ))}

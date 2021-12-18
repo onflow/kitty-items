@@ -30,7 +30,7 @@ export const paths = {
   profileItem: (address, id) => `/profiles/${address}/kitty-items/${id}`,
   apiMarketItemsList: params =>
     `${publicConfig.apiMarketItemsList}${getParamsString(params)}`,
-  apiSaleOffer: id => `${publicConfig.apiUrl}/v1/market/${id}`,
+  apiListing: id => `${publicConfig.apiUrl}/v1/market/${id}`,
   apiSell: `${publicConfig.apiUrl}/v1/market/sell`,
 }
 

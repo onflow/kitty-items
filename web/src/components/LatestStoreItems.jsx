@@ -109,7 +109,7 @@ export default function LatestStoreItems({items}) {
                   address={publicConfig.flowAddress}
                   id={item.itemID}
                   price={item.price}
-                  saleOfferId={item.resourceID}
+                  listingId={item.resourceID}
                   size="sm"
                   isStoreItem={true}
                 />

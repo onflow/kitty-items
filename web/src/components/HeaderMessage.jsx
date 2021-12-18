@@ -3,7 +3,7 @@ import {useEffect, useState} from "react"
 import {isAccountInitialized as isAccountInitializedTx} from "src/flow/script.is-account-initialized"
 import publicConfig from "src/global/publicConfig"
 import useAccountInitializer from "src/hooks/useAccountInitializer"
-import useApiSaleOffers from "src/hooks/useApiSaleOffers"
+import useApiListings from "src/hooks/useApiListings"
 import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
 
@@ -22,7 +22,7 @@ export default function HeaderMessage() {
     useState(null)
 
   const {currentUser, switchToAdminView} = useAppContext()
-  const {saleOffers} = useApiSaleOffers()
+  const {listings} = useApiListings()
   const logIn = useLogin()
 
   const isServiceAccountLoggedIn =
@@ -74,7 +74,7 @@ export default function HeaderMessage() {
     )
   }
 
-  if (publicConfig.isDev && (!saleOffers || saleOffers.length === 0)) {
+  if (publicConfig.isDev && (!listings || listings.length === 0)) {
     return (
       <HeaderContainer>
         <button

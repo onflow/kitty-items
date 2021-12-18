@@ -8,7 +8,7 @@ import { BlockCursorService } from "./services/block-cursor"
 import { FlowService } from "./services/flow"
 import { KittyItemsService } from "./services/kitty-items"
 import { StorefrontService } from "./services/storefront"
-import { SaleOfferHandler } from "./workers/sale-offer-handler"
+import { ListingHandler } from "./workers/listing-handler"
 
 const argv = yargs(hideBin(process.argv)).argv;
 const DEV = argv.dev;
@@ -66,13 +66,13 @@ async function run() {
     console.log("Starting Flow event worker ....");
     const blockCursorService = new BlockCursorService();
 
-    const saleOfferWorker = new SaleOfferHandler(
+    const listingWorker = new ListingHandler(
       storefrontService,
       blockCursorService,
       flowService
     );
 
-    saleOfferWorker.run();
+    listingWorker.run();
   };
 
   const startAPIServer = () => {

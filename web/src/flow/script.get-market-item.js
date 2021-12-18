@@ -23,12 +23,12 @@ export async function fetchMarketItem(address, id) {
           }
         }
 
-        pub fun main(address: Address, saleOfferResourceID: UInt64): SaleItem? {
+        pub fun main(address: Address, listingResourceID: UInt64): SaleItem? {
           let account = getAccount(address)
 
           if let storefrontRef = account.getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath).borrow() {
-            if let saleOffer = storefrontRef.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID) {
-              let details = saleOffer.getDetails()
+            if let listing = storefrontRef.borrowListing(listingResourceID: listingResourceID) {
+              let details = listing.getDetails()
 
               let itemID = details.nftID
               let itemPrice = details.salePrice

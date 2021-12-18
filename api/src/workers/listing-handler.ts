@@ -6,9 +6,9 @@ import { StorefrontService } from "../services/storefront";
 
 import { BaseEventHandler } from "./base-event-handler";
 
-class SaleOfferHandler extends BaseEventHandler {
-  private eventSaleOfferAvailable;
-  private eventSaleOfferCompleted;
+class ListingHandler extends BaseEventHandler {
+  private eventListingAvailable;
+  private eventListingCompleted;
 
   constructor(
     private readonly storefrontService: StorefrontService,
@@ -17,17 +17,17 @@ class SaleOfferHandler extends BaseEventHandler {
   ) {
     super(blockCursorService, flowService, []);
 
-    this.eventSaleOfferAvailable = `A.${fcl.sansPrefix(
+    this.eventListingAvailable = `A.${fcl.sansPrefix(
       storefrontService.storefrontAddress
-    )}.NFTStorefront.SaleOfferAvailable`;
+    )}.NFTStorefront.ListingAvailable`;
 
-    this.eventSaleOfferCompleted = `A.${fcl.sansPrefix(
+    this.eventListingCompleted = `A.${fcl.sansPrefix(
       storefrontService.storefrontAddress
-    )}.NFTStorefront.SaleOfferCompleted`;
+    )}.NFTStorefront.ListingCompleted`;
 
     this.eventNames = [
-      this.eventSaleOfferAvailable,
-      this.eventSaleOfferCompleted
+      this.eventListingAvailable,
+      this.eventListingCompleted
     ];
   }
 
@@ -35,11 +35,11 @@ class SaleOfferHandler extends BaseEventHandler {
     console.log("👀", event.type);
 
     switch (event.type) {
-      case this.eventSaleOfferAvailable:
-        await this.storefrontService.addSaleOffer(event);
+      case this.eventListingAvailable:
+        await this.storefrontService.addListing(event);
         break;
-      case this.eventSaleOfferCompleted:
-        await this.storefrontService.removeSaleOffer(event);
+      case this.eventListingCompleted:
+        await this.storefrontService.removeListing(event);
         break;
       default:
         return;
@@ -47,4 +47,4 @@ class SaleOfferHandler extends BaseEventHandler {
   }
 }
 
-export { SaleOfferHandler };
+export { ListingHandler };

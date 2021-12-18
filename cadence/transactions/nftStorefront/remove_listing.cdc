@@ -1,6 +1,6 @@
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
-transaction(saleOfferResourceID: UInt64) {
+transaction(listingResourceID: UInt64) {
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontManager}
 
     prepare(acct: AuthAccount) {
@@ -9,6 +9,6 @@ transaction(saleOfferResourceID: UInt64) {
     }
 
     execute {
-        self.storefront.removeSaleOffer(saleOfferResourceID: saleOfferResourceID)
+        self.storefront.removeListing(listingResourceID: listingResourceID)
     }
 }

@@ -7,7 +7,7 @@ import OwnerInfo from "src/components/OwnerInfo"
 import PageTitle from "src/components/PageTitle"
 import RarityScale from "src/components/RarityScale"
 import useAccountItem from "src/hooks/useAccountItem"
-import useApiSaleOffer from "src/hooks/useApiSaleOffer"
+import useApiListing from "src/hooks/useApiListing"
 
 export default function KittyItem() {
   const router = useRouter()
@@ -16,7 +16,7 @@ export default function KittyItem() {
     address,
     id
   )
-  const {saleOffer} = useApiSaleOffer(id)
+  const {listing} = useApiListing(id)
   if (isAccountItemLoading) return null
   const name = listItemName(item.typeID, item.rarityID)
 
@@ -37,9 +37,9 @@ export default function KittyItem() {
             <h1 className="text-5xl text-gray-darkest mt-10 mb-6">{name}</h1>
 
             <div className="flex items-center h-6">
-              {!!saleOffer && (
+              {!!listing && (
                 <div className="mr-5">
-                  <ListItemPrice price={parseFloat(saleOffer.price)} />
+                  <ListItemPrice price={parseFloat(listing.price)} />
                 </div>
               )}
               <div className="font-mono text-sm">#{id}</div>
@@ -49,7 +49,7 @@ export default function KittyItem() {
               <div className="mt-8">
                 <RarityScale highlightedRarityId={item.rarityID} />
               </div>
-              <ListItemPageButtons item={item} saleOffer={saleOffer} />
+              <ListItemPageButtons item={item} listing={listing} />
             </div>
           </div>
         </div>

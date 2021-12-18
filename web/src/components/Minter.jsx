@@ -17,7 +17,7 @@ export default function Minter() {
   const {mutate} = useSWRConfig()
 
   const onSuccess = itemId => {
-    // Wait for new SaleOffer to be created by the API
+    // Wait for new listing to be created by the API
     // Mutations don't work because they get overwritten when the new page is loaded
     setTimeout(() => {
       mutate(paths.apiMarketItemsList())

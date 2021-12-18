@@ -88,7 +88,7 @@
       "value": "/v1/kitty-items/mint"
     },
     "NEXT_PUBLIC_API_MARKET_ITEMS_LIST": {
-      "description": "RESTful endpoint for reading the latest marketplace SaleOffers.",
+      "description": "RESTful endpoint for reading the latest marketplace listings.",
       "value": "/v1/market/latest"
     },
     "NEXT_PUBLIC_CHAIN_ENV": {

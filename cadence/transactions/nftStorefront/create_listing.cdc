@@ -4,6 +4,22 @@ import FlowToken from "../../contracts/FlowToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
 
+pub fun getOrCreateStorefront(account: AuthAccount): &NFTStorefront.Storefront {
+    if let storefrontRef = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) {
+        return storefrontRef
+    }
+
+    let storefront <- NFTStorefront.createStorefront()
+
+    let storefrontRef = &storefront as &NFTStorefront.Storefront
+
+    account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)
+
+    account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+
+    return storefrontRef
+}
+
 transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
     let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
@@ -26,8 +42,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
         assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed KittyItems.Collection provider")
 
-        self.storefront = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
-            ?? panic("Missing or mis-typed NFTStorefront Storefront")
+        self.storefront = getOrCreateStorefront(account: account)
     }
 
     execute {
@@ -35,7 +50,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
             receiver: self.flowReceiver,
             amount: saleItemPrice
         )
-        self.storefront.createSaleOffer(
+        self.storefront.createListing(
             nftProviderCapability: self.kittyItemsProvider,
             nftType: Type<@KittyItems.NFT>(),
             nftID: saleItemID,

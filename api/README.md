@@ -19,7 +19,7 @@ Run this script to set up the minter account and mint an initial supply of Kitty
 ### Setup
 
 Run the commands below to initialize the minter account to mint 
-Kitty Items and add offers to the marketplace.
+Kitty Items and add listings to the marketplace.
 
 - **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
 
@@ -29,7 +29,7 @@ curl --request POST \
   --header 'Content-Type: application/json'
 ```
 
-- **POST /v1/market/setup** - Create a resource that allows the `MINTER_FLOW_ADDRESS` to hold sale offers for Kitty Items.
+- **POST /v1/market/setup** - Create a resource that allows the `MINTER_FLOW_ADDRESS` to hold listings for Kitty Items.
 
 ```sh
 curl --request POST \

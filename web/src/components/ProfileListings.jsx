@@ -1,11 +1,11 @@
 import PropTypes from "prop-types"
 import {listItemsRootClasses} from "src/components/ListItems"
-import SaleOffer from "src/components/SaleOffer"
-import useSaleOffers from "src/hooks/useSaleOffers"
+import Listing from "src/components/Listing"
+import useListings from "src/hooks/useListings"
 import EmptyKittyItems from "./EmptyKittyItems"
 
-export default function ProfileSaleOffers({address}) {
-  const {data: itemIds, isLoading} = useSaleOffers(address)
+export default function ProfileListings({address}) {
+  const {data: itemIds, isLoading} = useListings(address)
 
   if (!isLoading && (!itemIds || itemIds?.length === 0)) {
     return <EmptyKittyItems />
@@ -15,13 +15,13 @@ export default function ProfileSaleOffers({address}) {
     <div>
       <div className={listItemsRootClasses}>
         {itemIds?.map(id => (
-          <SaleOffer key={id} address={address} id={id} showOwnerInfo={true} />
+          <Listing key={id} address={address} id={id} showOwnerInfo={true} />
         ))}
       </div>
     </div>
   )
 }
 
-ProfileSaleOffers.propTypes = {
+ProfileListings.propTypes = {
   address: PropTypes.string.isRequired,
 }

@@ -23,12 +23,12 @@ pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonF
     return collectionRef
 }
 
-transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
+transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 
     let paymentVault: @FungibleToken.Vault
     let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
-    let saleOffer: &NFTStorefront.SaleOffer{NFTStorefront.SaleOfferPublic}
+    let listing: &NFTStorefront.Listing{NFTStorefront.ListingPublic}
 
     prepare(account: AuthAccount) {
         self.storefront = getAccount(storefrontAddress)
@@ -38,10 +38,10 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
             .borrow()
             ?? panic("Could not borrow Storefront from provided address")
 
-        self.saleOffer = self.storefront.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID)
-            ?? panic("No Offer with that ID in Storefront")
+        self.listing = self.storefront.borrowListing(listingResourceID: listingResourceID)
+            ?? panic("No Listing with that ID in Storefront")
         
-        let price = self.saleOffer.getDetails().salePrice
+        let price = self.listing.getDetails().salePrice
 
         let mainFLOWVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
             ?? panic("Cannot borrow FLOW vault from account storage")
@@ -52,12 +52,12 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
     }
 
     execute {
-        let item <- self.saleOffer.accept(
+        let item <- self.listing.purchase(
             payment: <-self.paymentVault
         )
 
         self.kittyItemsCollection.deposit(token: <-item)
 
-        self.storefront.cleanup(saleOfferResourceID: saleOfferResourceID)
+        self.storefront.cleanup(listingResourceID: listingResourceID)
     }
 }

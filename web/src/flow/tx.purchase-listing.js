@@ -29,11 +29,11 @@ const CODE = fcl.cdc`
     return collectionRef
   }
 
-  transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
+  transaction(listingResourceID: UInt64, storefrontAddress: Address) {
     let paymentVault: @FungibleToken.Vault
     let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
-    let saleOffer: &NFTStorefront.SaleOffer{NFTStorefront.SaleOfferPublic}
+    let listing: &NFTStorefront.Listing{NFTStorefront.ListingPublic}
 
     prepare(account: AuthAccount) {
       self.storefront = getAccount(storefrontAddress)
@@ -43,10 +43,10 @@ const CODE = fcl.cdc`
         .borrow()
         ?? panic("Could not borrow Storefront from provided address")
 
-      self.saleOffer = self.storefront.borrowSaleOffer(saleOfferResourceID: saleOfferResourceID)
-        ?? panic("No Offer with that ID in Storefront")
+      self.listing = self.storefront.borrowListing(listingResourceID: listingResourceID)
+        ?? panic("No Listing with that ID in Storefront")
         
-      let price = self.saleOffer.getDetails().salePrice
+      let price = self.listing.getDetails().salePrice
 
       let mainFLOWVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
         ?? panic("Cannot borrow FLOW vault from account storage")
@@ -57,19 +57,19 @@ const CODE = fcl.cdc`
     }
 
     execute {
-      let item <- self.saleOffer.accept(
+      let item <- self.listing.purchase(
         payment: <-self.paymentVault
       )
 
       self.kittyItemsCollection.deposit(token: <-item)
 
-      self.storefront.cleanup(saleOfferResourceID: saleOfferResourceID)
+      self.storefront.cleanup(listingResourceID: listingResourceID)
     }
   }
 `
 
 // prettier-ignore
-export function purchaseItemListing({itemID, ownerAddress}, opts = {}) {
+export function purchaseListing({itemID, ownerAddress}, opts = {}) {
   invariant(itemID != null, "buyMarketItem({itemID, ownerAddress}) -- itemID required")
   invariant(ownerAddress != null, "buyMarketItem({itemID, ownerAddress}) -- ownerAddress required")
 

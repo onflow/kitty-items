@@ -22,7 +22,7 @@ import {
 	sellItem,
 	removeItem,
 	setupStorefrontOnAccount,
-	getSaleOfferCount,
+	getListingCount,
 } from "../src/nft-storefront";
 
 // We need to set timeout for a higher number, because some transactions might take up some time
@@ -53,7 +53,7 @@ describe("NFT Storefront", () => {
 		await shallPass(setupStorefrontOnAccount(Alice));
 	});
 
-	it("shall be able to create a sale offer", async () => {
+	it("shall be able to create a listing", async () => {
 		// Setup
 		await deployNFTStorefront();
 		const Alice = await getAccountAddress("Alice");
@@ -67,7 +67,7 @@ describe("NFT Storefront", () => {
 		await shallPass(sellItem(Alice, itemID, toUFix64(1.11)));
 	});
 
-	it("shall be able to accept a sale offer", async () => {
+	it("shall be able to accept a listing", async () => {
 		// Setup
 		await deployNFTStorefront();
 
@@ -87,19 +87,19 @@ describe("NFT Storefront", () => {
 		// Bob shall be able to buy from Alice
 		const sellItemTransactionResult = await shallPass(sellItem(Alice, itemId, toUFix64(1.11)));
 
-		const saleOfferAvailableEvent = sellItemTransactionResult.events[0];
-		const saleOfferResourceID = saleOfferAvailableEvent.data.saleOfferResourceID;
+		const listingAvailableEvent = sellItemTransactionResult.events[0];
+		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
-		await shallPass(buyItem(Bob, saleOfferResourceID, Alice));
+		await shallPass(buyItem(Bob, listingResourceID, Alice));
 
 		const itemCount = await getKittyItemCount(Bob);
 		expect(itemCount).toBe(1);
 
-		const offerCount = await getSaleOfferCount(Alice);
-		expect(offerCount).toBe(0);
+		const listingCount = await getListingCount(Alice);
+		expect(listingCount).toBe(0);
 	});
 
-	it("shall be able to remove a sale offer", async () => {
+	it("shall be able to remove a listing", async () => {
 		// Deploy contracts
 		await shallPass(deployNFTStorefront());
 
@@ -117,13 +117,13 @@ describe("NFT Storefront", () => {
 		// Listing item for sale shall pass
 		const sellItemTransactionResult = await shallPass(sellItem(Alice, itemId, toUFix64(1.11)));
 
-		const saleOfferAvailableEvent = sellItemTransactionResult.events[0];
-		const saleOfferResourceID = saleOfferAvailableEvent.data.saleOfferResourceID;
+		const listingAvailableEvent = sellItemTransactionResult.events[0];
+		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
 		// Alice shall be able to remove item from sale
-		await shallPass(removeItem(Alice, saleOfferResourceID));
+		await shallPass(removeItem(Alice, listingResourceID));
 
-		const offerCount = await getSaleOfferCount(Alice);
-		expect(offerCount).toBe(0);
+		const listingCount = await getListingCount(Alice);
+		expect(listingCount).toBe(0);
 	});
 });

@@ -1,5 +1,6 @@
 import NFTStorefront from "../../contracts/NFTStorefront.cdc"
-transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
+
+transaction(listingResourceID: UInt64, storefrontAddress: Address) {
     let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
 
     prepare(acct: AuthAccount) {
@@ -12,8 +13,7 @@ transaction(saleOfferResourceID: UInt64, storefrontAddress: Address) {
     }
 
     execute {
-        
         // Be kind and recycle
-        self.storefront.cleanup(saleOfferResourceID: saleOfferResourceID)
+        self.storefront.cleanup(listingResourceID: listingResourceID)
     }
 }
