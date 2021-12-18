@@ -1,10 +1,10 @@
 <p align="center">
-    <a href="http://kitty-items-flow-testnet.herokuapp.com/">
-        <img width="400" src="kitty-items-banner-1.png" />
+    <a href="http://kitty-items-flow-testnet-prod.herokuapp.com/">
+        <img width="400" src="kitty-items-banner.png" />
     </a>
 </p>
 
-👋 Welcome! This demo app was created to help you learn how to build on Flow.
+👋 Welcome! This demo app is designed to help you learn to build on Flow.
 
 - Kitty Items is a **complete NFT marketplace** built with [Cadence](https://docs.onflow.org/cadence), Flow's resource-oriented smart contract programming language.
 - Learn how to deploy contracts, mint NFTs, and integrate user wallets with the Flow Client Library (FCL).
