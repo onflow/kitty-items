@@ -6,8 +6,8 @@ import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
 import {
   EVENT_ITEM_MINTED,
-  getStorefrontEventByType,
-} from "src/util/storefrontEvents"
+  getKittyItemsEventByType,
+} from "src/util/events"
 import {extractApiListingFromEvents} from "./useApiListing"
 import useAppContext from "./useAppContext"
 
@@ -86,7 +86,7 @@ export default function useMinter(onSuccess) {
         const transactionData = await fcl.tx(transactionId).onceSealed()
         unsub()
 
-        const event = getStorefrontEventByType(
+        const event = getKittyItemsEventByType(
           transactionData.events,
           EVENT_ITEM_MINTED
         )

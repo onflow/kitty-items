@@ -6,8 +6,8 @@ import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
 import {
   EVENT_ITEM_MINTED,
-  getStorefrontEventByType,
-} from "src/util/storefrontEvents"
+  getKittyItemsEventByType,
+} from "src/util/events"
 import useAppContext from "./useAppContext"
 
 // Mints an item and lists it for sale. The item is minted on the service account.
@@ -47,10 +47,11 @@ export default function useMintAndList(onSuccess) {
         const transactionData = await fcl.tx(transactionId).onceSealed()
         unsub()
 
-        const event = getStorefrontEventByType(
+        const event = getKittyItemsEventByType(
           transactionData.events,
           EVENT_ITEM_MINTED
         )
+
         if (!Number.isInteger(event?.data?.id))
           throw "Minting error, missing id"
         if (!Number.isInteger(event?.data?.typeID))

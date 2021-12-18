@@ -16,14 +16,14 @@ import {
 } from "src/reducers/requestReducer"
 import {
   EVENT_KITTY_ITEM_DEPOSIT,
-  getStorefrontEventByType,
-} from "src/util/storefrontEvents"
+  getKittyItemsEventByType,
+} from "src/util/events"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
 import {compFLOWBalanceKey} from "./useFLOWBalance"
 
 const getNewlySignedInUserAddress = txData => {
-  const depositEvent = getStorefrontEventByType(
+  const depositEvent = getKittyItemsEventByType(
     txData.events,
     EVENT_KITTY_ITEM_DEPOSIT
   )

@@ -27,7 +27,7 @@ export const paths = {
   marketplace: "/marketplace",
   adminMint: "/admin/mint",
   profile: address => `/profiles/${address}`,
-  profileItem: (address, id) => `/profiles/${address}/kitty-items/${id}`,
+  profileItem: (address, id) => `/profiles/${address}/items/${id}`,
   apiMarketItemsList: params =>
     `${publicConfig.apiMarketItemsList}${getParamsString(params)}`,
   apiListing: id => `${publicConfig.apiUrl}/v1/market/${id}`,

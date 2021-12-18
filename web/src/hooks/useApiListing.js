@@ -5,7 +5,7 @@ import normalizeItem from "src/util/normalize-item"
 import {
   EVENT_LISTING_AVAILABLE,
   getStorefrontEventByType,
-} from "src/util/storefrontEvents"
+} from "src/util/events"
 import useSWR from "swr"
 
 export function extractApiListingFromEvents(
