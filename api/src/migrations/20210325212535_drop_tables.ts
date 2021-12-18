@@ -1,14 +1,14 @@
-import { Knex } from "knex";
+import {Knex} from "knex"
 
-import * as kittyItems from "./20201217175515_create_kitty_items";
-import * as saleOffers from "./20201217175722_create_sale_offers";
+import * as kittyItems from "./20201217175515_create_kitty_items"
+import * as listings from "./20201217175722_create_listing"
 
 export async function up(knex: Knex): Promise<void> {
-  await kittyItems.down(knex);
-  await saleOffers.down(knex);
+  await kittyItems.down(knex)
+  await listings.down(knex)
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await kittyItems.up(knex);
-  await saleOffers.up(knex);
+  await kittyItems.up(knex)
+  await listings.up(knex)
 }
