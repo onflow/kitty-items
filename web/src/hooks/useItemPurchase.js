@@ -38,11 +38,11 @@ export default function useItemPurchase() {
   const {mutate, cache} = useSWRConfig()
   const [txStatus, setTxStatus] = useState(null)
 
-  const purchase = (saleOfferId, itemId, ownerAddress) => {
-    if (!saleOfferId) throw "Missing saleOffer id"
+  const purchase = (listingId, itemId, ownerAddress) => {
+    if (!listingId) throw "Missing listing id"
     if (!ownerAddress) throw "Missing ownerAddress"
     purchaseItemListing(
-      {itemID: saleOfferId, ownerAddress},
+      {itemID: listingId, ownerAddress},
       {
         onStart() {
           dispatch({type: START})
@@ -53,7 +53,7 @@ export default function useItemPurchase() {
         async onSuccess(txData) {
           const currentUserAddress = getNewlySignedInUserAddress(txData)
           mutate(compFLOWBalanceKey(currentUserAddress))
-          cache.delete(paths.apiSaleOffer(itemId))
+          cache.delete(paths.apiListing(itemId))
           router.push(paths.profileItem(currentUserAddress, itemId))
           dispatch({type: SUCCESS})
           setFlashMessage(flashMessages.purchaseSuccess)

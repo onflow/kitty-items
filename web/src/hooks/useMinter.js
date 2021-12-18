@@ -8,7 +8,7 @@ import {
   EVENT_ITEM_MINTED,
   getStorefrontEventByType,
 } from "src/util/storefrontEvents"
-import {extractApiSaleOfferFromEvents} from "./useApiSaleOffer"
+import {extractApiListingFromEvents} from "./useApiListing"
 import useAppContext from "./useAppContext"
 
 // Mints an item and lists it for sale. The item is minted on the service account.
@@ -48,13 +48,13 @@ export default function useMinter(onSuccess) {
         const transactionData = await fcl.tx(transactionId).onceSealed()
         unsub()
 
-        const newSaleOffer = extractApiSaleOfferFromEvents(
+        const newListing = extractApiListingFromEvents(
           transactionData.events,
           typeId,
           rarityId,
           currentUser.addr
         )
-        if (!newSaleOffer) throw "Missing saleOffer"
+        if (!newListing) throw "Missing listing"
         onSuccess(itemId)
       },
       onError: () => {

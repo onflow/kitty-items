@@ -6,20 +6,20 @@ import laggy from "src/util/laggy"
 import normalizeItem from "src/util/normalize-item"
 import useSWR from "swr"
 
-export default function useApiSaleOffers(params) {
+export default function useApiListings(params) {
   const {data, error} = useSWR(paths.apiMarketItemsList(params), fetcher, {
     use: [laggy],
   })
 
-  const saleOffers = useMemo(() => {
+  const listings = useMemo(() => {
     // Paginated queries return an object
-    const saleOffersArray = Array.isArray(data) ? data : data?.results
-    return saleOffersArray?.map(item => normalizeItem(item))
+    const listingsArray = Array.isArray(data) ? data : data?.results
+    return listingsArray?.map(item => normalizeItem(item))
   }, [data])
 
-  return {saleOffers, data, error, isLoading: !data && !error}
+  return {listings, data, error, isLoading: !data && !error}
 }
 
-useApiSaleOffers.propTypes = {
+useApiListings.propTypes = {
   address: PropTypes.string,
 }

@@ -18,7 +18,7 @@ export default function ListItem({
   address,
   id,
   price,
-  saleOfferId,
+  listingId,
   showOwnerInfo,
   size = "sm",
   isStoreItem,
@@ -29,7 +29,7 @@ export default function ListItem({
   if (isLoading || !item) return null
 
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
-  const isBuyable = !currentUserIsOwner && !!saleOfferId
+  const isBuyable = !currentUserIsOwner && !!listingId
   const name = listItemName(item.typeID, item.rarityID)
 
   return (
@@ -73,7 +73,7 @@ export default function ListItem({
             </Link>
           </div>
           <div className="flex items-center">
-            {!!saleOfferId && <ListItemPrice price={parseFloat(price)} />}
+            {!!listingId && <ListItemPrice price={parseFloat(price)} />}
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@ ListItem.propTypes = {
   address: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   price: PropTypes.number,
-  saleOfferId: PropTypes.number,
+  listingId: PropTypes.number,
   showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
   isStoreItem: PropTypes.bool,

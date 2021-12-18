@@ -10,7 +10,7 @@ import useItemSale from "src/hooks/useItemSale"
 import ListItemInsufficientFundsWarning from "./ListItemInsufficientFundsWarning"
 import TransactionLoading from "./TransactionLoading"
 
-export default function ListItemPageButtons({item, saleOffer}) {
+export default function ListItemPageButtons({item, listing}) {
   const router = useRouter()
   const {address, id} = router.query
   const {currentUser} = useAppContext()
@@ -21,18 +21,18 @@ export default function ListItemPageButtons({item, saleOffer}) {
   const [{isLoading: isRemoveLoading}, remove, removeTxStatus] =
     useItemRemoval()
 
-  const onPurchaseClick = () => buy(saleOffer?.resourceID, id, address)
+  const onPurchaseClick = () => buy(listing?.resourceID, id, address)
   const onSellClick = () => sell(id, item.typeID, item.rarityID)
-  const onRemoveClick = () => remove(saleOffer?.resourceID, id)
+  const onRemoveClick = () => remove(listing?.resourceID, id)
 
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
-  const isSellable = currentUserIsOwner && !saleOffer
-  const isBuyable = !currentUser || (!currentUserIsOwner && !!saleOffer)
-  const isRemovable = currentUserIsOwner && !!saleOffer
+  const isSellable = currentUserIsOwner && !listing
+  const isBuyable = !currentUser || (!currentUserIsOwner && !!listing)
+  const isRemovable = currentUserIsOwner && !!listing
 
   // TODO: Use a library that supports UFix64 precision to avoid comparing rounded numbers
   const userHasEnoughFunds =
-    !!saleOffer && saleOffer.price <= parseFloat(flowBalance)
+    !!listing && listing.price <= parseFloat(flowBalance)
 
   if (isBuyable) {
     return (
@@ -101,5 +101,5 @@ export default function ListItemPageButtons({item, saleOffer}) {
 
 ListItemPageButtons.propTypes = {
   item: PropTypes.object.isRequired,
-  saleOffer: PropTypes.object,
+  listing: PropTypes.object,
 }

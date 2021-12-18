@@ -1,24 +1,24 @@
 import PropTypes from "prop-types"
-import useSaleOffer from "src/hooks/useSaleOffer"
+import useListing from "src/hooks/useListing"
 import ListItem from "./ListItem"
 
-export default function SaleOffer({address, id, showOwnerInfo}) {
-  const {data: saleOffer, isLoading} = useSaleOffer(address, id)
+export default function Listing({address, id, showOwnerInfo}) {
+  const {data: listing, isLoading} = useListing(address, id)
 
-  if (isLoading || !saleOffer.itemID) return null
+  if (isLoading || !listing.itemID) return null
 
   return (
     <ListItem
       address={address}
-      id={saleOffer.itemID}
-      saleOfferId={id}
-      price={parseFloat(saleOffer.price)}
+      id={listing.itemID}
+      listingId={id}
+      price={parseFloat(listing.price)}
       showOwnerInfo={showOwnerInfo}
     />
   )
 }
 
-SaleOffer.propTypes = {
+Listing.propTypes = {
   address: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   showOwnerInfo: PropTypes.bool,

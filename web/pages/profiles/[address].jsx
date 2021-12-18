@@ -5,7 +5,7 @@ import Avatar from "src/components/Avatar"
 import PageTitle from "src/components/PageTitle"
 import ProfileAccountItems from "src/components/ProfileAccountItems"
 import ProfileQuestionPopover from "src/components/ProfileQuestionPopover"
-import ProfileSaleOffers from "src/components/ProfileSaleOffers"
+import ProfileListings from "src/components/ProfileListings"
 
 const getTabClasses = selected =>
   `text-3xl mx-4 text-gray-darkest border-b-2 pb-0.5 hover:opacity-80 ${
@@ -52,7 +52,7 @@ export default function Profile() {
               <ProfileAccountItems address={address} />
             </Tab.Panel>
             <Tab.Panel>
-              <ProfileSaleOffers address={address} />
+              <ProfileListings address={address} />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
