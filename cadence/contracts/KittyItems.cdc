@@ -194,12 +194,12 @@ pub contract KittyItems: NonFungibleToken {
             2: 25.0,
             3: 5.0,
             4: 1.0
-        } 
+        }
 
         // Set our named paths
-        self.CollectionStoragePath = /storage/kittyItemsCollectionV8
-        self.CollectionPublicPath = /public/kittyItemsCollectionV8
-        self.MinterStoragePath = /storage/kittyItemsMinterV8
+        self.CollectionStoragePath = /storage/kittyItemsCollectionV9
+        self.CollectionPublicPath = /public/kittyItemsCollectionV9
+        self.MinterStoragePath = /storage/kittyItemsMinterV9
 
         // Initialize the total supply
         self.totalSupply = 0
