@@ -19,8 +19,8 @@ class StorefrontService {
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
     private readonly nonFungibleTokenAddress: string,
-    private readonly kittyItemsAddress: string,
-    public readonly storefrontAddress: string
+    public readonly storefrontAddress: string,
+    private readonly kittyItemsAddress: string
   ) {}
 
   setupAccount = () => {

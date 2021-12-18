@@ -52,8 +52,8 @@ async function run() {
     config.fungibleTokenAddress,
     config.flowTokenAddress,
     config.nonFungibleTokenAddress,
+    config.storefrontAddress,
     config.minterAddress,
-    config.minterAddress
   );
 
   // Make sure we're pointing to the correct Flow Access API.
