@@ -48,10 +48,9 @@ Continue reading the sections below for instructions on how to start the project
 2)  Run `flow project deploy --network emulator`
     - All contracts are deployed to the emulator.
 
+3) Visit `http://localhost:3001` and follow instructions in "Initializethe Service Account to mint Kitty Items" at the top of the home app.
 
 Thats it! 🏁
-
-Visit `http://localhost:3001` to interact with your new instance of Kitty Items!
 
 
 ## Testnet development
