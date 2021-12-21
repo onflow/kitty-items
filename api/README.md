@@ -1,25 +1,10 @@
 # Kitty Items API
 
-The Kitty Items API is a RESTful API built with [express](https://expressjs.com/) that sends transactions to Flow using the [Flow JS SDK](https://github.com/onflow/flow-js-sdk/).
+The Kitty Items API is a RESTful API built with [express](https://expressjs.com/) that sends transactions to Flow using the [Flow JS SDK](https://github.com/onflow/fcl-js/tree/master/packages/sdk).
 
-### Getting Started
+## Setup
 
-_💡 Learn more about `Vault` and `Collection` resources [in this tutorial](https://docs.onflow.org/cadence/tutorial/01-first-steps/)._
-
-#### Minter setup script
-
-Run this script to set up the minter account and mint an initial supply of Kitty Items:
-
-```sh
-./setup-minter.sh
-```
-
-## Appendix: API Reference
-
-### Setup
-
-Run the commands below to initialize the minter account to mint 
-Kitty Items and add listings to the marketplace.
+Run the commands below to initialize the minter account.
 
 - **POST /v1/kitty-items/setup** - Create a resource that holds Kitty Items in the `MINTER_FLOW_ADDRESS` account.
 
@@ -37,7 +22,7 @@ curl --request POST \
   --header 'Content-Type: application/json'
 ```
 
-### Minting
+## Minting
 
 Run the commands below to mint new items and list them for sale.
 
