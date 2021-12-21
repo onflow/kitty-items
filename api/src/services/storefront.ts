@@ -65,7 +65,7 @@ class StorefrontService {
     const authorization = this.flowService.authorizeMinter()
 
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/buy_item.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/purchase_listing.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
@@ -85,7 +85,7 @@ class StorefrontService {
     const authorization = this.flowService.authorizeMinter()
 
     const transaction = fs
-      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/sell_item.cdc`), 'utf8')
+      .readFileSync(path.join(__dirname, `../../../cadence/transactions/nftStorefront/create_listing.cdc`), 'utf8')
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
