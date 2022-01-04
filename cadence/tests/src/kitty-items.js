@@ -29,7 +29,13 @@ export const deployKittyItems = async () => {
 
 	await deployContractByName({ to: KittyAdmin, name: "NonFungibleToken" });
 
-	const addressMap = { NonFungibleToken: KittyAdmin };
+	await deployContractByName({ to: KittyAdmin, name: "MetadataViews" });
+
+	const addressMap = { 
+		NonFungibleToken: KittyAdmin,
+		MetadataViews: KittyAdmin,
+	};
+	
 	return deployContractByName({ to: KittyAdmin, name: "KittyItems", addressMap });
 };
 

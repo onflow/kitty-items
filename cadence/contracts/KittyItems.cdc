@@ -1,8 +1,6 @@
 import NonFungibleToken from "./NonFungibleToken.cdc"
+import MetadataViews from "./MetadataViews.cdc"
 
-// KittyItems
-// NFT items for Kitties!
-//
 pub contract KittyItems: NonFungibleToken {
 
     // Events
@@ -10,7 +8,7 @@ pub contract KittyItems: NonFungibleToken {
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
-    pub event Minted(id: UInt64, typeID: UInt64, rarityID: UInt64)
+    pub event Minted(id: UInt64, kind: UInt8, rarity: UInt8)
 
     // Named Paths
     //
@@ -23,26 +21,116 @@ pub contract KittyItems: NonFungibleToken {
     //
     pub var totalSupply: UInt64
 
-    // Rarity -> Price mapping
-    pub var itemRarityPriceMap: {UInt64: UFix64}
+    pub enum Rarity: UInt8 {
+        pub case blue
+        pub case green
+        pub case purple
+        pub case gold
+    }
+
+    pub fun rarityToString(_ rarity: Rarity): String {
+        switch rarity {
+            case Rarity.blue:
+                return "Blue"
+            case Rarity.green:
+                return "Green"
+            case Rarity.purple:
+                return "Purple"
+            case Rarity.gold:
+                return "Gold"
+        }
+
+        return ""
+    }
+
+    pub enum Kind: UInt8 {
+	    pub case fishbowl
+	    pub case fishhat
+	    pub case milkshake
+	    pub case tuktuk
+	    pub case skateboard
+	    pub case shades
+    }
+
+    pub fun kindToString(_ kind: Kind): String {
+        switch kind {
+            case Kind.fishbowl:
+                return "Fishbowl"
+            case Kind.fishhat:
+                return "Fish Hat"
+            case Kind.milkshake:
+                return "Milkshake"
+            case Kind.tuktuk:
+                return "Tuk-Tuk"
+            case Kind.skateboard:
+                return "Skateboard"
+            case Kind.shades:
+                return "Shades"
+        }
+
+        return ""
+    }
+
+    // Rarity -> price rarity mapping
+    pub var itemRarityPriceMap: {Rarity: UFix64}
 
     // NFT
     // A Kitty Item as an NFT
     //
-    pub resource NFT: NonFungibleToken.INFT {
-        // The token's ID
-        pub let id: UInt64
-        // The token's type, e.g. 1 == Fishbowl
-        pub let typeID: UInt64
-        // The token's rarity, e.g. 1 == Gold
-        pub let rarityID: UInt64
+    pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
 
-        // initializer
-        //
-        init(initID: UInt64, initTypeID: UInt64, initRarityID: UInt64) {
-            self.id = initID
-            self.typeID = initTypeID
-            self.rarityID = initRarityID
+        pub let id: UInt64
+
+        // The token kind (e.g. Fishbowl)
+        pub let kind: Kind
+
+        // The token rarity (e.g. Gold)
+        pub let rarity: Rarity
+
+        init(id: UInt64, kind: Kind, rarity: Rarity) {
+            self.id = id
+            self.kind = kind
+            self.rarity = rarity
+        }
+
+        pub fun name(): String {
+            return KittyItems.rarityToString(self.rarity)
+                .concat(" ")
+                .concat(KittyItems.kindToString(self.kind))
+        }
+
+        pub fun description(): String {
+            return "A "
+                .concat(KittyItems.rarityToString(self.rarity).toLower())
+                .concat(" ")
+                .concat(KittyItems.kindToString(self.kind).toLower())
+                .concat(" with serial number ")
+                .concat(self.id.toString())
+        }
+
+        pub fun getViews(): [Type] {
+            return [
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.Thumbnail>()
+            ]
+        }
+
+        pub fun resolveView(_ view: Type): AnyStruct? {
+            switch view {
+                case Type<MetadataViews.Display>():
+                    return MetadataViews.Display(
+                        name: self.name(),
+                        description: self.description(),
+                    )
+                case Type<MetadataViews.Thumbnail>():
+                    return MetadataViews.Thumbnail(
+                        // TODO: implement image thumbnail
+                        uri: "foo.jpeg",
+                        mimetype: "image/jpeg",
+                    )
+            }
+
+            return nil
         }
     }
 
@@ -158,14 +246,21 @@ pub contract KittyItems: NonFungibleToken {
         // Mints a new NFT with a new ID
 		// and deposit it in the recipients collection using their collection reference
         //
-		pub fun mintNFT(recipient: &{NonFungibleToken.CollectionPublic}, typeID: UInt64, rarityID: UInt64) {
-            emit Minted(id: KittyItems.totalSupply, typeID: typeID, rarityID: rarityID)
-
+		pub fun mintNFT(
+            recipient: &{NonFungibleToken.CollectionPublic}, 
+            kind: Kind, 
+            rarity: Rarity,
+        ) {
 			// deposit it in the recipient's account using their reference
-			recipient.deposit(token: <-create KittyItems.NFT(initID: KittyItems.totalSupply, initTypeID: typeID, initRarityID: rarityID))
+			recipient.deposit(token: <-create KittyItems.NFT(id: KittyItems.totalSupply, kind: kind, rarity: rarity))
 
             KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
 
+            emit Minted(
+                id: KittyItems.totalSupply,
+                kind: kind.rawValue,
+                rarity: rarity.rawValue,
+            )
 		}
 	}
 
@@ -190,10 +285,10 @@ pub contract KittyItems: NonFungibleToken {
 	init() {
         // set rarity price mapping
         self.itemRarityPriceMap = {
-            1: 125.0,
-            2: 25.0,
-            3: 5.0,
-            4: 1.0
+            Rarity.gold: 125.0,
+            Rarity.purple: 25.0,
+            Rarity.green: 5.0,
+            Rarity.blue: 1.0
         }
 
         // Set our named paths

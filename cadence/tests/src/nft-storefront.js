@@ -44,7 +44,7 @@ export const setupStorefrontOnAccount = async (account) => {
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const createItemListing = async (seller, itemId, price) => {
+export const createListing = async (seller, itemId, price) => {
 	const name = "nftStorefront/create_listing";
 	const args = [itemId, price];
 	const signers = [seller];
@@ -60,7 +60,7 @@ export const createItemListing = async (seller, itemId, price) => {
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const purchaseItemListing = async (buyer, resourceId, seller) => {
+export const purchaseListing = async (buyer, resourceId, seller) => {
 	const name = "nftStorefront/purchase_listing";
 	const args = [resourceId, seller];
 	const signers = [buyer];
@@ -75,7 +75,7 @@ export const purchaseItemListing = async (buyer, resourceId, seller) => {
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<*>}
  * */
-export const removeItemListing = async (owner, itemId) => {
+export const removeListing = async (owner, itemId) => {
 	const name = "nftStorefront/remove_listing";
 	const signers = [owner];
 	const args = [itemId];

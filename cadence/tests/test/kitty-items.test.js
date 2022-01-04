@@ -38,11 +38,11 @@ describe("Kitty Items", () => {
 		return emulator.stop();
 	});
 
-	it("shall deploy KittyItems contract", async () => {
+	it("should deploy KittyItems contract", async () => {
 		await deployKittyItems();
 	});
 
-	it("supply shall be 0 after contract is deployed", async () => {
+	it("supply should be 0 after contract is deployed", async () => {
 		// Setup
 		await deployKittyItems();
 		const KittyAdmin = await getKittyAdminAddress();
@@ -54,7 +54,7 @@ describe("Kitty Items", () => {
 		});
 	});
 
-	it("shall be able to mint a kittyItems", async () => {
+	it("should be able to mint a kitty item", async () => {
 		// Setup
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
@@ -64,7 +64,7 @@ describe("Kitty Items", () => {
 		await shallPass(mintKittyItem(Alice, types.fishbowl, rarities.blue));
 	});
 
-	it("shall be able to create a new empty NFT Collection", async () => {
+	it("should be able to create a new empty NFT Collection", async () => {
 		// Setup
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
@@ -77,7 +77,7 @@ describe("Kitty Items", () => {
 		});
 	});
 
-	it("shall not be able to withdraw an NFT that doesn't exist in a collection", async () => {
+	it("should not be able to withdraw an NFT that doesn't exist in a collection", async () => {
 		// Setup
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
@@ -89,7 +89,7 @@ describe("Kitty Items", () => {
 		await shallRevert(transferKittyItem(Alice, Bob, 1337));
 	});
 
-	it("shall be able to withdraw an NFT and deposit to another accounts collection", async () => {
+	it("should be able to withdraw an NFT and deposit to another accounts collection", async () => {
 		await deployKittyItems();
 		const Alice = await getAccountAddress("Alice");
 		const Bob = await getAccountAddress("Bob");

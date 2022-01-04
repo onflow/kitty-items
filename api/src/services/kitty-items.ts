@@ -10,17 +10,45 @@ const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
+enum Rarity {
+  Blue,
+  Green,
+  Purple,
+  Gold
+}
+
+enum Kind {
+  Fishbowl,
+  Fishhat,
+  Milkshake,
+  TukTuk,
+  Skateboard,
+  Shades,
+}
+
+const randomKind = () => {
+  const values = Object.keys(Kind);
+  const enumKey = values[Math.floor(Math.random() * values.length)];
+  return Kind[enumKey];
+}
+
 const ITEM_RARITY_PROBABILITIES = {
-  1: 2,
-  2: 8,
-  3: 10,
-  4: 80,
+  [Rarity.Gold]: 2,
+  [Rarity.Purple]: 8,
+  [Rarity.Green]: 10,
+  [Rarity.Blue]: 80,
 }
 
 const rarityTypes = Object.keys(ITEM_RARITY_PROBABILITIES)
 const rarityProbabilities = rarityTypes.flatMap(rarityId =>
   Array(ITEM_RARITY_PROBABILITIES[rarityId]).fill(rarityId)
 )
+
+const randomRarity = () => {
+  return rarityProbabilities[
+    Math.floor(Math.random() * rarityProbabilities.length)
+  ]
+}
 
 class KittyItemsService {
   constructor(
@@ -61,12 +89,8 @@ class KittyItemsService {
   mint = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    // Random typeID between 1 - 6
-    const typeID = Math.floor(Math.random() * 6) + 1
-    const rarityID =
-      rarityProbabilities[
-        Math.floor(Math.random() * rarityProbabilities.length)
-      ]
+    const kind = randomKind()
+    const rarity = randomRarity()
 
     const transaction = fs
       .readFileSync(
@@ -86,8 +110,8 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(typeID, t.UInt64),
-        fcl.arg(Number(rarityID), t.UInt64),
+        fcl.arg(Number(kind), t.UInt8),
+        fcl.arg(Number(rarity), t.UInt8),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -99,11 +123,8 @@ class KittyItemsService {
   mintAndList = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    const typeID = Math.floor(Math.random() * 6) + 1
-    const rarityID =
-      rarityProbabilities[
-        Math.floor(Math.random() * rarityProbabilities.length)
-      ]
+    const kind = randomKind()
+    const rarity = randomRarity()
 
     const transaction = fs
       .readFileSync(
@@ -126,8 +147,8 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(typeID, t.UInt64),
-        fcl.arg(Number(rarityID), t.UInt64),
+        fcl.arg(Number(kind), t.UInt8),
+        fcl.arg(Number(rarity), t.UInt8),
       ],
       authorizations: [authorization],
       payer: authorization,

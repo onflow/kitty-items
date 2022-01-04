@@ -60,7 +60,8 @@ async function run() {
   fcl
     .config()
     .put("accessNode.api", config.accessApi)
-    .put("decoder.Type", val => val.staticType);
+    .put("decoder.Type", val => val.staticType)
+    .put("decoder.Enum", val => Number(val.fields[0].value.value));
 
   const startWorker = () => {
     console.log("Starting Flow event worker ....");

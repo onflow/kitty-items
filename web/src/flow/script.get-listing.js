@@ -9,13 +9,18 @@ const CODE = fcl.cdc`
 
   pub struct SaleItem {
     pub let itemID: UInt64
-    pub let typeID: UInt64
+    pub let kind: KittyItems.Kind
     pub let owner: Address
     pub let price: UFix64
 
-    init(itemID: UInt64, typeID: UInt64, owner: Address, price: UFix64) {
+    init(
+      itemID: UInt64,
+      kind: KittyItems.Kind,
+      owner: Address,
+      price: UFix64,
+    ) {
       self.itemID = itemID
-      self.typeID = typeID
+      self.kind = kind
       self.owner = owner
       self.price = price
     }
@@ -32,7 +37,12 @@ const CODE = fcl.cdc`
 
         if let collection = account.getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
           if let item = collection.borrowKittyItem(id: itemID) {
-            return SaleItem(itemID: itemID, typeID: item.typeID, owner: address, price: itemPrice)
+            return SaleItem(
+              itemID: itemID,
+              kind: item.kind,
+              owner: address,
+              price: itemPrice,
+            )
           }
         }
       }

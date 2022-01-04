@@ -119,8 +119,12 @@ class StorefrontService {
     const owner = listingEvent.data.storefrontAddress
     const listingResourceID = listingEvent.data.listingResourceID
 
+    console.log(listingEvent.data)
+
     const item = await this.getListingItem(owner, listingResourceID)
 
+    console.log(item)
+    
     return Listing.transaction(async (tx) => {
       return await Listing.query(tx)
         .insert({
