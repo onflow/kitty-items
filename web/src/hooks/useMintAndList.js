@@ -38,7 +38,7 @@ export default function useMintAndList(onSuccess) {
       onSuccess: async data => {
         setIsMintingLoading(true)
 
-        const transactionId = data?.transaction?.transactionId
+        const transactionId = data?.transaction
         if (!transactionId) throw "Missing transactionId"
 
         const unsub = await fcl

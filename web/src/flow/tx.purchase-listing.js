@@ -1,9 +1,7 @@
-import * as fcl from "@onflow/fcl"
-import * as t from "@onflow/types"
 import {invariant} from "@onflow/util-invariant"
 import {tx} from "src/flow/util/tx"
 
-const CODE = fcl.cdc`
+const PURCHASE_LISTING_TRANSACTION = `
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
   import FlowToken from 0xFlowToken
@@ -73,15 +71,15 @@ export function purchaseListing({itemID, ownerAddress}, opts = {}) {
   invariant(itemID != null, "buyMarketItem({itemID, ownerAddress}) -- itemID required")
   invariant(ownerAddress != null, "buyMarketItem({itemID, ownerAddress}) -- ownerAddress required")
 
-  return tx([
-    fcl.transaction(CODE),
-    fcl.args([
-      fcl.arg(Number(itemID), t.UInt64),
-      fcl.arg(String(ownerAddress), t.Address),
-    ]),
-    fcl.proposer(fcl.authz),
-    fcl.payer(fcl.authz),
-    fcl.authorizations([fcl.authz]),
-    fcl.limit(1000),
-  ], opts)
+  return tx(
+    {
+      cadence: PURCHASE_LISTING_TRANSACTION,
+      args: (arg, t) => [
+        arg(itemID, t.UInt64),
+        arg(ownerAddress, t.Address)
+      ],
+      limit: 1000,
+    },
+    opts,
+  )
 }
