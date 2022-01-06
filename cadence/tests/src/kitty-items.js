@@ -1,5 +1,9 @@
-import { deployContractByName, executeScript, mintFlow, sendTransaction } from "flow-js-testing";
-
+import { mintFlow } from "flow-js-testing";
+import { 
+	sendTransactionWithErrorRaised, 
+	executeScriptWithErrorRaised, 
+	deployContractByNameWithErrorRaised 
+} from "./common"
 import { getKittyAdminAddress } from "./common";
 
 export const types = {
@@ -27,10 +31,10 @@ export const deployKittyItems = async () => {
 	const KittyAdmin = await getKittyAdminAddress();
 	await mintFlow(KittyAdmin, "10.0");
 
-	await deployContractByName({ to: KittyAdmin, name: "NonFungibleToken" });
+	await deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "NonFungibleToken" });
 
 	const addressMap = { NonFungibleToken: KittyAdmin };
-	return deployContractByName({ to: KittyAdmin, name: "KittyItems", addressMap });
+	return deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "KittyItems", addressMap });
 };
 
 /*
@@ -43,7 +47,7 @@ export const setupKittyItemsOnAccount = async (account) => {
 	const name = "kittyItems/setup_account";
 	const signers = [account];
 
-	return sendTransaction({ name, signers });
+	return sendTransactionWithErrorRaised({ name, signers });
 };
 
 /*
@@ -54,7 +58,7 @@ export const setupKittyItemsOnAccount = async (account) => {
 export const getKittyItemSupply = async () => {
 	const name = "kittyItems/get_kitty_items_supply";
 
-	return executeScript({ name });
+	return executeScriptWithErrorRaised({ name });
 };
 
 /*
@@ -71,7 +75,7 @@ export const mintKittyItem = async (recipient, itemType, itemRarity) => {
 	const args = [recipient, itemType, itemRarity];
 	const signers = [KittyAdmin];
 
-	return sendTransaction({ name, args, signers });
+	return sendTransactionWithErrorRaised({ name, args, signers });
 };
 
 /*
@@ -87,7 +91,7 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
 	const args = [recipient, itemId];
 	const signers = [sender];
 
-	return sendTransaction({ name, args, signers });
+	return sendTransactionWithErrorRaised({ name, args, signers });
 };
 
 /*
@@ -101,7 +105,7 @@ export const getKittyItem = async (account, itemID) => {
 	const name = "kittyItems/get_kitty_item";
 	const args = [account, itemID];
 
-	return executeScript({ name, args });
+	return executeScriptWithErrorRaised({ name, args });
 };
 
 /*
@@ -114,5 +118,5 @@ export const getKittyItemCount = async (account) => {
 	const name = "kittyItems/get_collection_length";
 	const args = [account];
 
-	return executeScript({ name, args });
+	return executeScriptWithErrorRaised({ name, args });
 };
