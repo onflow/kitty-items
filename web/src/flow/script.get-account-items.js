@@ -2,7 +2,7 @@ import * as fcl from "@onflow/fcl"
 import {Address} from "@onflow/types"
 import {expandAccountItemsKey} from "src/hooks/useAccountItems"
 
-const CODE = fcl.cdc`
+const FETCH_ACCOUNT_ITEMS_SCRIPT = `
   import NonFungibleToken from 0xNonFungibleToken
   import KittyItems from 0xKittyItems
 
@@ -20,10 +20,10 @@ export function fetchAccountItems(key) {
   if (address == null) return Promise.resolve([])
 
   // prettier-ignore
-  return fcl.send([
-    fcl.script(CODE),
-    fcl.args([
-      fcl.arg(address, Address)
-    ]),
-  ]).then(fcl.decode).then(d => d.sort((a, b) => a - b))
+  return fcl.query({
+    cadence: FETCH_ACCOUNT_ITEMS_SCRIPT,
+    args: (arg, t) => [
+      fcl.arg(address, Address),
+    ],
+  })
 }

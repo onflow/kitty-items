@@ -1,9 +1,8 @@
 // prettier-ignore
-import { authorizations, authz, cdc, limit, payer, proposer, transaction } from "@onflow/fcl"
 import {invariant} from "@onflow/util-invariant"
 import {tx} from "src/flow/util/tx"
 
-const CODE = cdc`
+const INITIALIZE_ACCOUNT_TRANSACTION = `
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
   import KittyItems from 0xKittyItems
@@ -45,15 +44,11 @@ const CODE = cdc`
 export async function initializeAccount(address, opts = {}) {
   // prettier-ignore
   invariant(address != null, "Tried to initialize an account but no address was supplied")
-
   return tx(
-    [
-      transaction(CODE),
-      limit(70),
-      proposer(authz),
-      payer(authz),
-      authorizations([authz]),
-    ],
-    opts
+    {
+      cadence: INITIALIZE_ACCOUNT_TRANSACTION,
+      limit: 70,
+    },
+    opts,
   )
 }

@@ -1,8 +1,6 @@
-import * as fcl from "@onflow/fcl"
-import * as t from "@onflow/types"
 import {tx} from "src/flow/util/tx"
 
-const CODE = fcl.cdc`
+const CREATE_LISTING_TRANSACTION = `
   import FungibleToken from 0xFungibleToken
   import NonFungibleToken from 0xNonFungibleToken
   import FlowToken from 0xFlowToken
@@ -72,19 +70,15 @@ export function createListing({itemID, price}, opts = {}) {
     throw new Error("createListing(itemID, price) -- itemID required")
   if (price == null)
     throw new Error("createListing(itemID, price) -- price required")
-
-  // prettier-ignore
-  return tx([
-    fcl.transaction(CODE),
-    fcl.args([
-      fcl.arg(Number(itemID), t.UInt64),
-      fcl.arg(String(price.toFixed(2)), t.UFix64),
-    ]),
-    fcl.proposer(fcl.authz),
-    fcl.payer(fcl.authz),
-    fcl.authorizations([
-      fcl.authz
-    ]),
-    fcl.limit(1000)
-  ], opts)
+  return tx(
+    {
+      cadence: CREATE_LISTING_TRANSACTION,
+      args: (arg, t) => [
+        arg(Number(itemID), t.UInt64),
+        arg(String(price.toFixed(2)), t.UFix64),
+      ],
+      limit: 1000,
+    },
+    opts,
+  )
 }
