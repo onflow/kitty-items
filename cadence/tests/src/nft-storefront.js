@@ -1,4 +1,8 @@
-import { deployContractByName, executeScript, sendTransaction } from "flow-js-testing";
+import { 
+	sendTransactionWithErrorRaised, 
+	executeScriptWithErrorRaised, 
+	deployContractByNameWithErrorRaised 
+} from "./common"
 import { getKittyAdminAddress } from "./common";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
 
@@ -17,7 +21,7 @@ export const deployNFTStorefront = async () => {
 		KittyItems: KittyAdmin,
 	};
 
-	return deployContractByName({ to: KittyAdmin, name: "NFTStorefront", addressMap });
+	return deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "NFTStorefront", addressMap });
 };
 
 /*
@@ -33,7 +37,7 @@ export const setupStorefrontOnAccount = async (account) => {
 	const name = "nftStorefront/setup_account";
 	const signers = [account];
 
-	return sendTransaction({ name, signers });
+	return sendTransactionWithErrorRaised({ name, signers });
 };
 
 /*
@@ -49,7 +53,7 @@ export const createItemListing = async (seller, itemId, price) => {
 	const args = [itemId, price];
 	const signers = [seller];
 
-	return sendTransaction({ name, args, signers });
+	return sendTransactionWithErrorRaised({ name, args, signers });
 };
 
 /*
@@ -65,7 +69,7 @@ export const purchaseItemListing = async (buyer, resourceId, seller) => {
 	const args = [resourceId, seller];
 	const signers = [buyer];
 
-	return sendTransaction({ name, args, signers });
+	return sendTransactionWithErrorRaised({ name, args, signers });
 };
 
 /*
@@ -80,7 +84,7 @@ export const removeItemListing = async (owner, itemId) => {
 	const signers = [owner];
 	const args = [itemId];
 
-	return sendTransaction({ name, args, signers });
+	return sendTransactionWithErrorRaised({ name, args, signers });
 };
 
 /*
@@ -93,5 +97,5 @@ export const getListingCount = async (account) => {
 	const name = "nftStorefront/get_listings_length";
 	const args = [account];
 
-	return executeScript({ name, args });
+	return executeScriptWithErrorRaised({ name, args });
 };
