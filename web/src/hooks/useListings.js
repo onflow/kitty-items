@@ -6,7 +6,7 @@ export function compListingsKey(address) {
   return `${address}/listings`
 }
 
-export function expanListingsKey(key) {
+export function expandListingsKey(key) {
   return {
     address: key.split("/")[0],
   }
