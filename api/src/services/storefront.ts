@@ -20,7 +20,7 @@ class StorefrontService {
     private readonly flowTokenAddress: string,
     private readonly nonFungibleTokenAddress: string,
     public readonly storefrontAddress: string,
-    private readonly kittyItemsAddress: string
+    private readonly minterAddress: string
   ) {}
 
   setupAccount = () => {
@@ -69,7 +69,7 @@ class StorefrontService {
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -89,7 +89,7 @@ class StorefrontService {
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -106,7 +106,7 @@ class StorefrontService {
     const script = fs
       .readFileSync(path.join(__dirname, '../../../cadence/scripts/nftStorefront/get_listing_item.cdc'), 'utf8')
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
-      .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.executeScript<any>({
@@ -182,8 +182,9 @@ class StorefrontService {
         query.where('price', '<=', parseFloat(params.maxPrice))
       }
 
+
       if (params.marketplace) {
-        query.where('owner', '!=', this.storefrontAddress)
+        query.where('owner', '!=', this.minterAddress)
       }
 
       if (params.page) {
