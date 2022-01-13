@@ -4,10 +4,7 @@ import {useState} from "react"
 import {flashMessages, ITEM_RARITY_PRICE_MAP, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
-import {
-  EVENT_ITEM_MINTED,
-  getKittyItemsEventByType,
-} from "src/util/events"
+import {EVENT_ITEM_MINTED, getKittyItemsEventByType} from "src/util/events"
 import {extractApiListingFromEvents} from "./useApiListing"
 import useAppContext from "./useAppContext"
 
@@ -66,7 +63,7 @@ export default function useMinter(onSuccess) {
 
   const mint = () => {
     setIsMintingLoading(true)
-    const recipient = publicConfig.contractNftStorefront
+    const recipient = publicConfig.flowAddress
 
     executeMintRequest({
       url: publicConfig.apiKittyItemMint,
