@@ -1,11 +1,7 @@
 // prettier-ignore
 import {invariant} from "@onflow/util-invariant"
 import {tx} from "src/flow/util/tx"
-import raw from "raw.macro"
-
-const INITIALIZE_ACCOUNT_TRANSACTION = raw(
-  "../../../cadence/transactions/kittyItems/web/initialize_account.cdc"
-)
+import INITIALIZE_ACCOUNT_TRANSACTION from "cadence/transactions/initialize_account.cdc"
 
 export async function initializeAccount(address, opts = {}) {
   // prettier-ignore

@@ -2,12 +2,9 @@ import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import {batch} from "src/flow/util/batch"
 import {expandAccountItemKey} from "src/hooks/useAccountItem"
-import raw from "raw.macro"
+import getAccountItemScript from "cadence/scripts/get_account_item.cdc"
 
-const script = raw(
-  "../../../cadence/scripts/kittyItems/web/get_account_item.cdc"
-)
-const CODE = fcl.cdc`${script}`
+const CODE = fcl.cdc`${getAccountItemScript}`
 
 const collate = px => {
   return Object.keys(px).reduce(

@@ -1,9 +1,5 @@
 import {tx} from "src/flow/util/tx"
-import raw from "raw.macro"
-
-const CREATE_LISTING_TRANSACTION = raw(
-  "../../../cadence/transactions/kittyItems/web/create_listing.cdc"
-)
+import CREATE_LISTING_TRANSACTION from "cadence/transactions/create_listing.cdc"
 
 export function createListing({itemID, price}, opts = {}) {
   if (itemID == null)

@@ -1,11 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import {Address} from "@onflow/types"
 import {expandAccountItemsKey} from "src/hooks/useAccountItems"
-import raw from "raw.macro"
-
-const FETCH_ACCOUNT_ITEMS_SCRIPT = raw(
-  "../../../cadence/scripts/kittyItems/web/get_account_items.cdc"
-)
+import FETCH_ACCOUNT_ITEMS_SCRIPT from "cadence/scripts/get_account_items.cdc"
 
 export function fetchAccountItems(key) {
   const {address} = expandAccountItemsKey(key)

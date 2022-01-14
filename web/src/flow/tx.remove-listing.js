@@ -1,10 +1,6 @@
 import {invariant} from "@onflow/util-invariant"
 import {tx} from "src/flow/util/tx"
-import raw from "raw.macro"
-
-const REMOVE_LISTING_TRANSACTION = raw(
-  "../../../cadence/transactions/kittyItems/web/remove_listing.cdc"
-)
+import REMOVE_LISTING_TRANSACTION from "cadence/transactions/remove_listing.cdc"
 
 // prettier-ignore
 export function removeListing({listingResourceID}, opts = {}) {

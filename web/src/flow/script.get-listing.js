@@ -1,10 +1,9 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import {expandListingKey} from "src/hooks/useListing"
-import raw from "raw.macro"
+import getListingScript from "cadence/scripts/get_listing.cdc"
 
-const script = raw("../../../cadence/scripts/kittyItems/web/get_listing.cdc")
-const CODE = fcl.cdc`${script}`
+const CODE = fcl.cdc`${getListingScript}`
 
 export function fetchListing(key) {
   const {address, id} = expandListingKey(key)

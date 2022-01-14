@@ -1,10 +1,6 @@
 import {invariant} from "@onflow/util-invariant"
 import {tx} from "src/flow/util/tx"
-import raw from "raw.macro"
-
-const PURCHASE_LISTING_TRANSACTION = raw(
-  "../../../cadence/transactions/kittyItems/web/purchase_listing.cdc"
-)
+import PURCHASE_LISTING_TRANSACTION from "cadence/transactions/purchase_listing.cdc"
 
 // prettier-ignore
 export function purchaseListing({itemID, ownerAddress}, opts = {}) {
