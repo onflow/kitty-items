@@ -33,12 +33,14 @@ describe("NFT Storefront", () => {
 		const basePath = path.resolve(__dirname, "../../");
 		const port = 7003;
 		await init(basePath, { port });
-		return emulator.start(port, false);
+		await emulator.start(port, false);
+		return await new Promise(r => setTimeout(r, 1000));
 	});
 
 	// Stop emulator, so it could be restarted
 	afterEach(async () => {
-		return emulator.stop();
+		await emulator.stop();
+		return await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it("should deploy NFTStorefront contract", async () => {

@@ -18,7 +18,6 @@ export const getKittyItemsEventByType = (events, type) => {
 export const getStorefrontEventByType = (events, type) => {
   return events.find(
     event =>
-      event.type ===
-      `A.${fcl.sansPrefix(publicConfig.contractNftStorefront)}.${type}`
+      event.type === `A.${fcl.sansPrefix(publicConfig.flowAddress)}.${type}`
   )
 }

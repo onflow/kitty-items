@@ -1,9 +1,7 @@
-import * as fcl from "@onflow/fcl"
-import * as t from "@onflow/types"
 import {invariant} from "@onflow/util-invariant"
 import {tx} from "src/flow/util/tx"
 
-const CODE = fcl.cdc`
+const REMOVE_LISTING_TRANSACTION = `
   import NFTStorefront from 0xNFTStorefront
 
   transaction(listingResourceID: UInt64) {
@@ -26,16 +24,14 @@ export function removeListing({listingResourceID}, opts = {}) {
     listingResourceID != null,
     "cancelMarketListing({listingResourceID}) -- listingResourceID required"
   )
-
   return tx(
-    [
-      fcl.transaction(CODE),
-      fcl.args([fcl.arg(Number(listingResourceID), t.UInt64)]),
-      fcl.proposer(fcl.authz),
-      fcl.payer(fcl.authz),
-      fcl.authorizations([fcl.authz]),
-      fcl.limit(1000),
-    ],
-    opts
+    {
+      cadence: REMOVE_LISTING_TRANSACTION, 
+      args: (arg, t) => [
+        arg(listingResourceID, t.UInt64),
+      ],
+      limit: 1000,
+    },
+    opts,
   )
 }

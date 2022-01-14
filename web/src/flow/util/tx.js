@@ -12,7 +12,14 @@ export async function tx(mods = [], opts = {}) {
 
   try {
     onStart()
-    var txId = await fcl.send(mods).then(fcl.decode)
+    var txId = await fcl.mutate({
+      cadence: mods.cadence,
+      args: mods.args,
+      payer: mods.payer,
+      proposer: mods.proposer,
+      authorizations: mods.authorizations,
+      limit: mods.limit,
+    })
     console.info(
       `%cTX[${txId}]: ${fvsTx(await fcl.config().get("env"), txId)}`,
       "color:purple;font-weight:bold;font-family:monospace;"
