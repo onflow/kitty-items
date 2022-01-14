@@ -1,21 +1,10 @@
 import * as fcl from "@onflow/fcl"
 import {Address} from "@onflow/types"
 import {expandListingsKey} from "src/hooks/useListings"
+import raw from "raw.macro"
 
-const CODE = fcl.cdc`
-  import NFTStorefront from 0xNFTStorefront
-
-  pub fun main(address: Address): [UInt64] {
-    let storefrontRef = getAccount(address)
-      .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(
-          NFTStorefront.StorefrontPublicPath
-      )
-      .borrow()
-      ?? panic("Could not borrow public storefront from address")
-
-  return storefrontRef.getListingIDs()
-}
-`
+const script = raw("../../../cadence/scripts/kittyItems/web/get_listings.cdc")
+const CODE = fcl.cdc`${script}`
 
 export function fetchListings(key) {
   const {address} = expandListingsKey(key)

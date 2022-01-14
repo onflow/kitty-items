@@ -1,22 +1,10 @@
 import {invariant} from "@onflow/util-invariant"
 import {tx} from "src/flow/util/tx"
+import raw from "raw.macro"
 
-const REMOVE_LISTING_TRANSACTION = `
-  import NFTStorefront from 0xNFTStorefront
-
-  transaction(listingResourceID: UInt64) {
-    let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontManager}
-
-    prepare(acct: AuthAccount) {
-      self.storefront = acct.borrow<&NFTStorefront.Storefront{NFTStorefront.StorefrontManager}>(from: NFTStorefront.StorefrontStoragePath)
-        ?? panic("Missing or mis-typed NFTStorefront.Storefront")
-    }
-
-    execute {
-      self.storefront.removeListing(listingResourceID: listingResourceID)
-    }
-  }
-`
+const REMOVE_LISTING_TRANSACTION = raw(
+  "../../../cadence/transactions/kittyItems/web/remove_listing.cdc"
+)
 
 // prettier-ignore
 export function removeListing({listingResourceID}, opts = {}) {
