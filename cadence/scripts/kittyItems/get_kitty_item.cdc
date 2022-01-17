@@ -23,6 +23,10 @@ pub struct KittyItem {
     rarity: KittyItems.Rarity,
     owner: Address,
   ) {
+    self.name = name
+    self.description = description
+    self.thumbnail = thumbnail
+
     self.itemID = itemID
     self.resourceID = resourceID
     self.kind = kind
@@ -31,9 +35,9 @@ pub struct KittyItem {
   }
 }
 
-pub fun dwebURL(file: MetadataViews.IPFSFile): String {
+pub fun dwebURL(_ file: MetadataViews.IPFSFile): String {
   var url = "https://"
-    .concat(cid)
+    .concat(file.cid)
     .concat(".ipfs.dweb.link/")
   
   if let path = file.path {
@@ -48,11 +52,11 @@ pub fun main(address: Address, itemID: UInt64): KittyItem? {
     
     if let item = collection.borrowKittyItem(id: itemID) {
 
-      if let view = nft.resolveView(Type<MetadataViews.Display>()) {
+      if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
         let display = view as! MetadataViews.Display
         
-        let owner: Address = nft.owner!.address!
+        let owner: Address = item.owner!.address!
 
         let ipfsThumbnail = display.thumbnail as! MetadataViews.IPFSFile     
 

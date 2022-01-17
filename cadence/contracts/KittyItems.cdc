@@ -118,10 +118,14 @@ pub contract KittyItems: NonFungibleToken {
                 .concat(self.id.toString())
         }
 
+        pub fun imageCID(): String {
+            return KittyItems.images[self.kind]![self.rarity]!
+        }
+
         pub fun getViews(): [Type] {
             return [
                 Type<MetadataViews.Display>(),
-                Type<KittyItems.Image>(),
+                Type<KittyItems.Image>()
             ]
         }
 
@@ -132,13 +136,13 @@ pub contract KittyItems: NonFungibleToken {
                         name: self.name(),
                         description: self.description(),
                         thumbnail: MetadataViews.IPFSFile(
-                            cid: self.imageCID, 
+                            cid: self.imageCID(), 
                             path: "sm.png"
                         )
                     )
                 case Type<KittyItems.Image>():
                     return KittyItems.Image(
-                        cid: self.imageCID,
+                        cid: self.imageCID(),
                     )
             }
 
@@ -266,13 +270,13 @@ pub contract KittyItems: NonFungibleToken {
 			// deposit it in the recipient's account using their reference
 			recipient.deposit(token: <-create KittyItems.NFT(id: KittyItems.totalSupply, kind: kind, rarity: rarity))
 
-            KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
-
             emit Minted(
                 id: KittyItems.totalSupply,
                 kind: kind.rawValue,
                 rarity: rarity.rawValue,
             )
+
+            KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
 		}
 	}
 
