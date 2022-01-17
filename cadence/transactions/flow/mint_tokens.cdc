@@ -18,7 +18,7 @@ transaction(recipient: Address, amount: UFix64) {
     }
 
     execute {
-        let minter <- self.tokenAdmin.createNewMinter()
+        let minter <- self.tokenAdmin.createNewMinter(allowedAmount: amount)
         let mintedVault <- minter.mintTokens(amount: amount)
 
         self.tokenReceiver.deposit(from: <-mintedVault)
