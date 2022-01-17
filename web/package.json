@@ -19,6 +19,7 @@
     "@onflow/util-uid": "^0.0.1",
     "autoprefixer": "^10.3.7",
     "next": "^12.0.3",
+    "postcss": "^8.3.11",
     "prop-types": "^15.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -26,8 +27,6 @@
     "swr": "^1.0.1",
     "tailwindcss": "^2.2.19",
     "use-debounce": "^7.0.0",
-    "postcss": "^8.3.11",
-    "api": "^3.4.1",
     "web": "0.0.2"
   },
   "devDependencies": {
