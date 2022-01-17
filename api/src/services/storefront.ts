@@ -119,19 +119,15 @@ class StorefrontService {
     const owner = listingEvent.data.storefrontAddress
     const listingResourceID = listingEvent.data.listingResourceID
 
-    console.log(listingEvent.data)
-
     const item = await this.getListingItem(owner, listingResourceID)
-
-    console.log(item)
     
     return Listing.transaction(async (tx) => {
       return await Listing.query(tx)
         .insert({
           listing_id: listingResourceID,
           item_id: item.itemID,
-          item_type: item.typeID,
-          item_rarity: item.rarityID,
+          item_type: item.kind,
+          item_rarity: item.rarity,
           owner: owner,
           // TODO: Increase sale_price precision to match UFix64
           price: item.price,

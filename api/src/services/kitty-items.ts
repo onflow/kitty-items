@@ -10,15 +10,8 @@ const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
-enum Rarity {
-  Blue,
-  Green,
-  Purple,
-  Gold
-}
-
 enum Kind {
-  Fishbowl,
+  Fishbowl = 0,
   Fishhat,
   Milkshake,
   TukTuk,
@@ -26,10 +19,21 @@ enum Kind {
   Shades,
 }
 
+enum Rarity {
+  Blue = 0,
+  Green,
+  Purple,
+  Gold
+}
+
 const randomKind = () => {
-  const values = Object.keys(Kind);
-  const enumKey = values[Math.floor(Math.random() * values.length)];
-  return Kind[enumKey];
+  const values = Object.keys(Kind)
+    .map(n => Number.parseInt(n))
+    .filter(n => !Number.isNaN(n))
+
+  const index = Math.floor(Math.random() * values.length)
+  
+  return values[index]
 }
 
 const ITEM_RARITY_PROBABILITIES = {
@@ -45,9 +49,9 @@ const rarityProbabilities = rarityTypes.flatMap(rarityId =>
 )
 
 const randomRarity = () => {
-  return rarityProbabilities[
-    Math.floor(Math.random() * rarityProbabilities.length)
-  ]
+  const index = Math.floor(Math.random() * rarityProbabilities.length)
+
+  return rarityProbabilities[index]
 }
 
 class KittyItemsService {
