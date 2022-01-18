@@ -24,6 +24,7 @@ pub struct ListingItem {
         kind: KittyItems.Kind,
         rarity: KittyItems.Rarity,
         owner: Address,
+        price: UFix64
     ) {
         self.name = name
         self.description = description
@@ -34,6 +35,7 @@ pub struct ListingItem {
         self.kind = kind
         self.rarity = rarity
         self.owner = owner
+        self.price = price
     }
 }
 
@@ -49,7 +51,9 @@ pub fun dwebURL(_ file: MetadataViews.IPFSFile): String {
     return url
 }
 
-pub fun main(address: Address, itemID: UInt64): ListingItem? {
+pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
+    let account = getAccount(address)
+
     if let storefrontRef = account.getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath).borrow() {
 
         if let listing = storefrontRef.borrowListing(listingResourceID: listingResourceID) {
