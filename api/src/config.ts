@@ -29,6 +29,8 @@ export function getConfig(env) {
 
   const nonFungibleTokenAddress = env.NON_FUNGIBLE_TOKEN_ADDRESS!;
 
+  const metadataViewsAddress = env.METADATA_VIEWS_ADDRESS!;
+
   const storefrontAddress = env.NFT_STOREFRONT_ADDRESS!;
 
   const flowTokenAddress = env.FLOW_TOKEN_ADDRESS!;
@@ -46,6 +48,7 @@ export function getConfig(env) {
     minterAccountKeyIndex,
     fungibleTokenAddress,
     nonFungibleTokenAddress,
+    metadataViewsAddress,
     storefrontAddress,
     flowTokenAddress,
     databaseUrl,

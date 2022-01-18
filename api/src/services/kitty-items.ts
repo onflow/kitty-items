@@ -5,6 +5,7 @@ import * as path from "path"
 import {FlowService} from "./flow"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
+const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
@@ -32,7 +33,7 @@ const randomKind = () => {
     .filter(n => !Number.isNaN(n))
 
   const index = Math.floor(Math.random() * values.length)
-  
+
   return values[index]
 }
 
@@ -43,12 +44,13 @@ const ITEM_RARITY_PROBABILITIES = {
   [Rarity.Blue]: 80,
 }
 
-const rarityTypes = Object.keys(ITEM_RARITY_PROBABILITIES)
-const rarityProbabilities = rarityTypes.flatMap(rarityId =>
-  Array(ITEM_RARITY_PROBABILITIES[rarityId]).fill(rarityId)
-)
-
 const randomRarity = () => {
+  const rarities = Object.keys(ITEM_RARITY_PROBABILITIES)
+  const rarityProbabilities = rarities
+    .flatMap(rarity =>
+      Array(ITEM_RARITY_PROBABILITIES[rarity]).fill(rarity)
+    )
+
   const index = Math.floor(Math.random() * rarityProbabilities.length)
 
   return rarityProbabilities[index]
@@ -58,6 +60,7 @@ class KittyItemsService {
   constructor(
     private readonly flowService: FlowService,
     private readonly nonFungibleTokenAddress: string,
+    private readonly metadataViewsAddress: string,
     private readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
@@ -75,10 +78,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
@@ -104,10 +104,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
@@ -138,10 +135,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
@@ -172,10 +166,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
@@ -196,10 +187,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number[]>({
@@ -217,10 +205,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({

@@ -7,6 +7,7 @@ import { FlowService } from './flow'
 
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
+const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
@@ -19,6 +20,7 @@ class StorefrontService {
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
     private readonly nonFungibleTokenAddress: string,
+    private readonly metadataViewsAddress: string,
     public readonly storefrontAddress: string,
     private readonly minterAddress: string
   ) {}
@@ -106,9 +108,10 @@ class StorefrontService {
     const script = fs
       .readFileSync(path.join(__dirname, '../../../cadence/scripts/nftStorefront/get_listing_item.cdc'), 'utf8')
       .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
-
+    
     return this.flowService.executeScript<any>({
       script,
       args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
@@ -126,7 +129,7 @@ class StorefrontService {
         .insert({
           listing_id: listingResourceID,
           item_id: item.itemID,
-          item_type: item.kind,
+          item_kind: item.kind,
           item_rarity: item.rarity,
           owner: owner,
           // TODO: Increase sale_price precision to match UFix64
@@ -166,12 +169,12 @@ class StorefrontService {
         query.where('owner', params.owner)
       }
 
-      if (params.typeId) {
-        query.where('item_type', params.typeId)
+      if (params.kind) {
+        query.where('item_kind', params.kind)
       }
 
-      if (params.rarityId) {
-        query.where('item_rarity', Number(params.rarityId))
+      if (params.rarity) {
+        query.where('item_rarity', Number(params.rarity))
       }
 
       if (params.minPrice) {

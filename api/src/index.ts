@@ -52,6 +52,7 @@ async function run() {
     config.fungibleTokenAddress,
     config.flowTokenAddress,
     config.nonFungibleTokenAddress,
+    config.metadataViewsAddress,
     config.storefrontAddress,
     config.minterAddress,
   );
@@ -82,6 +83,7 @@ async function run() {
     const kittyItemsService = new KittyItemsService(
       flowService,
       config.nonFungibleTokenAddress,
+      config.metadataViewsAddress,
       config.minterAddress,
       config.fungibleTokenAddress,
       config.flowTokenAddress,
