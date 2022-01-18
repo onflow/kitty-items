@@ -75,14 +75,6 @@ pub contract KittyItems: NonFungibleToken {
 
     // Rarity -> price rarity mapping
     pub var itemRarityPriceMap: {Rarity: UFix64}
-
-    pub struct Image {
-        pub let cid: String
-
-        init(cid: String) {
-            self.cid = cid
-        }
-    }
     
     // NFT
     // A Kitty Item as an NFT
@@ -124,8 +116,7 @@ pub contract KittyItems: NonFungibleToken {
 
         pub fun getViews(): [Type] {
             return [
-                Type<MetadataViews.Display>(),
-                Type<KittyItems.Image>()
+                Type<MetadataViews.Display>()
             ]
         }
 
@@ -139,10 +130,6 @@ pub contract KittyItems: NonFungibleToken {
                             cid: self.imageCID(), 
                             path: "sm.png"
                         )
-                    )
-                case Type<KittyItems.Image>():
-                    return KittyItems.Image(
-                        cid: self.imageCID(),
                     )
             }
 
