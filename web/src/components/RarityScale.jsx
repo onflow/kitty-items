@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import {ITEM_RARITY_MAP, ITEM_RARITY_PROBABILITIES} from "src/global/constants"
 import {itemGradientClass} from "src/util/classes"
 
-export default function RarityScale({highlightedRarityId}) {
+export default function RarityScale({highlightedRarity}) {
   return (
     <div className="mb-10 text-gray-light text-sm">
       <div className="flex justify-between items-center uppercase font-bold text-xs pb-2 px-2">
@@ -15,7 +15,7 @@ export default function RarityScale({highlightedRarityId}) {
           <div
             key={key}
             className={`flex items-center border-t border-gray-200 py-1 px-2 ${
-              Number(highlightedRarityId) === Number(key) ? "bg-gray-200" : ""
+              Number(highlightedRarity) === Number(key) ? "bg-gray-200" : ""
             }`}
           >
             <div
@@ -34,5 +34,5 @@ export default function RarityScale({highlightedRarityId}) {
 }
 
 RarityScale.propTypes = {
-  highlightedRarityId: PropTypes.number,
+  highlightedRarity: PropTypes.number,
 }

@@ -28,7 +28,7 @@ export default function Minter() {
     }, 1000)
   }
 
-  const [loadingTypeId, setLoadingTypeId] = useState(1)
+  const [loadingKind, setLoadingKind] = useState(1)
   const [{isLoading, transactionStatus}, mint] =
     useMintAndList(onSuccess)
 
@@ -37,14 +37,14 @@ export default function Minter() {
   const getRandId = () => Math.ceil(Math.random() * ITEM_TYPE_COUNT)
 
   const updateLoadingImage = useCallback(() => {
-    setLoadingTypeId(prev => {
-      let newTypeId = getRandId()
+    setLoadingKind(prev => {
+      let newKind = getRandId()
 
-      while (newTypeId === prev) {
-        newTypeId = getRandId()
+      while (newKind === prev) {
+        newKind = getRandId()
       }
 
-      return newTypeId
+      return newKind
     })
   }, [])
 
@@ -74,11 +74,11 @@ export default function Minter() {
         .map((_i, index) => (
           <div
             key={index}
-            className={isLoading && index + 1 === loadingTypeId ? "" : "hidden"}
+            className={isLoading && index + 1 === loadingKind ? "" : "hidden"}
           >
             <ListItemImage
-              typeId={index + 1}
-              rarityId={1}
+              kind={index + 1}
+              rarity={1}
               size="lg"
               grayscale={true}
             />

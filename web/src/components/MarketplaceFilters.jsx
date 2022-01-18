@@ -22,14 +22,14 @@ export default function MarketplaceFilters({queryState, updateQuery}) {
       <Select
         label="Kind"
         options={KIND_OPTIONS}
-        value={queryState.typeId}
-        onChange={value => updateFilter({typeId: value})}
+        value={queryState.kind}
+        onChange={value => updateFilter({kind: value})}
       />
       <Select
         label="Rarity"
         options={RARITY_OPTIONS}
-        value={queryState.rarityId}
-        onChange={value => updateFilter({rarityId: value})}
+        value={queryState.rarity}
+        onChange={value => updateFilter({rarity: value})}
       />
     </div>
   )

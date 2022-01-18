@@ -47,7 +47,7 @@ export default function KittyItem() {
 
             <div className="lg:max-w-lg">
               <div className="mt-8">
-                <RarityScale highlightedRarityId={item.rarityID} />
+                <RarityScale highlightedRarity={item.rarity.rawValue} />
               </div>
               <ListItemPageButtons item={item} listing={listing} />
             </div>

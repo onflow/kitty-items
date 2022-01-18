@@ -16,8 +16,8 @@ export function itemGradientClass(rarity) {
   }
 }
 
-export function rarityTextColors(rarityId) {
-  switch (String(rarityId)) {
+export function rarityTextColors(rarity) {
+  switch (String(rarity)) {
     case "0":
       return "text-blue"
     case "1":
