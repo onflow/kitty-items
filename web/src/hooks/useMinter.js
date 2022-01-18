@@ -26,14 +26,14 @@ export default function useMinter(onSuccess) {
     setTransactionStatus(null)
   }
 
-  const listForSale = (itemId, typeId, rarityId) => {
+  const listForSale = (itemId, kind, rarity) => {
     setIsSaleLoading(true)
     executeSaleRequest({
       url: paths.apiSell,
       method: "POST",
       data: {
         itemID: itemId,
-        price: ITEM_RARITY_PRICE_MAP[rarityId],
+        price: ITEM_RARITY_PRICE_MAP[rarity],
       },
       onSuccess: async data => {
         const transactionId = data?.transactionId?.transactionId
@@ -47,8 +47,8 @@ export default function useMinter(onSuccess) {
 
         const newListing = extractApiListingFromEvents(
           transactionData.events,
-          typeId,
-          rarityId,
+          kind,
+          rarity,
           currentUser.addr
         )
         if (!newListing) throw "Missing listing"
@@ -87,11 +87,17 @@ export default function useMinter(onSuccess) {
           transactionData.events,
           EVENT_ITEM_MINTED
         )
+
         if (!Number.isInteger(event?.data?.id))
           throw "Minting error, missing id"
-        if (!Number.isInteger(event?.data?.typeID))
-          throw "Minting error, missing typeID"
-        listForSale(event.data.id, event.data.typeID, event.data.rarityID)
+        if (!Number.isInteger(event?.data?.kind))
+          throw "Minting error, missing kind"
+        
+        listForSale(
+          event.data.id,
+          event.data.kind.rawValue,
+          event.data.rarity.rawValue
+        )
       },
       onError: () => {
         setFlashMessage(flashMessages.itemMintedError)

@@ -1,7 +1,7 @@
 import {useRouter} from "next/router"
 import {useCallback, useEffect, useRef, useState} from "react"
 import Button from "src/components/Button"
-import {ITEM_TYPE_MAP, paths} from "src/global/constants"
+import {ITEM_KIND_MAP, paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useMintAndList from "src/hooks/useMintAndList"
 import {useSWRConfig} from "swr"
@@ -9,7 +9,7 @@ import ListItemImage from "./ListItemImage"
 import RarityScale from "./RarityScale"
 import TransactionLoading from "./TransactionLoading"
 
-const ITEM_TYPE_COUNT = Object.keys(ITEM_TYPE_MAP).length
+const ITEM_TYPE_COUNT = Object.keys(ITEM_KIND_MAP).length
 
 export default function Minter() {
   const loadingIntervalRef = useRef()
@@ -29,7 +29,7 @@ export default function Minter() {
   }
 
   const [loadingTypeId, setLoadingTypeId] = useState(1)
-  const [{isLoading, transactionAction, transactionStatus}, mint] =
+  const [{isLoading, transactionStatus}, mint] =
     useMintAndList(onSuccess)
 
   const onClickMint = () => mint()
@@ -63,7 +63,10 @@ export default function Minter() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
       {!isLoading && (
-        <ListItemImage typeId={0} rarityId={0} size="lg" grayscale={true} />
+        <ListItemImage 
+          name="Mint a Kitty Item"
+          size="lg"
+          grayscale={true} />
       )}
 
       {Array(ITEM_TYPE_COUNT)

@@ -81,34 +81,34 @@ export const flashMessages = {
   },
 }
 
-export const ITEM_TYPE_MAP = {
-  1: "Fishbowl",
-  2: "Fish Hat",
-  3: "Milkshake",
-  4: "TukTuk",
-  5: "Skateboard",
-  6: "Shades",
+export const ITEM_KIND_MAP = {
+  0: "Fishbowl",
+  1: "Fish Hat",
+  2: "Milkshake",
+  3: "TukTuk",
+  4: "Skateboard",
+  5: "Shades",
 }
 
 export const ITEM_RARITY_MAP = {
-  1: "Gold",
+  0: "Blue",
+  1: "Green",
   2: "Purple",
-  3: "Green",
-  4: "Blue",
+  3: "Gold",
 }
 
 export const ITEM_RARITY_PROBABILITIES = {
-  1: 2,
+  0: 80,
+  1: 10,
   2: 8,
-  3: 10,
-  4: 80,
+  3: 2,
 }
 
 export const ITEM_RARITY_PRICE_MAP = {
-  1: 125,
+  0: 1,
+  1: 5,
   2: 25,
-  3: 5,
-  4: 1,
+  3: 125,
 }
 
 export const TRANSACTION_STATUS_MAP = {

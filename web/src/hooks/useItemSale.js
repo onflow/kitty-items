@@ -25,12 +25,11 @@ export default function useItemSale() {
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const [txStatus, setTxStatus] = useState(null)
 
-  const sell = (itemId, itemType, itemRarityId) => {
-    if (!itemId) throw "Missing itemId"
-    if (!itemRarityId) throw "Missing itemRarityId"
+  const sell = (itemId, itemKind, itemRarity) => {
+    const price = ITEM_RARITY_PRICE_MAP[itemRarity]
 
     createListing(
-      {itemID: itemId, price: ITEM_RARITY_PRICE_MAP[itemRarityId]},
+      {itemID: itemId, price},
       {
         onStart() {
           dispatch({type: START})
@@ -41,7 +40,7 @@ export default function useItemSale() {
         async onSuccess(data) {
           const newListing = extractApiListingFromEvents(
             data.events,
-            itemType,
+            itemKind,
             currentUser.addr
           )
           if (!newListing) throw "Missing listing"

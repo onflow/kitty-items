@@ -34,6 +34,11 @@ const contractNonFungibleToken =
 if (!contractNonFungibleToken)
   throw "Missing NEXT_PUBLIC_CONTRACT_NON_FUNGIBLE_TOKEN"
 
+const contractMetadataViews =
+  process.env.NEXT_PUBLIC_CONTRACT_METADATA_VIEWS
+if (!contractMetadataViews)
+  throw "Missing NEXT_PUBLIC_CONTRACT_METADATA_VIEWS"
+
 const flowAddress = process.env.NEXT_PUBLIC_FLOW_ADDRESS
 if (!flowAddress) throw "Missing NEXT_PUBLIC_FLOW_ADDRESS"
 
@@ -64,6 +69,7 @@ const publicConfig = {
   avatarUrl,
   contractFungibleToken,
   contractNonFungibleToken,
+  contractMetadataViews,
   contractFlowToken,
   contractKittyItems,
   contractNftStorefront,
