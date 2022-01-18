@@ -31,10 +31,10 @@ export default function ListItem({
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
   const isBuyable = !currentUserIsOwner && !!listingId
   const name = listItemName(item.typeID, item.rarityID)
-
+  const profileUrl = paths.profileItem(address, id)
   return (
     <div>
-      <Link href={paths.profileItem(address, id)} passHref>
+      <Link href={profileUrl} passHref>
         <a>
           <ListItemImage
             typeId={item.typeID}
@@ -64,10 +64,10 @@ export default function ListItem({
 
         <div className="flex justify-between items-center mt-5">
           <div className="flex flex-col">
-            <Link href={paths.profile(item.owner)}>
+            <Link href={profileUrl}>
               <a className="text-lg font-semibold">{name}</a>
             </Link>
-            <Link href={paths.profile(item.owner)}>
+            <Link href={profileUrl}>
               <a className="text-sm font text-gray-light">#{id}</a>
             </Link>
           </div>
