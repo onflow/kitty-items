@@ -71,12 +71,14 @@ pub contract KittyItems: NonFungibleToken {
         return ""
     }
 
-    pub var images: {Kind: {Rarity: String}}
+    // Mapping from item (kind, rarity) -> IPFS image CID
+    //
+    access(self) var images: {Kind: {Rarity: String}}
 
-    // Rarity -> price rarity mapping
-    pub var itemRarityPriceMap: {Rarity: UFix64}
+    // Mapping from rarity -> price
+    //
+    access(self) var itemRarityPriceMap: {Rarity: UFix64}
     
-    // NFT
     // A Kitty Item as an NFT
     //
     pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
