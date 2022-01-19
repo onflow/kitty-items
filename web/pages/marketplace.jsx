@@ -58,16 +58,18 @@ const MainContent = ({queryState}) => {
 
       <hr className="pt-1 mb-8" />
 
-      <MarketplaceFilters queryState={queryState} updateQuery={updateQuery}>
-        {showPagination && (
-          <Pagination
-            currentPage={queryState.page}
-            total={data.total}
-            perPage={PER_PAGE}
-            onPageClick={newPage => onPageClick(newPage, false)}
-          />
-        )}
-      </MarketplaceFilters>
+      {typeof queryState !== "undefined" && (
+        <MarketplaceFilters queryState={queryState} updateQuery={updateQuery}>
+          {showPagination && (
+            <Pagination
+              currentPage={queryState.page}
+              total={data.total}
+              perPage={PER_PAGE}
+              onPageClick={newPage => onPageClick(newPage, false)}
+            />
+          )}
+        </MarketplaceFilters>
+      )}
 
       {!!listings && <ListItems items={listings} />}
 
@@ -104,9 +106,7 @@ export default function Marketplace() {
       <PageTitle>Marketplace</PageTitle>
       <main>
         <div>
-          {typeof queryState !== "undefined" && (
-            <MainContent queryState={queryState} />
-          )}
+          <MainContent queryState={queryState} />
         </div>
       </main>
     </div>
@@ -114,5 +114,5 @@ export default function Marketplace() {
 }
 
 MainContent.propTypes = {
-  queryState: PropTypes.object.isRequired,
+  queryState: PropTypes.object,
 }

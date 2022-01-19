@@ -3,6 +3,7 @@ import {fetchAccountItem} from "src/flow/script.get-account-item"
 import useSWR from "swr"
 
 export function compAccountItemKey(address, id) {
+  if (typeof address === "undefined" || typeof id === "undefined") return null
   return `${address}/account-item/${id}`
 }
 
@@ -21,6 +22,6 @@ export default function useAccountItem(address, id) {
 }
 
 useAccountItem.propTypes = {
-  address: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  address: PropTypes.string,
+  id: PropTypes.number,
 }

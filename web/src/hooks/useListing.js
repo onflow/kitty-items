@@ -2,7 +2,8 @@ import PropTypes from "prop-types"
 import {fetchListing} from "src/flow/script.get-listing"
 import useSWR from "swr"
 
-export function compListingKey(address, id) {
+function compListingKey(address, id) {
+  if (typeof address === "undefined" || typeof id === "undefined") return null
   return `${address}/listings/${id}`
 }
 
@@ -17,6 +18,6 @@ export default function useListing(address, id) {
 }
 
 useListing.propTypes = {
-  address: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  address: PropTypes.string,
+  id: PropTypes.number,
 }

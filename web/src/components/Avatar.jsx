@@ -16,14 +16,18 @@ export default function Avatar({address}) {
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={avatarUrl(`${address}-${SEED}`)}
-      alt={address}
-      className="border border-gray-200 rounded-full"
-    />
+    <div className="border border-gray-200 rounded-full w-full h-full">
+      {typeof address !== "undefined" && (
+        <img
+          src={avatarUrl(`${address}-${SEED}`)}
+          alt={address}
+          className="rounded-full"
+        />
+      )}
+    </div>
   )
 }
 
 Avatar.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.string,
 }

@@ -91,9 +91,9 @@ export default function LatestStoreItems({items}) {
           </div>
         )}
       </div>
-      <div className="mt-8 mb-14 2xl:latest-store-list-items">
+      <div className="mt-8 mb-10 2xl:latest-store-list-items">
         <div
-          className="overflow-x-auto"
+          className="overflow-x-auto pb-5"
           onScroll={onDebouncedScroll}
           ref={listRef}
         >
