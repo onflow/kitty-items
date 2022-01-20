@@ -62,7 +62,7 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
 
         let saleCut = NFTStorefront.SaleCut(
             receiver: self.flowReceiver,
-            amount: KittyItems.itemRarityPriceMap[rarityValue]!
+            amount: KittyItems.getItemPrice(rarity: rarityValue)
         )
         
         self.storefront.createListing(

@@ -78,6 +78,12 @@ pub contract KittyItems: NonFungibleToken {
     // Mapping from rarity -> price
     //
     access(self) var itemRarityPriceMap: {Rarity: UFix64}
+
+    // Return the initial sale price for an item of this rarity.
+    //
+    pub fun getItemPrice(rarity: Rarity): UFix64 {
+        return self.itemRarityPriceMap[rarity]!
+    }
     
     // A Kitty Item as an NFT
     //
