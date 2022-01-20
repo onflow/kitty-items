@@ -44,12 +44,12 @@ pub contract KittyItems: NonFungibleToken {
     }
 
     pub enum Kind: UInt8 {
-	    pub case fishbowl
-	    pub case fishhat
-	    pub case milkshake
-	    pub case tuktuk
-	    pub case skateboard
-	    pub case shades
+        pub case fishbowl
+        pub case fishhat
+        pub case milkshake
+        pub case tuktuk
+        pub case skateboard
+        pub case shades
     }
 
     pub fun kindToString(_ kind: Kind): String {
@@ -251,19 +251,19 @@ pub contract KittyItems: NonFungibleToken {
     // Resource that an admin or something similar would own to be
     // able to mint new NFTs
     //
-	pub resource NFTMinter {
+    pub resource NFTMinter {
 
-		// mintNFT
+        // mintNFT
         // Mints a new NFT with a new ID
-		// and deposit it in the recipients collection using their collection reference
+        // and deposit it in the recipients collection using their collection reference
         //
-		pub fun mintNFT(
+        pub fun mintNFT(
             recipient: &{NonFungibleToken.CollectionPublic}, 
             kind: Kind, 
             rarity: Rarity,
         ) {
-			// deposit it in the recipient's account using their reference
-			recipient.deposit(token: <-create KittyItems.NFT(id: KittyItems.totalSupply, kind: kind, rarity: rarity))
+            // deposit it in the recipient's account using their reference
+            recipient.deposit(token: <-create KittyItems.NFT(id: KittyItems.totalSupply, kind: kind, rarity: rarity))
 
             emit Minted(
                 id: KittyItems.totalSupply,
@@ -272,8 +272,8 @@ pub contract KittyItems: NonFungibleToken {
             )
 
             KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
-		}
-	}
+        }
+    }
 
     // fetch
     // Get a reference to a KittyItem from an account's Collection, if available.
@@ -293,7 +293,7 @@ pub contract KittyItems: NonFungibleToken {
 
     // initializer
     //
-	init() {
+    init() {
         // set rarity price mapping
         self.itemRarityPriceMap = {
             Rarity.gold: 125.0,
@@ -303,37 +303,37 @@ pub contract KittyItems: NonFungibleToken {
         }
 
         self.images = {
-	        Kind.fishbowl: {
+            Kind.fishbowl: {
                 Rarity.blue: "bafybeibuqzhuoj6ychlckjn6cgfb5zfurggs2x7pvvzjtdcmvizu2fg6ga",
                 Rarity.green: "bafybeihbminj62owneu3fjhtqm7ghs7q2rastna6srqtysqmjcsicmn7oa",
                 Rarity.purple: "bafybeiaoja3gyoot4f5yxs4b7tucgaoj3kutu7sxupacddxeibod5hkw7m",
                 Rarity.gold: "bafybeid73gt3qduwn2hhyy4wzhsvt6ahzmutiwosfd3f6t5el6yjqqxd3u"
             },
-	        Kind.fishhat: {
+            Kind.fishhat: {
                 Rarity.blue: "bafybeigu4ihzm7ujgpjfn24zut6ldrn7buzwqem27ncqupdovm3uv4h4oy",
                 Rarity.green: "bafybeih6eaczohx3ibv22bh2fsdalc46qaqty6qapums6zhelxet2gfc24",
                 Rarity.purple: "bafybeifbhcez3v5dj5qgndrx73twqleajz7r2mog4exd7abs3aof7w3hhe",
                 Rarity.gold: "bafybeid2r5q3vfrsluv7iaelqobkihfopw5t4sv4z2llxsoe3xqfynl73u"
             },
-	        Kind.milkshake: {
+            Kind.milkshake: {
                 Rarity.blue: "bafybeialhf5ga6owaygebp6xt4vdybc7aowatrscwlwmxd444fvwyhcskq",
                 Rarity.green: "bafybeihjy4rcbvnw6bcz3zbirq5u454aagnyzjhlrffgkc25wgdcw4csoe",
                 Rarity.purple: "bafybeidbua4rigbcpwutpkqvd7spppvxemwn6o2ifhq6xam4sqlngzrfiq",
                 Rarity.gold: "bafybeigdrwjq4kge3bym2rbnek2olibdt5uvdbtnuwto36jb36cr3c4p5y"
             },
-	        Kind.tuktuk: {
+            Kind.tuktuk: {
                 Rarity.blue: "bafybeidjalsqnhj2jnisxucv6chlrfwtcrqyu2n6lpx3zpuuv2o3d3nwce",
                 Rarity.green: "bafybeiaeixpd4htnngycs7ebktdt6crztvhyiu2js4nwvuot35gzvszchi",
                 Rarity.purple: "bafybeihfcumxiobjullha23ov77wgd5cv5uqrebkik6y33ctr5tkt4eh2e",
                 Rarity.gold: "bafybeigdi6ableh5mvvrqdil233ucxip7cm3z4kpnpxhutfdncwhyl22my"
             },
-	        Kind.skateboard: {
+            Kind.skateboard: {
                 Rarity.blue: "bafybeic55lpwfvucmgibbvaury3rpeoxmcgyqra3vdhjwp74wqzj6oqvpq",
                 Rarity.green: "bafybeic55lpwfvucmgibbvaury3rpeoxmcgyqra3vdhjwp74wqzj6oqvpq",
                 Rarity.purple: "bafybeiepqu75oknv2vertl5nbq7gqyac5tbpekqcfy73lyk2rcjgz7irpu",
                 Rarity.gold: "bafybeic5ehqovuhix4lyspxfawlegkrkp6aaloszyscmjvmjzsbxqm6s2i"
             },
-	        Kind.shades: {
+            Kind.shades: {
                 Rarity.blue: "bafybeibtxvitlnvksnzwrwmsqdgnoznosknr3fx5jxjazjcerpa2qo4jy4",
                 Rarity.green: "bafybeicp5bagsziwkyarey76m5jkr6i3a5yrgr7r435qyuutbtlqxcdbwu",
                 Rarity.purple: "bafybeidjigkvt67dtuwrgrpdt2z4dojq2efpbw66ndnffkb6eyr4baml2i",
@@ -354,5 +354,5 @@ pub contract KittyItems: NonFungibleToken {
         self.account.save(<-minter, to: self.MinterStoragePath)
 
         emit ContractInitialized()
-	}
+    }
 }
