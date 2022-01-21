@@ -33,7 +33,13 @@ export const deployKittyItems = async () => {
 
 	await deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "NonFungibleToken" });
 
-	const addressMap = { NonFungibleToken: KittyAdmin };
+	await deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "MetadataViews" });
+
+	const addressMap = { 
+		NonFungibleToken: KittyAdmin,
+		MetadataViews: KittyAdmin,
+	};
+	
 	return deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "KittyItems", addressMap });
 };
 

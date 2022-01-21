@@ -5,7 +5,7 @@ import ListItem from "./ListItem"
 export default function Listing({address, id, showOwnerInfo}) {
   const {data: listing, isLoading} = useListing(address, id)
 
-  if (isLoading || !listing.itemID) return null
+  if (isLoading) return null
 
   return (
     <ListItem

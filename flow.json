@@ -26,6 +26,12 @@
         "testnet": "0x631e88ae7f1d7c20"
       }
     },
+    "MetadataViews": {
+      "source": "./cadence/contracts/MetadataViews.cdc",
+      "aliases": {
+        "testnet": "0x631e88ae7f1d7c20"
+      }
+    },
     "FungibleToken": {
       "source": "./cadence/contracts/FungibleToken.cdc",
       "aliases": {
@@ -56,7 +62,8 @@
       "emulator-account": [
         "KittyItems",
         "NFTStorefront",
-        "NonFungibleToken"
+        "NonFungibleToken",
+        "MetadataViews"
       ]
     }
   }

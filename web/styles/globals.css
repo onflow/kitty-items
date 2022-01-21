@@ -25,7 +25,7 @@
     filter: grayscale(100%);
   }
 
-  .item-gradient-1 {
+  .item-gradient-3 {
     background: linear-gradient(360deg, #fe9666 0%, #fceda3 100%);
   }
 
@@ -33,11 +33,11 @@
     background: linear-gradient(180deg, #8154ff 0%, #512bbd 100%);
   }
 
-  .item-gradient-3 {
+  .item-gradient-1 {
     background: linear-gradient(180deg, #19e18d 0%, #0cbf74 100%);
   }
 
-  .item-gradient-4 {
+  .item-gradient-0 {
     background: linear-gradient(180deg, #0aa6ff 0%, #1972a4 100%);
   }
 

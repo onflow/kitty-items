@@ -1,9 +1,9 @@
 import PropTypes from "prop-types"
 import Select from "src/components/Select"
-import {ITEM_RARITY_MAP, ITEM_TYPE_MAP} from "src/global/constants"
+import {ITEM_RARITY_MAP, ITEM_KIND_MAP} from "src/global/constants"
 
-const TYPE_OPTIONS = Object.keys(ITEM_TYPE_MAP).map(key => ({
-  label: ITEM_TYPE_MAP[key],
+const KIND_OPTIONS = Object.keys(ITEM_KIND_MAP).map(key => ({
+  label: ITEM_KIND_MAP[key],
   value: key,
 }))
 
@@ -20,16 +20,16 @@ export default function MarketplaceFilters({queryState, updateQuery}) {
   return (
     <div className="grid gap-y-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-x-5 mb-8">
       <Select
-        label="Type"
-        options={TYPE_OPTIONS}
-        value={queryState.typeId}
-        onChange={value => updateFilter({typeId: value})}
+        label="Kind"
+        options={KIND_OPTIONS}
+        value={queryState.kind}
+        onChange={value => updateFilter({kind: value})}
       />
       <Select
         label="Rarity"
         options={RARITY_OPTIONS}
-        value={queryState.rarityId}
-        onChange={value => updateFilter({rarityId: value})}
+        value={queryState.rarity}
+        onChange={value => updateFilter({rarity: value})}
       />
     </div>
   )

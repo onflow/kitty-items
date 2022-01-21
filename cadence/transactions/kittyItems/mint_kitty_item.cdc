@@ -6,7 +6,7 @@ import KittyItems from "../../contracts/KittyItems.cdc"
 // It must be run with the account that has the minter resource
 // stored at path /storage/NFTMinter.
 
-transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
+transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
 
     // local variable for storing the minter reference
     let minter: &KittyItems.NFTMinter
@@ -28,7 +28,14 @@ transaction(recipient: Address, typeID: UInt64, rarityID: UInt64) {
             .borrow<&{NonFungibleToken.CollectionPublic}>()
             ?? panic("Could not get receiver reference to the NFT Collection")
 
+        let kindValue = KittyItems.Kind(rawValue: kind) ?? panic("invalid kind")
+        let rarityValue = KittyItems.Rarity(rawValue: rarity) ?? panic("invalid rarity")
+
         // mint the NFT and deposit it to the recipient's collection
-        self.minter.mintNFT(recipient: receiver, typeID: typeID, rarityID: rarityID)
+        self.minter.mintNFT(
+            recipient: receiver,
+            kind: kindValue,
+            rarity: rarityValue,
+        )
     }
 }

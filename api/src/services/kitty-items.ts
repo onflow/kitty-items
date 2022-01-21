@@ -5,27 +5,62 @@ import * as path from "path"
 import {FlowService} from "./flow"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
+const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
 
-const ITEM_RARITY_PROBABILITIES = {
-  1: 2,
-  2: 8,
-  3: 10,
-  4: 80,
+enum Kind {
+  Fishbowl = 0,
+  Fishhat,
+  Milkshake,
+  TukTuk,
+  Skateboard,
+  Shades,
 }
 
-const rarityTypes = Object.keys(ITEM_RARITY_PROBABILITIES)
-const rarityProbabilities = rarityTypes.flatMap(rarityId =>
-  Array(ITEM_RARITY_PROBABILITIES[rarityId]).fill(rarityId)
-)
+enum Rarity {
+  Blue = 0,
+  Green,
+  Purple,
+  Gold
+}
+
+const randomKind = () => {
+  const values = Object.keys(Kind)
+    .map(n => Number.parseInt(n))
+    .filter(n => !Number.isNaN(n))
+
+  const index = Math.floor(Math.random() * values.length)
+
+  return values[index]
+}
+
+const ITEM_RARITY_PROBABILITIES = {
+  [Rarity.Gold]: 2,
+  [Rarity.Purple]: 8,
+  [Rarity.Green]: 10,
+  [Rarity.Blue]: 80,
+}
+
+const randomRarity = () => {
+  const rarities = Object.keys(ITEM_RARITY_PROBABILITIES)
+  const rarityProbabilities = rarities
+    .flatMap(rarity =>
+      Array(ITEM_RARITY_PROBABILITIES[rarity]).fill(rarity)
+    )
+
+  const index = Math.floor(Math.random() * rarityProbabilities.length)
+
+  return rarityProbabilities[index]
+}
 
 class KittyItemsService {
   constructor(
     private readonly flowService: FlowService,
     private readonly nonFungibleTokenAddress: string,
+    private readonly metadataViewsAddress: string,
     private readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
@@ -43,10 +78,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
@@ -61,12 +93,8 @@ class KittyItemsService {
   mint = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    // Random typeID between 1 - 6
-    const typeID = Math.floor(Math.random() * 6) + 1
-    const rarityID =
-      rarityProbabilities[
-        Math.floor(Math.random() * rarityProbabilities.length)
-      ]
+    const kind = randomKind()
+    const rarity = randomRarity()
 
     const transaction = fs
       .readFileSync(
@@ -76,18 +104,15 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(typeID, t.UInt64),
-        fcl.arg(Number(rarityID), t.UInt64),
+        fcl.arg(Number(kind), t.UInt8),
+        fcl.arg(Number(rarity), t.UInt8),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -99,11 +124,8 @@ class KittyItemsService {
   mintAndList = async (recipient: string) => {
     const authorization = this.flowService.authorizeMinter()
 
-    const typeID = Math.floor(Math.random() * 6) + 1
-    const rarityID =
-      rarityProbabilities[
-        Math.floor(Math.random() * rarityProbabilities.length)
-      ]
+    const kind = randomKind()
+    const rarity = randomRarity()
 
     const transaction = fs
       .readFileSync(
@@ -113,10 +135,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
@@ -126,8 +145,8 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(typeID, t.UInt64),
-        fcl.arg(Number(rarityID), t.UInt64),
+        fcl.arg(Number(kind), t.UInt8),
+        fcl.arg(Number(rarity), t.UInt8),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -147,10 +166,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.sendTx({
@@ -171,10 +187,7 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number[]>({
@@ -192,10 +205,8 @@ class KittyItemsService {
         ),
         "utf8"
       )
-      .replace(
-        nonFungibleTokenPath,
-        fcl.withPrefix(this.nonFungibleTokenAddress)
-      )
+      .replace(nonFungibleTokenPath, fcl.withPrefix(this.nonFungibleTokenAddress))
+      .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
 
     return this.flowService.executeScript<number>({
