@@ -31,7 +31,7 @@ const CREATE_LISTING_TRANSACTION = `
 
     prepare(account: AuthAccount) {
       // We need a provider capability, but one is not provided by default so we create one if needed.
-      let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
+      let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProviderV10
 
       self.flowReceiver = account.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
 
