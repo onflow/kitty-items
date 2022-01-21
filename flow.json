@@ -13,7 +13,6 @@
   },
   "contracts": {
     "KittyItems": "./cadence/contracts/KittyItems.cdc",
-    "MetadataViews": "./cadence/contracts/MetadataViews.cdc",
     "NFTStorefront": {
       "source": "./cadence/contracts/NFTStorefront.cdc",
       "aliases": {
@@ -24,6 +23,12 @@
       "source": "./cadence/contracts/NonFungibleToken.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7",
+        "testnet": "0x631e88ae7f1d7c20"
+      }
+    },
+    "MetadataViews": {
+      "source": "./cadence/contracts/MetadataViews.cdc",
+      "aliases": {
         "testnet": "0x631e88ae7f1d7c20"
       }
     },
