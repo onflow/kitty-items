@@ -35,7 +35,7 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "recipient": "'$FLOW_ADDRESS'",
-    "typeID": 1
+    "kind": 1
   }'
 ```
 

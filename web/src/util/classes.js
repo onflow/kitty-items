@@ -1,14 +1,14 @@
 // Use full class names to avoid auto-purging https://tailwindcss.com/docs/optimizing-for-production#writing-purgeable-html
-export function itemGradientClass(typeId) {
-  switch (String(typeId)) {
+export function itemGradientClass(rarity) {
+  switch (String(rarity)) {
+    case "0":
+      return "item-gradient-0"
     case "1":
       return "item-gradient-1"
     case "2":
       return "item-gradient-2"
     case "3":
       return "item-gradient-3"
-    case "4":
-      return "item-gradient-4"
     case "gray":
       return "item-gradient-gray"
     default:
@@ -16,16 +16,16 @@ export function itemGradientClass(typeId) {
   }
 }
 
-export function rarityTextColors(rarityId) {
-  switch (String(rarityId)) {
+export function rarityTextColors(rarity) {
+  switch (String(rarity)) {
+    case "0":
+      return "text-blue"
     case "1":
-      return "text-gold"
+      return "text-green-dark"
     case "2":
       return "text-purple"
     case "3":
-      return "text-green-dark"
-    case "4":
-      return "text-blue"
+      return "text-gold"
     default:
       throw new Error()
   }

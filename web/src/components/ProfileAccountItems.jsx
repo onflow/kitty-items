@@ -6,7 +6,9 @@ import useApiListings from "src/hooks/useApiListings"
 export default function ProfileAccountItems({address}) {
   // The Storefront only returns listing IDs, so we need to fetch
   // the listing objects from the API.
-  const {listings, isLoading: isListingsLoading} = useApiListings(address)
+  const {listings, isLoading: isListingsLoading} = useApiListings({
+    owner: address,
+  })
   const {data: itemIds, isAccountItemsLoading} = useAccountItems(address)
   const isLoading =
     isListingsLoading || isAccountItemsLoading || !listings || !itemIds

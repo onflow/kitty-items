@@ -54,8 +54,8 @@ export default function useMintAndList(onSuccess) {
 
         if (!Number.isInteger(event?.data?.id))
           throw "Minting error, missing id"
-        if (!Number.isInteger(event?.data?.typeID))
-          throw "Minting error, missing typeID"
+        if (!Number.isInteger(event?.data?.kind))
+          throw "Minting error, missing kind"
 
         onSuccess(event.data.id)
       },
