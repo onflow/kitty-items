@@ -102,7 +102,7 @@ export default function LatestStoreItems({items}) {
               <div
                 key={item.itemID}
                 className="flex justify-center px-4"
-                style={{width: ITEM_WIDTH}}
+                style={{minWidth: ITEM_WIDTH}}
               >
                 <ListItem
                   address={publicConfig.flowAddress}
