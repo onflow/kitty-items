@@ -3,7 +3,7 @@ import ListItem from "src/components/ListItem"
 import EmptyKittyItems from "./EmptyKittyItems"
 
 export const listItemsRootClasses =
-  "grid gap-y-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-x-5 "
+  "grid gap-y-16 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-x-5 minh-50"
 
 export default function ListItems({items, Component = ListItem}) {
   if (items.length === 0) {
@@ -11,7 +11,7 @@ export default function ListItems({items, Component = ListItem}) {
   }
 
   return (
-    <div className={listItemsRootClasses}>
+    <div className={listItemsRootClasses} style={{minHeight: 520}}>
       {items.map(item => (
         <Component
           key={item.itemID}
