@@ -2,9 +2,7 @@ import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import {batch} from "src/flow/util/batch"
 import {expandAccountItemKey} from "src/hooks/useAccountItem"
-import getAccountItemScript from "cadence/scripts/get_account_item.cdc"
-
-const CODE = fcl.cdc`${getAccountItemScript}`
+import GET_ACCOUNT_ITEM_SCRIPT from "cadence/scripts/get_account_item.cdc"
 
 const collate = px => {
   return Object.keys(px).reduce(
@@ -23,7 +21,7 @@ const {enqueue} = batch("FETCH_ACCOUNT_ITEM", async px => {
 
   return fcl
     .send([
-      fcl.script(CODE),
+      fcl.script(GET_ACCOUNT_ITEM_SCRIPT),
       fcl.args([
         fcl.arg(keys, t.Array(t.String)),
         fcl.arg(addresses, t.Array(t.Address)),
