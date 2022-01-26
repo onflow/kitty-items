@@ -31,7 +31,7 @@ export default function ListItemImage({
     <div
       className={`group relative ${itemGradientClass(
         grayscale ? "gray" : rarity
-      )} rounded-3xl relative flex w-full items-center justify-center ${classes}`}
+      )} item-image-container rounded-3xl relative flex w-full items-center justify-center ${classes}`}
       style={getContainerStyle(isStoreItem)}
     >
       <div className="absolute top-0 h-full flex items-center justify-center">

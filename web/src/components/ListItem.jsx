@@ -38,9 +38,10 @@ export default function ListItem({
             id={item.itemID}
             size={size}
             isStoreItem={isStoreItem}
+            classes="item-image-container-hover"
           >
             {isBuyable && (
-              <div className="hidden group-hover:block absolute bottom-7">
+              <div className="absolute bottom-7">
                 <div
                   className={`bg-white py-3 px-9 font-bold text-md rounded-full shadow-md uppercase ${rarityTextColors(
                     item.rarity.rawValue
