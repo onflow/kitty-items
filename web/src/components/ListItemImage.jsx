@@ -6,7 +6,7 @@ const getContainerStyle = isStoreItem => ({
   width: "100%",
   height: 0,
   overflow: "hidden",
-  paddingBottom: isStoreItem ? "133.334%" : "125%",
+  paddingBottom: isStoreItem ? "111%" : "125%",
 })
 
 const getImageSrc = (cid, size, is2X) => {

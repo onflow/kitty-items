@@ -24,7 +24,6 @@ export default function ListItemPageButtons({item, listing}) {
   const onPurchaseClick = () => buy(listing?.resourceID, id, address)
   const onSellClick = () => sell(id, item.kind.rawValue, item.rarity.rawValue)
   const onRemoveClick = () => remove(listing?.resourceID, id)
-
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
   const isSellable = currentUserIsOwner && !listing
   const isBuyable = !currentUser || (!currentUserIsOwner && !!listing)

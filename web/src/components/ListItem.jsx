@@ -25,7 +25,7 @@ export default function ListItem({
   const isBuyable = !currentUserIsOwner && !!listingId
 
   const profileUrl = paths.profileItem(address, id)
-
+  const rarityTextColor = rarityTextColors(item.rarity.rawValue)
   return (
     <div className="w-full">
       <Link href={profileUrl} passHref>
@@ -40,12 +40,21 @@ export default function ListItem({
             isStoreItem={isStoreItem}
             classes="item-image-container-hover"
           >
+            {isStoreItem && (
+              <div className="absolute top-3 left-3">
+                <div
+                  className={`bg-white py-1 px-4 font-bold text-sm rounded-full uppercase ${rarityTextColor}`}
+                >
+                  New
+                </div>
+              </div>
+            )}
             {isBuyable && (
               <div className="absolute bottom-7">
                 <div
-                  className={`bg-white py-3 px-9 font-bold text-md rounded-full shadow-md uppercase ${rarityTextColors(
-                    item.rarity.rawValue
-                  )}`}
+                  className={`bg-white ${
+                    isStoreItem ? "py-3 px-9 text-lg" : "py-2 px-6 text-md"
+                  } font-bold rounded-full shadow-md uppercase ${rarityTextColor}`}
                 >
                   Purchase
                 </div>
