@@ -34,7 +34,9 @@ export default function KittyItem() {
 
           <div className="pt-20">
             <OwnerInfo address={item.owner} size="lg" />
-            <h1 className="text-5xl text-gray-darkest mt-10 mb-6">{item.name}</h1>
+            <h1 className="text-5xl text-gray-darkest mt-10 mb-6">
+              {item.name}
+            </h1>
 
             <div className="flex items-center h-6">
               {!!listing && (

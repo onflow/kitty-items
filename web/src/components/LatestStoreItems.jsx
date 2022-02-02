@@ -97,12 +97,12 @@ export default function LatestStoreItems({items}) {
           onScroll={onDebouncedScroll}
           ref={listRef}
         >
-          <div className="whitespace-nowrap flex lg:pr-3 lg:pl-4">
+          <div className="whitespace-nowrap flex lg:pr-3 lg:pl-4 pt-1">
             {storeItems.map(item => (
               <div
                 key={item.itemID}
                 className="flex justify-center px-4"
-                style={{width: ITEM_WIDTH}}
+                style={{minWidth: ITEM_WIDTH}}
               >
                 <ListItem
                   address={publicConfig.flowAddress}

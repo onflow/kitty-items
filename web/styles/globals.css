@@ -1,3 +1,14 @@
+:root {
+  --gradient-gold-light: #fceda3;
+  --gradient-gold-dark: #fe9666;
+  --gradient-purple-light: #8154ff;
+  --gradient-purple-dark: #512bbd;
+  --gradient-green-light: #19e18d;
+  --gradient-green-dark: #0cbf74;
+  --gradient-blue-light: #0aa6ff;
+  --gradient-blue-dark: #1972a4;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,6 +27,11 @@
     max-width: theme("screens.2xl");
   }
 
+  .item-image-container {
+    border: 3px solid theme("colors.gray.50");
+    transition: border 0.3s ease-in-out;
+  }
+
   .item-gradient-gray {
     background: linear-gradient(180deg, #ffffff 0%, #f4f4f4 100%);
     @apply border border-gray-200;
@@ -26,19 +42,55 @@
   }
 
   .item-gradient-3 {
-    background: linear-gradient(360deg, #fe9666 0%, #fceda3 100%);
+    background: linear-gradient(
+      360deg,
+      var(--gradient-gold-dark) 0%,
+      var(--gradient-gold-light) 100%
+    );
+    background-color: var(--gradient-gold-dark);
+  }
+
+  .item-image-container-hover.item-gradient-3:hover {
+    border-color: var(--gradient-gold-dark);
   }
 
   .item-gradient-2 {
-    background: linear-gradient(180deg, #8154ff 0%, #512bbd 100%);
+    background: linear-gradient(
+      180deg,
+      var(--gradient-purple-light) 0%,
+      var(--gradient-purple-dark) 100%
+    );
+    background-color: var(--gradient-purple-dark);
+  }
+
+  .item-image-container-hover.item-gradient-2:hover {
+    border-color: var(--gradient-purple-dark);
   }
 
   .item-gradient-1 {
-    background: linear-gradient(180deg, #19e18d 0%, #0cbf74 100%);
+    background: linear-gradient(
+      180deg,
+      var(--gradient-green-light) 0%,
+      var(--gradient-green-dark) 100%
+    );
+    background-color: var(--gradient-green-dark);
+  }
+
+  .item-image-container-hover.item-gradient-1:hover {
+    border-color: var(--gradient-green-dark);
   }
 
   .item-gradient-0 {
-    background: linear-gradient(180deg, #0aa6ff 0%, #1972a4 100%);
+    background: linear-gradient(
+      180deg,
+      var(--gradient-blue-light) 0%,
+      var(--gradient-blue-dark) 100%
+    );
+    background-color: var(--gradient-blue-dark);
+  }
+
+  .item-image-container-hover.item-gradient-0:hover {
+    border-color: var(--gradient-blue-dark);
   }
 
   @responsive {
