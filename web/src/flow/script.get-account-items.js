@@ -1,19 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import {Address} from "@onflow/types"
 import {expandAccountItemsKey} from "src/hooks/useAccountItems"
-
-const FETCH_ACCOUNT_ITEMS_SCRIPT = `
-  import NonFungibleToken from 0xNonFungibleToken
-  import KittyItems from 0xKittyItems
-
-  pub fun main(address: Address): [UInt64] {
-    if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
-      return collection.getIDs()
-    }
-
-    return []
-  }
-`
+import FETCH_ACCOUNT_ITEMS_SCRIPT from "cadence/scripts/get_account_items.cdc"
 
 export function fetchAccountItems(key) {
   const {address} = expandAccountItemsKey(key)
