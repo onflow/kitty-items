@@ -98,10 +98,10 @@ export const ITEM_RARITY_MAP = {
 }
 
 export const ITEM_RARITY_PROBABILITIES = {
-  0: 80,
-  1: 10,
-  2: 8,
-  3: 2,
+  0: 40,
+  1: 30,
+  2: 20,
+  3: 10,
 }
 
 export const ITEM_RARITY_PRICE_MAP = {

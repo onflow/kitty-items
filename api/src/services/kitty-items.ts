@@ -38,10 +38,10 @@ const randomKind = () => {
 }
 
 const ITEM_RARITY_PROBABILITIES = {
-  [Rarity.Gold]: 2,
-  [Rarity.Purple]: 8,
-  [Rarity.Green]: 10,
-  [Rarity.Blue]: 80,
+  [Rarity.Gold]: 10,
+  [Rarity.Purple]: 20,
+  [Rarity.Green]: 30,
+  [Rarity.Blue]: 40,
 }
 
 const randomRarity = () => {
