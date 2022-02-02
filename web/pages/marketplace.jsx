@@ -1,5 +1,6 @@
 import Link from "next/link"
 import {useRouter} from "next/router"
+import PropTypes from "prop-types"
 import {useEffect, useState} from "react"
 import ListItems from "src/components/ListItems"
 import MarketplaceFilters from "src/components/MarketplaceFilters"
@@ -16,24 +17,31 @@ const MainContent = ({queryState}) => {
   const router = useRouter()
 
   const {currentUser} = useAppContext()
-
   const {listings, data} = useApiListings({
     ...queryState,
     marketplace: true,
   })
+  const showPagination = data?.total !== undefined
 
-  const updateQuery = payload => {
+  const updateQuery = (payload, scroll = true) => {
     const newQueryObject = {...queryState, ...payload}
-    router.push({
-      pathname: router.pathname,
-      query: cleanObject({
-        ...newQueryObject,
-        page: newQueryObject.page === 1 ? undefined : newQueryObject.page,
-      }),
-    })
+
+    router.push(
+      {
+        pathname: router.pathname,
+        query: cleanObject({
+          ...newQueryObject,
+          page: newQueryObject.page === 1 ? undefined : newQueryObject.page,
+        }),
+      },
+      undefined,
+      {
+        scroll: scroll,
+      }
+    )
   }
 
-  const onPageClick = newPage => updateQuery({page: newPage})
+  const onPageClick = (newPage, scroll) => updateQuery({page: newPage}, scroll)
 
   return (
     <div className="main-container py-14">
@@ -50,17 +58,28 @@ const MainContent = ({queryState}) => {
 
       <hr className="pt-1 mb-8" />
 
-      <MarketplaceFilters queryState={queryState} updateQuery={updateQuery} />
+      <MarketplaceFilters queryState={queryState} updateQuery={updateQuery}>
+        {showPagination && (
+          <Pagination
+            currentPage={queryState.page}
+            total={data.total}
+            perPage={PER_PAGE}
+            onPageClick={newPage => onPageClick(newPage, false)}
+          />
+        )}
+      </MarketplaceFilters>
 
       {!!listings && <ListItems items={listings} />}
 
-      {data?.total !== undefined && (
-        <Pagination
-          currentPage={queryState.page}
-          total={data.total}
-          perPage={PER_PAGE}
-          onPageClick={onPageClick}
-        />
+      {showPagination && (
+        <div className="flex items-center justify-center mt-16 py-6">
+          <Pagination
+            currentPage={queryState.page}
+            total={data.total}
+            perPage={PER_PAGE}
+            onPageClick={onPageClick}
+          />
+        </div>
       )}
     </div>
   )
@@ -92,4 +111,8 @@ export default function Marketplace() {
       </main>
     </div>
   )
+}
+
+MainContent.propTypes = {
+  queryState: PropTypes.object.isRequired,
 }

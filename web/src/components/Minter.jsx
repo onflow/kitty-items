@@ -24,8 +24,7 @@ export default function Minter() {
     }, 1000)
   }
 
-  const [{isLoading, transactionStatus}, mint] =
-    useMintAndList(onSuccess)
+  const [{isLoading, transactionStatus}, mint] = useMintAndList(onSuccess)
 
   const onClickMint = () => mint()
 
