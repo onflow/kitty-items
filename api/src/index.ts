@@ -1,19 +1,14 @@
-import * as fcl from "@onflow/fcl";
-
-import yargs from "yargs/yargs";
-import { hideBin } from "yargs/helpers";
-
-import initApp from "./app";
-import { getConfig } from "./config";
-import initDB from "./db";
-
-import { BlockCursorService } from "./services/block-cursor";
-import { FlowService } from "./services/flow";
-import { KibblesService } from "./services/kibbles";
-import { KittyItemsService } from "./services/kitty-items";
-import { StorefrontService } from "./services/storefront";
-import { SaleOfferHandler } from "./workers/sale-offer-handler";
-import { FUSDService } from "./services/fusd";
+import * as fcl from "@onflow/fcl"
+import { hideBin } from "yargs/helpers"
+import yargs from "yargs/yargs"
+import initApp from "./app"
+import { getConfig } from "./config"
+import initDB from "./db"
+import { BlockCursorService } from "./services/block-cursor"
+import { FlowService } from "./services/flow"
+import { KittyItemsService } from "./services/kitty-items"
+import { StorefrontService } from "./services/storefront"
+import { ListingHandler } from "./workers/listing-handler"
 
 const argv = yargs(hideBin(process.argv)).argv;
 const DEV = argv.dev;
@@ -55,56 +50,47 @@ async function run() {
   const storefrontService = new StorefrontService(
     flowService,
     config.fungibleTokenAddress,
-    config.fusdAddress,
-    config.minterAddress,
+    config.flowTokenAddress,
     config.nonFungibleTokenAddress,
+    config.metadataViewsAddress,
+    config.storefrontAddress,
     config.minterAddress,
-    config.minterAddress
   );
 
   // Make sure we're pointing to the correct Flow Access API.
   fcl
     .config()
     .put("accessNode.api", config.accessApi)
-    .put("decoder.Type", val => val.staticType);
+    .put("decoder.Type", val => val.staticType)
+    .put("decoder.Enum", val => Number(val.fields[0].value.value));
 
   const startWorker = () => {
     console.log("Starting Flow event worker ....");
     const blockCursorService = new BlockCursorService();
 
-    const saleOfferWorker = new SaleOfferHandler(
+    const listingWorker = new ListingHandler(
       storefrontService,
       blockCursorService,
       flowService
     );
 
-    saleOfferWorker.run();
+    listingWorker.run();
   };
 
   const startAPIServer = () => {
     console.log("Starting API server ....");
 
-    const fusdService = new FUSDService(
-      flowService,
-      config.fungibleTokenAddress,
-      config.fusdAddress
-    );
-
-    const kibblesService = new KibblesService(
-      flowService,
-      config.fungibleTokenAddress,
-      config.minterAddress
-    );
-
     const kittyItemsService = new KittyItemsService(
       flowService,
       config.nonFungibleTokenAddress,
-      config.minterAddress
+      config.metadataViewsAddress,
+      config.minterAddress,
+      config.fungibleTokenAddress,
+      config.flowTokenAddress,
+      config.storefrontAddress
     );
 
     const app = initApp(
-      fusdService,
-      kibblesService,
       kittyItemsService,
       storefrontService
     );

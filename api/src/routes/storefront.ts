@@ -1,53 +1,53 @@
-import express, { Request, Response, Router } from "express";
-import { body } from "express-validator";
-import { validateRequest } from "../middlewares/validate-request";
-import { StorefrontService } from "../services/storefront";
+import express, {Request, Response, Router} from "express"
+import {body} from "express-validator"
+import {validateRequest} from "../middlewares/validate-request"
+import {StorefrontService} from "../services/storefront"
 
 function initStorefrontRouter(storefrontService: StorefrontService): Router {
-  const router = express.Router();
+  const router = express.Router()
 
   router.post(
     "/market/buy",
     [body("account").exists(), body("itemID").isInt()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const { account, itemID } = req.body;
-      const tx = await storefrontService.buy(account, itemID);
+      const {account, itemID} = req.body
+      const tx = await storefrontService.buy(account, itemID)
       return res.send({
         transactionId: tx,
-      });
+      })
     }
-  );
+  )
 
   router.post("/market/setup", async (req: Request, res: Response) => {
-    const tx = await storefrontService.setupAccount();
+    const tx = await storefrontService.setupAccount()
     return res.send({
       transactionId: tx,
-    });
-  });
+    })
+  })
 
   router.post(
     "/market/sell",
     [body("itemID").isInt(), body("price").isDecimal()],
     validateRequest,
     async (req: Request, res: Response) => {
-      const { itemID, price } = req.body;
-      const tx = await storefrontService.sell(itemID, price);
+      const {itemID, price} = req.body
+      const tx = await storefrontService.sell(itemID, price)
       return res.send({
         transactionId: tx,
-      });
+      })
     }
-  );
+  )
 
   router.get(
     "/market/collection/:account",
     async (req: Request, res: Response) => {
-      const items = await storefrontService.getItems(req.params.account);
+      const items = await storefrontService.getItems(req.params.account)
       return res.send({
         items,
-      });
+      })
     }
-  );
+  )
 
   router.get(
     "/market/collection/:account/:item",
@@ -55,21 +55,26 @@ function initStorefrontRouter(storefrontService: StorefrontService): Router {
       const item = await storefrontService.getItem(
         req.params.account,
         parseInt(req.params.item)
-      );
+      )
       return res.send({
         item,
-      });
+      })
     }
-  );
+  )
 
   router.get("/market/latest", async (req: Request, res: Response) => {
-    const latestSaleOffers = await storefrontService.findMostRecentSales();
-    return res.send({
-      latestSaleOffers,
-    });
-  });
+    const latestListings = await storefrontService.findMostRecentSales(
+      req.query
+    )
+    return res.send(latestListings)
+  })
 
-  return router;
+  router.get("/market/:id", async (req: Request, res: Response) => {
+    const listing = await storefrontService.findListing(req.params.id)
+    return res.send(listing)
+  })
+
+  return router
 }
 
-export default initStorefrontRouter;
+export default initStorefrontRouter

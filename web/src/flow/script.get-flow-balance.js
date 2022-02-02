@@ -1,6 +1,8 @@
 import * as fcl from "@onflow/fcl"
 
-export function fetchFlowBalance(address) {
+export function fetchFLOWBalance(address) {
   if (address == null) return Promise.resolve(null)
-  return fcl.account(address).then(d => d.balance)
+  return fcl.account(address).then(d => {
+    return d.balance
+  })
 }

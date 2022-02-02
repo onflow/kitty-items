@@ -1,24 +1,24 @@
 import FungibleToken from "./FungibleToken.cdc"
-import NonFungibleToken from "./NonFungibleToken.cdc";
+import NonFungibleToken from "./NonFungibleToken.cdc"
 
 // NFTStorefront
 //
 // A general purpose sale support contract for Flow NonFungibleTokens.
 // 
-// Each account that wants to offer NFTs for sale installs a Storefront,
-// and lists individual sales within that Storefront as SaleOffers.
+// Each account that wants to list NFTs for sale installs a Storefront,
+// and lists individual sales within that Storefront as Listings.
 // There is one Storefront per account, it handles sales of all NFT types
 // for that account.
 //
-// Each SaleOffer can have one or more "cut"s of the sale price that
+// Each Listing can have one or more "cut"s of the sale price that
 // goes to one or more addresses. Cuts can be used to pay listing fees
 // or other considerations.
-// Each NFT may be listed in one or more SaleOffers, the validity of each
-// SaleOffer can easily be checked.
+// Each NFT may be listed in one or more Listings, the validity of each
+// Listing can easily be checked.
 // 
-// Purchasers can watch for SaleOffer events and check the NFT type and
-// ID to see if they wish to buy the offered item.
-// Marketplaces and other aggregators can watch for SaleOffer events
+// Purchasers can watch for Listing events and check the NFT type and
+// ID to see if they wish to buy the listed item.
+// Marketplaces and other aggregators can watch for Listing events
 // and list items of interest.
 //
 pub contract NFTStorefront {
@@ -34,11 +34,11 @@ pub contract NFTStorefront {
     // Note that we do not specify an address: we cannot and should not.
     // Created resources do not have an owner address, and may be moved
     // after creation in ways we cannot check.
-    // SaleOfferAvailable events can be used to determine the address
+    // ListingAvailable events can be used to determine the address
     // of the owner of the Storefront (...its location) at the time of
-    // the offer but only at that precise moment in that precise transaction.
-    // If the offerer moves the Storefront while the offer is valid, that
-    // is on them.
+    // the listing but only at that precise moment in that precise transaction.
+    // If the seller moves the Storefront while the listing is valid, 
+    // that is on them.
     //
     pub event StorefrontInitialized(storefrontResourceID: UInt64)
 
@@ -49,25 +49,25 @@ pub contract NFTStorefront {
     //
     pub event StorefrontDestroyed(storefrontResourceID: UInt64)
 
-    // SaleOfferAvailable
-    // A sale offer has been created and added to a Storefront resource.
+    // ListingAvailable
+    // A listing has been created and added to a Storefront resource.
     // The Address values here are valid when the event is emitted, but
     // the state of the accounts they refer to may be changed outside of the
     // NFTStorefront workflow, so be careful to check when using them.
     //
-    pub event SaleOfferAvailable(
+    pub event ListingAvailable(
         storefrontAddress: Address,
-        saleOfferResourceID: UInt64,
+        listingResourceID: UInt64,
         nftType: Type,
         nftID: UInt64,
         ftVaultType: Type,
         price: UFix64
     )
 
-    // SaleOfferCompleted
-    // The sale offer has been resolved. It has either been accepted, or removed and destroyed.
+    // ListingCompleted
+    // The listing has been resolved. It has either been purchased, or removed and destroyed.
     //
-    pub event SaleOfferCompleted(saleOfferResourceID: UInt64, storefrontResourceID: UInt64, accepted: Bool)
+    pub event ListingCompleted(listingResourceID: UInt64, storefrontResourceID: UInt64, purchased: Bool)
 
     // StorefrontStoragePath
     // The location in storage that a Storefront resource should be located.
@@ -103,18 +103,18 @@ pub contract NFTStorefront {
     }
 
 
-    // SaleOfferDetails
-    // A struct containing a SaleOffer's data.
+    // ListingDetails
+    // A struct containing a Listing's data.
     //
-    pub struct SaleOfferDetails {
-        // The Storefront that the SaleOffer is stored in.
+    pub struct ListingDetails {
+        // The Storefront that the Listing is stored in.
         // Note that this resource cannot be moved to a different Storefront,
         // so this is OK. If we ever make it so that it *can* be moved,
         // this should be revisited.
         pub var storefrontID: UInt64
-        // Whether this offer has been accepted or not.
-        pub var accepted: Bool
-        // The Type of the NonFungibleToken.NFT that is being offered.
+        // Whether this listing has been purchased or not.
+        pub var purchased: Bool
+        // The Type of the NonFungibleToken.NFT that is being listed.
         pub let nftType: Type
         // The ID of the NFT within that type.
         pub let nftID: UInt64
@@ -125,11 +125,11 @@ pub contract NFTStorefront {
         // This specifies the division of payment between recipients.
         pub let saleCuts: [SaleCut]
 
-        // setToAccepted
-        // Irreversibly set this offer as accepted.
+        // setToPurchased
+        // Irreversibly set this listing as purchased.
         //
-        access(contract) fun setToAccepted() {
-            self.accepted = true
+        access(contract) fun setToPurchased() {
+            self.purchased = true
         }
 
         // initializer
@@ -142,13 +142,13 @@ pub contract NFTStorefront {
             storefrontID: UInt64
         ) {
             self.storefrontID = storefrontID
-            self.accepted = false
+            self.purchased = false
             self.nftType = nftType
             self.nftID = nftID
             self.salePaymentVaultType = salePaymentVaultType
 
             // Store the cuts
-            assert(saleCuts.length > 0, message: "SaleOffer must have at least one payment cut recipient")
+            assert(saleCuts.length > 0, message: "Listing must have at least one payment cut recipient")
             self.saleCuts = saleCuts
 
             // Calculate the total price from the cuts
@@ -162,7 +162,7 @@ pub contract NFTStorefront {
                 // Add the cut amount to the total price
                 salePrice = salePrice + cut.amount
             }
-            assert(salePrice > 0.0, message: "SaleOffer must have non-zero price")
+            assert(salePrice > 0.0, message: "Listing must have non-zero price")
 
             // Store the calculated sale price
             self.salePrice = salePrice
@@ -170,35 +170,35 @@ pub contract NFTStorefront {
     }
 
 
-    // SaleOfferPublic
-    // An interface providing a useful public interface to a SaleOffer.
+    // ListingPublic
+    // An interface providing a useful public interface to a Listing.
     //
-    pub resource interface SaleOfferPublic {
+    pub resource interface ListingPublic {
         // borrowNFT
         // This will assert in the same way as the NFT standard borrowNFT()
-        // if the NFT is absent, for example if it has been sold via another offer.
+        // if the NFT is absent, for example if it has been sold via another listing.
         //
         pub fun borrowNFT(): &NonFungibleToken.NFT
 
-        // accept
-        // Accept the offer, buying the token.
+        // purchase
+        // Purchase the listing, buying the token.
         // This pays the beneficiaries and returns the token to the buyer.
         //
-        pub fun accept(payment: @FungibleToken.Vault): @NonFungibleToken.NFT
+        pub fun purchase(payment: @FungibleToken.Vault): @NonFungibleToken.NFT
 
         // getDetails
         //
-        pub fun getDetails(): SaleOfferDetails
+        pub fun getDetails(): ListingDetails
     }
 
 
-    // SaleOffer
+    // Listing
     // A resource that allows an NFT to be sold for an amount of a given FungibleToken,
     // and for the proceeds of that sale to be split between several recipients.
     // 
-    pub resource SaleOffer: SaleOfferPublic {
+    pub resource Listing: ListingPublic {
         // The simple (non-Capability, non-complex) details of the sale
-        access(self) let details: SaleOfferDetails
+        access(self) let details: ListingDetails
 
         // A capability allowing this resource to withdraw the NFT with the given ID from its collection.
         // This capability allows the resource to withdraw *any* NFT, so you should be careful when giving
@@ -208,7 +208,7 @@ pub contract NFTStorefront {
 
         // borrowNFT
         // This will assert in the same way as the NFT standard borrowNFT()
-        // if the NFT is absent, for example if it has been sold via another offer.
+        // if the NFT is absent, for example if it has been sold via another listing.
         //
         pub fun borrowNFT(): &NonFungibleToken.NFT {
             let ref = self.nftProviderCapability.borrow()!.borrowNFT(id: self.getDetails().nftID)
@@ -220,27 +220,27 @@ pub contract NFTStorefront {
         }
 
         // getDetails
-        // Get the details of the current state of the SaleOffer as a struct.
+        // Get the details of the current state of the Listing as a struct.
         // This avoids having more public variables and getter methods for them, and plays
         // nicely with scripts (which cannot return resources).
         //
-        pub fun getDetails(): SaleOfferDetails {
+        pub fun getDetails(): ListingDetails {
             return self.details
         }
 
-        // accept
-        // Accept the offer, buying the token.
+        // purchase
+        // Purchase the listing, buying the token.
         // This pays the beneficiaries and returns the token to the buyer.
         //
-        pub fun accept(payment: @FungibleToken.Vault): @NonFungibleToken.NFT {
+        pub fun purchase(payment: @FungibleToken.Vault): @NonFungibleToken.NFT {
             pre {
-                self.details.accepted == false: "offer has already been accepted"
+                self.details.purchased == false: "listing has already been purchased"
                 payment.isInstance(self.details.salePaymentVaultType): "payment vault is not requested fungible token"
                 payment.balance == self.details.salePrice: "payment vault does not contain requested price"
             }
 
-            // Make sure the offer cannot be accepted again.
-            self.details.setToAccepted()
+            // Make sure the listing cannot be purchased again.
+            self.details.setToPurchased()
 
             // Fetch the token to return to the purchaser.
             let nft <-self.nftProviderCapability.borrow()!.withdraw(withdrawID: self.details.nftID)
@@ -275,12 +275,12 @@ pub contract NFTStorefront {
             // zero tokens left, and this will functionally be a no-op that consumes the empty vault
             residualReceiver!.deposit(from: <-payment)
 
-            // If the offer is accepted, we regard it as completed here.
+            // If the listing is purchased, we regard it as completed here.
             // Otherwise we regard it as completed in the destructor.
-            emit SaleOfferCompleted(
-                saleOfferResourceID: self.uuid,
+            emit ListingCompleted(
+                listingResourceID: self.uuid,
                 storefrontResourceID: self.details.storefrontID,
-                accepted: self.details.accepted
+                purchased: self.details.purchased
             )
 
             return <-nft
@@ -289,18 +289,16 @@ pub contract NFTStorefront {
         // destructor
         //
         destroy () {
-            // If the offer has not been accepted, we regard it as completed here.
-            // Otherwise we regard it as completed in accept().
-            // This is because we destroy the offer in Storefront.removeSaleOffer()
+            // If the listing has not been purchased, we regard it as completed here.
+            // Otherwise we regard it as completed in purchase().
+            // This is because we destroy the listing in Storefront.removeListing()
             // or Storefront.cleanup() .
             // If we change this destructor, revisit those functions.
-            
-            if !self.details.accepted {
-              log("Destroying sale offer")
-                emit SaleOfferCompleted(
-                    saleOfferResourceID: self.uuid,
+            if !self.details.purchased {
+                emit ListingCompleted(
+                    listingResourceID: self.uuid,
                     storefrontResourceID: self.details.storefrontID,
-                    accepted: self.details.accepted
+                    purchased: self.details.purchased
                 )
             }
         }
@@ -316,7 +314,7 @@ pub contract NFTStorefront {
             storefrontID: UInt64
         ) {
             // Store the sale information
-            self.details = SaleOfferDetails(
+            self.details = ListingDetails(
                 nftType: nftType,
                 nftID: nftID,
                 salePaymentVaultType: salePaymentVaultType,
@@ -341,55 +339,55 @@ pub contract NFTStorefront {
     }
 
     // StorefrontManager
-    // An interface for adding and removing SaleOffers within a Storefront,
+    // An interface for adding and removing Listings within a Storefront,
     // intended for use by the Storefront's own
     //
     pub resource interface StorefrontManager {
-        // createSaleOffer
-        // Allows the Storefront owner to create and insert SaleOffers.
+        // createListing
+        // Allows the Storefront owner to create and insert Listings.
         //
-        pub fun createSaleOffer(
+        pub fun createListing(
             nftProviderCapability: Capability<&{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>,
             nftType: Type,
             nftID: UInt64,
             salePaymentVaultType: Type,
             saleCuts: [SaleCut]
         ): UInt64
-        // removeSaleOffer
-        // Allows the Storefront owner to remove any sale offer, acepted or not.
+        // removeListing
+        // Allows the Storefront owner to remove any sale listing, acepted or not.
         //
-        pub fun removeSaleOffer(saleOfferResourceID: UInt64)
+        pub fun removeListing(listingResourceID: UInt64)
     }
 
     // StorefrontPublic
-    // An interface to allow listing and borrowing SaleOffers, and purchasing items via SaleOffers
+    // An interface to allow listing and borrowing Listings, and purchasing items via Listings
     // in a Storefront.
     //
     pub resource interface StorefrontPublic {
-        pub fun getSaleOfferIDs(): [UInt64]
-        pub fun borrowSaleOffer(saleOfferResourceID: UInt64): &SaleOffer{SaleOfferPublic}?
-        pub fun cleanup(saleOfferResourceID: UInt64)
+        pub fun getListingIDs(): [UInt64]
+        pub fun borrowListing(listingResourceID: UInt64): &Listing{ListingPublic}?
+        pub fun cleanup(listingResourceID: UInt64)
    }
 
     // Storefront
-    // A resource that allows its owner to manage a list of SaleOffers, and anyone to interact with them
+    // A resource that allows its owner to manage a list of Listings, and anyone to interact with them
     // in order to query their details and purchase the NFTs that they represent.
     //
     pub resource Storefront : StorefrontManager, StorefrontPublic {
-        // The dictionary of SaleOffer uuids to SaleOffer resources.
-        access(self) var saleOffers: @{UInt64: SaleOffer}
+        // The dictionary of Listing uuids to Listing resources.
+        access(self) var listings: @{UInt64: Listing}
 
         // insert
-        // Create and publish a SaleOffer for an NFT.
+        // Create and publish a Listing for an NFT.
         //
-         pub fun createSaleOffer(
+         pub fun createListing(
             nftProviderCapability: Capability<&{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>,
             nftType: Type,
             nftID: UInt64,
             salePaymentVaultType: Type,
             saleCuts: [SaleCut]
          ): UInt64 {
-            let saleOffer <- create SaleOffer(
+            let listing <- create Listing(
                 nftProviderCapability: nftProviderCapability,
                 nftType: nftType,
                 nftID: nftID,
@@ -398,75 +396,74 @@ pub contract NFTStorefront {
                 storefrontID: self.uuid
             )
 
-            let saleOfferResourceID = saleOffer.uuid
-            let saleOfferPrice = saleOffer.getDetails().salePrice
+            let listingResourceID = listing.uuid
+            let listingPrice = listing.getDetails().salePrice
 
-            // Add the new offer to the dictionary.
-            let oldOffer <- self.saleOffers[saleOfferResourceID] <- saleOffer
-            // Note that oldOffer will always be nil, but we have to handle it.
-            destroy oldOffer
+            // Add the new listing to the dictionary.
+            let oldListing <- self.listings[listingResourceID] <- listing
+            // Note that oldListing will always be nil, but we have to handle it.
+            destroy oldListing
 
-            emit SaleOfferAvailable(
+            emit ListingAvailable(
                 storefrontAddress: self.owner?.address!,
-                saleOfferResourceID: saleOfferResourceID,
+                listingResourceID: listingResourceID,
                 nftType: nftType,
                 nftID: nftID,
                 ftVaultType: salePaymentVaultType,
-                price: saleOfferPrice
+                price: listingPrice
             )
 
-            return saleOfferResourceID
+            return listingResourceID
         }
 
-        // removeSaleOffer
-        // Remove a SaleOffer that has not yet been accepted from the collection and destroy it.
+        // removeListing
+        // Remove a Listing that has not yet been purchased from the collection and destroy it.
         //
-        pub fun removeSaleOffer(saleOfferResourceID: UInt64) {
-
-            let offer <- self.saleOffers.remove(key: saleOfferResourceID)
-                ?? panic("missing SaleOffer")
+        pub fun removeListing(listingResourceID: UInt64) {
+            let listing <- self.listings.remove(key: listingResourceID)
+                ?? panic("missing Listing")
     
-            // This will emit a SaleOfferCompleted event.
-            destroy offer
+            // This will emit a ListingCompleted event.
+            destroy listing
         }
 
-        // getSaleOfferIDs
-        // Returns an array of the SaleOffer resource IDs that are in the collection
+        // getListingIDs
+        // Returns an array of the Listing resource IDs that are in the collection
         //
-        pub fun getSaleOfferIDs(): [UInt64] {
-            return self.saleOffers.keys
+        pub fun getListingIDs(): [UInt64] {
+            return self.listings.keys
         }
 
         // borrowSaleItem
-        // Returns a read-only view of the SaleItem for the given saleOfferID if it is contained by this collection.
+        // Returns a read-only view of the SaleItem for the given listingID if it is contained by this collection.
         //
-        pub fun borrowSaleOffer(saleOfferResourceID: UInt64): &SaleOffer{SaleOfferPublic}? {
-            if self.saleOffers[saleOfferResourceID] != nil {
-                return &self.saleOffers[saleOfferResourceID] as! &SaleOffer{SaleOfferPublic}
+        pub fun borrowListing(listingResourceID: UInt64): &Listing{ListingPublic}? {
+            if self.listings[listingResourceID] != nil {
+                return &self.listings[listingResourceID] as! &Listing{ListingPublic}
             } else {
                 return nil
             }
         }
 
         // cleanup
-        // Remove an offer *if* it has been accepted.
+        // Remove an listing *if* it has been purchased.
         // Anyone can call, but at present it only benefits the account owner to do so.
         // Kind purchasers can however call it if they like.
         //
-        pub fun cleanup(saleOfferResourceID: UInt64) {
+        pub fun cleanup(listingResourceID: UInt64) {
             pre {
-                self.saleOffers[saleOfferResourceID] != nil: "could not find offer with given id"
+                self.listings[listingResourceID] != nil: "could not find listing with given id"
             }
 
-            let offer <- self.saleOffers.remove(key: saleOfferResourceID)!
-            assert(offer.getDetails().accepted == true, message: "offer is not accepted, only admin can remove")
-            destroy offer
+            let listing <- self.listings.remove(key: listingResourceID)!
+            assert(listing.getDetails().purchased == true, message: "listing is not purchased, only admin can remove")
+            destroy listing
         }
 
         // destructor
         //
         destroy () {
-            destroy self.saleOffers
+            destroy self.listings
 
             // Let event consumers know that this storefront will no longer exist
             emit StorefrontDestroyed(storefrontResourceID: self.uuid)
@@ -475,7 +472,7 @@ pub contract NFTStorefront {
         // constructor
         //
         init () {
-            self.saleOffers <- {}
+            self.listings <- {}
 
             // Let event consumers know that this storefront exists
             emit StorefrontInitialized(storefrontResourceID: self.uuid)

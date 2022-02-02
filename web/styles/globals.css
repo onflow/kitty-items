@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @variant hover {
+    a {
+      @apply opacity-50;
+    }
+  }
+}
+
+@layer utilities {
+  .main-container {
+    @apply mx-auto px-4;
+    max-width: theme("screens.2xl");
+  }
+
+  .item-gradient-gray {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f4f4 100%);
+    @apply border border-gray-200;
+  }
+
+  .item-gradient-gray img {
+    filter: grayscale(100%);
+  }
+
+  .item-gradient-3 {
+    background: linear-gradient(360deg, #fe9666 0%, #fceda3 100%);
+  }
+
+  .item-gradient-2 {
+    background: linear-gradient(180deg, #8154ff 0%, #512bbd 100%);
+  }
+
+  .item-gradient-1 {
+    background: linear-gradient(180deg, #19e18d 0%, #0cbf74 100%);
+  }
+
+  .item-gradient-0 {
+    background: linear-gradient(180deg, #0aa6ff 0%, #1972a4 100%);
+  }
+
+  @responsive {
+    .latest-store-items-left-content {
+      margin-left: calc((100vw - theme("screens.2xl")) / 2);
+    }
+
+    .latest-store-items-left-shadow::after {
+      content: "";
+      position: absolute;
+      right: -35px;
+      width: 0;
+      height: 100%;
+      box-shadow: 0 0 20px 26px #f9fafb;
+      z-index: 1000;
+      height: 540px;
+      margin-top: -55px;
+    }
+  }
+}

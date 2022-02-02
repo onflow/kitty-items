@@ -1,0 +1,34 @@
+{
+	"name": "kitty-items-cadence-testing",
+	"version": "0.0.1",
+	"description": "Integration tests for Kitty Items using Flow JS Testing Framework",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest --runInBand"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/onflow/kitty-items.git"
+	},
+	"author": "Max Daunarovich",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/onflow/kitty-items/issues"
+	},
+	"homepage": "https://github.com/onflow/kitty-items#readme",
+	"devDependencies": {
+		"@babel/core": "^7.14.0",
+		"@babel/preset-env": "^7.14.1",
+		"@onflow/types": "0.0.4",
+		"babel-jest": "^27.0.2",
+		"flow-js-testing": "^0.2.2",
+		"jest": "^27.0.4",
+		"prettier": "^2.3.0"
+	},
+	"dependencies": {
+		"postcss": "^8.3.11",
+		"@onflow/fcl": "0.0.77",
+		"api": "^3.4.1",
+		"web": "0.0.2"
+	}
+}
