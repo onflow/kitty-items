@@ -17,7 +17,6 @@ export default function useAccountItem(address, id) {
     compAccountItemKey(address, id),
     fetchAccountItem
   )
-  
   return {data, error, isLoading: !data && !error}
 }
 

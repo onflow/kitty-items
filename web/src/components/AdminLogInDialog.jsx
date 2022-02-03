@@ -61,7 +61,7 @@ export default function AdminLogInDialog() {
               label="Password"
               required={true}
               labelClasses="text-sm text-gray-darkest"
-              onChange={value => setPassword(value)}
+              onChange={setPassword}
             />
             <div className="text-red mt-2 text-sm">
               {passwordError && `That's an incorrect password. Try KittyItems.`}

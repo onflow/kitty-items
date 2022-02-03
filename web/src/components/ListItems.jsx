@@ -20,7 +20,7 @@ export default function ListItems({items, Component = ListItem}) {
           key={`${item.itemID}-${item.resourceID}`}
           address={item.owner}
           id={item.itemID}
-          price={item.price ? parseFloat(item.price) : undefined}
+          price={item.price}
           listingId={item.resourceID}
           showOwnerInfo={true}
         />

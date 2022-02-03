@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     table.integer("item_kind")
     table.integer("item_rarity")
     table.text("owner")
-    table.decimal("price")
+    table.decimal("price", null)
     table.text("transaction_id")
     table.timestamps(true, true)
   })

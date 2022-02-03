@@ -67,7 +67,7 @@ export default function ListItem({
       <div>
         {showOwnerInfo && <OwnerInfo address={item.owner} />}
 
-        <div className="flex justify-between items-center mt-5">
+        <div className="flex justify-between items-center mt-5 gap-4">
           <div className="flex flex-col">
             <Link href={profileUrl}>
               <a className="text-lg font-semibold">{item.name}</a>
@@ -77,7 +77,7 @@ export default function ListItem({
             </Link>
           </div>
           <div className="flex items-center">
-            {!!listingId && <ListItemPrice price={parseFloat(price)} />}
+            {!!listingId && <ListItemPrice price={price} />}
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function ListItem({
 ListItem.propTypes = {
   address: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  price: PropTypes.number,
+  price: PropTypes.string,
   listingId: PropTypes.number,
   showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
