@@ -4,7 +4,6 @@ import {
   DECLINE_RESPONSE,
   flashMessages,
   IDLE,
-  ITEM_RARITY_PRICE_MAP,
   paths,
   SUCCESS,
 } from "src/global/constants"
@@ -25,9 +24,7 @@ export default function useItemSale() {
   const [state, dispatch] = useReducer(requestReducer, initialState)
   const [txStatus, setTxStatus] = useState(null)
 
-  const sell = (itemId, itemKind, itemRarity) => {
-    const price = ITEM_RARITY_PRICE_MAP[itemRarity]
-
+  const sell = (itemId, price, itemKind) => {
     createListing(
       {itemID: itemId, price},
       {
@@ -52,6 +49,7 @@ export default function useItemSale() {
           if (e === DECLINE_RESPONSE) {
             dispatch({type: IDLE})
           } else {
+            console.error(e)
             dispatch({type: ERROR})
             setFlashMessage(flashMessages.itemSaleError)
           }
