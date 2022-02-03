@@ -7,7 +7,7 @@ export default function normalizeItem(item) {
       kind: Number(item.item_type),
       rarity: Number(item.item_rarity),
       owner: item.owner,
-      price: parseFloat(item.price),
+      price: item.price,
       txID: item.transaction_id,
     }
   )

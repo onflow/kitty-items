@@ -6,7 +6,6 @@ import useAppContext from "src/hooks/useAppContext"
 import useFLOWBalance from "src/hooks/useFLOWBalance"
 import useItemPurchase from "src/hooks/useItemPurchase"
 import useItemRemoval from "src/hooks/useItemRemoval"
-import useItemSale from "src/hooks/useItemSale"
 import ListItemInsufficientFundsWarning from "./ListItemInsufficientFundsWarning"
 import TransactionLoading from "./TransactionLoading"
 
@@ -17,15 +16,12 @@ export default function ListItemPageButtons({item, listing}) {
   const {data: flowBalance} = useFLOWBalance(currentUser?.addr)
 
   const [{isLoading: isBuyLoading}, buy, buyTxStatus] = useItemPurchase()
-  const [{isLoading: isSellLoading}, sell, sellTxStatus] = useItemSale()
   const [{isLoading: isRemoveLoading}, remove, removeTxStatus] =
     useItemRemoval()
 
   const onPurchaseClick = () => buy(listing?.resourceID, id, address)
-  const onSellClick = () => sell(id, item.kind.rawValue, item.rarity.rawValue)
   const onRemoveClick = () => remove(listing?.resourceID, id)
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
-  const isSellable = currentUserIsOwner && !listing
   const isBuyable = !currentUser || (!currentUserIsOwner && !!listing)
   const isRemovable = currentUserIsOwner && !!listing
 
@@ -50,24 +46,6 @@ export default function ListItemPageButtons({item, listing}) {
 
         {!!currentUser && !userHasEnoughFunds && (
           <ListItemInsufficientFundsWarning />
-        )}
-      </div>
-    )
-  }
-
-  if (isSellable) {
-    return (
-      <div>
-        {isSellLoading && sellTxStatus !== null ? (
-          <TransactionLoading status={sellTxStatus} />
-        ) : (
-          <Button
-            onClick={onSellClick}
-            disabled={isSellLoading}
-            roundedFull={true}
-          >
-            Sell
-          </Button>
         )}
       </div>
     )
