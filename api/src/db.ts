@@ -6,7 +6,7 @@ const initDB = config => {
   const knexInstance = knex({
     client: "better-sqlite3",
     connection: {
-      filename: config.dbPath,
+      filename: config.dbPath || "./kitty-items-db.sqlite",
     },
     migrations: {
       directory: config.databaseMigrationPath,

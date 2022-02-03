@@ -40,8 +40,8 @@ services:
     volumes:
       - './api:/api'
       - '/api/node_modules'
-    links:
-      - 'db:database'
+    # links:
+    #   - 'db:database'
     environment:
       - MINTER_ADDRESS=${FLOW_ADDRESS}
       - MINTER_PRIVATE_KEY=${FLOW_PRIVATE_KEY}
@@ -56,8 +56,8 @@ services:
       - MIGRATION_PATH=./src/migrations
       - BLOCK_WINDOW=1
       - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
   dev-wallet:
     profiles:
       - dev
@@ -91,14 +91,14 @@ services:
       - FLOW_SERVICEKEYSIGALGO=ECDSA_P256
       - FLOW_SERVICEKEYHASHALGO=SHA3_256
       - FLOW_VERBOSE=true
-  db:
-    profiles:
-      - dev
-      - testnet
-    image: postgres:13-alpine
-    ports:
-      - '5432:5432'
-    environment:
-      - POSTGRES_DB=kittyitems
-      - POSTGRES_USER=kittyuser
-      - POSTGRES_PASSWORD=kittypassword
+  # db:
+  #   profiles:
+  #     - dev
+  #     - testnet
+  #   image: postgres:13-alpine
+  #   ports:
+  #     - '5432:5432'
+  #   environment:
+  #     - POSTGRES_DB=kittyitems
+  #     - POSTGRES_USER=kittyuser
+  #     - POSTGRES_PASSWORD=kittypassword
