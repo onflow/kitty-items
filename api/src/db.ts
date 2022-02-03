@@ -4,7 +4,7 @@ import {Model} from "objection"
 
 const initDB = config => {
   const knexInstance = knex({
-    client: "sqlite3",
+    client: "better-sqlite3",
     connection: {
       filename: config.dbPath,
     },
