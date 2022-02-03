@@ -21,5 +21,5 @@ export default function useApiListings(params) {
 }
 
 useApiListings.propTypes = {
-  address: PropTypes.string,
+  params: PropTypes.object,
 }

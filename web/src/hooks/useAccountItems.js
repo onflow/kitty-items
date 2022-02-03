@@ -2,7 +2,8 @@ import PropTypes from "prop-types"
 import {fetchAccountItems} from "src/flow/script.get-account-items"
 import useSWR from "swr"
 
-export function compAccountItemsKey(address) {
+function compAccountItemsKey(address) {
+  if (typeof address === "undefined") return null
   return `${address}/account-items`
 }
 
@@ -18,5 +19,5 @@ export default function useAccountItems(address) {
 }
 
 useAccountItems.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.string,
 }

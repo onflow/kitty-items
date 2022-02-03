@@ -1,5 +1,7 @@
+import Link from "next/link"
 import PropTypes from "prop-types"
 import ListItems from "src/components/ListItems"
+import {paths} from "src/global/constants"
 import {publicItemsSelector} from "src/global/selectors"
 
 const ITEMS_LENGTH = 20
@@ -16,6 +18,14 @@ export default function LatestMarketplaceItems({items}) {
           Kitty Items resold by other users.
         </div>
         <ListItems items={publicItems} />
+      </div>
+
+      <div className="flex items-center justify-center pt-5 pb-20">
+        <Link href={paths.marketplace}>
+          <a className="rounded uppercase font-bold text-sm rounded-full bg-green hover:opacity-80 py-2.5 px-5">
+            Explore the marketplace
+          </a>
+        </Link>
       </div>
     </div>
   )

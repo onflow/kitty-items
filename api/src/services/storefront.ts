@@ -185,7 +185,6 @@ class StorefrontService {
         query.where('price', '<=', parseFloat(params.maxPrice))
       }
 
-
       if (params.marketplace) {
         query.where('owner', '!=', this.minterAddress)
       }

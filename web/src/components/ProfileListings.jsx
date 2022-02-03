@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
-import {listItemsRootClasses} from "src/components/ListItems"
 import Listing from "src/components/Listing"
+import {listItemsRootClasses} from "src/components/ListItems"
 import useListings from "src/hooks/useListings"
 import EmptyKittyItems from "./EmptyKittyItems"
 
@@ -23,5 +23,5 @@ export default function ProfileListings({address}) {
 }
 
 ProfileListings.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.string,
 }

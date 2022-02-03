@@ -4,6 +4,7 @@ import {fmtFlow} from "src/util/fmt-flow"
 import useSWR from "swr"
 
 export function compFLOWBalanceKey(address) {
+  if (typeof address === "undefined") return null
   return `${address}/flow-balance`
 }
 
@@ -23,5 +24,5 @@ export default function useFLOWBalance(address) {
 }
 
 useFLOWBalance.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.string,
 }
