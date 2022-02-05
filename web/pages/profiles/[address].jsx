@@ -4,8 +4,8 @@ import {Fragment} from "react"
 import Avatar from "src/components/Avatar"
 import PageTitle from "src/components/PageTitle"
 import ProfileAccountItems from "src/components/ProfileAccountItems"
-import ProfileQuestionPopover from "src/components/ProfileQuestionPopover"
 import ProfileListings from "src/components/ProfileListings"
+import ProfileQuestionPopover from "src/components/ProfileQuestionPopover"
 
 const getTabClasses = selected =>
   `text-3xl mx-4 text-gray-darkest border-b-2 pb-0.5 hover:opacity-80 ${
@@ -15,8 +15,6 @@ const getTabClasses = selected =>
 export default function Profile() {
   const router = useRouter()
   const {address} = router.query
-
-  if (!address) return null
 
   return (
     <div className="main-container pt-12 pb-24">

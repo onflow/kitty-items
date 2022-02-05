@@ -10,10 +10,10 @@ export default function Home() {
       <PageTitle>Store</PageTitle>
       <main>
         {listings?.length > 0 && (
-          <div className="divide-y divide-solid">
+          <>
             <LatestStoreItems items={listings} />
             <LatestMarketplaceItems items={listings} />
-          </div>
+          </>
         )}
       </main>
     </div>

@@ -1,12 +1,12 @@
 import Link from "next/link"
 import PropTypes from "prop-types"
+import {paths} from "src/global/constants"
 import useAccountItem from "src/hooks/useAccountItem"
 import useAppContext from "src/hooks/useAppContext"
 import {rarityTextColors} from "src/util/classes"
 import ListItemImage from "./ListItemImage"
 import ListItemPrice from "./ListItemPrice"
 import OwnerInfo from "./OwnerInfo"
-import {paths} from "src/global/constants"
 
 export default function ListItem({
   address,
@@ -19,18 +19,17 @@ export default function ListItem({
 }) {
   const {currentUser} = useAppContext()
   const {data: item, isLoading} = useAccountItem(address, id)
-
   if (isLoading || !item) return null
 
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
   const isBuyable = !currentUserIsOwner && !!listingId
 
   const profileUrl = paths.profileItem(address, id)
-
+  const rarityTextColor = rarityTextColors(item.rarity.rawValue)
   return (
-    <div>
+    <div className="w-full">
       <Link href={profileUrl} passHref>
-        <a>
+        <a className="w-full">
           <ListItemImage
             name={item.name}
             rarity={item.rarity.rawValue}
@@ -39,13 +38,23 @@ export default function ListItem({
             id={item.itemID}
             size={size}
             isStoreItem={isStoreItem}
+            classes="item-image-container-hover"
           >
-            {isBuyable && (
-              <div className="hidden group-hover:block absolute bottom-7">
+            {isStoreItem && (
+              <div className="absolute top-3 left-3">
                 <div
-                  className={`bg-white py-3 px-9 font-bold text-md rounded-full shadow-md uppercase ${rarityTextColors(
-                    item.rarity.rawValue
-                  )}`}
+                  className={`bg-white py-1 px-4 font-bold text-sm rounded-full uppercase ${rarityTextColor}`}
+                >
+                  New
+                </div>
+              </div>
+            )}
+            {isBuyable && (
+              <div className="absolute bottom-7">
+                <div
+                  className={`bg-white ${
+                    isStoreItem ? "py-3 px-9 text-lg" : "py-2 px-6 text-md"
+                  } font-bold rounded-full shadow-md uppercase ${rarityTextColor}`}
                 >
                   Purchase
                 </div>

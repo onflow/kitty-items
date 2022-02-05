@@ -6,7 +6,7 @@ import {storeItemsSelector} from "src/global/selectors"
 import {useDebouncedCallback} from "use-debounce"
 
 const ITEMS_LENGTH = 10
-const ITEM_WIDTH = 362
+const ITEM_WIDTH = 432
 
 const PageButton = ({onClick, disabled, children}) => (
   <button
@@ -58,51 +58,51 @@ export default function LatestStoreItems({items}) {
   const nextPage = () => scrollToItem(firstVisibleItem + 1)
 
   return (
-    <div className="grid grid-cols-12 md:gap-10" style={{minHeight: 550}}>
-      <div className="col-span-12 lg:col-span-4 3xl:col-span-5 flex relative items-center pl-4 2xl:latest-store-items-left-content">
-        <div className="">
-          <h1 className="text-5xl lg:text-6xl text-gray-darkest mb-6 mt-10 lg:mt-0">
-            Latest items
+    <>
+      <div className="main-container flex pt-10 flex-col sm:flex-row">
+        <div>
+          <h1 className="text-4xl text-gray-darkest mb-1">
+            Latest Kitty Items
           </h1>
-          <div className="text-gray sm:max-w-2xl lg:max-w-sm">
+          <div className="text-xl text-gray-light">
             Check out the latest freshly-minted Kitty Items.
           </div>
-          {storeItems.length > 2 && (
-            <div className="flex mt-8">
-              <div className="mr-5">
-                <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
-                  <img
-                    src="/images/arrow-left.svg"
-                    alt="Previous Page"
-                    width="16"
-                    height="16"
-                  />
-                </PageButton>
-              </div>
-              <PageButton onClick={nextPage} disabled={reachedScrollEnd}>
+        </div>
+        {storeItems.length > 2 && (
+          <div className="flex mt-6 sm:mt-0 sm:ml-auto">
+            <div className="mr-5">
+              <PageButton onClick={prevPage} disabled={scrollLeft === 0}>
                 <img
-                  src="/images/arrow-right.svg"
-                  alt="Next Page"
+                  src="/images/arrow-left.svg"
+                  alt="Previous Page"
                   width="16"
                   height="16"
                 />
               </PageButton>
             </div>
-          )}
-        </div>
+            <PageButton onClick={nextPage} disabled={reachedScrollEnd}>
+              <img
+                src="/images/arrow-right.svg"
+                alt="Next Page"
+                width="16"
+                height="16"
+              />
+            </PageButton>
+          </div>
+        )}
       </div>
-      <div className="col-span-12 lg:col-span-8 3xl:col-span-7 lg:l-3 my-10 ">
+      <div className="mt-8 mb-10 2xl:latest-store-list-items">
         <div
-          className="overflow-x-scroll"
+          className="overflow-x-auto pb-5"
           onScroll={onDebouncedScroll}
           ref={listRef}
         >
-          <div className="whitespace-nowrap flex lg:pr-3 lg:pl-4">
+          <div className="whitespace-nowrap flex lg:pr-3">
             {storeItems.map(item => (
               <div
                 key={item.itemID}
                 className="flex justify-center px-4"
-                style={{width: ITEM_WIDTH}}
+                style={{minWidth: ITEM_WIDTH}}
               >
                 <ListItem
                   address={publicConfig.flowAddress}
@@ -117,7 +117,8 @@ export default function LatestStoreItems({items}) {
           </div>
         </div>
       </div>
-    </div>
+      <div className="border-t border-gray-200" />
+    </>
   )
 }
 

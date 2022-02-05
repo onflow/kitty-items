@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 const INITIAL_MAX_PAGES = 5
 
 const BASE_PAGINATION_BUTTON_CLASSES =
-  "border border-gray-200 w-10 h-10 rounded-md mx-1 flex items-center justify-center"
+  "border border-gray-200 w-10 h-10 rounded-md mx-1 flex items-center justify-center text-sm text-gray-dark"
 
 const PaginationButton = ({currentPage, page, onPageClick}) => {
   const isCurrent = page === currentPage
@@ -29,7 +29,7 @@ export default function Pagination({total, perPage, currentPage, onPageClick}) {
   if (totalPages <= 1) return null
 
   return (
-    <div className="flex items-center justify-center mt-16 py-6">
+    <div className="flex items-center">
       {Array(maxPages)
         .fill(0)
         .map((_a, index) => (

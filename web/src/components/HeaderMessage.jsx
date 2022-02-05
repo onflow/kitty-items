@@ -9,7 +9,7 @@ import useLogin from "src/hooks/useLogin"
 
 const HeaderContainer = ({children}) => {
   return (
-    <div className="bg-green-dark text-white text-sm sm:text-lg font-bold text-center py-4 px-2">
+    <div className="bg-green-muted text-white text-md font-bold text-center py-3 px-2">
       {children}
     </div>
   )
