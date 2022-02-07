@@ -1,7 +1,7 @@
-import PropTypes from "prop-types"
 import {useState} from "react"
 import Button from "src/components/Button"
 import {ITEM_RARITY_PRICE_MAP} from "src/global/constants"
+import {normalizedItemType} from "src/global/types"
 import useItemSale from "src/hooks/useItemSale"
 import {formattedCurrency} from "src/util/currency"
 import TextInput from "./TextInput"
@@ -13,7 +13,7 @@ export default function SellListItem({item}) {
 
   const onSubmit = e => {
     e.preventDefault()
-    sell(item.itemID, price, item.kind.rawValue)
+    sell(item, price)
   }
 
   return (
@@ -21,9 +21,7 @@ export default function SellListItem({item}) {
       <div className="text-gray mb-5">
         <div className="font-bold">
           Items of this rarity usually sell for{" "}
-          {formattedCurrency(
-            ITEM_RARITY_PRICE_MAP[item.rarity.rawValue].toString()
-          )}{" "}
+          {formattedCurrency(ITEM_RARITY_PRICE_MAP[item.rarity].toString())}{" "}
           FLOW.
         </div>
         Please specify the price you want to sell your Kitty Item for.
@@ -61,5 +59,5 @@ export default function SellListItem({item}) {
 }
 
 SellListItem.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: normalizedItemType,
 }

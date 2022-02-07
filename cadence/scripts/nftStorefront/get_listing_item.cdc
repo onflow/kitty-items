@@ -5,20 +5,22 @@ import KittyItems from "../../contracts/KittyItems.cdc"
 
 pub struct ListingItem {
     pub let name: String
-    pub let description: String
+    pub let image: String
     pub let thumbnail: String
+    pub let description: String
 
     pub let itemID: UInt64
     pub let resourceID: UInt64
-    pub let kind: KittyItems.Kind
-    pub let rarity: KittyItems.Rarity
+    pub let kind: UInt8
+    pub let rarity: UInt8
     pub let owner: Address
     pub let price: UFix64
 
     init(
         name: String,
-        description: String,
+        image: String,
         thumbnail: String,
+        description: String,
         itemID: UInt64,
         resourceID: UInt64,
         kind: KittyItems.Kind,
@@ -27,13 +29,14 @@ pub struct ListingItem {
         price: UFix64
     ) {
         self.name = name
-        self.description = description
+        self.image = image
         self.thumbnail = thumbnail
+        self.description = description
 
         self.itemID = itemID
         self.resourceID = resourceID
-        self.kind = kind
-        self.rarity = rarity
+        self.kind = kind.rawValue
+        self.rarity = rarity.rawValue
         self.owner = owner
         self.price = price
     }
@@ -77,8 +80,9 @@ pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
 
                         return ListingItem(
                             name: display.name,
-                            description: display.description,
+                            image: item.imageCID(),
                             thumbnail: dwebURL(ipfsThumbnail),
+                            description: display.description,
                             itemID: itemID,
                             resourceID: item.uuid,
                             kind: item.kind, 
