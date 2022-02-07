@@ -1,10 +1,16 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Cleanup env config.
 require("dotenv").config({
   path: ".env.dev"
 });
 
+<<<<<<< HEAD
 =======
 >>>>>>> Adds pm2 config.
+=======
+>>>>>>> Cleanup env config.
 module.exports = {
   apps: [
     {
@@ -12,6 +18,9 @@ module.exports = {
       cwd: "./api",
       script: "npm",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Cleanup env config.
       args: "run dev"
     },
     {
@@ -19,6 +28,7 @@ module.exports = {
       cwd: "./web",
       script: "npm",
       args: "run dev"
+<<<<<<< HEAD
 =======
       automation: false,
       args: "run dev",
@@ -35,6 +45,8 @@ module.exports = {
         DATABASE_PATH: ""
       }
 >>>>>>> Adds pm2 config.
+=======
+>>>>>>> Cleanup env config.
     }
   ]
 };
