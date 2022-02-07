@@ -23,11 +23,11 @@ export default function useItemRemoval() {
   const {setFlashMessage} = useAppContext()
   const [txStatus, setTxStatus] = useState(null)
 
-  const remove = (listingId, itemId) => {
-    if (!listingId) throw "Missing listingId"
+  const remove = (listingResourceID, itemID) => {
+    if (!listingResourceID) throw "Missing listingResourceID"
 
     removeListing(
-      {listingResourceID: listingId},
+      {listingResourceID},
       {
         onStart() {
           dispatch({type: START})
@@ -38,7 +38,7 @@ export default function useItemRemoval() {
         async onSuccess() {
           // TODO: Poll for removed API listing instead of setTimeout
           setTimeout(() => {
-            mutate(paths.apiListing(itemId))
+            mutate(paths.apiListing(itemID))
             dispatch({type: SUCCESS})
 
             setFlashMessage(flashMessages.itemRemovalSuccess)

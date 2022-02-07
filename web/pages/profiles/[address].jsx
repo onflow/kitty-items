@@ -7,6 +7,10 @@ import ProfileAccountItems from "src/components/ProfileAccountItems"
 import ProfileListings from "src/components/ProfileListings"
 import ProfileQuestionPopover from "src/components/ProfileQuestionPopover"
 
+const panelsStyle = {
+  minHeight: 600,
+}
+
 const getTabClasses = selected =>
   `text-3xl mx-4 text-gray-darkest border-b-2 pb-0.5 hover:opacity-80 ${
     selected ? "border-green" : "border-transparent"
@@ -45,7 +49,7 @@ export default function Profile() {
               )}
             </Tab>
           </Tab.List>
-          <Tab.Panels>
+          <Tab.Panels style={panelsStyle}>
             <Tab.Panel>
               <ProfileAccountItems address={address} />
             </Tab.Panel>
