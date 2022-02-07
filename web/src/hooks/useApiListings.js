@@ -3,7 +3,7 @@ import {useMemo} from "react"
 import {paths} from "src/global/constants"
 import fetcher from "src/util/fetcher"
 import laggy from "src/util/laggy"
-import normalizeItem from "src/util/normalize-item"
+import {normalizeApiListing} from "src/util/normalize-item"
 import useSWR from "swr"
 
 export default function useApiListings(params) {
@@ -14,7 +14,7 @@ export default function useApiListings(params) {
   const listings = useMemo(() => {
     // Paginated queries return an object
     const listingsArray = Array.isArray(data) ? data : data?.results
-    return listingsArray?.map(item => normalizeItem(item))
+    return listingsArray?.map(item => normalizeApiListing(item))
   }, [data])
 
   return {listings, data, error, isLoading: !data && !error}

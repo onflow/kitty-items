@@ -12,16 +12,16 @@ export default function ProfileAccountItems({address}) {
   const {data: itemIds, isAccountItemsLoading} = useAccountItems(address)
   const isLoading =
     isListingsLoading || isAccountItemsLoading || !listings || !itemIds
-
   if (isLoading) return null
-
   const listingItemIds = listings.map(listing => listing.itemID)
   const itemIdsNotForSale = itemIds?.filter(id => !listingItemIds.includes(id))
-
   return (
     <div>
       <ListItems
-        items={itemIdsNotForSale.map(id => ({itemID: id, owner: address}))}
+        accountItemIds={itemIdsNotForSale.map(id => ({
+          itemID: id,
+          owner: address,
+        }))}
       />
     </div>
   )

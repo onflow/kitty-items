@@ -12,13 +12,13 @@ export default function Minter() {
   const router = useRouter()
   const {mutate} = useSWRConfig()
 
-  const onSuccess = itemId => {
+  const onSuccess = itemID => {
     // Wait for new listing to be created by the API
     // Mutations don't work because they get overwritten when the new page is loaded
     setTimeout(() => {
       mutate(paths.apiMarketItemsList())
       router.push({
-        pathname: paths.profileItem(publicConfig.flowAddress, itemId),
+        pathname: paths.profileItem(publicConfig.flowAddress, itemID),
         query: {flash: "itemMintedSuccess"},
       })
     }, 1000)
