@@ -2,7 +2,7 @@ const flowAccountErrorMessaage = `
 
 No Flow account configured.
 
-Did you export FLOW_ADDRESS and FLOW_PRIVATE_KEY?
+Did you export ADMIN_ADDRESS and FLOW_PRIVATE_KEY?
 
 `
 
