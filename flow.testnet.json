@@ -1,7 +1,7 @@
 {
   "accounts": {
     "testnet-account": {
-      "address": "${FLOW_ADDRESS}",
+      "address": "${ADMIN_ADDRESS}",
       "keys": "${FLOW_PRIVATE_KEY}"
     }
   },
