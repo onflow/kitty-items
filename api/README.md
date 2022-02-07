@@ -34,7 +34,7 @@ curl --request POST \
   --url http://localhost:3000/v1/kitty-items/mint \
   --header 'Content-Type: application/json' \
   --data '{
-    "recipient": "'$FLOW_ADDRESS'",
+    "recipient": "'$ADMIN_ADDRESS'",
     "kind": 1
   }'
 ```

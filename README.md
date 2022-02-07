@@ -85,7 +85,7 @@ After your account has been created, export the following environment variables 
 # Replace these values with the address returned from the faucet and the
 # private key you generated in the first step!
 
-export FLOW_ADDRESS=address
+export ADMIN_ADDRESS=address
 export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
 export FLOW_PUBLIC_KEY=xxxxxxxxxxxx
 ```
