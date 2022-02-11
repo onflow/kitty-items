@@ -18,10 +18,8 @@
     "cypress-iframe": "^1.0.1"
   },
   "scripts": {
-    "start": "node api/dist/index.js",
     "start:local": "CHAIN_ENV=emulator node startup.js",
     "start:testnet": "CHAIN_ENV=testnet node startup.js",
-    "start:worker": "node api/dist/index.js --worker",
     "test": "cypress run --headless --browser chrome"
   },
   "repository": {
