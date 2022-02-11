@@ -107,11 +107,12 @@ pm2.connect(true, async function (err) {
   console.log(
     `
       😸 Kitty Items has started! 😸
+      
       Run: 
-       - pm2 logs to see log output.
-       - pm2 list to see processes.
-       - pm2 monit to see process monitoring.
-       - pm2 delete all --force to stop and delete processes. 
+       - npx pm2 logs to see log output.
+       - npx pm2 list to see processes.
+       - npx pm2 monit to see process monitoring.
+       - npx pm2 delete all --force to stop and delete processes. 
     `
   );
 
