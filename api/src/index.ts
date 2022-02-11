@@ -18,7 +18,7 @@ let envVars
 
 if (DEV) {
   const env = require("dotenv")
-  const expandEnv = require("dotenv-expand");
+  const expandEnv = require("dotenv-expand")
 
   const config = env.config({
     path: ".env.local",
@@ -107,12 +107,9 @@ async function run() {
     // for horizontal scaling in production deployments, using flag a eg:
     // $> node /api/dist/index.js (starts API server)
     // $> node /api/dist/index.js --worker (starts worker)
-
-    // Start the worker only if worker is passed as command flag.
-    // See above notes for why.
     startWorker()
   } else {
-    // Default when not in dev: start the API server.
+    // Accommodates the commands in the branch above.
     startAPIServer()
   }
 }
