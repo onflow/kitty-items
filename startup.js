@@ -44,8 +44,7 @@ async function runProcess(config) {
     pm2.start(config, function (err, apps) {
       if (err) {
         console.log(err);
-        pm2.disconnect();
-        reject();
+        reject(err);
       }
       resolve(apps);
     });
@@ -57,13 +56,16 @@ pm2.connect(true, async function (err) {
     console.error(err);
     process.exit(2);
   }
-  console.log("Starting Flow Emulator");
-  await runProcess({
-    name: "emulator",
-    script: "flow",
-    args: "emulator --dev-wallet=true",
-    wait_ready: true
-  });
+
+  if (process.env.CHAIN_ENV === "emulator") {
+    console.log("Starting Flow Emulator");
+    await runProcess({
+      name: "emulator",
+      script: "flow",
+      args: "emulator --dev-wallet=true",
+      wait_ready: true
+    });
+  }
 
   console.log("Starting API & Event Worker");
   await runProcess({
@@ -90,7 +92,7 @@ pm2.connect(true, async function (err) {
   const answer = await inquirer.prompt({
     type: "confirm",
     name: "confirm",
-    message: `Deploy contracts?`
+    message: `Deploy contracts to ${process.env.CHAIN_ENV}?`
   });
 
   if (answer.confirm) {
@@ -107,7 +109,7 @@ pm2.connect(true, async function (err) {
   console.log(
     `
       😸 Kitty Items has started! 😸
-      
+
       Run: 
        - npx pm2 logs to see log output.
        - npx pm2 list to see processes.
