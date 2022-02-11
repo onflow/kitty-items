@@ -5,6 +5,7 @@ import {Model} from "objection"
 const initDB = config => {
   const knexInstance = knex({
     client: "better-sqlite3",
+    useNullAsDefault: true,
     connection: {
       filename: config.dbPath || "./kitty-items-db.sqlite",
     },
