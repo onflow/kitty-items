@@ -1,8 +1,0 @@
-FROM node:14-alpine
-
-WORKDIR /api
-COPY ./api .
-COPY ./cadence /cadence
-RUN npm i
-EXPOSE 3001
-CMD npm run dev
