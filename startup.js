@@ -41,7 +41,7 @@ require("dotenv").config({
 
 async function runProcess(config) {
   return new Promise((resolve, reject) => {
-    pm2.start(config, function (err, apps) {
+    pm2.start(config, function(err, apps) {
       if (err) {
         console.log(err);
         reject(err);
@@ -51,7 +51,7 @@ async function runProcess(config) {
   });
 }
 
-pm2.connect(true, async function (err) {
+pm2.connect(true, async function(err) {
   if (err) {
     console.error(err);
     process.exit(2);
