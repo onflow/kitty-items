@@ -1,7 +1,7 @@
 {
   "name": "kitty-items",
   "version": "1.0.0",
-  "description": "A CryptoKitties Sample App, learn how to create an NFT Marketplace",
+  "description": "<p align=\"center\"><img width=\"400\" src=\"kitty-items-banner.png\" /></a> </p>",
   "main": "index.js",
   "dependencies": {
     "@types/node": "^14.14.37",
