@@ -6,7 +6,9 @@
   "dependencies": {
     "@types/node": "^14.14.37",
     "dotenv": "^16.0.0",
+    "inquirer": "^8.2.0",
     "lerna": "^4.0.0",
+    "pm2": "^5.1.2",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
@@ -17,8 +19,8 @@
   },
   "scripts": {
     "start": "node api/dist/index.js",
-    "start:local": "CHAIN_ENV=emulator npx pm2 start ecosystem.config.js",
-    "start:testnet": "CHAIN_ENV=testnet npx pm2 start ecosystem.config.js",
+    "start:local": "CHAIN_ENV=emulator node startup.js",
+    "start:testnet": "CHAIN_ENV=testnet node startup.js",
     "start:worker": "node api/dist/index.js --worker",
     "test": "cypress run --headless --browser chrome"
   },
