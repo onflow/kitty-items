@@ -1,7 +1,7 @@
 /**
 
 This contract implements the metadata standard proposed
-in FLIP-0636.
+in FLIP-0636
 
 Ref: https://github.com/onflow/flow/blob/master/flips/20210916-nft-metadata.md
 
