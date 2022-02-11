@@ -100,7 +100,8 @@ pm2.connect(true, async function (err) {
       name: "deploy",
       script: "flow",
       args: deploy(process.env.CHAIN_ENV),
-      autorestart: false
+      autorestart: false,
+      watch: ["cadence"]
     });
 
     console.log("Deployment complete!");
