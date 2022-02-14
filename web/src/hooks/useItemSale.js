@@ -1,29 +1,20 @@
-import {useReducer, useState} from "react"
-import {createListing} from "src/flow/tx.create-listing"
-import {
-  DECLINE_RESPONSE,
-  flashMessages,
-  IDLE,
-  paths,
-  SUCCESS,
-} from "src/global/constants"
-import {
-  ERROR,
-  initialState,
-  requestReducer,
-  START,
-} from "src/reducers/requestReducer"
+import * as fcl from "@onflow/fcl"
+import CREATE_LISTING_TRANSACTION from "cadence/transactions/create_listing.cdc"
+import {useEffect, useState} from "react"
+import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
+import {isSuccessful} from "src/components/Transactions/utils"
+import {paths} from "src/global/constants"
+import {uFix64String} from "src/util/currency"
 import {
   EVENT_LISTING_AVAILABLE,
   getStorefrontEventByType,
 } from "src/util/events"
-import {useSWRConfig} from "swr"
-import useAppContext from "./useAppContext"
+import useApiListing from "./useApiListing"
 
 export function extractApiListingFromEvents(events, item) {
   const event = getStorefrontEventByType(events, EVENT_LISTING_AVAILABLE)
-
   if (!event) return undefined
+
   return {
     item_id: event.data.nftID,
     listing_resource_id: event.data.listingResourceID,
@@ -37,44 +28,44 @@ export function extractApiListingFromEvents(events, item) {
   }
 }
 
-export default function useItemSale() {
-  const {mutate} = useSWRConfig()
-  const {setFlashMessage} = useAppContext()
+export default function useItemSale(itemID) {
+  const {addTransaction, transactionsById} = useTransactionsContext()
+  const [txId, setTxId] = useState()
+  const tx = transactionsById[txId]?.data
 
-  const [state, dispatch] = useReducer(requestReducer, initialState)
-  const [txStatus, setTxStatus] = useState(null)
+  // Poll for api listing once tx is successful
+  const {listing} = useApiListing(
+    itemID,
+    () => (isSuccessful(tx) ? paths.apiListing(itemID) : null),
+    {
+      refreshInterval: 1000,
+    }
+  )
 
-  const sell = (item, price) => {
-    createListing(
-      {itemID: item.itemID, price},
-      {
-        onStart() {
-          dispatch({type: START})
-        },
-        onUpdate(t) {
-          setTxStatus(t.status)
-        },
-        async onSuccess(data) {
-          const newListing = extractApiListingFromEvents(data.events, item)
-          if (!newListing) throw "Missing listing"
-          dispatch({type: SUCCESS})
-          setFlashMessage(flashMessages.itemSaleSuccess)
-          setTxStatus(null)
-          mutate(paths.apiListing(item.itemID), [newListing], false)
-        },
-        async onError(e) {
-          if (e === DECLINE_RESPONSE) {
-            dispatch({type: IDLE})
-          } else {
-            console.error(e)
-            dispatch({type: ERROR})
-            setFlashMessage(flashMessages.itemSaleError)
-          }
-          setTxStatus(null)
-        },
-      }
-    )
+  const sell = async (item, price) => {
+    if (!item) throw new Error("Missing item")
+    if (!price) throw new Error("Missing price")
+
+    const newTxId = await fcl.mutate({
+      cadence: CREATE_LISTING_TRANSACTION,
+      args: (arg, t) => [
+        arg(Number(item.itemID), t.UInt64),
+        arg(uFix64String(price), t.UFix64),
+      ],
+      limit: 1000,
+    })
+
+    addTransaction({
+      id: newTxId,
+      url: paths.profileItem(item.owner, item.itemID),
+      title: `List ${item.name} #${item.itemID}`,
+    })
+    setTxId(newTxId)
   }
 
-  return [state, sell, txStatus]
+  useEffect(() => {
+    if (!!listing) setTxId(null)
+  }, [listing])
+
+  return [sell, tx]
 }

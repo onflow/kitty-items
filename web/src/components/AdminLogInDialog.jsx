@@ -26,7 +26,7 @@ export default function AdminLogInDialog() {
 
   const onSubmit = e => {
     e.preventDefault()
-    if (!currentUser?.addr) throw "Missing user"
+    if (!currentUser?.addr) throw new Error("Missing user")
 
     setPasswordError(false)
 

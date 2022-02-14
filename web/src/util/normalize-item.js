@@ -7,7 +7,7 @@ export function normalizeApiListing(item) {
     name: item.name,
     image: item.image,
     listingResourceID: item.listing_resource_id,
-    price: item.price,
+    price: item.price.toString(),
     txID: item.transaction_id,
   }
 }

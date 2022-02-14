@@ -174,7 +174,6 @@ class StorefrontService {
     const listingResourceID = listingEvent.data.listingResourceID
 
     const item = await this.getListingItem(owner, listingResourceID)
-
     return Listing.transaction(async tx => {
       return await Listing.query(tx)
         .insert({
@@ -189,7 +188,7 @@ class StorefrontService {
           transaction_id: listingEvent.transactionId,
         })
         .returning("transaction_id")
-        .onConflict("listing_id")
+        .onConflict("listing_resource_id")
         .ignore()
         .catch(e => {
           console.log(e)

@@ -1,6 +1,6 @@
 import {useReducer} from "react"
 import {initializeAccount as initializeAccountTx} from "src/flow/tx.initialize-account"
-import {DECLINE_RESPONSE, flashMessages} from "src/global/constants"
+import {DECLINE_RESPONSE} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 import {
   ERROR,
@@ -12,12 +12,11 @@ import {
 } from "src/reducers/requestReducer"
 
 export default function useAccountInitializer(onSuccess) {
-  const {currentUser, checkIsAccountInitialized, setFlashMessage} =
-    useAppContext()
+  const {currentUser, checkIsAccountInitialized} = useAppContext()
   const [state, dispatch] = useReducer(requestReducer, initialState)
 
   const initializeAccount = () => {
-    if (!currentUser?.addr) throw "Missing signed in user"
+    if (!currentUser?.addr) throw new Error("Missing signed in user")
 
     initializeAccountTx(currentUser.addr, {
       onStart() {
@@ -26,7 +25,6 @@ export default function useAccountInitializer(onSuccess) {
       onSuccess: () => {
         checkIsAccountInitialized()
         if (typeof onSuccess === "function") onSuccess()
-        setFlashMessage(flashMessages.initializeAccountSuccess)
         dispatch({type: SUCCESS})
       },
       onError(e) {
@@ -34,7 +32,6 @@ export default function useAccountInitializer(onSuccess) {
           dispatch({type: IDLE})
         } else {
           dispatch({type: ERROR})
-          setFlashMessage(flashMessages.initializeAccountError)
         }
       },
     })

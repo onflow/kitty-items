@@ -138,7 +138,7 @@ pm2.connect(true, async function(err) {
     let useExisting = await inquirer.prompt({
       type: "confirm",
       name: "confirm",
-      message: `Use existing tesnet account?`
+      message: `Use existing testnet account?`
     });
 
     if (!useExisting.confirm) {

@@ -2,7 +2,7 @@ import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import * as fs from "fs"
 import * as path from "path"
-import {FlowService} from "./flow"
+import { FlowService } from "./flow"
 
 const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
@@ -230,4 +230,5 @@ class KittyItemsService {
   }
 }
 
-export {KittyItemsService}
+export { KittyItemsService }
+

@@ -38,7 +38,7 @@ export default function LatestStoreItems({items}) {
   )
 
   const onDebouncedWindowResize = useDebouncedCallback(
-    () => setOffsetWidth(listRef.current.offsetWidth),
+    () => setOffsetWidth(listRef.current?.offsetWidth || 0),
     200
   )
 

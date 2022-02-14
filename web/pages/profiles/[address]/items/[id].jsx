@@ -53,12 +53,10 @@ export default function KittyItem() {
                     <div className="font-mono text-sm">#{id}</div>
                   </div>
 
-                  <div className="lg:max-w-lg">
-                    <div className="mt-8">
-                      <RarityScale highlightedRarity={item.rarity} />
-                    </div>
-                    <ListItemPageButtons item={item} />
+                  <div className="mt-8">
+                    <RarityScale highlightedRarity={item.rarity} />
                   </div>
+                  <ListItemPageButtons item={item} />
                 </>
               )}
             </div>

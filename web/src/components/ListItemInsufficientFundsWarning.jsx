@@ -1,12 +1,10 @@
+import {CHAIN_ENV_EMULATOR} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
-import useAppContext from "src/hooks/useAppContext"
 
 export default function ListItemInsufficientFundsWarning() {
-  const {currentUser} = useAppContext()
-
   return (
     <div className="mt-2 text-sm text-center text-gray-600">
-      {publicConfig.chainEnv === "emulator" ? (
+      {publicConfig.chainEnv === CHAIN_ENV_EMULATOR ? (
         <div>
           Insufficient funds, add some FLOW from the dev wallet account page
         </div>
