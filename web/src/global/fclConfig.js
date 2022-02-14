@@ -1,4 +1,5 @@
 import {config} from "@onflow/fcl"
+import {send as grpcSend} from "@onflow/transport-grpc"
 import publicConfig from "src/global/publicConfig"
 
 config()
@@ -10,7 +11,8 @@ config()
   .put("env", publicConfig.chainEnv)
   .put("faucet", publicConfig.faucetAddress)
   .put("accessNode.api", publicConfig.flowAccessApiUrl)
-  .put("challenge.handshake", publicConfig.walletDiscovery)
+  .put("discovery.wallet", publicConfig.walletDiscovery)
+  .put("sdk.transport", grpcSend)
   .put("0xFungibleToken", publicConfig.contractFungibleToken)
   .put("0xNonFungibleToken", publicConfig.contractNonFungibleToken)
   .put("0xMetadataViews", publicConfig.contractMetadataViews)

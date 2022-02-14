@@ -61,10 +61,11 @@ services:
   dev-wallet:
     profiles:
       - dev
-    image: ghcr.io/onflow/fcl-dev-wallet:0.3.1
+    image: ghcr.io/onflow/fcl-dev-wallet:0.3.2
     ports:
       - '8701:8701'
     environment:
+      - BASE_URL=${WALLET_DISCOVERY}
       - FLOW_ACCESS_NODE=${ACCESS_API_BACKEND}
       - FLOW_ACCOUNT_ADDRESS=${FLOW_ADDRESS}
       - FLOW_ACCOUNT_KEY_ID=0

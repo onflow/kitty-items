@@ -111,7 +111,7 @@ class StorefrontService {
       .replace(metadataViewsPath, fcl.withPrefix(this.metadataViewsAddress))
       .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
-    
+
     return this.flowService.executeScript<any>({
       script,
       args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
@@ -123,14 +123,14 @@ class StorefrontService {
     const listingResourceID = listingEvent.data.listingResourceID
 
     const item = await this.getListingItem(owner, listingResourceID)
-    
+
     return Listing.transaction(async (tx) => {
       return await Listing.query(tx)
         .insert({
           listing_id: listingResourceID,
           item_id: item.itemID,
-          item_kind: item.kind,
-          item_rarity: item.rarity,
+          item_kind: item.kind.rawValue,
+          item_rarity: item.rarity.rawValue,
           owner: owner,
           // TODO: Increase sale_price precision to match UFix64
           price: item.price,
