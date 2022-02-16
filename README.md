@@ -40,6 +40,11 @@ git clone https://github.com/onflow/kitty-items.git
 
 Continue reading the sections below for instructions on how to start the project for local development, or testnet development.
 
+### 🐳  Working with Docker 
+
+If you pull new changes from the main Kitty Items repository, you'll need to delete all existing Docker containers and Images, 
+and restart the project to ensure Docker rebuilds each application with the updates. 
+
 ## Local development
 
 1)  Run `npm run start:dev` 
