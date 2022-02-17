@@ -45,8 +45,6 @@ function requireEnv(env) {
   }
 }
 
-async function initializeAccount(address, opts = {}) {}
-
 require("dotenv").config({
   path: requireEnv(process.env.CHAIN_ENV)
 });
@@ -128,6 +126,7 @@ pm2.connect(true, async function (err) {
       args: initializeKittyItems(process.env.CHAIN_ENV),
       autorestart: false,
       wait_ready: true,
+      kill_timeout: 5000
     })
 
     await runProcess({
@@ -136,6 +135,7 @@ pm2.connect(true, async function (err) {
       args: initializeStorefront(process.env.CHAIN_ENV),
       autorestart: false,
       wait_ready: true,
+      kill_timeout: 5000
     });
 
     console.log("Deployment complete!");
