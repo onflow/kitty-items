@@ -13,6 +13,11 @@ function envErr() {
   );
 }
 
+function initialize(network) {
+  if (!network) return envErr()
+  return `flow transactions send --signer ${network}-account ./cadence/transactions/setup-admin-account.cdc`
+}
+
 function deploy(env) {
   switch (env) {
     case "emulator":
@@ -34,6 +39,8 @@ function requireEnv(env) {
       envErr();
   }
 }
+
+async function initializeAccount(address, opts = {}) {}
 
 require("dotenv").config({
   path: requireEnv(process.env.CHAIN_ENV)
@@ -89,13 +96,14 @@ pm2.connect(true, async function(err) {
     wait_ready: true
   });
 
-  const answer = await inquirer.prompt({
+  let answer = await inquirer.prompt({
     type: "confirm",
     name: "confirm",
     message: `Deploy contracts to ${process.env.CHAIN_ENV}?`
   });
 
   if (answer.confirm) {
+    
     await runProcess({
       name: "deploy",
       script: "flow",
@@ -104,17 +112,30 @@ pm2.connect(true, async function(err) {
       watch: ["cadence"]
     });
 
+    console.log("Initializing admin account...");
+
+    await runProcess({
+      name: "initialize",
+      script: "flow",
+      args: initialize(process.env.CHAIN_ENV),
+      autorestart: false,
+      daemon: false
+    });
+
     console.log("Deployment complete!");
+
+  } else { 
+    console.log("Contracts were not deployed. See README for instructions.");  
   }
 
   console.log(
     `
       😸 Kitty Items has started! 😸
       Run: 
-       - npx pm2 logs to see log output.
-       - npx pm2 list to see processes.
-       - npx pm2 monit to see process monitoring.
-       - npx pm2 delete all --force to stop and delete processes. 
+        - npx pm2 logs to see log output.
+        - npx pm2 list to see processes.
+        - npx pm2 monit to see process monitoring.
+        - npx pm2 delete all --force to stop and delete processes. 
     `
   );
 
