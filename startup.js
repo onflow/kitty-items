@@ -1,6 +1,10 @@
 const pm2 = require("pm2");
 const inquirer = require("inquirer");
 
+require("dotenv").config({
+  path: requireEnv(process.env.CHAIN_ENV)
+});
+
 const EMULATOR_DEPLOYMENT =
   "project deploy --network=emulator -f flow.json --update";
 const TESTNET_DEPLOYMENT =
@@ -23,8 +27,8 @@ function initializeKittyItems(network) {
   return `transactions send --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc`
 }
 
-function deploy(env) {
-  switch (env) {
+function deploy(chainEnv) {
+  switch (chainEnv) {
     case "emulator":
       return EMULATOR_DEPLOYMENT;
     case "testnet":
@@ -34,20 +38,17 @@ function deploy(env) {
   }
 }
 
-function requireEnv(env) {
-  switch (env) {
+function requireEnv(chainEnv) {
+  switch (chainEnv) {
     case "emulator":
       return ".env.local";
     case "testnet":
-      return ".env.testnet";
+      if (process.env.APP_ENV === "local") return ".env.testnet.local";
+      throw new Error("Testnet deployment config not created. See README.md for instructions.");
     default:
       envErr();
   }
 }
-
-require("dotenv").config({
-  path: requireEnv(process.env.CHAIN_ENV)
-});
 
 async function runProcess(config) {
   return new Promise((resolve, reject) => {
