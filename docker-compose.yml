@@ -61,7 +61,7 @@ services:
   dev-wallet:
     profiles:
       - dev
-    image: ghcr.io/onflow/fcl-dev-wallet:0.3.2
+    image: ghcr.io/onflow/fcl-dev-wallet:0.3.4
     ports:
       - '8701:8701'
     environment:
