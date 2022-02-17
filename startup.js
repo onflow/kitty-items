@@ -13,9 +13,14 @@ function envErr() {
   );
 }
 
-function initialize(network) {
+function initializeStorefront(network) {
   if (!network) return envErr()
-  return `flow transactions send --signer ${network}-account ./cadence/transactions/setup-admin-account.cdc`
+  return `transactions send --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc`
+}
+
+function initializeKittyItems(network) {
+  if (!network) return envErr()
+  return `transactions send --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc`
 }
 
 function deploy(env) {
@@ -65,7 +70,7 @@ pm2.connect(true, async function(err) {
   }
 
   if (process.env.CHAIN_ENV === "emulator") {
-    console.log("Starting Flow Emulator");
+    console.log("Starting Flow emulator...");
     await runProcess({
       name: "emulator",
       script: "flow",
@@ -74,7 +79,7 @@ pm2.connect(true, async function(err) {
     });
   }
 
-  console.log("Starting API & Event Worker");
+  console.log("Starting API & event worker...");
   await runProcess({
     name: "api",
     cwd: "./api",
@@ -85,7 +90,7 @@ pm2.connect(true, async function(err) {
     wait_ready: true
   });
 
-  console.log("Starting Web App");
+  console.log("Starting web app...");
   await runProcess({
     name: "web",
     cwd: "./web",
@@ -103,23 +108,34 @@ pm2.connect(true, async function(err) {
   });
 
   if (answer.confirm) {
-    
+
+    console.log("Deploying contracts...");
+
     await runProcess({
-      name: "deploy",
+      name: "contracts",
       script: "flow",
       args: deploy(process.env.CHAIN_ENV),
       autorestart: false,
+      wait_ready: true,
       watch: ["cadence"]
     });
 
     console.log("Initializing admin account...");
 
     await runProcess({
-      name: "initialize",
+      name: "init kittyitems admin",
       script: "flow",
-      args: initialize(process.env.CHAIN_ENV),
+      args: initializeKittyItems(process.env.CHAIN_ENV),
       autorestart: false,
-      daemon: false
+      wait_ready: true,
+    })
+
+    await runProcess({
+      name: "init storefront admin",
+      script: "flow",
+      args: initializeStorefront(process.env.CHAIN_ENV),
+      autorestart: false,
+      wait_ready: true,
     });
 
     console.log("Deployment complete!");
