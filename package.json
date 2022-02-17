@@ -1,7 +1,7 @@
 {
   "name": "kitty-items",
   "version": "1.0.0",
-  "description": "<p align=\"center\">     <a href=\"http://kitty-items-flow-testnet.herokuapp.com/\">         <img width=\"400\" src=\"kitty-items-banner.png\" />     </a> </p>",
+  "description": "A CryptoKitties Sample App, learn how to create an NFT Marketplace",
   "main": "index.js",
   "dependencies": {
     "lerna": "^4.0.0",

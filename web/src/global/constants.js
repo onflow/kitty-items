@@ -13,7 +13,7 @@ export const ERROR = "ERROR"
 // before transitioning back to an IDLE state.
 export const IDLE_DELAY = 1000
 
-export const BASE_HTML_TITLE = "Kitty Items"
+export const BASE_HTML_TITLE = "A CryptoKitties Sample App, learn how to create an NFT Marketplace"
 
 export const getParamsString = params => {
   if (typeof params !== "object") return ""
