@@ -137,6 +137,8 @@ class StorefrontService {
           transaction_id: listingEvent.transactionId,
         })
         .returning('transaction_id')
+        .onConflict("listing_id")
+        .ignore()
         .catch((e) => {
           console.log(e)
         })
