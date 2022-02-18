@@ -84,8 +84,7 @@ pm2.connect(true, async function (err) {
     cwd: "./api",
     script: "npm",
     args: "run dev",
-    watch: true,
-    ignore_watch: ["node_modules"],
+    watch: false,
     wait_ready: true
   });
 
@@ -95,8 +94,7 @@ pm2.connect(true, async function (err) {
     cwd: "./web",
     script: "npm",
     args: "run dev",
-    watch: true,
-    ignore_watch: ["node_modules", ".next"],
+    watch: false,
     wait_ready: true
   });
 

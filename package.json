@@ -18,7 +18,7 @@
     "cypress-iframe": "^1.0.1"
   },
   "scripts": {
-    "dev:local": "CHAIN_ENV=emulator APP_ENV=local node startup.js",
+    "dev:emulator": "CHAIN_ENV=emulator APP_ENV=local node startup.js",
     "dev:testnet": "CHAIN_ENV=testnet APP_ENV=local node startup.js",
     "test": "cypress run --headless --browser chrome"
   },

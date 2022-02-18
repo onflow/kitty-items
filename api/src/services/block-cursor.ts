@@ -1,5 +1,5 @@
 import { BlockCursor } from "../models/block-cursor";
-
+import { v4 } from 'uuid';
 class BlockCursorService {
   async findOrCreateLatestBlockCursor(
     latestBlockHeight: number,
@@ -10,6 +10,7 @@ class BlockCursorService {
     });
     if (!blockCursor) {
       blockCursor = await BlockCursor.query().insertAndFetch({
+        id: v4(),
         event_name: eventName,
         current_block_height: latestBlockHeight,
       });
