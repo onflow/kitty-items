@@ -30,8 +30,7 @@
     "sqlite3": "^5.0.2",
     "swr": "^1.0.1",
     "tailwindcss": "^2.2.19",
-    "use-debounce": "^7.0.0",
-    "web": "0.0.2"
+    "use-debounce": "^7.0.0"
   },
   "devDependencies": {
     "@jjordy/swr-devtools": "^2.0.7",

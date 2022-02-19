@@ -1,5 +1,32 @@
 const pm2 = require("pm2");
 const inquirer = require("inquirer");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
+const fs = require("fs-extra")
+const path = require("path");
+
+async function isExists(path) {
+  try {
+    await fs.access(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function writeFile(filePath, data) {
+  try {
+    const dirname = path.dirname(filePath);
+    const exist = await isExists(dirname);
+    if (!exist) {
+      await fs.mkdir(dirname, { recursive: true });
+    }
+
+    await fs.writeFile(filePath, data, "utf8");
+  } catch (err) {
+    throw new Error(err);
+  }
+}
 
 require("dotenv").config({
   path: requireEnv(process.env.CHAIN_ENV)
@@ -10,6 +37,9 @@ const EMULATOR_DEPLOYMENT =
 const TESTNET_DEPLOYMENT =
   "project deploy --network=testnet -f flow.json -f flow.testnet --update";
 
+const TESTNET_CREATE_ACCOUNT =
+  "accounts create --network testnet --signer testnet-account -f flow.json -f flow.testnet.json";
+
 function envErr() {
   throw new Error(
     `Unknown or missing CHAIN_ENV environment variable.
@@ -18,13 +48,13 @@ function envErr() {
 }
 
 function initializeStorefront(network) {
-  if (!network) return envErr()
-  return `transactions send --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc`
+  if (!network) return envErr();
+  return `transactions send --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc`;
 }
 
 function initializeKittyItems(network) {
-  if (!network) return envErr()
-  return `transactions send --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc`
+  if (!network) return envErr();
+  return `transactions send --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc`;
 }
 
 function deploy(chainEnv) {
@@ -38,35 +68,52 @@ function deploy(chainEnv) {
   }
 }
 
+async function generateKeys() {
+  const {
+    stdout: out,
+    stderr: err
+  } = await exec(`flow keys generate -o json`, { cwd: process.cwd() });
+
+  if (err) {
+    console.log(err);
+  }
+
+  return JSON.parse(out);
+}
+
 function requireEnv(chainEnv) {
   switch (chainEnv) {
     case "emulator":
       return ".env.local";
     case "testnet":
       if (process.env.APP_ENV === "local") return ".env.testnet.local";
-      throw new Error("Testnet deployment config not created. See README.md for instructions.");
+      throw new Error(
+        "Testnet deployment config not created. See README.md for instructions."
+      );
     default:
       envErr();
   }
 }
 
-async function runProcess(config) {
+async function runProcess(config, cb = () => {}) {
   return new Promise((resolve, reject) => {
-    pm2.start(config, function (err, apps) {
+    pm2.start(config, function(err, result) {
       if (err) {
         console.log(err);
         reject(err);
       }
-      resolve(apps);
+      resolve(result);
     });
   });
 }
 
-pm2.connect(true, async function (err) {
+pm2.connect(true, async function(err) {
   if (err) {
     console.error(err);
     process.exit(2);
   }
+
+  let env = {};
 
   if (process.env.CHAIN_ENV === "emulator") {
     console.log("Starting Flow emulator...");
@@ -78,6 +125,34 @@ pm2.connect(true, async function (err) {
     });
   }
 
+  if (process.env.CHAIN_ENV === "testnet") {
+    let useExisting = await inquirer.prompt({
+      type: "confirm",
+      name: "confirm",
+      message: `Use existing tesnet account?`
+    });
+
+    if (!useExisting.confirm) {
+      const result = await generateKeys();
+
+      const testnet = await inquirer.prompt([
+        {
+          type: "input",
+          name: "account",
+          message: "Enter your new testnet account address"
+        }
+      ]);
+
+      writeFile(`testnet-credentials-${testnet.account}.json`, JSON.stringify(result));
+
+      env = {
+        ADMIN_ADDRESS: testnet.account,
+        FLOW_PRIVATE_KEY: result.private,
+        FLOW_PUBLIC_KEY: result.public
+      };
+    }
+  }
+
   console.log("Starting API & event worker...");
   await runProcess({
     name: "api",
@@ -85,7 +160,8 @@ pm2.connect(true, async function (err) {
     script: "npm",
     args: "run dev",
     watch: false,
-    wait_ready: true
+    wait_ready: true,
+    env
   });
 
   console.log("Starting web app...");
@@ -95,7 +171,8 @@ pm2.connect(true, async function (err) {
     script: "npm",
     args: "run dev",
     watch: false,
-    wait_ready: true
+    wait_ready: true,
+    env
   });
 
   let answer = await inquirer.prompt({
@@ -105,7 +182,6 @@ pm2.connect(true, async function (err) {
   });
 
   if (answer.confirm) {
-
     console.log("Deploying contracts...");
 
     await runProcess({
@@ -114,7 +190,8 @@ pm2.connect(true, async function (err) {
       args: deploy(process.env.CHAIN_ENV),
       autorestart: false,
       wait_ready: true,
-      watch: ["cadence"]
+      watch: ["cadence"],
+      env
     });
 
     console.log("Initializing admin account...");
@@ -125,8 +202,9 @@ pm2.connect(true, async function (err) {
       args: initializeKittyItems(process.env.CHAIN_ENV),
       autorestart: false,
       wait_ready: true,
-      kill_timeout: 5000
-    })
+      kill_timeout: 5000,
+      env
+    });
 
     await runProcess({
       name: "init storefront admin",
@@ -134,13 +212,13 @@ pm2.connect(true, async function (err) {
       args: initializeStorefront(process.env.CHAIN_ENV),
       autorestart: false,
       wait_ready: true,
-      kill_timeout: 5000
+      kill_timeout: 5000,
+      env
     });
 
     console.log("Deployment complete!");
-
-  } else { 
-    console.log("Contracts were not deployed. See README for instructions.");  
+  } else {
+    console.log("Contracts were not deployed. See README for instructions.");
   }
 
   console.log(
