@@ -37,7 +37,7 @@ function convertToEnv (object) {
     return envFile
 }
 
-require("dotenv").config({
+dotenv.config({
   path: requireEnv(process.env.CHAIN_ENV)
 });
 
@@ -45,9 +45,6 @@ const EMULATOR_DEPLOYMENT =
   "project deploy --network=emulator -f flow.json --update";
 const TESTNET_DEPLOYMENT =
   "project deploy --network=testnet -f flow.json -f flow.testnet --update";
-
-const TESTNET_CREATE_ACCOUNT =
-  "accounts create --network testnet --signer testnet-account -f flow.json -f flow.testnet.json";
 
 function envErr() {
   throw new Error(
@@ -191,7 +188,7 @@ pm2.connect(true, async function(err) {
 
       writeFile(`testnet-credentials-${testnet.account}.json`, JSON.stringify(result));
 
-      const testnetEnvFile = fs.readFileSync(".env.testnet.local", "utf8");
+      const testnetEnvFile = fs.readFileSync(".env.testnet.example", "utf8");
       const buf = Buffer.from(testnetEnvFile)
       const parsed = dotenv.parse(buf);
 
@@ -205,7 +202,7 @@ pm2.connect(true, async function(err) {
 
       console.log(` 
         Testnet account values were written to .env.testnet.local
-      `)
+      `);
     }
   }
 
