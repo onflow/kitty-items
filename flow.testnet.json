@@ -1,13 +1,16 @@
 {
   "accounts": {
     "testnet-account": {
-      "address": "${ADMIN_ADDRESS}",
-      "keys": "${FLOW_PRIVATE_KEY}"
+      "address": "0x2d951f5582325842",
+      "keys": "94b1ff7af88538b4467496d9f892f0bd3bfbcee53966762169c54f83f0bbdaa1"
     }
   },
   "deployments": {
     "testnet": {
-      "testnet-account": ["KittyItems", "MetadataViews"]
+      "testnet-account": [
+        "KittyItems",
+        "MetadataViews"
+      ]
     }
   }
 }
