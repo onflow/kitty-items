@@ -37,14 +37,10 @@ function convertToEnv (object) {
     return envFile
 }
 
-dotenv.config({
-  path: requireEnv(process.env.CHAIN_ENV)
-});
-
 const EMULATOR_DEPLOYMENT =
-  "project deploy --network=emulator -f flow.json --update";
+  "project deploy --network=emulator -f flow.json --update -o json";
 const TESTNET_DEPLOYMENT =
-  "project deploy --network=testnet -f flow.json -f flow.testnet --update";
+  "project deploy --network=testnet -f flow.json -f flow.testnet.json --update -o json";
 
 function envErr() {
   throw new Error(
@@ -129,6 +125,9 @@ pm2.connect(true, async function(err) {
   let env = {};
 
   if (process.env.CHAIN_ENV === "emulator") {
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV)
+    });
     console.log("Starting Flow emulator...");
     await runProcess({
       name: "emulator",
@@ -144,16 +143,6 @@ pm2.connect(true, async function(err) {
       name: "confirm",
       message: `Use existing tesnet account?`
     });
-
-    if (useExisting.confirm) { 
-      env = {
-        ADMIN_ADDRESS: process.env.ADMIN_ADDRESS,
-        FLOW_PRIVATE_KEY: process.env.FLOW_PRIVATE_KEY,
-        FLOW_PUBLIC_KEY: process.env.FLOW_PUBLIC_KEY,
-      };
-
-      if(!env.ADMIN_ADDRESS) adminError()
-    }
 
     if (!useExisting.confirm) {
       console.log("Creating testnet new account keys...");
@@ -188,7 +177,7 @@ pm2.connect(true, async function(err) {
 
       writeFile(`testnet-credentials-${testnet.account}.json`, JSON.stringify(result));
 
-      const testnetEnvFile = fs.readFileSync(".env.testnet.example", "utf8");
+      const testnetEnvFile = fs.readFileSync(".env.testnet.template", "utf8");
       const buf = Buffer.from(testnetEnvFile)
       const parsed = dotenv.parse(buf);
 
@@ -201,11 +190,17 @@ pm2.connect(true, async function(err) {
       writeFile(".env.testnet.local", `${convertToEnv({ ...parsed, ...env })}`);
 
       console.log(` 
-        Testnet account values were written to .env.testnet.local
+        Testnet envronment config was written to: .env.testnet.local
       `);
     }
   }
 
+  require('dotenv').config({
+    path: requireEnv(process.env.CHAIN_ENV)
+  })
+
+  if (!process.env.ADMIN_ADDRESS) adminError()
+  
   console.log("Starting API & event worker...");
   await runProcess({
     name: "api",
@@ -214,7 +209,6 @@ pm2.connect(true, async function(err) {
     args: "run dev",
     watch: false,
     wait_ready: true,
-    env
   });
 
   console.log("Starting web app...");
@@ -225,7 +219,7 @@ pm2.connect(true, async function(err) {
     args: "run dev",
     watch: false,
     wait_ready: true,
-    env
+    autorestart: false
   });
 
   let answer = await inquirer.prompt({
@@ -244,7 +238,6 @@ pm2.connect(true, async function(err) {
       autorestart: false,
       wait_ready: true,
       watch: ["cadence"],
-      env
     });
 
     console.log("Initializing admin account...");
@@ -256,7 +249,6 @@ pm2.connect(true, async function(err) {
       autorestart: false,
       wait_ready: true,
       kill_timeout: 5000,
-      env
     });
 
     await runProcess({
@@ -266,7 +258,6 @@ pm2.connect(true, async function(err) {
       autorestart: false,
       wait_ready: true,
       kill_timeout: 5000,
-      env
     });
 
     console.log("Deployment complete!");

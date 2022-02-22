@@ -6,7 +6,7 @@ import "styles/fonts.css"
 import "styles/globals.css"
 import {SWRConfig} from "swr"
 
-export default function MyApp({ Component }) {
+export default function MyApp({Component}) {
   return (
     <div>
       <SWRConfig value={{provider: () => new Map()}}>
