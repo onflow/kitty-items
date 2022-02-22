@@ -30,4 +30,5 @@ lerna-debug.log*
 
 # emulator datastore
 flowdb
-testnet-credentials-*
+*-credentials-*
+.env.testnet.local

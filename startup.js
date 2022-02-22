@@ -4,6 +4,7 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 const fs = require("fs-extra")
 const path = require("path");
+const dotenv = require('dotenv')
 
 async function isExists(path) {
   try {
@@ -28,6 +29,14 @@ async function writeFile(filePath, data) {
   }
 }
 
+function convertToEnv (object) {
+    let envFile = ''
+    for (const key of Object.keys(object)) {
+        envFile += `${key}=${object[key]}\n`
+    }
+    return envFile
+}
+
 require("dotenv").config({
   path: requireEnv(process.env.CHAIN_ENV)
 });
@@ -44,6 +53,13 @@ function envErr() {
   throw new Error(
     `Unknown or missing CHAIN_ENV environment variable.
          Please provide one of the following: "emulator", "testnet"`
+  );
+}
+
+function adminError() {
+  throw new Error(
+    `Unknown or missing ADMIN_ADRESS environment variable.
+      Please ctreate a testnet account and add your credentials to .env.tenstnet.local`
   );
 }
 
@@ -132,8 +148,36 @@ pm2.connect(true, async function(err) {
       message: `Use existing tesnet account?`
     });
 
+    if (useExisting.confirm) { 
+      env = {
+        ADMIN_ADDRESS: process.env.ADMIN_ADDRESS,
+        FLOW_PRIVATE_KEY: process.env.FLOW_PRIVATE_KEY,
+        FLOW_PUBLIC_KEY: process.env.FLOW_PUBLIC_KEY,
+      };
+
+      if(!env.ADMIN_ADDRESS) adminError()
+    }
+
     if (!useExisting.confirm) {
+      console.log("Creating testnet new account keys...");
+
       const result = await generateKeys();
+
+      console.log(`
+      Please store the following keys in a safe place:
+      
+      Public key: ${result.public}
+      Private key: ${result.private}
+
+      What now?
+
+      1. Create a new account using the testnet faucet by visiting: 
+      https://testnet-faucet.onflow.org/
+
+      2. Copy the new account address from the faucet, and paste it below 👇
+      (don't exit this terminal)
+
+      `)
 
       const testnet = await inquirer.prompt([
         {
@@ -143,13 +187,25 @@ pm2.connect(true, async function(err) {
         }
       ]);
 
+      result.account = testnet.account;
+
       writeFile(`testnet-credentials-${testnet.account}.json`, JSON.stringify(result));
+
+      const testnetEnvFile = fs.readFileSync(".env.testnet.local", "utf8");
+      const buf = Buffer.from(testnetEnvFile)
+      const parsed = dotenv.parse(buf);
 
       env = {
         ADMIN_ADDRESS: testnet.account,
         FLOW_PRIVATE_KEY: result.private,
         FLOW_PUBLIC_KEY: result.public
       };
+
+      writeFile(".env.testnet.local", `${convertToEnv({ ...parsed, ...env })}`);
+
+      console.log(` 
+        Testnet account values were written to .env.testnet.local
+      `)
     }
   }
 
