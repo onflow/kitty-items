@@ -125,9 +125,6 @@ pm2.connect(true, async function(err) {
   let env = {};
 
   if (process.env.CHAIN_ENV === "emulator") {
-    dotenv.config({
-      path: requireEnv(process.env.CHAIN_ENV)
-    });
     console.log("Starting Flow emulator...");
     await runProcess({
       name: "emulator",
