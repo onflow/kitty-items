@@ -87,17 +87,16 @@ describe("NFT Storefront", () => {
 		await shallPass(mintFlow(Bob, toUFix64(100)));
 
 		// Bob shall be able to buy from Alice
-		const sellItemTransactionResult = await shallPass(createListing(Alice, itemId, toUFix64(1.11)));
-
+		const [sellItemTransactionResult] = await shallPass(createListing(Alice, itemId, toUFix64(1.11)));
 		const listingAvailableEvent = sellItemTransactionResult.events[0];
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
 		await shallPass(purchaseListing(Bob, listingResourceID, Alice));
 
-		const itemCount = await getKittyItemCount(Bob);
+		const [itemCount] = await getKittyItemCount(Bob);
 		expect(itemCount).toBe(1);
 
-		const listingCount = await getListingCount(Alice);
+		const [listingCount] = await getListingCount(Alice);
 		expect(listingCount).toBe(0);
 	});
 
@@ -117,7 +116,7 @@ describe("NFT Storefront", () => {
 		await getKittyItem(Alice, itemId);
 
 		// Listing item for sale shall pass
-		const sellItemTransactionResult = await shallPass(createListing(Alice, itemId, toUFix64(1.11)));
+		const [sellItemTransactionResult] = await shallPass(createListing(Alice, itemId, toUFix64(1.11)));
 
 		const listingAvailableEvent = sellItemTransactionResult.events[0];
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
@@ -125,7 +124,7 @@ describe("NFT Storefront", () => {
 		// Alice shall be able to remove item from sale
 		await shallPass(removeListing(Alice, listingResourceID));
 
-		const listingCount = await getListingCount(Alice);
+		const [listingCount] = await getListingCount(Alice);
 		expect(listingCount).toBe(0);
 	});
 });
