@@ -41,7 +41,7 @@ describe("Kitty Items", () => {
 	});
 
 	it("should deploy KittyItems contract", async () => {
-		await deployKittyItems();
+		await shallPass(deployKittyItems());
 	});
 
 	it("supply should be 0 after contract is deployed", async () => {
@@ -50,10 +50,8 @@ describe("Kitty Items", () => {
 		const KittyAdmin = await getKittyAdminAddress();
 		await shallPass(setupKittyItemsOnAccount(KittyAdmin));
 
-		await shallResolve(async () => {
-			const supply = await getKittyItemSupply();
-			expect(supply).toBe(0);
-		});
+		const [supply] = await shallResolve(getKittyItemSupply())
+		expect(supply).toBe(0);
 	});
 
 	it("should be able to mint a kitty item", async () => {
@@ -73,10 +71,8 @@ describe("Kitty Items", () => {
 		await setupKittyItemsOnAccount(Alice);
 
 		// shall be able te read Alice collection and ensure it's empty
-		await shallResolve(async () => {
-			const itemCount = await getKittyItemCount(Alice);
-			expect(itemCount).toBe(0);
-		});
+		const [itemCount] = await shallResolve(getKittyItemCount(Alice))
+		expect(itemCount).toBe(0);
 	});
 
 	it("should not be able to withdraw an NFT that doesn't exist in a collection", async () => {

@@ -1,9 +1,4 @@
-import { mintFlow } from "flow-js-testing";
-import { 
-	sendTransactionWithErrorRaised, 
-	executeScriptWithErrorRaised, 
-	deployContractByNameWithErrorRaised 
-} from "./common"
+import { mintFlow, executeScript, sendTransaction, deployContractByName } from "flow-js-testing";
 import { getKittyAdminAddress } from "./common";
 
 export const types = {
@@ -25,35 +20,27 @@ export const rarities = {
 /*
  * Deploys NonFungibleToken and KittyItems contracts to KittyAdmin.
  * @throws Will throw an error if transaction is reverted.
- * @returns {Promise<*>}
+ * @returns {Promise<[{*} txResult, {error} error]>}
  * */
 export const deployKittyItems = async () => {
 	const KittyAdmin = await getKittyAdminAddress();
 	await mintFlow(KittyAdmin, "10.0");
 
-	await deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "NonFungibleToken" });
-
-	await deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "MetadataViews" });
-
-	const addressMap = { 
-		NonFungibleToken: KittyAdmin,
-		MetadataViews: KittyAdmin,
-	};
-	
-	return deployContractByNameWithErrorRaised({ to: KittyAdmin, name: "KittyItems", addressMap });
+	await deployContractByName({ to: KittyAdmin, name: "NonFungibleToken" });
+	await deployContractByName({ to: KittyAdmin, name: "MetadataViews" });
+	return deployContractByName({ to: KittyAdmin, name: "KittyItems" });
 };
 
 /*
  * Setups KittyItems collection on account and exposes public capability.
  * @param {string} account - account address
- * @throws Will throw an error if transaction is reverted.
- * @returns {Promise<*>}
+ * @returns {Promise<[{*} txResult, {error} error]>}
  * */
 export const setupKittyItemsOnAccount = async (account) => {
 	const name = "kittyItems/setup_account";
 	const signers = [account];
 
-	return sendTransactionWithErrorRaised({ name, signers });
+	return sendTransaction({ name, signers });
 };
 
 /*
@@ -64,15 +51,14 @@ export const setupKittyItemsOnAccount = async (account) => {
 export const getKittyItemSupply = async () => {
 	const name = "kittyItems/get_kitty_items_supply";
 
-	return executeScriptWithErrorRaised({ name });
+	return executeScript({ name });
 };
 
 /*
  * Mints KittyItem of a specific **itemType** and sends it to **recipient**.
  * @param {UInt64} itemType - type of NFT to mint
  * @param {string} recipient - recipient account address
- * @throws Will throw an error if execution will be halted
- * @returns {Promise<*>}
+ * @returns {Promise<[{*} result, {error} error]>}
  * */
 export const mintKittyItem = async (recipient, itemType, itemRarity) => {
 	const KittyAdmin = await getKittyAdminAddress();
@@ -81,7 +67,7 @@ export const mintKittyItem = async (recipient, itemType, itemRarity) => {
 	const args = [recipient, itemType, itemRarity];
 	const signers = [KittyAdmin];
 
-	return sendTransactionWithErrorRaised({ name, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -97,7 +83,7 @@ export const transferKittyItem = async (sender, recipient, itemId) => {
 	const args = [recipient, itemId];
 	const signers = [sender];
 
-	return sendTransactionWithErrorRaised({ name, args, signers });
+	return sendTransaction({ name, args, signers });
 };
 
 /*
@@ -111,7 +97,7 @@ export const getKittyItem = async (account, itemID) => {
 	const name = "kittyItems/get_kitty_item";
 	const args = [account, itemID];
 
-	return executeScriptWithErrorRaised({ name, args });
+	return executeScript({ name, args });
 };
 
 /*
@@ -124,5 +110,5 @@ export const getKittyItemCount = async (account) => {
 	const name = "kittyItems/get_collection_length";
 	const args = [account];
 
-	return executeScriptWithErrorRaised({ name, args });
+	return executeScript({ name, args });
 };
