@@ -1,14 +1,9 @@
 {
   "name": "Kitty Items",
-  "description": "A complete NFT marketplace built with Cadence, Flow's resource-oriented smart contract programming language.",
+  "description": "A CryptoKitties Sample App, learn how to create an NFT Marketplace",
   "repository": "https://github.com/onflow/kitty-items",
   "logo": "https://user-images.githubusercontent.com/2547035/113519867-d8592380-9543-11eb-9bb3-c45e51360ccf.png",
-  "keywords": [
-    "Cadence",
-    "Flow",
-    "NFT",
-    "Marketplace"
-  ],
+  "keywords": ["Cadence", "Flow", "NFT", "Marketplace"],
   "formation": {
     "web": {
       "quantity": 1,
@@ -33,8 +28,8 @@
       "value": ""
     },
     "MINTER_ACCOUNT_KEY_INDEX": {
-      "description": "Which keypair from the minter account to use for transaction signing & verifying.", 
-       "value": "0"
+      "description": "Which keypair from the minter account to use for transaction signing & verifying.",
+      "value": "0"
     },
     "IS_HEROKU": {
       "value": true
@@ -89,7 +84,7 @@
     },
     "NEXT_PUBLIC_FLOW_ADDRESS": {
       "description": "The address of the admin account. (Same address where Storefront contract is deployed).",
-      "value":""
+      "value": ""
     },
     "NEXT_PUBLIC_FLOW_ACCESS_API_URL": {
       "description": "URL for accessing the Flow tesntet gRPC API. (Used by @onflow/fcl)",
@@ -107,15 +102,15 @@
       "value": "testnet"
     },
     "NEXT_PUBLIC_API_URL": {
-      "description": "The location of the API endpoint for this instance of Kitty Items. (The Heroku URL of your app).", 
+      "description": "The location of the API endpoint for this instance of Kitty Items. (The Heroku URL of your app).",
       "value": ""
     },
-     "NEXT_PUBLIC_APP_URL": {
-      "description": "The location of this instance of Kitty Items. (The Heroku URL of your app).", 
+    "NEXT_PUBLIC_APP_URL": {
+      "description": "The location of this instance of Kitty Items. (The Heroku URL of your app).",
       "value": ""
     },
     "NEXT_PUBLIC_AVATAR_URL": {
-      "description": "Service that generates Flow avatars for profiles.", 
+      "description": "Service that generates Flow avatars for profiles.",
       "value": "https://avatars.onflow.org/avatar/"
     },
     "NEXT_PUBLIC_WALLET_DISCOVERY": {
