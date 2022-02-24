@@ -21,14 +21,14 @@
 		"@babel/preset-env": "^7.14.1",
 		"@onflow/types": "0.0.4",
 		"babel-jest": "^27.0.2",
-		"flow-js-testing": "^0.2.2",
+		"flow-js-testing": "^0.2.3-alpha.4",
 		"jest": "^27.0.4",
 		"prettier": "^2.3.0"
 	},
 	"dependencies": {
-		"postcss": "^8.3.11",
 		"@onflow/fcl": "0.0.77",
 		"api": "^3.4.1",
+		"postcss": "^8.3.11",
 		"web": "0.0.2"
 	}
 }
