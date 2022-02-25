@@ -265,6 +265,8 @@ pm2.connect(true, async function(err) {
   console.log(
     `
       😸 Kitty Items has started! 😸
+      
+      Visit: http://localhost:3001
 
       Run: 
         - npx pm2 logs to see log output.
