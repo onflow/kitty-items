@@ -96,7 +96,7 @@ function getImageSrc(kind, is2X) {
 }
 
 getImageSrc.propTypes = {
-  kind: PropTypes.string.isRequired,
+  kind: PropTypes.number.isRequired,
   is2X: PropTypes.bool.isRequired,
 }
 
@@ -117,6 +117,6 @@ function MinterLoaderImage({kind, isHidden}) {
 }
 
 MinterLoaderImage.propTypes = {
-  kind: PropTypes.string.isRequired,
+  kind: PropTypes.number.isRequired,
   isHidden: PropTypes.bool.isRequired,
 }

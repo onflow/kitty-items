@@ -11,13 +11,16 @@ export default function Button({
   color = "green",
   roundedFull,
   type,
+  className,
   children,
 }) {
   return (
     <button
       className={`${COLOR_CLASS[color]} ${
         roundedFull ? "rounded-full" : "rounded-md"
-      } font-bold text-sm uppercase py-4 w-full disabled:cursor-default disabled:opacity-50 hover:opacity-80`}
+      } font-bold text-sm uppercase py-4 w-full disabled:cursor-default disabled:opacity-50 hover:opacity-80 ${
+        className ?? ""
+      }`}
       onClick={onClick}
       disabled={disabled}
       type={type}
@@ -33,5 +36,6 @@ Button.propTypes = {
   color: PropTypes.string,
   roundedFull: PropTypes.bool,
   type: PropTypes.string,
+  className: PropTypes.string,
   children: PropTypes.node.isRequired,
 }

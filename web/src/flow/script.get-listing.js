@@ -1,7 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {expandListingKey} from "src/hooks/useListing"
 import GET_LISTING_SCRIPT from "cadence/scripts/get_listing.cdc"
+import {expandListingKey} from "src/hooks/useListing"
 
 export function fetchListing(key) {
   const {address, id} = expandListingKey(key)

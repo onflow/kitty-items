@@ -1,7 +1,7 @@
 import Link from "next/link"
 import PropTypes from "prop-types"
 import {paths} from "src/global/constants"
-import useAccountItem from "src/hooks/useAccountItem"
+import {normalizedItemType} from "src/global/types"
 import useAppContext from "src/hooks/useAppContext"
 import {rarityTextColors} from "src/util/classes"
 import ListItemImage from "./ListItemImage"
@@ -9,30 +9,24 @@ import ListItemPrice from "./ListItemPrice"
 import OwnerInfo from "./OwnerInfo"
 
 export default function ListItem({
-  address,
-  id,
-  price,
-  listingId,
+  item,
   showOwnerInfo,
   size = "sm",
   isStoreItem,
 }) {
   const {currentUser} = useAppContext()
-  const {data: item, isLoading} = useAccountItem(address, id)
-  if (isLoading || !item) return null
-
   const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
-  const isBuyable = !currentUserIsOwner && !!listingId
-
-  const profileUrl = paths.profileItem(address, id)
-  const rarityTextColor = rarityTextColors(item.rarity.rawValue)
+  const hasListing = Number.isInteger(item.listingResourceID)
+  const isBuyable = !currentUserIsOwner && hasListing
+  const profileUrl = paths.profileItem(item.owner, item.itemID)
+  const rarityTextColor = rarityTextColors(item.rarity)
   return (
     <div className="w-full">
       <Link href={profileUrl} passHref>
         <a className="w-full">
           <ListItemImage
             name={item.name}
-            rarity={item.rarity.rawValue}
+            rarity={item.rarity}
             cid={item.image}
             address={item.owner}
             id={item.itemID}
@@ -63,21 +57,19 @@ export default function ListItem({
           </ListItemImage>
         </a>
       </Link>
-
       <div>
         {showOwnerInfo && <OwnerInfo address={item.owner} />}
-
-        <div className="flex justify-between items-center mt-5">
+        <div className="flex justify-between items-center mt-5 gap-4">
           <div className="flex flex-col">
             <Link href={profileUrl}>
               <a className="text-lg font-semibold">{item.name}</a>
             </Link>
             <Link href={profileUrl}>
-              <a className="text-sm font text-gray-light">#{id}</a>
+              <a className="text-sm font text-gray-light">#{item.itemID}</a>
             </Link>
           </div>
           <div className="flex items-center">
-            {!!listingId && <ListItemPrice price={parseFloat(price)} />}
+            {hasListing && <ListItemPrice price={item.price} />}
           </div>
         </div>
       </div>
@@ -86,10 +78,7 @@ export default function ListItem({
 }
 
 ListItem.propTypes = {
-  address: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  price: PropTypes.number,
-  listingId: PropTypes.number,
+  item: normalizedItemType,
   showOwnerInfo: PropTypes.bool,
   size: PropTypes.string,
   isStoreItem: PropTypes.bool,

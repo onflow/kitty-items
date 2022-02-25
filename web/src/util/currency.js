@@ -10,3 +10,11 @@ export function formattedCurrency(amount = "0") {
     .filter(Boolean)
     .join(".")
 }
+
+// Formats a string representation of a UFix64 number
+export function uFix64String(numStr) {
+  if (typeof numStr !== "string")
+    throw new Error("uFix64String expected a string")
+  if (!numStr.includes(".")) return `${numStr}.0` // Add decimal if missing
+  return numStr
+}

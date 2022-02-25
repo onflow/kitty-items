@@ -5,17 +5,22 @@ import useListings from "src/hooks/useListings"
 import EmptyKittyItems from "./EmptyKittyItems"
 
 export default function ProfileListings({address}) {
-  const {data: itemIds, isLoading} = useListings(address)
+  const {data: listingResourceIDs, isLoading} = useListings(address)
 
-  if (!isLoading && (!itemIds || itemIds?.length === 0)) {
+  if (!isLoading && (!listingResourceIDs || listingResourceIDs?.length === 0)) {
     return <EmptyKittyItems />
   }
 
   return (
     <div>
       <div className={listItemsRootClasses}>
-        {itemIds?.map(id => (
-          <Listing key={id} address={address} id={id} showOwnerInfo={true} />
+        {listingResourceIDs?.map(listingResourceID => (
+          <Listing
+            key={listingResourceID}
+            address={address}
+            listingResourceID={listingResourceID}
+            showOwnerInfo={true}
+          />
         ))}
       </div>
     </div>

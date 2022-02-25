@@ -98,4 +98,9 @@
       margin-left: calc((100vw - theme("screens.2xl")) / 2);
     }
   }
+
+  input[type="number"].text-right::-webkit-outer-spin-button,
+  input[type="number"].text-right::-webkit-inner-spin-button {
+    display: none;
+  }
 }
