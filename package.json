@@ -21,7 +21,8 @@
   "scripts": {
     "dev:emulator": "CHAIN_ENV=emulator APP_ENV=local node startup.js",
     "dev:testnet": "CHAIN_ENV=testnet APP_ENV=local node startup.js",
-    "test": "cypress run --headless --browser chrome"
+    "test": "cypress run --headless --browser chrome",
+    "postinstall": "npx lerna exec npm install"
   },
   "repository": {
     "type": "git",
