@@ -1,6 +1,6 @@
 import {invariant} from "@onflow/util-invariant"
-import {tx} from "src/flow/util/tx"
 import REMOVE_LISTING_TRANSACTION from "cadence/transactions/remove_listing.cdc"
+import {tx} from "src/flow/util/tx"
 
 // prettier-ignore
 export function removeListing({listingResourceID}, opts = {}) {
@@ -10,7 +10,7 @@ export function removeListing({listingResourceID}, opts = {}) {
   )
   return tx(
     {
-      cadence: REMOVE_LISTING_TRANSACTION, 
+      cadence: REMOVE_LISTING_TRANSACTION,
       args: (arg, t) => [
         arg(listingResourceID, t.UInt64),
       ],

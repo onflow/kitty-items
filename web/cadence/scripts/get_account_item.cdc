@@ -9,8 +9,8 @@ pub struct KittyItem {
 
   pub let itemID: UInt64
   pub let resourceID: UInt64
-  pub let kind: KittyItems.Kind
-  pub let rarity: KittyItems.Rarity
+  pub let kind: UInt8
+  pub let rarity: UInt8
   pub let owner: Address
 
   init(
@@ -29,8 +29,8 @@ pub struct KittyItem {
 
     self.itemID = itemID
     self.resourceID = resourceID
-    self.kind = kind
-    self.rarity = rarity
+    self.kind = kind.rawValue
+    self.rarity = rarity.rawValue
     self.owner = owner
   }
 }
