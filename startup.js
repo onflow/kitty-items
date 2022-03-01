@@ -56,7 +56,7 @@ function envErr() {
 function adminError() {
   throw new Error(
     `Unknown or missing ADMIN_ADRESS environment variable.
-      Please ctreate a testnet account and add your credentials to .env.tenstnet.local`
+      Please create a testnet account and add your credentials to .env.tenstnet.local`
   );
 }
 
