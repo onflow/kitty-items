@@ -15,16 +15,15 @@ export default function ListItemPageButtons({item}) {
   const {currentUser} = useAppContext()
   const {data: flowBalance} = useFLOWBalance(currentUser?.addr)
 
-  const [{isLoading: isBuyLoading}, buy, buyTxStatus] = useItemPurchase()
-  const [{isLoading: isRemoveLoading}, remove, removeTxStatus] =
-    useItemRemoval()
-
-  const onPurchaseClick = () => buy(item.listingResourceID, id, address)
-  const onRemoveClick = () => remove(item.listingResourceID, id)
+  const [purchase, purchaseTx] = useItemPurchase(id)
+  const [remove, removeTx] = useItemRemoval(id)
+  const onPurchaseClick = () =>
+    purchase(item.listingResourceID, item.name, address)
+  const onRemoveClick = () => remove(item)
 
   const hasListing = Number.isInteger(item.listingResourceID)
-  const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
-  const isBuyable = !currentUser || (!currentUserIsOwner && hasListing)
+  const currentUserIsOwner = !!currentUser && item.owner === currentUser?.addr
+  const isBuyable = hasListing && !currentUserIsOwner
   const isRemovable = currentUserIsOwner && hasListing
 
   // TODO: Use a library that supports UFix64 precision to avoid comparing rounded numbers
@@ -34,12 +33,12 @@ export default function ListItemPageButtons({item}) {
   if (isBuyable) {
     return (
       <div>
-        {isBuyLoading && buyTxStatus !== null ? (
-          <TransactionLoading status={buyTxStatus} />
+        {!!purchaseTx ? (
+          <TransactionLoading status={purchaseTx.status} />
         ) : (
           <Button
             onClick={onPurchaseClick}
-            disabled={isBuyLoading || (!!currentUser && !userHasEnoughFunds)}
+            disabled={!!currentUser && !userHasEnoughFunds}
             roundedFull={true}
           >
             Purchase
@@ -59,15 +58,10 @@ export default function ListItemPageButtons({item}) {
 
     return (
       <div>
-        {isRemoveLoading && removeTxStatus !== null ? (
-          <TransactionLoading status={removeTxStatus} />
+        {!!removeTx ? (
+          <TransactionLoading status={removeTx.status} />
         ) : (
-          <Button
-            onClick={onRemoveClick}
-            disabled={isRemoveLoading}
-            color="gray"
-            roundedFull={true}
-          >
+          <Button onClick={onRemoveClick} color="gray" roundedFull={true}>
             {`Remove From ${location}`}
           </Button>
         )}

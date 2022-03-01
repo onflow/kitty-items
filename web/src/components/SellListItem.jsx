@@ -8,7 +8,7 @@ import TextInput from "./TextInput"
 import TransactionLoading from "./TransactionLoading"
 
 export default function SellListItem({item}) {
-  const [{isLoading: isSellLoading}, sell, sellTxStatus] = useItemSale()
+  const [sell, tx] = useItemSale(item.itemID)
   const [price, setPrice] = useState("")
 
   const onSubmit = e => {
@@ -27,10 +27,10 @@ export default function SellListItem({item}) {
         Please specify the price you want to sell your Kitty Item for.
       </div>
 
-      <div className="bg-white border border-gray-200 rounded px-8 pt-5 pb-7">
-        {isSellLoading && sellTxStatus !== null ? (
-          <TransactionLoading status={sellTxStatus} />
-        ) : (
+      {!!tx ? (
+        <TransactionLoading status={tx.status} />
+      ) : (
+        <div className="bg-white border border-gray-200 rounded px-8 pt-5 pb-7">
           <form onSubmit={onSubmit}>
             <TextInput
               value={price}
@@ -45,15 +45,15 @@ export default function SellListItem({item}) {
             />
             <Button
               type="submit"
-              disabled={!price || isSellLoading}
+              disabled={!price}
               roundedFull={true}
               className="mt-5"
             >
               List My Kitty Kitem
             </Button>
           </form>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

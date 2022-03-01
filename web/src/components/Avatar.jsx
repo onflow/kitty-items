@@ -1,6 +1,5 @@
 import PropTypes from "prop-types"
 import publicConfig from "src/global/publicConfig"
-const SEED = "kitty-items"
 
 const avatarUrl = hash =>
   encodeURI(
@@ -19,7 +18,7 @@ export default function Avatar({address}) {
     <div className="border border-gray-200 rounded-full w-full h-full">
       {typeof address !== "undefined" && (
         <img
-          src={avatarUrl(`${address}-${SEED}`)}
+          src={avatarUrl(`${address}-${publicConfig.appTitle}`)}
           alt={address}
           className="rounded-full"
         />

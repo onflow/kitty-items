@@ -7,6 +7,7 @@ import {paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
 import HeaderMessage from "./HeaderMessage"
+import TransactionsIndicator from "./Transactions"
 
 export default function Header() {
   const {currentUser} = useAppContext()
@@ -38,29 +39,32 @@ export default function Header() {
             </div>
           </a>
         </Link>
-        {!isAdminPath && (
-          <div className="flex items-center">
-            <div className="mr-2 md:mr-4">
-              <HeaderLink href={paths.root}>Store</HeaderLink>
-              <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
-            </div>
-            {!!currentUser && (
-              <div className="hidden mr-2 md:flex">
-                <HeaderFLOWBalance />
+        <div className="flex items-center">
+          {!isAdminPath && (
+            <>
+              <div className="mr-2 md:mr-4">
+                <HeaderLink href={paths.root}>Store</HeaderLink>
+                <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
               </div>
-            )}
-            {currentUser ? (
-              <HeaderDropdown />
-            ) : (
-              <button
-                onClick={logIn}
-                className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
-              >
-                Log In
-              </button>
-            )}
-          </div>
-        )}
+              {!!currentUser && (
+                <div className="hidden mr-2 md:flex">
+                  <HeaderFLOWBalance />
+                </div>
+              )}
+              {currentUser ? (
+                <HeaderDropdown />
+              ) : (
+                <button
+                  onClick={logIn}
+                  className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
+                >
+                  Log In
+                </button>
+              )}
+            </>
+          )}
+          <TransactionsIndicator />
+        </div>
       </div>
     </header>
   )
