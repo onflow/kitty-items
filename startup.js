@@ -1,10 +1,14 @@
-const pm2 = require("pm2");
-const inquirer = require("inquirer");
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const fs = require("fs-extra")
-const path = require("path");
-const dotenv = require('dotenv')
+import pm2 from "pm2";
+import inquirer from "inquirer";
+import util from "util";
+import fs from "fs-extra";
+import path from "path";
+import dotenv from "dotenv";
+import { exec as exe } from "child_process";
+// import chalk from 'chalk'
+import ora from 'ora';
+
+const exec = util.promisify(exe);
 
 async function isExists(path) {
   try {
@@ -115,6 +119,8 @@ async function runProcess(config, cb = () => {}) {
     });
   });
 }
+const spinner = ora()
+spinner.color = 'green'
 
 pm2.connect(true, async function(err) {
   if (err) {
@@ -125,13 +131,17 @@ pm2.connect(true, async function(err) {
   let env = {};
 
   if (process.env.CHAIN_ENV === "emulator") {
-    console.log("Starting Flow emulator...");
+
+    spinner.start('Emulating Flow Network')
+
     await runProcess({
       name: "emulator",
       script: "flow",
       args: "emulator --dev-wallet=true",
       wait_ready: true
     });
+
+    spinner.succeed('Emulator started');
   }
 
   if (process.env.CHAIN_ENV === "testnet") {
@@ -192,13 +202,14 @@ pm2.connect(true, async function(err) {
     }
   }
 
-  require('dotenv').config({
+  dotenv.config({
     path: requireEnv(process.env.CHAIN_ENV)
   })
 
   if (!process.env.ADMIN_ADDRESS) adminError()
   
-  console.log("Starting API & event worker...");
+  spinner.start('Starting API server')
+
   await runProcess({
     name: "api",
     cwd: "./api",
@@ -208,7 +219,10 @@ pm2.connect(true, async function(err) {
     wait_ready: true,
   });
 
-  console.log("Starting web app...");
+  spinner.succeed('API server started')
+
+  spinner.start('Starting storefront web app')
+
   await runProcess({
     name: "web",
     cwd: "./web",
@@ -219,48 +233,44 @@ pm2.connect(true, async function(err) {
     autorestart: false
   });
 
-  let answer = await inquirer.prompt({
-    type: "confirm",
-    name: "confirm",
-    message: `Deploy contracts to ${process.env.CHAIN_ENV}?`
+  spinner.succeed('Storefront web app started')
+
+  spinner.start('Deploying contracts')
+
+  await runProcess({
+    name: "contracts",
+    script: "flow",
+    args: deploy(process.env.CHAIN_ENV),
+    autorestart: false,
+    wait_ready: true,
+    watch: ["cadence"],
   });
 
-  if (answer.confirm) {
-    console.log("Deploying contracts...");
+  spinner.succeed('Contracts deployed')
 
-    await runProcess({
-      name: "contracts",
-      script: "flow",
-      args: deploy(process.env.CHAIN_ENV),
-      autorestart: false,
-      wait_ready: true,
-      watch: ["cadence"],
-    });
+  spinner.start("Initializing admin account");
 
-    console.log("Initializing admin account...");
+  await runProcess({
+    name: "init kittyitems admin",
+    script: "flow",
+    args: initializeKittyItems(process.env.CHAIN_ENV),
+    autorestart: false,
+    wait_ready: true,
+    kill_timeout: 5000,
+  });
 
-    await runProcess({
-      name: "init kittyitems admin",
-      script: "flow",
-      args: initializeKittyItems(process.env.CHAIN_ENV),
-      autorestart: false,
-      wait_ready: true,
-      kill_timeout: 5000,
-    });
+  await runProcess({
+    name: "init storefront admin",
+    script: "flow",
+    args: initializeStorefront(process.env.CHAIN_ENV),
+    autorestart: false,
+    wait_ready: true,
+    kill_timeout: 5000,
+  });
 
-    await runProcess({
-      name: "init storefront admin",
-      script: "flow",
-      args: initializeStorefront(process.env.CHAIN_ENV),
-      autorestart: false,
-      wait_ready: true,
-      kill_timeout: 5000,
-    });
+  spinner.succeed('Admin account initialized')
 
-    console.log("Deployment complete!");
-  } else {
-    console.log("Contracts were not deployed. See README for instructions.");
-  }
+  console.log("Deployment complete!");
 
   console.log(
     `

@@ -2,7 +2,7 @@
   "name": "kitty-items",
   "version": "1.0.0",
   "description": "<p align=\"center\"><img width=\"400\" src=\"kitty-items-banner.png\" /></a> </p>",
-  "main": "index.js",
+  "type": "module",
   "dependencies": {
     "@types/node": "^14.14.37",
     "dotenv": "^16.0.0",
@@ -15,8 +15,15 @@
   "devDependencies": {
     "@testing-library/cypress": "^7.0.7",
     "@types/yargs": "^16.0.1",
+    "blessed": "^0.1.81",
+    "chalk": "^5.0.0",
+    "chalk-animation": "^1.6.0",
     "cypress": "^7.7.0",
-    "cypress-iframe": "^1.0.1"
+    "cypress-iframe": "^1.0.1",
+    "gradient-string": "^2.0.0",
+    "open": "^8.4.0",
+    "ora": "^6.1.0",
+    "terminal-link": "^3.0.0"
   },
   "scripts": {
     "dev:emulator": "CHAIN_ENV=emulator APP_ENV=local node startup.js",
