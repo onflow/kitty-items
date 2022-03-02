@@ -7,7 +7,10 @@
   },
   "deployments": {
     "testnet": {
-      "testnet-account": ["KittyItems", "MetadataViews"]
+      "testnet-account": [
+        "KittyItems",
+        "MetadataViews"
+      ]
     }
   }
 }

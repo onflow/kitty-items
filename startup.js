@@ -165,7 +165,7 @@ pm2.connect(true, async function(err) {
       What now?
 
       1. Create a new account using the testnet faucet by visiting: 
-      https://testnet-faucet.onflow.org/
+      https://testnet-faucet.onflow.org/?key=${result.public}&source=ki
 
       2. Copy the new account address from the faucet, and paste it below 👇
       (don't exit this terminal)
@@ -182,7 +182,7 @@ pm2.connect(true, async function(err) {
 
       result.account = testnet.account;
 
-      writeFile(`testnet-credentials-${testnet.account}.json`, JSON.stringify(result));
+      await writeFile(`testnet-credentials-${testnet.account}.json`, JSON.stringify(result));
 
       const testnetEnvFile = fs.readFileSync(".env.testnet.template", "utf8");
       const buf = Buffer.from(testnetEnvFile)
@@ -194,7 +194,7 @@ pm2.connect(true, async function(err) {
         FLOW_PUBLIC_KEY: result.public
       };
 
-      writeFile(".env.testnet.local", `${convertToEnv({ ...parsed, ...env })}`);
+      await writeFile(".env.testnet.local", `${convertToEnv({ ...parsed, ...env })}`);
 
       console.log(` 
         Testnet envronment config was written to: .env.testnet.local
