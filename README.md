@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="http://kitty-items-flow-testnet-prod.herokuapp.com/">
+    <a href="https://kitty-items.onflow.org/">
         <img width="400" src="kitty-items-banner.png" />
     </a>
 </p>
@@ -11,7 +11,7 @@
 
 ## 🎬 Live Demo
 
-Check out the [live demo of Kitty Items](http://kitty-items-flow-testnet-prod.herokuapp.com/),
+Check out the [live demo of Kitty Items](https://kitty-items.onflow.org/),
 deployed on the Flow Testnet.
 
 If you'd like to deploy your own version, see the [deploy to Heroku](#optional-heroku-deployment) instructions near the bottom to this setup guide.
