@@ -40,17 +40,19 @@ export const AppContextProvider = ({children}) => {
     }
   }, [currentUser?.addr])
 
-  useEffect(() => {
-    fcl.currentUser().subscribe(newUser => {
-      if (newUser?.loggedIn) {
-        setCurrentUser(newUser)
-        setFlashMessage(null)
-      } else {
-        setCurrentUser(null)
-        logOutAdmin()
-      }
-    })
-  }, [])
+  useEffect(
+    () =>
+      fcl.currentUser().subscribe(newUser => {
+        if (newUser?.loggedIn) {
+          setCurrentUser(newUser)
+          setFlashMessage(null)
+        } else {
+          setCurrentUser(null)
+          logOutAdmin()
+        }
+      }),
+    []
+  )
 
   useEffect(() => {
     checkIsAccountInitialized()

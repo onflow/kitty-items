@@ -50,9 +50,7 @@ export const TransactionsContextProvider = ({children}) => {
     dispatch({type: REMOVE, payload: id})
   }
 
-  useEffect(() => {
-    fcl.currentUser().subscribe(setCurrentUser)
-  }, [])
+  useEffect(() => fcl.currentUser().subscribe(setCurrentUser), [])
 
   // Reset transactions if user doesn't match state user
   useEffect(() => {
