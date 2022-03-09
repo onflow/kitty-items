@@ -28,11 +28,11 @@ export default function Header() {
                 height="60"
               />
             </div>
-            <div class="ml-2 d-flex flex-column">
-              <div class="text-sm font-bold sm:text-2xl lg:text-3xl sm:ml-3 text-gray-darkest">
+            <div className="ml-2 d-flex flex-column">
+              <div className="text-sm font-bold sm:text-2xl lg:text-3xl sm:ml-3 text-gray-darkest">
                 Kitty Items
               </div>
-              <div class="text-sm sm:ml-3 text-gray-darkest">
+              <div className="text-sm sm:ml-3 text-gray-darkest">
                 Crypto Kitties Sample App
               </div>
             </div>
