@@ -9,7 +9,6 @@
     "testnet": {
       "testnet-account": [
         "KittyItems",
-        "MetadataViews"
       ]
     }
   }
