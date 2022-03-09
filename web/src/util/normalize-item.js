@@ -7,7 +7,7 @@ export function normalizeApiListing(item) {
     name: item.name,
     image: item.image,
     listingResourceID: item.listing_resource_id,
-    price: item.price,
+    price: item.price.toString(),
     txID: item.transaction_id,
   }
 }
@@ -15,8 +15,8 @@ export function normalizeApiListing(item) {
 export function normalizeListing(listing) {
   return {
     itemID: listing.itemID,
-    kind: Number(listing.kind),
-    rarity: Number(listing.rarity),
+    kind: Number(listing.kind.rawValue),
+    rarity: Number(listing.rarity.rawValue),
     owner: listing.owner,
     name: listing.name,
     image: listing.image,
@@ -29,8 +29,8 @@ export function normalizeListing(listing) {
 export function normalizeItem(accountItem, apiListing) {
   return {
     itemID: accountItem.itemID,
-    kind: Number(accountItem.kind),
-    rarity: Number(accountItem.rarity),
+    kind: Number(accountItem.kind.rawValue),
+    rarity: Number(accountItem.rarity.rawValue),
     owner: accountItem.owner,
     name: accountItem.name,
     image: accountItem.image,
