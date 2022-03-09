@@ -49,7 +49,6 @@ pub contract KittyItems: NonFungibleToken {
         pub case milkshake
         pub case tuktuk
         pub case skateboard
-        pub case shades
     }
 
     pub fun kindToString(_ kind: Kind): String {
@@ -64,8 +63,6 @@ pub contract KittyItems: NonFungibleToken {
                 return "Tuk-Tuk"
             case Kind.skateboard:
                 return "Skateboard"
-            case Kind.shades:
-                return "Shades"
         }
 
         return ""
@@ -332,12 +329,6 @@ pub contract KittyItems: NonFungibleToken {
                 Rarity.green: "bafybeic55lpwfvucmgibbvaury3rpeoxmcgyqra3vdhjwp74wqzj6oqvpq",
                 Rarity.purple: "bafybeiepqu75oknv2vertl5nbq7gqyac5tbpekqcfy73lyk2rcjgz7irpu",
                 Rarity.gold: "bafybeic5ehqovuhix4lyspxfawlegkrkp6aaloszyscmjvmjzsbxqm6s2i"
-            },
-            Kind.shades: {
-                Rarity.blue: "bafybeibtxvitlnvksnzwrwmsqdgnoznosknr3fx5jxjazjcerpa2qo4jy4",
-                Rarity.green: "bafybeicp5bagsziwkyarey76m5jkr6i3a5yrgr7r435qyuutbtlqxcdbwu",
-                Rarity.purple: "bafybeidjigkvt67dtuwrgrpdt2z4dojq2efpbw66ndnffkb6eyr4baml2i",
-                Rarity.gold: "bafybeibtxvitlnvksnzwrwmsqdgnoznosknr3fx5jxjazjcerpa2qo4jy4"
             }
         }
 

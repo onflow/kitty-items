@@ -6,8 +6,7 @@ export const types = {
 	fishhat: 2,
 	milkshake: 3,
 	tuktuk: 4,
-	skateboard: 5,
-	shades: 6
+	skateboard: 5
 };
 
 export const rarities = {

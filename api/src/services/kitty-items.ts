@@ -16,8 +16,7 @@ enum Kind {
   Fishhat,
   Milkshake,
   TukTuk,
-  Skateboard,
-  Shades,
+  Skateboard
 }
 
 enum Rarity {
