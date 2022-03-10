@@ -179,8 +179,8 @@ class StorefrontService {
         .insert({
           listing_resource_id: listingResourceID,
           item_id: item.itemID,
-          item_kind: item.kind,
-          item_rarity: item.rarity,
+          item_kind: item.kind.rawValue,
+          item_rarity: item.rarity.rawValue,
           name: item.name,
           image: item.image,
           owner: owner,
