@@ -1,10 +1,17 @@
 import pm2 from "pm2";
+
 import inquirer from "inquirer";
+
 import util from "util";
+
 import fs from "fs-extra";
+
 import path from "path";
+
 import dotenv from "dotenv";
+
 import { exec as exe } from "child_process";
+
 import ora from 'ora';
 
 const exec = util.promisify(exe);
@@ -136,7 +143,7 @@ pm2.connect(true, async function(err) {
     await runProcess({
       name: "emulator",
       script: "flow",
-      args: "emulator --dev-wallet=true",
+      args: "emulator",
       wait_ready: true
     });
 
