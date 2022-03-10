@@ -1,6 +1,6 @@
 {
   "name": "Kitty Items",
-  "description": "A CryptoKitties Sample App, learn how to create an NFT Marketplace",
+  "description": "A CryptoKitties Sample App. Learn how to create an NFT marketplace on Flow.",
   "repository": "https://github.com/onflow/kitty-items",
   "logo": "https://user-images.githubusercontent.com/2547035/113519867-d8592380-9543-11eb-9bb3-c45e51360ccf.png",
   "keywords": ["Cadence", "Flow", "NFT", "Marketplace"],
