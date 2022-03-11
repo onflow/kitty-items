@@ -7,12 +7,10 @@ import {AppContextProvider} from "src/contexts/AppContext"
 import "styles/fonts.css"
 import "styles/globals.css"
 import {SWRConfig} from "swr"
-import onRouteChange from "@analytics/router-utils"
+import Router from "next/router"
 import analytics from "src/global/analytics"
 
-onRouteChange(() => {
-  analytics.page()
-})
+Router.events.on("routeChangeComplete", () => analytics.page())
 export default function MyApp({Component, pageProps}) {
   return (
     <div>

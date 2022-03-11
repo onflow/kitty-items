@@ -4,7 +4,7 @@ import mixpanelPlugin from "@analytics/mixpanel"
 import publicConfig from "src/global/publicConfig"
 
 const analytics = Analytics({
-  app: "awesome-app",
+  app: "kitty-items",
   plugins: [
     googleAnalytics({
       trackingId: publicConfig.gaTrackingId,
