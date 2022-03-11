@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"
 import {useEffect, useState} from "react"
 import {isAccountInitialized as isAccountInitializedTx} from "src/flow/script.is-account-initialized"
+import {paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useAccountInitializer from "src/hooks/useAccountInitializer"
 import useApiListings from "src/hooks/useApiListings"
@@ -93,7 +94,7 @@ export default function HeaderMessage() {
       running on the Flow test network.{" "}
       <a
         className="border-b border-white"
-        href="https://github.com/onflow/kitty-items"
+        href={paths.githubRepo}
         target="_blank"
         rel="noreferrer"
       >

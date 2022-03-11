@@ -5,9 +5,9 @@ import {paths} from "src/global/constants"
 export default function useLogin() {
   const router = useRouter()
 
-  const logIn = async () => {
+  const logIn = async (redirect = true) => {
     const user = await fcl.logIn()
-    if (user.addr) {
+    if (redirect && user.addr) {
       router.push(paths.profile(user.addr))
     }
   }
