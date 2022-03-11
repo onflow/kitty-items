@@ -1,6 +1,7 @@
+import publicConfig from "src/global/publicConfig"
 
 export const pageview = (url) => {
-  window.gtag('config', process.env.NEXT_PUBLIC_GA_TRACKING_ID, {
+  window.gtag('config', publicConfig.gaTrackingId, {
     page_path: url,
   })
 }

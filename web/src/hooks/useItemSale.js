@@ -40,7 +40,7 @@ export default function useItemSale(itemID) {
     () => { 
       if (isSuccessful(tx)) { 
         event({ action: "kitty-items-item-listed", params: { itemID } })
-        return  paths.apiListing(itemID)
+        return paths.apiListing(itemID)
       }
       return null
     },
