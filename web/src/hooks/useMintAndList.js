@@ -6,7 +6,8 @@ import {paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
 import {EVENT_ITEM_MINTED, getKittyItemsEventByType} from "src/util/events"
-import {useSWRConfig} from "swr"
+import { useSWRConfig } from "swr"
+import {event} from 'src/global/analytics'
 
 // Mints an item and lists it for sale. The item is minted on the service account.
 export default function useMintAndList() {
@@ -70,6 +71,8 @@ export default function useMintAndList() {
           setTransactionStatus(tx.status)
           if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
         })
+
+        event({ action: "kitty-items-item-minted", params: { mint: data } })
       },
       onError: () => {
         resetLoading()

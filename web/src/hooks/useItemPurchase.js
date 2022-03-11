@@ -7,7 +7,8 @@ import {isSealed, isSuccessful} from "src/components/Transactions/utils"
 import {paths} from "src/global/constants"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
-import {compFLOWBalanceKey} from "./useFLOWBalance"
+import { compFLOWBalanceKey } from "./useFLOWBalance"
+import { event } from 'src/global/analytics'
 
 export default function useItemPurchase(itemID) {
   const router = useRouter()
@@ -38,6 +39,7 @@ export default function useItemPurchase(itemID) {
 
   useEffect(() => {
     if (!!currentUser && isSuccessful(tx)) {
+      event({ action: "kitty-items-item-sale-primary", params: { itemID } })
       mutate(compFLOWBalanceKey(currentUser.addr))
       cache.delete(paths.apiListing(itemID))
       router.push(paths.profileItem(currentUser.addr, itemID))

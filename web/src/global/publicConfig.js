@@ -62,6 +62,8 @@ const contractFlowToken = process.env.NEXT_PUBLIC_CONTRACT_FLOW_TOKEN
 if (!contractFlowToken)
   throw new Error("Missing NEXT_PUBLIC_CONTRACT_FLOW_TOKEN")
 
+const gaTag = process.env.NEXT_PUBLIC_GA_TRACKING_ID
+
 const publicConfig = {
   appTitle,
   isDev,
@@ -82,6 +84,9 @@ const publicConfig = {
   contractFlowToken,
   contractKittyItems,
   contractNftStorefront,
+  gaTag,
 }
 
 export default publicConfig
+
+// 'G-43R6WFJSCY'
