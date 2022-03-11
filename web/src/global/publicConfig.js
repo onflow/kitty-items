@@ -63,6 +63,7 @@ if (!contractFlowToken)
   throw new Error("Missing NEXT_PUBLIC_CONTRACT_FLOW_TOKEN")
 
 const gaTrackingId = process.env.NEXT_PUBLIC_GA_TRACKING_ID
+const mixpanelToken = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN
 
 const publicConfig = {
   appTitle,
@@ -85,6 +86,7 @@ const publicConfig = {
   contractKittyItems,
   contractNftStorefront,
   gaTrackingId,
+  mixpanelToken
 }
 
 export default publicConfig

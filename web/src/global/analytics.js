@@ -1,11 +1,18 @@
+import Analytics from "analytics"
+import googleAnalytics from "@analytics/google-analytics"
+import mixpanelPlugin from "@analytics/mixpanel"
 import publicConfig from "src/global/publicConfig"
 
-export const pageview = (url) => {
-  window.gtag('config', publicConfig.gaTrackingId, {
-    page_path: url,
-  })
-}
+const analytics = Analytics({
+  app: "awesome-app",
+  plugins: [
+    googleAnalytics({
+      trackingId: publicConfig.gaTrackingId,
+    }),
+    mixpanelPlugin({
+      token: publicConfig.mixpanelToken,
+    }),
+  ],
+})
 
-export const event = ({ action, params }) => {
-   window.gtag('event', action, params)
-}
+export default analytics

@@ -10,7 +10,7 @@ import {
   getStorefrontEventByType,
 } from "src/util/events"
 import useApiListing from "./useApiListing"
-import {event} from 'src/global/analytics'
+import analytics from "src/global/analytics"
 
 export function extractApiListingFromEvents(events, item) {
   const event = getStorefrontEventByType(events, EVENT_LISTING_AVAILABLE)
@@ -37,9 +37,9 @@ export default function useItemSale(itemID) {
   // Poll for api listing once tx is successful
   const {listing} = useApiListing(
     itemID,
-    () => { 
-      if (isSuccessful(tx)) { 
-        event({ action: "kitty-items-item-listed", params: { itemID } })
+    () => {
+      if (isSuccessful(tx)) {
+        analytics.track("kitty-items-item-listed", {params: {itemID}})
         return paths.apiListing(itemID)
       }
       return null
