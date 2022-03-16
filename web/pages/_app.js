@@ -1,3 +1,4 @@
+import {useEffect} from "react"
 import PropTypes from "prop-types"
 import AdminLogInDialog from "src/components/AdminLogInDialog"
 import AppContainer from "src/components/AppContainer"
@@ -6,15 +7,18 @@ import {AppContextProvider} from "src/contexts/AppContext"
 import "styles/fonts.css"
 import "styles/globals.css"
 import {SWRConfig} from "swr"
+import Router from "next/router"
+import analytics from "src/global/analytics"
 
-export default function MyApp({Component}) {
+Router.events.on("routeChangeComplete", () => analytics.page())
+export default function MyApp({Component, pageProps}) {
   return (
     <div>
       <SWRConfig value={{provider: () => new Map()}}>
         <TransactionsContextProvider>
           <AppContextProvider>
             <AppContainer>
-              <Component />
+              <Component {...pageProps} />
               <AdminLogInDialog />
             </AppContainer>
           </AppContextProvider>
