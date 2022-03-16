@@ -3,6 +3,8 @@ import googleAnalytics from "@analytics/google-analytics"
 import mixpanelPlugin from "@analytics/mixpanel"
 import publicConfig from "src/global/publicConfig"
 
+console.log(publicConfig)
+
 const analytics = Analytics({
   app: "kitty-items",
   plugins: [

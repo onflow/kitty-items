@@ -16,11 +16,11 @@ import ora from "ora";
 
 import chalk from "chalk";
 
-import chalkAnimation from 'chalk-animation';
+import chalkAnimation from "chalk-animation";
 
 const exec = util.promisify(exe);
 
-async function isExists(path) {
+async function dirExists(path) {
   try {
     await fs.access(path);
     return true;
@@ -32,7 +32,7 @@ async function isExists(path) {
 async function writeFile(filePath, data) {
   try {
     const dirname = path.dirname(filePath);
-    const exist = await isExists(dirname);
+    const exist = await dirExists(dirname);
     if (!exist) {
       await fs.mkdir(dirname, { recursive: true });
     }
@@ -130,7 +130,7 @@ async function runProcess(config, cb = () => {}) {
   });
 }
 const spinner = ora();
-spinner.spinner = 'dots3'
+spinner.spinner = "dots3";
 spinner.color = "green";
 
 pm2.connect(true, async function (err) {
@@ -262,7 +262,7 @@ pm2.connect(true, async function (err) {
     watch: ["cadence"]
   });
 
-  spinner.succeed(chalk.greenBright("Contracts deployed"))
+  spinner.succeed(chalk.greenBright("Contracts deployed"));
 
   spinner.start("Initializing admin account");
 
