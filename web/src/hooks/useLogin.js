@@ -6,7 +6,7 @@ import analytics, {event} from "src/global/analytics"
 export default function useLogin() {
   const router = useRouter()
 
-  const logIn = async () => {
+  const logIn = async (redirect = true) => {
     const user = await fcl.logIn()
     if (user.addr) {
       analytics.identify(user.addr, {})

@@ -15,7 +15,8 @@ export const ERROR = "ERROR"
 // before transitioning back to an IDLE state.
 export const IDLE_DELAY = 1000
 
-export const BASE_HTML_TITLE = "A CryptoKitties Sample App, learn how to create an NFT Marketplace"
+export const BASE_HTML_TITLE =
+  "A CryptoKitties Sample App, learn how to create an NFT Marketplace"
 
 export const getParamsString = params => {
   if (typeof params !== "object") return ""
@@ -46,6 +47,7 @@ export const paths = {
       publicConfig.chainEnv === CHAIN_ENV_TESTNET ? "testnet." : ""
     }flowscan.org/account/${address}`
   },
+  githubRepo: "https://github.com/onflow/kitty-items",
 }
 
 export const flashMessages = {
