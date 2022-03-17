@@ -1,42 +1,36 @@
 import pm2 from "pm2";
 import inquirer from "inquirer";
 import util from "util";
-import fs from "fs-extra";
-import path from "path";
+import jetpack from "fs-jetpack";
 import dotenv from "dotenv";
 import { exec as exe } from "child_process";
 import ora from "ora";
 import chalk from "chalk";
 import chalkAnimation from "chalk-animation";
+const exec = util.promisify(exe);
+
+//////////////////////////////////////////////////////////////////
+// ---------------------- FLOW COMMANDS --------------------------
+//////////////////////////////////////////////////////////////////
+
+const EMULATOR_DEPLOYMENT =
+  "project deploy --network=emulator -f flow.json --update -o json";
+const TESTNET_DEPLOYMENT =
+  "project deploy --network=testnet -f flow.json -f flow.testnet.json --update -o json";
+
+function initializeStorefront(network) {
+  if (!network) return envErr();
+  return `transactions send --network=testnet --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc -f flow.json -f flow.${network}.json`;
+}
+
+function initializeKittyItems(network) {
+  if (!network) return envErr();
+  return `transactions send --network=testnet --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc -f flow.json -f flow.${network}.json`;
+}
 
 //////////////////////////////////////////////////////////////////
 // ------------------- UTILITY FUNCTIONS -----------------------
 //////////////////////////////////////////////////////////////////
-
-const exec = util.promisify(exe);
-
-async function dirExists(path) {
-  try {
-    await fs.access(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-async function writeFile(filePath, data) {
-  try {
-    const dirname = path.dirname(filePath);
-    const exist = await dirExists(dirname);
-    if (!exist) {
-      await fs.mkdir(dirname, { recursive: true });
-    }
-
-    await fs.writeFile(filePath, data, "utf8");
-  } catch (err) {
-    throw new Error(err);
-  }
-}
 
 function convertToEnv(object) {
   let envFile = "";
@@ -58,16 +52,6 @@ function adminError() {
     `Unknown or missing ADMIN_ADRESS environment variable.
       Please create a testnet account and add your credentials to .env.tenstnet.local`
   );
-}
-
-function initializeStorefront(network) {
-  if (!network) return envErr();
-  return `transactions send --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc -f flow.json -f flow.${network}.json`;
-}
-
-function initializeKittyItems(network) {
-  if (!network) return envErr();
-  return `transactions send --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc -f flow.json -f flow.${network}.json`;
 }
 
 function deploy(chainEnv) {
@@ -119,15 +103,6 @@ async function runProcess(config, cb = () => {}) {
     });
   });
 }
-
-//////////////////////////////////////////////////////////////////
-// ------------------- FLOW COMMANDS CONSTANTS -------------------
-//////////////////////////////////////////////////////////////////
-
-const EMULATOR_DEPLOYMENT =
-  "project deploy --network=emulator -f flow.json --update -o json";
-const TESTNET_DEPLOYMENT =
-  "project deploy --network=testnet -f flow.json -f flow.testnet.json --update -o json";
 
 //////////////////////////////////////////////////////////////////
 // ------------- PROCESS MANAGEMENT ENTRYPOINT -------------------
@@ -200,12 +175,11 @@ pm2.connect(true, async function (err) {
 
       result.account = testnet.account;
 
-      await writeFile(
-        `testnet-credentials-${testnet.account}.json`,
-        JSON.stringify(result)
-      );
+      jetpack.file(`testnet-credentials-${testnet.account}.json`, {
+        content: JSON.stringify(result)
+      });
 
-      const testnetEnvFile = fs.readFileSync(".env.testnet.template", "utf8");
+      const testnetEnvFile = jetpack.read(".env.testnet.template");
       const buf = Buffer.from(testnetEnvFile);
       const parsed = dotenv.parse(buf);
 
@@ -215,10 +189,9 @@ pm2.connect(true, async function (err) {
         FLOW_PUBLIC_KEY: result.public
       };
 
-      await writeFile(
-        ".env.testnet.local",
-        `${convertToEnv({ ...parsed, ...env })}`
-      );
+      jetpack.file(".env.testnet.local", {
+        content: `${convertToEnv({ ...parsed, ...env })}`
+      });
 
       console.log(
         "Testnet envronment config was written to: .env.testnet.local"
@@ -270,7 +243,7 @@ pm2.connect(true, async function (err) {
 
   spinner.succeed(chalk.greenBright("Storefront web app started"));
 
-  spinner.start("Deploying contracts");
+  spinner.start(`Deploying contracts to ${process.env.CHAIN_ENV}`);
 
   await runProcess({
     name: "contracts",
@@ -283,7 +256,9 @@ pm2.connect(true, async function (err) {
 
   spinner.succeed(chalk.greenBright("Contracts deployed"));
 
-  spinner.start("Initializing admin account");
+  spinner.start(
+    `Initializing admin account: ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
+  );
 
   await runProcess({
     name: "init kittyitems admin",

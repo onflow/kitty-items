@@ -1,4 +1,3 @@
-import {useEffect} from "react"
 import PropTypes from "prop-types"
 import AdminLogInDialog from "src/components/AdminLogInDialog"
 import AppContainer from "src/components/AppContainer"

@@ -86,8 +86,7 @@ const publicConfig = {
   contractKittyItems,
   contractNftStorefront,
   gaTrackingId,
-  mixpanelToken
+  mixpanelToken,
 }
 
 export default publicConfig
-
