@@ -7,7 +7,7 @@ const initDB = config => {
     client: "better-sqlite3",
     useNullAsDefault: true,
     connection: {
-      filename: config.dbPath || "./kitty-items-db.sqlite",
+      filename: "./" + config.dbPath,
     },
     migrations: {
       directory: config.databaseMigrationPath,
