@@ -216,67 +216,72 @@ pm2.connect(true, async function (err) {
 
   if (!process.env.ADMIN_ADDRESS) adminError();
 
-  spinner.start("Starting API server");
+  try {
+    spinner.start("Starting API server");
+    await runProcess({
+      name: "api",
+      cwd: "./api",
+      script: "npm",
+      args: "run dev",
+      watch: false,
+      wait_ready: true
+    });
 
-  await runProcess({
-    name: "api",
-    cwd: "./api",
-    script: "npm",
-    args: "run dev",
-    watch: false,
-    wait_ready: true
-  });
+    spinner.succeed(chalk.greenBright("API server started"));
 
-  spinner.succeed(chalk.greenBright("API server started"));
+    spinner.start("Starting storefront web app");
 
-  spinner.start("Starting storefront web app");
+    await runProcess({
+      name: "web",
+      cwd: "./web",
+      script: "npm",
+      args: "run dev",
+      watch: false,
+      wait_ready: true,
+      autorestart: false
+    });
 
-  await runProcess({
-    name: "web",
-    cwd: "./web",
-    script: "npm",
-    args: "run dev",
-    watch: false,
-    wait_ready: true,
-    autorestart: false
-  });
+    spinner.succeed(chalk.greenBright("Storefront web app started"));
 
-  spinner.succeed(chalk.greenBright("Storefront web app started"));
+    spinner.start(
+      `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
+    );
 
-  spinner.start(`Deploying contracts to ${process.env.CHAIN_ENV}`);
+    await runProcess({
+      name: "contracts",
+      script: "flow",
+      args: deploy(process.env.CHAIN_ENV),
+      autorestart: false,
+      wait_ready: true,
+      watch: ["cadence"]
+    });
 
-  await runProcess({
-    name: "contracts",
-    script: "flow",
-    args: deploy(process.env.CHAIN_ENV),
-    autorestart: false,
-    wait_ready: true,
-    watch: ["cadence"]
-  });
+    spinner.succeed(chalk.greenBright("Contracts deployed"));
 
-  spinner.succeed(chalk.greenBright("Contracts deployed"));
+    spinner.start(
+      `Initializing admin account: ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
+    );
 
-  spinner.start(
-    `Initializing admin account: ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
-  );
+    await runProcess({
+      name: "init kittyitems admin",
+      script: "flow",
+      args: initializeKittyItems(process.env.CHAIN_ENV),
+      autorestart: false,
+      wait_ready: true,
+      kill_timeout: 5000
+    });
 
-  await runProcess({
-    name: "init kittyitems admin",
-    script: "flow",
-    args: initializeKittyItems(process.env.CHAIN_ENV),
-    autorestart: false,
-    wait_ready: true,
-    kill_timeout: 5000
-  });
-
-  await runProcess({
-    name: "init storefront admin",
-    script: "flow",
-    args: initializeStorefront(process.env.CHAIN_ENV),
-    autorestart: false,
-    wait_ready: true,
-    kill_timeout: 5000
-  });
+    await runProcess({
+      name: "init storefront admin",
+      script: "flow",
+      args: initializeStorefront(process.env.CHAIN_ENV),
+      autorestart: false,
+      wait_ready: true,
+      kill_timeout: 5000
+    });
+  } catch (e) {
+    throw e;
+  }
 
   spinner.succeed(chalk.greenBright("Admin account initialized"));
 
