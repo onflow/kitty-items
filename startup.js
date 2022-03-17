@@ -1,22 +1,17 @@
 import pm2 from "pm2";
-
 import inquirer from "inquirer";
-
 import util from "util";
-
 import fs from "fs-extra";
-
 import path from "path";
-
 import dotenv from "dotenv";
-
 import { exec as exe } from "child_process";
-
 import ora from "ora";
-
 import chalk from "chalk";
-
 import chalkAnimation from "chalk-animation";
+
+//////////////////////////////////////////////////////////////////
+// ------------------- UTILITY FUNCTIONS -----------------------
+//////////////////////////////////////////////////////////////////
 
 const exec = util.promisify(exe);
 
@@ -51,11 +46,6 @@ function convertToEnv(object) {
   return envFile;
 }
 
-const EMULATOR_DEPLOYMENT =
-  "project deploy --network=emulator -f flow.json --update -o json";
-const TESTNET_DEPLOYMENT =
-  "project deploy --network=testnet -f flow.json -f flow.testnet.json --update -o json";
-
 function envErr() {
   throw new Error(
     `Unknown or missing CHAIN_ENV environment variable.
@@ -72,12 +62,12 @@ function adminError() {
 
 function initializeStorefront(network) {
   if (!network) return envErr();
-  return `transactions send --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc`;
+  return `transactions send --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc -f flow.json -f flow.${network}.json`;
 }
 
 function initializeKittyItems(network) {
   if (!network) return envErr();
-  return `transactions send --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc`;
+  return `transactions send --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc -f flow.json -f flow.${network}.json`;
 }
 
 function deploy(chainEnv) {
@@ -129,9 +119,19 @@ async function runProcess(config, cb = () => {}) {
     });
   });
 }
-const spinner = ora();
-spinner.spinner = "dots3";
-spinner.color = "green";
+
+//////////////////////////////////////////////////////////////////
+// ------------------- FLOW COMMANDS CONSTANTS -------------------
+//////////////////////////////////////////////////////////////////
+
+const EMULATOR_DEPLOYMENT =
+  "project deploy --network=emulator -f flow.json --update -o json";
+const TESTNET_DEPLOYMENT =
+  "project deploy --network=testnet -f flow.json -f flow.testnet.json --update -o json";
+
+//////////////////////////////////////////////////////////////////
+// ------------- PROCESS MANAGEMENT ENTRYPOINT -------------------
+//////////////////////////////////////////////////////////////////
 
 pm2.connect(true, async function (err) {
   if (err) {
@@ -139,26 +139,38 @@ pm2.connect(true, async function (err) {
     process.exit(2);
   }
 
+  const spinner = ora();
+  spinner.spinner = "dots3";
+  spinner.color = "green";
   let env = {};
+
+  // ------------------------------------------------------------
+  // ------------- EMULATOR DEPLOYMENT --------------------------
 
   if (process.env.CHAIN_ENV === "emulator") {
     spinner.start("Emulating Flow Network");
 
     await runProcess({
       name: "emulator",
-      script: "flow",
-      args: "emulator",
+      script: "/Users/mackenziekieran/Downloads/flow-x86_64-darwin-",
+      args: "emulator --dev-wallet=true",
       wait_ready: true
     });
 
     spinner.succeed(chalk.greenBright("Emulator started"));
   }
 
+  // ------------------------------------------------------------
+  // ------------- TESTNET DEPLOYMENT ---------------------------
+
   if (process.env.CHAIN_ENV === "testnet") {
     let useExisting = await inquirer.prompt({
       type: "confirm",
       name: "confirm",
-      message: `Use existing testnet account?`
+      message: `Have you previously created a testnet account using ${chalk.greenBright(
+        "npm run dev:testnet"
+      )} ?`,
+      default: false
     });
 
     if (!useExisting.confirm) {
@@ -167,26 +179,22 @@ pm2.connect(true, async function (err) {
       const result = await generateKeys();
 
       console.log(`
-      Please store the following keys in a safe place:
-      
-      Public key: ${result.public}
-      Private key: ${result.private}
+      ${chalk.greenBright("Next steps:")}
 
-      What now?
-
-      1. Create a new account using the testnet faucet by visiting: 
-      https://testnet-faucet.onflow.org/?key=${result.public}&source=ki
+      1. Create a new account using the testnet faucet by visiting this URL: 
+      ${chalk.cyanBright(
+        `https://testnet-faucet.onflow.org/?key=${result.public}&source=ki`
+      )}
 
       2. Copy the new account address from the faucet, and paste it below 👇
-      (don't exit this terminal)
-
+      ${chalk.yellowBright("⚠️  Don't exit this terminal.")}
       `);
 
       const testnet = await inquirer.prompt([
         {
           type: "input",
           name: "account",
-          message: "Enter your new testnet account address"
+          message: "Paste your new testnet account address here:"
         }
       ]);
 
@@ -212,11 +220,22 @@ pm2.connect(true, async function (err) {
         `${convertToEnv({ ...parsed, ...env })}`
       );
 
-      console.log(` 
-        Testnet envronment config was written to: .env.testnet.local
-      `);
+      console.log(
+        "Testnet envronment config was written to: .env.testnet.local"
+      );
+    } else {
+      throw new Error("Not implemented.");
+      // - check if .env.testnet.local exists
+      // - check if .env.testnet.local has valid account address
+      // - check if testnet-credentials-<account address>.json exists
+      // - check if testnet-credentials-<account address>.json has valid keys
+      // - if all good, use existing account
+      // - if not, ask user to create new account
     }
   }
+
+  // ------------------------------------------------------------
+  // --------------------- DEPLOYMENT ---------------------------
 
   dotenv.config({
     path: requireEnv(process.env.CHAIN_ENV)
@@ -286,17 +305,14 @@ pm2.connect(true, async function (err) {
 
   spinner.succeed(chalk.greenBright("Admin account initialized"));
 
-  const rainbow = chalkAnimation.rainbow("KITTY ITEMS HAS STARTED"); // Animation starts
+  // ------------------------------------------------------------
+  // --------------------- OUTPUT -------------------------------
+
+  const rainbow = chalkAnimation.rainbow("KITTY ITEMS HAS STARTED");
 
   setTimeout(() => {
     rainbow.stop();
-
-    console.log(
-      `
-${chalk.cyanBright("Visit")}: http://localhost:3001
-    `
-    );
-
+    console.log(`${chalk.cyanBright("Visit")}: http://localhost:3001`);
     pm2.disconnect();
   }, 3000);
 });
