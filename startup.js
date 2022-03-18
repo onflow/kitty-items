@@ -7,6 +7,7 @@ import { exec as exe } from "child_process";
 import ora from "ora";
 import chalk from "chalk";
 import chalkAnimation from "chalk-animation";
+import { stderr } from "process";
 const exec = util.promisify(exe);
 
 //////////////////////////////////////////////////////////////////
@@ -14,22 +15,26 @@ const exec = util.promisify(exe);
 //////////////////////////////////////////////////////////////////
 
 const EMULATOR_DEPLOYMENT =
-  "project deploy --network=emulator -f flow.json --update -o json";
+  "project deploy -o json --network=emulator -f flow.json --update";
 const TESTNET_DEPLOYMENT =
-  "project deploy --network=testnet -f flow.json -f flow.testnet.json --update -o json";
+  "project deploy -o json --network=testnet -f flow.json -f flow.testnet.json --update";
 
 function initializeStorefront(network) {
   if (!network) return envErr();
-  return `transactions send --network=testnet --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc -f flow.json -f flow.${network}.json`;
+  return `transactions send -o json --network=${network} --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc -f flow.json ${
+    network !== "emulator" ? `-f flow.${network}.json` : ""
+  }`;
 }
 
 function initializeKittyItems(network) {
   if (!network) return envErr();
-  return `transactions send --network=testnet --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc -f flow.json -f flow.${network}.json`;
+  return `transactions send -o json --network=${network} --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc -f flow.json ${
+    network !== "emulator" ? `-f flow.${network}.json` : ""
+  }`;
 }
 
 //////////////////////////////////////////////////////////////////
-// ------------------- UTILITY FUNCTIONS -----------------------
+// ------------------- HELPER FUNCTIONS -----------------------
 //////////////////////////////////////////////////////////////////
 
 function convertToEnv(object) {
@@ -92,7 +97,7 @@ function requireEnv(chainEnv) {
   }
 }
 
-async function runProcess(config, cb = () => {}) {
+function runProcess(config, cb = () => {}) {
   return new Promise((resolve, reject) => {
     pm2.start(config, function (err, result) {
       if (err) {
@@ -133,6 +138,13 @@ pm2.connect(true, async function (err) {
     });
 
     spinner.succeed(chalk.greenBright("Emulator started"));
+
+    spinner.info(
+      `Flow Emulator is running at: ${chalk.yellow("http://localhost:8080")}`
+    );
+    spinner.info(
+      `View log output: ${chalk.cyanBright("npx pm2 logs emulator")}${"\n"}`
+    );
   }
 
   // ------------------------------------------------------------
@@ -193,8 +205,8 @@ pm2.connect(true, async function (err) {
         content: `${convertToEnv({ ...parsed, ...env })}`
       });
 
-      console.log(
-        "Testnet envronment config was written to: .env.testnet.local"
+      spinner.info(
+        `Testnet envronment config was written to: .env.testnet.local${"\n"}`
       );
     } else {
       throw new Error("Not implemented.");
@@ -229,6 +241,13 @@ pm2.connect(true, async function (err) {
 
     spinner.succeed(chalk.greenBright("API server started"));
 
+    spinner.info(
+      `Kitty Items API is running at: ${chalk.yellow("http://localhost:3000")}`
+    );
+    spinner.info(
+      `View log output: ${chalk.cyanBright("npx pm2 logs api")}${"\n"}`
+    );
+
     spinner.start("Starting storefront web app");
 
     await runProcess({
@@ -243,47 +262,73 @@ pm2.connect(true, async function (err) {
 
     spinner.succeed(chalk.greenBright("Storefront web app started"));
 
+    spinner.info(
+      `Kitty Items Web App is running at: ${chalk.yellow(
+        "http://localhost:3001"
+      )}`
+    );
+    spinner.info(
+      `View log output: ${chalk.cyanBright("npx pm2 logs web")}${"\n"}`
+    );
+
     spinner.start(
       `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
 
-    await runProcess({
-      name: "contracts",
-      script: "flow",
-      args: deploy(process.env.CHAIN_ENV),
-      autorestart: false,
-      wait_ready: true,
-      watch: ["cadence"]
-    });
+    const { stdout: out1, stderr: err1 } = await exec(
+      `flow ${deploy(process.env.CHAIN_ENV)}`,
+      { cwd: process.cwd() }
+    );
+
+    if (err1) {
+      throw new Error(err1);
+    }
 
     spinner.succeed(chalk.greenBright("Contracts deployed"));
+
+    spinner.info(
+      `Contracts were deployed to:  ${process.env.ADMIN_ADDRESS} (${
+        process.env.CHAIN_ENV
+      })${"\n"}`
+    );
 
     spinner.start(
       `Initializing admin account: ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
 
-    await runProcess({
-      name: "init kittyitems admin",
-      script: "flow",
-      args: initializeKittyItems(process.env.CHAIN_ENV),
-      autorestart: false,
-      wait_ready: true,
-      kill_timeout: 5000
-    });
+    const { stdout: out2, stderr: err2 } = await exec(
+      `flow ${initializeKittyItems(process.env.CHAIN_ENV)}`,
+      { cwd: process.cwd() }
+    );
 
-    await runProcess({
-      name: "init storefront admin",
-      script: "flow",
-      args: initializeStorefront(process.env.CHAIN_ENV),
-      autorestart: false,
-      wait_ready: true,
-      kill_timeout: 5000
-    });
+    if (err2) {
+      throw new Error(err2);
+    }
+
+    const { stdout: out3, stderr: err3 } = await exec(
+      `flow ${initializeStorefront(process.env.CHAIN_ENV)}`,
+      { cwd: process.cwd() }
+    );
+
+    if (err3) {
+      throw new Error(err3);
+    }
   } catch (e) {
     throw e;
   }
 
   spinner.succeed(chalk.greenBright("Admin account initialized"));
+
+  spinner.info(
+    `${chalk.cyanBright(
+      "./cadence/transactions/nftStorefront/setup_account.cdc"
+    )} was executed successfully.`
+  );
+  spinner.info(
+    `${chalk.cyanBright(
+      "./cadence/transactions/kittyItems/setup_account.cdc"
+    )} was executed successfully.${"\n"}`
+  );
 
   // ------------------------------------------------------------
   // --------------------- OUTPUT -------------------------------
@@ -292,7 +337,30 @@ pm2.connect(true, async function (err) {
 
   setTimeout(() => {
     rainbow.stop();
+    console.log("\n");
     console.log(`${chalk.cyanBright("Visit")}: http://localhost:3001`);
+    console.log("\n");
+    if (process.env.CHAIN_ENV !== "emulator") {
+      console.log(
+        `${chalk.cyanBright(
+          `View your account and transactions here:${"\n"}`
+        )}https://${
+          process.env.CHAIN_ENV === "testnet" ? "testnet." : ""
+        }flowscan.org/account/${process.env.ADMIN_ADDRESS}\n`
+      );
+
+      console.log(
+        `${chalk.cyanBright(
+          `Explore your account here:${"\n"}`
+        )}https://flow-view-source.com/${process.env.CHAIN_ENV}/${
+          process.env.ADMIN_ADDRESS
+        }\n`
+      );
+    }
     pm2.disconnect();
   }, 3000);
+
+  //////////////////////////////////////////////////////////////////
+  // ------------- END PROCESS MANAGEMENT ENTRYPOINT ---------------
+  //////////////////////////////////////////////////////////////////
 });
