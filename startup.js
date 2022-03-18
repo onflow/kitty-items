@@ -210,12 +210,6 @@ pm2.connect(true, async function (err) {
       );
     } else {
       throw new Error("Not implemented.");
-      // - check if .env.testnet.local exists
-      // - check if .env.testnet.local has valid account address
-      // - check if testnet-credentials-<account address>.json exists
-      // - check if testnet-credentials-<account address>.json has valid keys
-      // - if all good, use existing account
-      // - if not, ask user to create new account
     }
   }
 
