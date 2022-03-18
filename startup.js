@@ -269,6 +269,13 @@ pm2.connect(true, async function (err) {
       `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
 
+    // -------------- Deploy Contracts --------------------------
+    //
+    // - All contracts are deployed to the admin account.
+    // - The contracts are located in ./cadence/contracts/
+    // - Details about which contracts are deployed per network
+    //   can be found in flow.json and flow.testnet.json
+
     const { stdout: out1, stderr: err1 } = await exec(
       `flow ${deploy(process.env.CHAIN_ENV)}`,
       { cwd: process.cwd() }
@@ -290,6 +297,8 @@ pm2.connect(true, async function (err) {
       `Initializing admin account: ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
 
+    // -------------- Initialize Kitty Items  --------------------------
+
     const { stdout: out2, stderr: err2 } = await exec(
       `flow ${initializeKittyItems(process.env.CHAIN_ENV)}`,
       { cwd: process.cwd() }
@@ -298,6 +307,8 @@ pm2.connect(true, async function (err) {
     if (err2) {
       throw new Error(err2);
     }
+
+    // -------------- Initialize NFTStorefront --------------------------
 
     const { stdout: out3, stderr: err3 } = await exec(
       `flow ${initializeStorefront(process.env.CHAIN_ENV)}`,
