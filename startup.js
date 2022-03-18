@@ -352,7 +352,7 @@ pm2.connect(true, async function (err) {
       console.log(
         `${chalk.cyanBright(
           `Explore your account here:${"\n"}`
-        )}https://flow-view-source.com/${process.env.CHAIN_ENV}/${
+        )}https://flow-view-source.com/${process.env.CHAIN_ENV}/account/${
           process.env.ADMIN_ADDRESS
         }\n`
       );
