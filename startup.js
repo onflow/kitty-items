@@ -281,7 +281,7 @@ pm2.connect(true, async function (err) {
     spinner.succeed(chalk.greenBright("Contracts deployed"));
 
     spinner.info(
-      `Contracts were deployed to:  ${process.env.ADMIN_ADDRESS} (${
+      `Contracts were deployed to: ${process.env.ADMIN_ADDRESS} (${
         process.env.CHAIN_ENV
       })${"\n"}`
     );
