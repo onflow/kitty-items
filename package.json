@@ -21,8 +21,8 @@
     "npm": "^8.5.5"
   },
   "scripts": {
-    "dev:emulator": "CHAIN_ENV=emulator APP_ENV=local node startup.js",
-    "dev:testnet": "CHAIN_ENV=testnet APP_ENV=local node startup.js",
+    "dev:emulator": "cross-env CHAIN_ENV=emulator APP_ENV=local node startup.js",
+    "dev:testnet": "cross-env CHAIN_ENV=testnet APP_ENV=local node startup.js",
     "postinstall": "npx lerna exec npm install"
   },
   "repository": {
