@@ -7,7 +7,7 @@ import { exec as exe } from "child_process";
 import ora from "ora";
 import chalk from "chalk";
 import chalkAnimation from "chalk-animation";
-import { stderr } from "process";
+
 const exec = util.promisify(exe);
 
 //////////////////////////////////////////////////////////////////
@@ -21,14 +21,14 @@ const TESTNET_DEPLOYMENT =
 
 function initializeStorefront(network) {
   if (!network) return envErr();
-  return `transactions send -o json --network=${network} --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc -f flow.json ${
+  return `flow transactions send -o json --network=${network} --signer ${network}-account ./cadence/transactions/nftStorefront/setup_account.cdc -f flow.json ${
     network !== "emulator" ? `-f flow.${network}.json` : ""
   }`;
 }
 
 function initializeKittyItems(network) {
   if (!network) return envErr();
-  return `transactions send -o json --network=${network} --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc -f flow.json ${
+  return `flow transactions send -o json --network=${network} --signer ${network}-account ./cadence/transactions/kittyItems/setup_account.cdc -f flow.json ${
     network !== "emulator" ? `-f flow.${network}.json` : ""
   }`;
 }
@@ -132,7 +132,7 @@ pm2.connect(true, async function (err) {
 
     await runProcess({
       name: "emulator",
-      script: "/Users/mackenziekieran/Downloads/flow-x86_64-darwin-",
+      script: "flow",
       args: "emulator --dev-wallet=true",
       wait_ready: true
     });
@@ -277,7 +277,7 @@ pm2.connect(true, async function (err) {
     //   can be found in flow.json and flow.testnet.json
 
     const { stdout: out1, stderr: err1 } = await exec(
-      `flow ${deploy(process.env.CHAIN_ENV)}`,
+      `${deploy(process.env.CHAIN_ENV)}`,
       { cwd: process.cwd() }
     );
 
@@ -300,7 +300,7 @@ pm2.connect(true, async function (err) {
     // -------------- Initialize Kitty Items  --------------------------
 
     const { stdout: out2, stderr: err2 } = await exec(
-      `flow ${initializeKittyItems(process.env.CHAIN_ENV)}`,
+      initializeKittyItems(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
     );
 
@@ -311,7 +311,7 @@ pm2.connect(true, async function (err) {
     // -------------- Initialize NFTStorefront --------------------------
 
     const { stdout: out3, stderr: err3 } = await exec(
-      `flow ${initializeStorefront(process.env.CHAIN_ENV)}`,
+      initializeStorefront(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
     );
 
