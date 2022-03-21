@@ -15,9 +15,9 @@ const exec = util.promisify(exe);
 //////////////////////////////////////////////////////////////////
 
 const EMULATOR_DEPLOYMENT =
-  "project deploy -o json --network=emulator -f flow.json --update";
+  "flow project deploy -o json --network=emulator -f flow.json --update";
 const TESTNET_DEPLOYMENT =
-  "project deploy -o json --network=testnet -f flow.json -f flow.testnet.json --update";
+  "flow project deploy -o json --network=testnet -f flow.json -f flow.testnet.json --update";
 
 function initializeStorefront(network) {
   if (!network) return envErr();
