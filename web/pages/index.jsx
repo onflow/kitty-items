@@ -12,7 +12,7 @@ export default function Home() {
       <PageTitle>Store</PageTitle>
       <main>
         {!isLoading &&
-          (listings.length > 0 ? (
+          (listings && listings.length > 0 ? (
             <>
               <LatestStoreItems items={listings} />
               <LatestMarketplaceItems items={listings} />
