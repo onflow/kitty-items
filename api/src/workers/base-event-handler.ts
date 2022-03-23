@@ -38,7 +38,6 @@ abstract class BaseEventHandler {
     if (!cursors || !cursors.length) {
       throw new Error("Could not get block cursor from database.");
     }
-
     cursors.forEach(async ({ cursor, eventName }) => {
       let blockCursor = await cursor;
 
@@ -54,7 +53,7 @@ abstract class BaseEventHandler {
         } catch (e) {
           console.warn("Error retrieving block range:", e);
         }
-
+ 
         if (fromBlock <= toBlock) {
           try {
             const result = await fcl.send([
@@ -87,6 +86,8 @@ abstract class BaseEventHandler {
   abstract onEvent(event: any): Promise<void>;
 
   private async getBlockRange(blockCursor, startingBlockHeight) {
+
+    
     let fromBlock =
       startingBlockHeight < blockCursor.currentBlockHeight
         ? blockCursor.currentBlockHeight

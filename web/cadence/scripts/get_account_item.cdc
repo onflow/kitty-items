@@ -37,16 +37,16 @@ pub struct KittyItem {
 
 pub fun fetch(address: Address, itemID: UInt64): KittyItem? {
   if let collection = getAccount(address).getCapability<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath).borrow() {
-    
+
     if let item = collection.borrowKittyItem(id: itemID) {
 
       if let view = item.resolveView(Type<MetadataViews.Display>()) {
 
         let display = view as! MetadataViews.Display
-        
+
         let owner: Address = item.owner!.address!
 
-        let ipfsThumbnail = display.thumbnail as! MetadataViews.IPFSFile     
+        let ipfsThumbnail = display.thumbnail as! MetadataViews.IPFSFile
 
         return KittyItem(
           name: display.name,
@@ -54,8 +54,8 @@ pub fun fetch(address: Address, itemID: UInt64): KittyItem? {
           image: item.imageCID(),
           itemID: itemID,
           resourceID: item.uuid,
-          kind: item.kind, 
-          rarity: item.rarity, 
+          kind: item.kind,
+          rarity: item.rarity,
           owner: address,
         )
       }

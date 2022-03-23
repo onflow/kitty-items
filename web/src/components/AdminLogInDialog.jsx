@@ -11,12 +11,8 @@ export const LOGGED_IN_ADMIN_ADDRESS_KEY = "kitty_items_logged_in_admin_address"
 export default function AdminLogInDialog() {
   const [password, setPassword] = useState("")
   const [passwordError, setPasswordError] = useState(false)
-  const {
-    currentUser,
-    showAdminLoginDialog,
-    setShowAdminLoginDialog,
-    logInAdmin,
-  } = useAppContext()
+  const {showAdminLoginDialog, setShowAdminLoginDialog, logInAdmin} =
+    useAppContext()
 
   const closeDialog = () => {
     setShowAdminLoginDialog(false)
@@ -26,7 +22,6 @@ export default function AdminLogInDialog() {
 
   const onSubmit = e => {
     e.preventDefault()
-    if (!currentUser?.addr) throw "Missing user"
 
     setPasswordError(false)
 
@@ -61,7 +56,7 @@ export default function AdminLogInDialog() {
               label="Password"
               required={true}
               labelClasses="text-sm text-gray-darkest"
-              onChange={value => setPassword(value)}
+              onChange={setPassword}
             />
             <div className="text-red mt-2 text-sm">
               {passwordError && `That's an incorrect password. Try KittyItems.`}

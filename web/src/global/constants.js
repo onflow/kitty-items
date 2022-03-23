@@ -1,6 +1,8 @@
 import {cleanObject} from "src/util/object"
 import publicConfig from "./publicConfig"
 
+export const CHAIN_ENV_TESTNET = "testnet"
+export const CHAIN_ENV_EMULATOR = "emulator"
 export const LOADING = "LOADING"
 
 // Exposed states of a Flow Transaction
@@ -13,7 +15,8 @@ export const ERROR = "ERROR"
 // before transitioning back to an IDLE state.
 export const IDLE_DELAY = 1000
 
-export const BASE_HTML_TITLE = "A CryptoKitties Sample App, learn how to create an NFT Marketplace"
+export const BASE_HTML_TITLE =
+  "A CryptoKitties Sample App, learn how to create an NFT Marketplace"
 
 export const getParamsString = params => {
   if (typeof params !== "object") return ""
@@ -32,52 +35,25 @@ export const paths = {
     `${publicConfig.apiMarketItemsList}${getParamsString(params)}`,
   apiListing: id => `${publicConfig.apiUrl}/v1/market/${id}`,
   apiSell: `${publicConfig.apiUrl}/v1/market/sell`,
+  flowscanTx: txId => {
+    if (publicConfig.chainEnv === CHAIN_ENV_EMULATOR) return null
+    return `https://${
+      publicConfig.chainEnv === CHAIN_ENV_TESTNET ? "testnet." : ""
+    }flowscan.org/transaction/${txId}`
+  },
+  flowscanAcct: address => {
+    if (publicConfig.chainEnv === CHAIN_ENV_EMULATOR) return null
+    return `https://${
+      publicConfig.chainEnv === CHAIN_ENV_TESTNET ? "testnet." : ""
+    }flowscan.org/account/${address}`
+  },
+  githubRepo: "https://github.com/onflow/kitty-items",
 }
 
 export const flashMessages = {
-  itemMintedSuccess: {
-    type: "notice",
-    message: "Kitty item has been minted!",
-  },
-  itemMintedError: {
-    type: "error",
-    message: "Minting has failed. Please try again.",
-  },
   loggedOutSuccess: {
     type: "success",
     message: "You have logged out.",
-  },
-  initializeAccountSuccess: {
-    type: "success",
-    message: "Your account has been initialized!",
-  },
-  initializeAccountError: {
-    type: "success",
-    message: "Your account has not been initialized. Please try again.",
-  },
-  purchaseSuccess: {
-    type: "success",
-    message: "Your have purchased this Kitty Item!",
-  },
-  purchaseError: {
-    type: "error",
-    message: "Item purchase has failed. Please try again.",
-  },
-  itemRemovalSuccess: {
-    type: "success",
-    message: "Your item has been removed.",
-  },
-  itemRemovalError: {
-    type: "error",
-    message: "Your item was not removed. Please try again.",
-  },
-  itemSaleSuccess: {
-    type: "success",
-    message: "Your item is now for sale!",
-  },
-  itemSaleError: {
-    type: "error",
-    message: "Your item was not listed. Please try again.",
   },
 }
 

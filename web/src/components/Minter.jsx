@@ -1,32 +1,11 @@
-import {useRouter} from "next/router"
 import Button from "src/components/Button"
-import {paths} from "src/global/constants"
-import publicConfig from "src/global/publicConfig"
 import useMintAndList from "src/hooks/useMintAndList"
-import {useSWRConfig} from "swr"
 import MinterLoader from "./MinterLoader"
 import RarityScale from "./RarityScale"
 import TransactionLoading from "./TransactionLoading"
 
 export default function Minter() {
-  const router = useRouter()
-  const {mutate} = useSWRConfig()
-
-  const onSuccess = itemId => {
-    // Wait for new listing to be created by the API
-    // Mutations don't work because they get overwritten when the new page is loaded
-    setTimeout(() => {
-      mutate(paths.apiMarketItemsList())
-      router.push({
-        pathname: paths.profileItem(publicConfig.flowAddress, itemId),
-        query: {flash: "itemMintedSuccess"},
-      })
-    }, 1000)
-  }
-
-  const [{isLoading, transactionStatus}, mint] = useMintAndList(onSuccess)
-
-  const onClickMint = () => mint()
+  const [{isLoading, transactionStatus}, mint] = useMintAndList()
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -39,7 +18,7 @@ export default function Minter() {
         {isLoading ? (
           <TransactionLoading status={transactionStatus} />
         ) : (
-          <Button onClick={onClickMint} disabled={isLoading} roundedFull={true}>
+          <Button onClick={mint} disabled={isLoading} roundedFull={true}>
             Mint Item
           </Button>
         )}

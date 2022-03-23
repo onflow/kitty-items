@@ -1,25 +1,22 @@
-import { knex } from "knex";
+import {knex} from "knex"
 
-import { Model } from "objection";
+import {Model} from "objection"
 
-const initDB = (config) => {
+const initDB = config => {
   const knexInstance = knex({
-    client: "postgresql",
+    client: "better-sqlite3",
+    useNullAsDefault: true,
     connection: {
-      connectionString: config.databaseUrl,
-      ssl:
-        process.env.NODE_ENV === "production"
-          ? { rejectUnauthorized: false }
-          : false,
+      filename: "./" + config.dbPath,
     },
     migrations: {
       directory: config.databaseMigrationPath,
     },
-  });
+  })
 
-  Model.knex(knexInstance);
+  Model.knex(knexInstance)
 
-  return knexInstance;
-};
+  return knexInstance
+}
 
-export default initDB;
+export default initDB

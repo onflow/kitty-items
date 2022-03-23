@@ -33,7 +33,7 @@ export default function AppContainer({children}) {
         <meta name="theme-color" content="#ffffff" />
         <meta
           name="description"
-          content="Get motivated to develop for Web3 and build an NFT marketplace!"
+          content="Get motivated to develop for web3 and build an NFT marketplace!"
         />
       </Head>
       <Header />

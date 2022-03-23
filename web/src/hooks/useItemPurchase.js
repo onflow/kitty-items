@@ -1,78 +1,52 @@
+import * as fcl from "@onflow/fcl"
+import PURCHASE_LISTING_TRANSACTION from "cadence/transactions/purchase_listing.cdc"
 import {useRouter} from "next/dist/client/router"
-import {useReducer, useState} from "react"
-import {purchaseListing} from "src/flow/tx.purchase-listing"
-import {
-  DECLINE_RESPONSE,
-  flashMessages,
-  IDLE,
-  paths,
-} from "src/global/constants"
-import {
-  ERROR,
-  initialState,
-  requestReducer,
-  START,
-  SUCCESS,
-} from "src/reducers/requestReducer"
-import {
-  EVENT_KITTY_ITEM_DEPOSIT,
-  getKittyItemsEventByType,
-} from "src/util/events"
+import {useEffect, useState} from "react"
+import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
+import {isSealed, isSuccessful} from "src/components/Transactions/utils"
+import {paths} from "src/global/constants"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
 import {compFLOWBalanceKey} from "./useFLOWBalance"
+import analytics from "src/global/analytics"
 
-const getNewlySignedInUserAddress = txData => {
-  const depositEvent = getKittyItemsEventByType(
-    txData.events,
-    EVENT_KITTY_ITEM_DEPOSIT
-  )
-  if (!depositEvent?.data?.to) throw "Missing KittyItem deposit address"
-  return depositEvent.data.to
-}
-
-export default function useItemPurchase() {
+export default function useItemPurchase(itemID) {
   const router = useRouter()
-  const {setFlashMessage} = useAppContext()
-  const [state, dispatch] = useReducer(requestReducer, initialState)
+  const {currentUser} = useAppContext()
+  const {addTransaction, transactionsById} = useTransactionsContext()
   const {mutate, cache} = useSWRConfig()
-  const [txStatus, setTxStatus] = useState(null)
+  const [txId, setTxId] = useState()
+  const tx = transactionsById[txId]?.data
 
-  const purchase = (listingId, itemId, ownerAddress) => {
-    if (!listingId) throw "Missing listing id"
-    if (!ownerAddress) throw "Missing ownerAddress"
-    
-    purchaseListing(
-      {itemID: listingId, ownerAddress},
-      {
-        onStart() {
-          dispatch({type: START})
-        },
-        onUpdate(t) {
-          setTxStatus(t.status)
-        },
-        async onSuccess(txData) {
-          const currentUserAddress = getNewlySignedInUserAddress(txData)
-          mutate(compFLOWBalanceKey(currentUserAddress))
-          cache.delete(paths.apiListing(itemId))
-          router.push(paths.profileItem(currentUserAddress, itemId))
-          dispatch({type: SUCCESS})
-          setFlashMessage(flashMessages.purchaseSuccess)
-        },
-        async onError(e) {
-          if (e === DECLINE_RESPONSE) {
-            dispatch({type: IDLE})
-          } else {
-            dispatch({type: ERROR})
-            setFlashMessage(flashMessages.purchaseError)
-          }
-        },
-        onComplete() {
-          setTxStatus(null)
-        },
-      }
-    )
+  const purchase = async (listingResourceID, itemName, ownerAddress) => {
+    if (!listingResourceID) throw new Error("Missing listingResourceID")
+    if (!ownerAddress) throw new Error("Missing ownerAddress")
+
+    const newTxId = await fcl.mutate({
+      cadence: PURCHASE_LISTING_TRANSACTION,
+      args: (arg, t) => [
+        arg(listingResourceID, t.UInt64),
+        arg(ownerAddress, t.Address),
+      ],
+      limit: 1000,
+    })
+    setTxId(newTxId)
+    addTransaction({
+      id: newTxId,
+      title: `Purchase ${itemName} #${itemID}`,
+    })
   }
 
-  return [state, purchase, txStatus]
+  useEffect(() => {
+    if (!!currentUser && isSuccessful(tx)) {
+      analytics.track("kitty-items-item-sale-primary", {params: {itemID}})
+      mutate(compFLOWBalanceKey(currentUser.addr))
+      cache.delete(paths.apiListing(itemID))
+      router.push(paths.profileItem(currentUser.addr, itemID))
+    } else if (isSealed(tx)) {
+      setTxId(null)
+    }
+  }, [cache, currentUser, itemID, mutate, router, tx])
+
+  return [purchase, tx]
 }

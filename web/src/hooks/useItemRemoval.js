@@ -1,63 +1,45 @@
-import {useReducer, useState} from "react"
-import {removeListing} from "src/flow/tx.remove-listing"
-import {
-  DECLINE_RESPONSE,
-  flashMessages,
-  IDLE,
-  paths,
-  SUCCESS,
-} from "src/global/constants"
-import {
-  ERROR,
-  initialState,
-  requestReducer,
-  START,
-} from "src/reducers/requestReducer"
-import {useSWRConfig} from "swr"
-import useAppContext from "./useAppContext"
+import * as fcl from "@onflow/fcl"
+import REMOVE_LISTING_TRANSACTION from "cadence/transactions/remove_listing.cdc"
+import {useEffect, useState} from "react"
+import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
+import {isSuccessful} from "src/components/Transactions/utils"
+import {paths} from "src/global/constants"
+import useApiListing from "./useApiListing"
 
-export default function useItemRemoval() {
-  const {mutate} = useSWRConfig()
+export default function useItemRemoval(itemID) {
+  const {addTransaction, transactionsById} = useTransactionsContext()
+  const [txId, setTxId] = useState()
+  const tx = transactionsById[txId]?.data
 
-  const [state, dispatch] = useReducer(requestReducer, initialState)
-  const {setFlashMessage} = useAppContext()
-  const [txStatus, setTxStatus] = useState(null)
+  // Poll for removed api listing once tx is successful
+  const {listing} = useApiListing(
+    itemID,
+    () => (!!isSuccessful(tx) ? paths.apiListing(itemID) : null),
+    {
+      refreshInterval: 1000,
+    }
+  )
 
-  const remove = (listingId, itemId) => {
-    if (!listingId) throw "Missing listingId"
+  const remove = async ({listingResourceID, owner, name}) => {
+    if (!listingResourceID) throw new Error("Missing listingResourceID")
 
-    removeListing(
-      {listingResourceID: listingId},
-      {
-        onStart() {
-          dispatch({type: START})
-        },
-        onUpdate(t) {
-          setTxStatus(t.status)
-        },
-        async onSuccess() {
-          // TODO: Poll for removed API listing instead of setTimeout
-          setTimeout(() => {
-            mutate(paths.apiListing(itemId))
-            dispatch({type: SUCCESS})
+    const newTxId = await fcl.mutate({
+      cadence: REMOVE_LISTING_TRANSACTION,
+      args: (arg, t) => [arg(listingResourceID, t.UInt64)],
+      limit: 1000,
+    })
 
-            setFlashMessage(flashMessages.itemRemovalSuccess)
-          }, 1000)
-        },
-        async onError(e) {
-          if (e === DECLINE_RESPONSE) {
-            dispatch({type: IDLE})
-          } else {
-            dispatch({type: ERROR})
-            setFlashMessage(flashMessages.itemRemovalError)
-          }
-        },
-        onComplete() {
-          setTxStatus(null)
-        },
-      }
-    )
+    setTxId(newTxId)
+    addTransaction({
+      id: newTxId,
+      url: paths.profileItem(owner, itemID),
+      title: `Remove ${name} #${itemID}`,
+    })
   }
 
-  return [state, remove, txStatus]
+  useEffect(() => {
+    if (!listing) setTxId(null)
+  }, [listing])
+
+  return [remove, tx]
 }

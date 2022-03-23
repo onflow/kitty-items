@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import ListItems from "src/components/ListItems"
 import {paths} from "src/global/constants"
 import {publicItemsSelector} from "src/global/selectors"
+import {normalizedItemType} from "src/global/types"
 
 const ITEMS_LENGTH = 20
 
@@ -32,5 +33,5 @@ export default function LatestMarketplaceItems({items}) {
 }
 
 LatestMarketplaceItems.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.arrayOf(normalizedItemType).isRequired,
 }

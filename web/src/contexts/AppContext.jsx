@@ -1,10 +1,10 @@
 import * as fcl from "@onflow/fcl"
-import { useRouter } from "next/router"
+import {useRouter} from "next/router"
 import PropTypes from "prop-types"
-import { createContext, useCallback, useEffect, useState } from "react"
-import { LOGGED_IN_ADMIN_ADDRESS_KEY } from "src/components/AdminLogInDialog"
-import { isAccountInitialized as isAccountInitializedTx } from "src/flow/script.is-account-initialized"
-import { paths } from "src/global/constants"
+import {createContext, useCallback, useEffect, useState} from "react"
+import {LOGGED_IN_ADMIN_ADDRESS_KEY} from "src/components/AdminLogInDialog"
+import {isAccountInitialized as isAccountInitializedTx} from "src/flow/script.is-account-initialized"
+import {paths} from "src/global/constants"
 
 export const AppContext = createContext({
   currentUser: null,
@@ -19,7 +19,7 @@ export const AppContext = createContext({
   switchToAdminView: () => null,
 })
 
-export const AppContextProvider = ({ children }) => {
+export const AppContextProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [isAccountInitStateLoading, setIsAccountInitStateLoading] =
     useState(false)
@@ -34,25 +34,25 @@ export const AppContextProvider = ({ children }) => {
     if (currentUser?.addr) {
       setIsAccountInitStateLoading(true)
       isAccountInitializedTx(currentUser?.addr).then(data => {
-        setIsAccountInitialized(
-          data.KittyItems && data.KittyItemsMarket
-        )
+        setIsAccountInitialized(data.KittyItems && data.KittyItemsMarket)
         setIsAccountInitStateLoading(false)
       })
     }
   }, [currentUser?.addr])
 
-  useEffect(() => {
-    fcl.currentUser().subscribe(newUser => {
-      if (newUser?.loggedIn) {
-        setCurrentUser(newUser)
-        setFlashMessage(null)
-      } else {
-        setCurrentUser(null)
-        logOutAdmin()
-      }
-    })
-  }, [])
+  useEffect(
+    () =>
+      fcl.currentUser().subscribe(newUser => {
+        if (newUser?.loggedIn) {
+          setCurrentUser(newUser)
+          setFlashMessage(null)
+        } else {
+          setCurrentUser(null)
+          logOutAdmin()
+        }
+      }),
+    []
+  )
 
   useEffect(() => {
     checkIsAccountInitialized()
@@ -61,13 +61,13 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     setIsLoggedInAsAdmin(
       !!currentUser?.addr &&
-      currentUser.addr ===
-      window?.sessionStorage.getItem(LOGGED_IN_ADMIN_ADDRESS_KEY)
+        currentUser.addr ===
+          window?.sessionStorage.getItem(LOGGED_IN_ADMIN_ADDRESS_KEY)
     )
   }, [currentUser?.addr])
 
   useEffect(() => {
-    if (flashMessage !== null) window.scrollTo({ top: 0, behavior: "smooth" })
+    if (flashMessage !== null) window.scrollTo({top: 0, behavior: "smooth"})
   }, [flashMessage])
 
   useEffect(() => {

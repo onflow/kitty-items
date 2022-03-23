@@ -1,13 +1,13 @@
-import useAppContext from "src/hooks/useAppContext"
+import {CHAIN_ENV_EMULATOR} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 
 export default function ListItemInsufficientFundsWarning() {
-  const {currentUser} = useAppContext()
-
   return (
     <div className="mt-2 text-sm text-center text-gray-600">
-      {publicConfig.chainEnv === "emulator" ? (
-        <div>TODO: Insufficient FLOW</div>
+      {publicConfig.chainEnv === CHAIN_ENV_EMULATOR ? (
+        <div>
+          Insufficient funds, add some FLOW from the dev wallet account page
+        </div>
       ) : (
         <a
           href="https://testnet-faucet.onflow.org/fund-account"

@@ -32,8 +32,6 @@ class ListingHandler extends BaseEventHandler {
   }
 
   async onEvent(event: any): Promise<void> {
-    console.log("👀", event.type);
-
     switch (event.type) {
       case this.eventListingAvailable:
         await this.storefrontService.addListing(event);

@@ -24,7 +24,6 @@ export default function ListItemImage({
   children,
 }) {
   if (typeof rarity === "undefined") return <div className="w-full" />
-
   const imageSrc1X = getImageSrc(cid, size, false)
   const imageSrc2X = getImageSrc(cid, size, true)
   const imageSrcSet = `${imageSrc1X}, ${imageSrc2X} 2x`

@@ -1,20 +1,23 @@
 import * as fcl from "@onflow/fcl"
-import PropTypes from "prop-types"
-import {useState} from "react"
-import {flashMessages} from "src/global/constants"
+import {useRouter} from "next/router"
+import {useEffect, useRef, useState} from "react"
+import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
+import {paths} from "src/global/constants"
 import publicConfig from "src/global/publicConfig"
 import useRequest from "src/hooks/useRequest"
-import {
-  EVENT_ITEM_MINTED,
-  getKittyItemsEventByType,
-} from "src/util/events"
-import useAppContext from "./useAppContext"
+import {EVENT_ITEM_MINTED, getKittyItemsEventByType} from "src/util/events"
+import {useSWRConfig} from "swr"
+import analytics from "src/global/analytics"
 
 // Mints an item and lists it for sale. The item is minted on the service account.
-export default function useMintAndList(onSuccess) {
-  const {setFlashMessage, currentUser} = useAppContext()
-
+export default function useMintAndList() {
+  const {addTransaction} = useTransactionsContext()
   const [_mintState, executeMintRequest] = useRequest()
+  const txStateSubscribeRef = useRef()
+  const txSealedTimeout = useRef()
+
+  const router = useRouter()
+  const {mutate} = useSWRConfig()
 
   const [isMintingLoading, setIsMintingLoading] = useState(false)
   const [transactionStatus, setTransactionStatus] = useState(null)
@@ -23,6 +26,28 @@ export default function useMintAndList(onSuccess) {
   const resetLoading = () => {
     setIsMintingLoading(false)
     setTransactionStatus(null)
+  }
+
+  const onTransactionSealed = tx => {
+    if (!!tx.errorMessage?.length) {
+      resetLoading()
+      return
+    }
+
+    const event = getKittyItemsEventByType(tx.events, EVENT_ITEM_MINTED)
+
+    if (!Number.isInteger(event?.data?.id))
+      throw new Error("Minting error, missing itemID")
+    if (!Number.isInteger(event?.data?.kind))
+      throw new Error("Minting error, missing kind")
+
+    // TODO: Poll api for listing presence before mutating the apiMarketItemsList
+    txSealedTimeout.current = setTimeout(() => {
+      mutate(paths.apiMarketItemsList())
+      router.push({
+        pathname: paths.profileItem(publicConfig.flowAddress, event.data.id),
+      })
+    }, 1000)
   }
 
   const mintAndList = () => {
@@ -35,41 +60,33 @@ export default function useMintAndList(onSuccess) {
       data: {
         recipient,
       },
-      onSuccess: async data => {
+      onSuccess: data => {
         setIsMintingLoading(true)
 
         const transactionId = data?.transaction
-        if (!transactionId) throw "Missing transactionId"
+        if (!transactionId) throw new Error("Missing transactionId")
+        addTransaction({id: transactionId, title: "Minting new item"})
 
-        const unsub = await fcl
-          .tx(transactionId)
-          .subscribe(res => setTransactionStatus(res.status))
-        const transactionData = await fcl.tx(transactionId).onceSealed()
-        unsub()
+        txStateSubscribeRef.current = fcl.tx(transactionId).subscribe(tx => {
+          setTransactionStatus(tx.status)
+          if (fcl.tx.isSealed(tx)) onTransactionSealed(tx)
+        })
 
-        const event = getKittyItemsEventByType(
-          transactionData.events,
-          EVENT_ITEM_MINTED
-        )
-
-        if (!Number.isInteger(event?.data?.id))
-          throw "Minting error, missing id"
-        if (!Number.isInteger(event?.data?.kind))
-          throw "Minting error, missing kind"
-
-        onSuccess(event.data.id)
+        analytics.track("kitty-items-item-minted", {params: {mint: data}})
       },
       onError: () => {
-        setFlashMessage(flashMessages.itemMintedError)
         resetLoading()
       },
     })
   }
 
+  useEffect(() => {
+    return () => {
+      if (!!txStateSubscribeRef.current) txStateSubscribeRef.current()
+      clearTimeout(txSealedTimeout.current)
+    }
+  }, [])
+
   const isLoading = isMintingLoading
   return [{isLoading, transactionAction, transactionStatus}, mintAndList]
-}
-
-useMintAndList.propTypes = {
-  onSuccess: PropTypes.func,
 }

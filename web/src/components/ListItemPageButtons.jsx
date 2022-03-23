@@ -1,47 +1,44 @@
 import {useRouter} from "next/dist/client/router"
-import PropTypes from "prop-types"
 import Button from "src/components/Button"
 import publicConfig from "src/global/publicConfig"
+import {normalizedItemType} from "src/global/types"
 import useAppContext from "src/hooks/useAppContext"
 import useFLOWBalance from "src/hooks/useFLOWBalance"
 import useItemPurchase from "src/hooks/useItemPurchase"
 import useItemRemoval from "src/hooks/useItemRemoval"
-import useItemSale from "src/hooks/useItemSale"
 import ListItemInsufficientFundsWarning from "./ListItemInsufficientFundsWarning"
 import TransactionLoading from "./TransactionLoading"
 
-export default function ListItemPageButtons({item, listing}) {
+export default function ListItemPageButtons({item}) {
   const router = useRouter()
   const {address, id} = router.query
   const {currentUser} = useAppContext()
   const {data: flowBalance} = useFLOWBalance(currentUser?.addr)
 
-  const [{isLoading: isBuyLoading}, buy, buyTxStatus] = useItemPurchase()
-  const [{isLoading: isSellLoading}, sell, sellTxStatus] = useItemSale()
-  const [{isLoading: isRemoveLoading}, remove, removeTxStatus] =
-    useItemRemoval()
+  const [purchase, purchaseTx] = useItemPurchase(id)
+  const [remove, removeTx] = useItemRemoval(id)
+  const onPurchaseClick = () =>
+    purchase(item.listingResourceID, item.name, address)
+  const onRemoveClick = () => remove(item)
 
-  const onPurchaseClick = () => buy(listing?.resourceID, id, address)
-  const onSellClick = () => sell(id, item.kind.rawValue, item.rarity.rawValue)
-  const onRemoveClick = () => remove(listing?.resourceID, id)
-  const currentUserIsOwner = currentUser && item.owner === currentUser?.addr
-  const isSellable = currentUserIsOwner && !listing
-  const isBuyable = !currentUser || (!currentUserIsOwner && !!listing)
-  const isRemovable = currentUserIsOwner && !!listing
+  const hasListing = Number.isInteger(item.listingResourceID)
+  const currentUserIsOwner = !!currentUser && item.owner === currentUser?.addr
+  const isBuyable = hasListing && !currentUserIsOwner
+  const isRemovable = currentUserIsOwner && hasListing
 
   // TODO: Use a library that supports UFix64 precision to avoid comparing rounded numbers
   const userHasEnoughFunds =
-    !!listing && listing.price <= parseFloat(flowBalance)
+    hasListing && parseFloat(item.price) <= parseFloat(flowBalance)
 
   if (isBuyable) {
     return (
       <div>
-        {isBuyLoading && buyTxStatus !== null ? (
-          <TransactionLoading status={buyTxStatus} />
+        {!!purchaseTx ? (
+          <TransactionLoading status={purchaseTx.status} />
         ) : (
           <Button
             onClick={onPurchaseClick}
-            disabled={isBuyLoading || (!!currentUser && !userHasEnoughFunds)}
+            disabled={!!currentUser && !userHasEnoughFunds}
             roundedFull={true}
           >
             Purchase
@@ -55,39 +52,16 @@ export default function ListItemPageButtons({item, listing}) {
     )
   }
 
-  if (isSellable) {
-    return (
-      <div>
-        {isSellLoading && sellTxStatus !== null ? (
-          <TransactionLoading status={sellTxStatus} />
-        ) : (
-          <Button
-            onClick={onSellClick}
-            disabled={isSellLoading}
-            roundedFull={true}
-          >
-            Sell
-          </Button>
-        )}
-      </div>
-    )
-  }
-
   if (isRemovable) {
     const location =
       item.owner === publicConfig.flowAddress ? "Store" : "Marketplace"
 
     return (
       <div>
-        {isRemoveLoading && removeTxStatus !== null ? (
-          <TransactionLoading status={removeTxStatus} />
+        {!!removeTx ? (
+          <TransactionLoading status={removeTx.status} />
         ) : (
-          <Button
-            onClick={onRemoveClick}
-            disabled={isRemoveLoading}
-            color="gray"
-            roundedFull={true}
-          >
+          <Button onClick={onRemoveClick} color="gray" roundedFull={true}>
             {`Remove From ${location}`}
           </Button>
         )}
@@ -99,6 +73,5 @@ export default function ListItemPageButtons({item, listing}) {
 }
 
 ListItemPageButtons.propTypes = {
-  item: PropTypes.object.isRequired,
-  listing: PropTypes.object,
+  item: normalizedItemType,
 }

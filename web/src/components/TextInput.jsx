@@ -6,11 +6,13 @@ export default function TextInput({
   value,
   onChange,
   label,
+  placeholder,
   type,
   min,
   step,
   required,
   labelClasses,
+  inputClassName,
 }) {
   const [internalValue, setInternalValue] = useState(value)
   const id = parameterize(label)
@@ -28,8 +30,10 @@ export default function TextInput({
           onChange(e.target.value)
         }}
         value={internalValue}
-        placeholder={`Enter ${label}`}
-        className="w-full py-2.5 px-3 text-left bg-white rounded-md border border-gray-200 sm:text-sm"
+        placeholder={placeholder || `Enter ${label}`}
+        className={`w-full py-2.5 px-3 text-left bg-white rounded-md border border-gray-200 sm:text-sm ${
+          inputClassName ?? ""
+        }`}
         type={type}
         min={min}
         step={step}
@@ -45,9 +49,11 @@ TextInput.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   type: PropTypes.string,
   min: PropTypes.string,
   step: PropTypes.string,
   required: PropTypes.bool,
   labelClasses: PropTypes.string,
+  inputClassName: PropTypes.string,
 }

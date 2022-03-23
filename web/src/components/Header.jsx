@@ -7,6 +7,7 @@ import {paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
 import HeaderMessage from "./HeaderMessage"
+import TransactionsIndicator from "./Transactions"
 
 export default function Header() {
   const {currentUser} = useAppContext()
@@ -28,39 +29,42 @@ export default function Header() {
                 height="60"
               />
             </div>
-            <div class="ml-2 d-flex flex-column">
-              <div class="text-sm font-bold sm:text-2xl lg:text-3xl sm:ml-3 text-gray-darkest">
+            <div className="ml-2 d-flex flex-column">
+              <div className="text-sm font-bold sm:text-2xl lg:text-3xl sm:ml-3 text-gray-darkest">
                 Kitty Items
               </div>
-              <div class="text-sm sm:ml-3 text-gray-darkest">
+              <div className="text-sm sm:ml-3 text-gray-darkest">
                 Crypto Kitties Sample App
               </div>
             </div>
           </a>
         </Link>
-        {!isAdminPath && (
-          <div className="flex items-center">
-            <div className="mr-2 md:mr-4">
-              <HeaderLink href={paths.root}>Store</HeaderLink>
-              <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
-            </div>
-            {!!currentUser && (
-              <div className="hidden mr-2 md:flex">
-                <HeaderFLOWBalance />
+        <div className="flex items-center">
+          {!isAdminPath && (
+            <>
+              <div className="mr-2 md:mr-4">
+                <HeaderLink href={paths.root}>Store</HeaderLink>
+                <HeaderLink href={paths.marketplace}>Marketplace</HeaderLink>
               </div>
-            )}
-            {currentUser ? (
-              <HeaderDropdown />
-            ) : (
-              <button
-                onClick={logIn}
-                className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
-              >
-                Log In
-              </button>
-            )}
-          </div>
-        )}
+              {!!currentUser && (
+                <div className="hidden mr-2 md:flex">
+                  <HeaderFLOWBalance />
+                </div>
+              )}
+              {currentUser ? (
+                <HeaderDropdown />
+              ) : (
+                <button
+                  onClick={logIn}
+                  className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
+                >
+                  Log In
+                </button>
+              )}
+            </>
+          )}
+          <TransactionsIndicator />
+        </div>
       </div>
     </header>
   )

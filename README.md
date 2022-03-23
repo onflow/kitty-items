@@ -22,7 +22,6 @@ If you'd like to deploy your own version, see the [deploy to Heroku](#optional-h
 
 ### 1. Install Dependencies
 
-_🛠 This project requires `Docker`._ See: [Docker installation instructions](https://www.docker.com/get-started) <br/>
 _🛠 This project requires `NodeJS v14.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
 _🛠 This project requires `flow-cli v0.28.0` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
 
@@ -31,101 +30,22 @@ _🛠 This project requires `flow-cli v0.28.0` or above._ See: [Flow CLI install
 ```sh
 git clone https://github.com/onflow/kitty-items.git
 ```
-### 3. Install dependencies
+### 3. Install packages
 
 - Run `npm install` in the root of the project.
-- Run `npx lerna exec npm install` to install project dependencies.
-
-### 4. Start the project 
-
-Continue reading the sections below for instructions on how to start the project for local development, or testnet development.
-
-### 🐳  Working with Docker 
-
-If you pull new changes from the main Kitty Items repository, you'll need to delete all existing Docker containers and Images, 
-and restart the project to ensure Docker rebuilds each application with the updates. 
 
 ## Local development
 
-1)  Run `npm run start:dev` 
+1)  Run `npm run dev:emulator` 
     - Local development uses the [Flow Emulator](https://docs.onflow.org/emulator/) and the [FCL Development Wallet](https://github.com/onflow/fcl-dev-wallet) to simulate the blockchain and an FCL-compatible wallet.
 
-2)  Run `flow project deploy --network emulator`
-    - All contracts are deployed to the emulator.
-
-3) Visit `http://localhost:3001` and follow the instructions "Initialize the Service Account to mint Kitty Items" at the top of the webpage.
-
 Thats it! 🏁
-
 
 ## Testnet development
-### Create a Flow Testnet account 
 
-You'll need a Testnet account to work on this project. Here's how to make one:
-
-#### Generate a key pair
-
-Generate a new key pair with the Flow CLI:
-
-```sh
-flow keys generate
-```
-
-_⚠️ Make sure to save these keys in a safe place, you'll need them later._
-
-#### Create your account
-
-Go to the [Flow Testnet Faucet](https://testnet-faucet.onflow.org/) to create a new account. Use the **public key** from the previous step.
-
-#### Save your keys
-
-After your account has been created, export the following environment variables to your shell:
-
-```sh
-# Replace these values with the address returned from the faucet and the
-# private key you generated in the first step!
-
-export FLOW_ADDRESS=address
-export FLOW_PRIVATE_KEY=xxxxxxxxxxxx
-export FLOW_PUBLIC_KEY=xxxxxxxxxxxx
-```
-
-_⚠️ Note: It's important that these variables are exported in each shell where you're running any of the commands in this walkthrough._
-
-1)  Run: `npm run start:testnet`
-    - Testnet development will connect the application to Flow's testnet
-  
-2) Run: `flow project deploy --network testnet -f flow.json -f flow.testnet.json`
-   - All contracts are deployed to the Flow testnet.
-
-3) Select "Blocto" to log in.
-
-Thats it! 🏁
-
-Visit `http://localhost:3001` to interact with your new instance of Kitty Items!
+ Run `npm run dev:testnet` and follow the prompt to begin developing on testnet.
 
 ---
-### (Optional) Heroku Deployment
-
-If you'd like to deploy a version of this app to Heroku for testing, you can use this button!
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-You'll need to supply the following configuration variables when prompted: 
-
-```bash
-# The Flow address and private key you generated above
-
-MINTER_ADDRESS
-MINTER_PRIVATE_KEY
-
-# The Flow address where you have deployed your Kitty Items contract.
-# (usually the same Flow address as above)
-
-NEXT_PIBLIC_CONTRACT_KITTY_ITEMS
-NEXT_PUBLIC_CONTRACT_NFT_STOREFRONT
-```
-
 ## Project Overview
 
 ![Project Overview](kitty-items-diagram.png)
