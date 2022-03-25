@@ -78,6 +78,29 @@ In the future you'll be able to add them to [Ethereum CryptoKitties](https://www
 - Chat with the team on the [Flow Discord server](https://discord.gg/xUdZxs82Rz)
 - Ask questions on the [Flow community forum](https://forum.onflow.org/t/kitty-items-marketplace-demo-dapp/759/5)
 
+
+## Troubleshooting
+
+#### Rebuild dependencies
+- The `api` and `web` projects depend on `sqlite3`. If you change `node` versions on your system, you'll need to cd into the `web` and `api` directory and run `npm rebuild` to rebuild you dependencies for the new version.
+#### Finding the logs
+- You can see what processes have been started, and if they are online using `pm2 list`
+- You can tail logs for individual processes using `pm2 logs [process name]`. eg., `pm2 logs api` or `pm2 logs web`
+- You can tail _all logs_ in the same terminal using `pm2 logs`
+#### Starting over
+- In the event of problems, you may want to start over. To reset the project, perform these steps: 
+  - Run `pm2 delete all` to stop and delete all processes
+  - Delete database files in `./api`. (`kitty-items-db-*.sqlite`)
+ 
+#### Unblock ports
+- Kitty Items uses the following ports. Make sure they are not in use by another process
+  - `8080` : Flow emulator
+  - `3569` : Flow emulator
+  - `3000` : Kitty Items API
+  - `3001` : Kitty Items web app
+  - `8701` : FCL dev-wallet
+
+
 ---
 
 🚀 Happy Hacking!
