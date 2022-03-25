@@ -23,7 +23,7 @@ If you'd like to deploy your own version, see the [deploy to Heroku](#optional-h
 ### 1. Install Dependencies
 
 _🛠 This project requires `NodeJS v16.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
-_🛠 This project requires `flow-cli v0.32.3` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
+_🛠 This project requires `flow-cli v0.32.1` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
 
 ### 2. Clone the project
 
@@ -45,12 +45,7 @@ Thats it! 🏁
 
 ## Testnet development
 
-#### If this is your first time running Kitty Items in testnet
-- Run `npm deploy:testnet` and follow the prompts to create a new account. 
-You only have to do this once.
-
-#### If you've created an account and deployed Kitty Items before, using the above command
-- Run `npm run dev:testnet` 
+ Run `npm run dev:testnet` and follow the prompt to begin developing on testnet.
 
 ---
 ## Project Overview
