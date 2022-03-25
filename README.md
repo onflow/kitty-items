@@ -45,7 +45,12 @@ Thats it! 🏁
 
 ## Testnet development
 
- Run `npm run dev:testnet` and follow the prompt to begin developing on testnet.
+#### If this is your first time running Kitty Items in testnet
+- Run `npm deploy:testnet` and follow the prompts to create a new account. 
+You only have to do this once.
+
+#### If you've created an account and deployed Kitty Items before, using the above command
+- Run `npm run dev:testnet` 
 
 ---
 ## Project Overview

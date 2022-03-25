@@ -1,11 +1,19 @@
 import pm2 from "pm2";
+
 import inquirer from "inquirer";
+
 import util from "util";
+
 import jetpack from "fs-jetpack";
+
 import dotenv from "dotenv";
+
 import { exec as exe } from "child_process";
+
 import ora from "ora";
+
 import chalk from "chalk";
+
 import chalkAnimation from "chalk-animation";
 
 const exec = util.promisify(exe);
@@ -151,16 +159,17 @@ pm2.connect(true, async function (err) {
   // ------------- TESTNET DEPLOYMENT ---------------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
-    let useExisting = await inquirer.prompt({
-      type: "confirm",
-      name: "confirm",
-      message: `Have you previously created a testnet account using ${chalk.greenBright(
-        "npm run dev:testnet"
-      )} ?`,
-      default: false
-    });
+    const USE_EXISTING = false;
+    // let useExisting = await inquirer.prompt({
+    //   type: "confirm",
+    //   name: "confirm",
+    //   message: `Have you previously created a testnet account using ${chalk.greenBright(
+    //     "npm run dev:testnet"
+    //   )} ?`,
+    //   default: false
+    // });
 
-    if (!useExisting.confirm) {
+    if (!USE_EXISTING && !process.env.APP_ENV === "deploy") {
       console.log("Creating testnet new account keys...");
 
       const result = await generateKeys();
@@ -209,7 +218,16 @@ pm2.connect(true, async function (err) {
         `Testnet envronment config was written to: .env.testnet.local${"\n"}`
       );
     } else {
-      throw new Error("Not implemented.");
+      const testnetEnvFile = jetpack.exists(".env.testnet.local");
+      if (!testnetEnvFile) {
+        spinner.warn(
+          `Missing .env.testnet.local${"\n"} Please run ${chalk.greenBright(
+            "npm run deploy:testnet"
+          )} to create a new testnet account.`
+        );
+        pm2.disconnect();
+        return;
+      }
     }
   }
 
