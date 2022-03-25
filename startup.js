@@ -133,48 +133,14 @@ pm2.connect(true, async function (err) {
   let env = {};
 
   // ------------------------------------------------------------
-  // ------------- EMULATOR DEPLOYMENT --------------------------
+  // ------------- TESTNET ACCOUNT CREATION ---------------------
 
-  if (process.env.CHAIN_ENV === "emulator") {
-    spinner.start("Emulating Flow Network");
+  async function createAccount() {
+    console.log("Creating testnet new account keys...");
 
-    await runProcess({
-      name: "emulator",
-      script: "flow",
-      args: "emulator --dev-wallet=true",
-      wait_ready: true
-    });
+    const result = await generateKeys();
 
-    spinner.succeed(chalk.greenBright("Emulator started"));
-
-    spinner.info(
-      `Flow Emulator is running at: ${chalk.yellow("http://localhost:8080")}`
-    );
-    spinner.info(
-      `View log output: ${chalk.cyanBright("npx pm2 logs emulator")}${"\n"}`
-    );
-  }
-
-  // ------------------------------------------------------------
-  // ------------- TESTNET DEPLOYMENT ---------------------------
-
-  if (process.env.CHAIN_ENV === "testnet") {
-    const USE_EXISTING = false;
-    // let useExisting = await inquirer.prompt({
-    //   type: "confirm",
-    //   name: "confirm",
-    //   message: `Have you previously created a testnet account using ${chalk.greenBright(
-    //     "npm run dev:testnet"
-    //   )} ?`,
-    //   default: false
-    // });
-
-    if (!USE_EXISTING && !process.env.APP_ENV === "deploy") {
-      console.log("Creating testnet new account keys...");
-
-      const result = await generateKeys();
-
-      console.log(`
+    console.log(`
       ${chalk.greenBright("Next steps:")}
 
       1. Create a new account using the testnet faucet by visiting this URL: 
@@ -186,101 +152,36 @@ pm2.connect(true, async function (err) {
       ${chalk.yellowBright("⚠️  Don't exit this terminal.")}
       `);
 
-      const testnet = await inquirer.prompt([
-        {
-          type: "input",
-          name: "account",
-          message: "Paste your new testnet account address here:"
-        }
-      ]);
-
-      result.account = testnet.account;
-
-      jetpack.file(`testnet-credentials-${testnet.account}.json`, {
-        content: JSON.stringify(result)
-      });
-
-      const testnetEnvFile = jetpack.read(".env.testnet.template");
-      const buf = Buffer.from(testnetEnvFile);
-      const parsed = dotenv.parse(buf);
-
-      env = {
-        ADMIN_ADDRESS: testnet.account,
-        FLOW_PRIVATE_KEY: result.private,
-        FLOW_PUBLIC_KEY: result.public
-      };
-
-      jetpack.file(".env.testnet.local", {
-        content: `${convertToEnv({ ...parsed, ...env })}`
-      });
-
-      spinner.info(
-        `Testnet envronment config was written to: .env.testnet.local${"\n"}`
-      );
-    } else {
-      const testnetEnvFile = jetpack.exists(".env.testnet.local");
-      if (!testnetEnvFile) {
-        spinner.warn(
-          `Missing .env.testnet.local${"\n"} Please run ${chalk.greenBright(
-            "npm run deploy:testnet"
-          )} to create a new testnet account.`
-        );
-        pm2.disconnect();
-        return;
+    const testnet = await inquirer.prompt([
+      {
+        type: "input",
+        name: "account",
+        message: "Paste your new testnet account address here:"
       }
-    }
-  }
+    ]);
 
-  // ------------------------------------------------------------
-  // --------------------- DEPLOYMENT ---------------------------
+    result.account = testnet.account;
 
-  dotenv.config({
-    path: requireEnv(process.env.CHAIN_ENV)
-  });
-
-  if (!process.env.ADMIN_ADDRESS) adminError();
-
-  try {
-    spinner.start("Starting API server");
-    await runProcess({
-      name: "api",
-      cwd: "./api",
-      script: "npm",
-      args: "run dev",
-      watch: false,
-      wait_ready: true
+    jetpack.file(`testnet-credentials-${testnet.account}.json`, {
+      content: JSON.stringify(result)
     });
 
-    spinner.succeed(chalk.greenBright("API server started"));
+    const testnetEnvFile = jetpack.read(".env.testnet.template");
+    const buf = Buffer.from(testnetEnvFile);
+    const parsed = dotenv.parse(buf);
 
-    spinner.info(
-      `Kitty Items API is running at: ${chalk.yellow("http://localhost:3000")}`
-    );
-    spinner.info(
-      `View log output: ${chalk.cyanBright("npx pm2 logs api")}${"\n"}`
-    );
+    env = {
+      ADMIN_ADDRESS: testnet.account,
+      FLOW_PRIVATE_KEY: result.private,
+      FLOW_PUBLIC_KEY: result.public
+    };
 
-    spinner.start("Starting storefront web app");
-
-    await runProcess({
-      name: "web",
-      cwd: "./web",
-      script: "npm",
-      args: "run dev",
-      watch: false,
-      wait_ready: true,
-      autorestart: false
+    jetpack.file(".env.testnet.local", {
+      content: `${convertToEnv({ ...parsed, ...env })}`
     });
 
-    spinner.succeed(chalk.greenBright("Storefront web app started"));
-
     spinner.info(
-      `Kitty Items Web App is running at: ${chalk.yellow(
-        "http://localhost:3001"
-      )}`
-    );
-    spinner.info(
-      `View log output: ${chalk.cyanBright("npx pm2 logs web")}${"\n"}`
+      `Testnet envronment config was written to: .env.testnet.local${"\n"}`
     );
 
     spinner.start(
@@ -336,25 +237,121 @@ pm2.connect(true, async function (err) {
     if (err3) {
       throw new Error(err3);
     }
-  } catch (e) {
-    throw e;
+
+    spinner.succeed(chalk.greenBright("Admin account initialized"));
+
+    spinner.info(
+      `${chalk.cyanBright(
+        "./cadence/transactions/nftStorefront/setup_account.cdc"
+      )} was executed successfully.`
+    );
+    spinner.info(
+      `${chalk.cyanBright(
+        "./cadence/transactions/kittyItems/setup_account.cdc"
+      )} was executed successfully.${"\n"}`
+    );
   }
 
-  spinner.succeed(chalk.greenBright("Admin account initialized"));
+  // ------------------------------------------------------------
+  // ------------- EMULATOR DEPLOYMENT --------------------------
+
+  if (process.env.CHAIN_ENV === "emulator") {
+    spinner.start("Emulating Flow Network");
+
+    await runProcess({
+      name: "emulator",
+      script: "flow",
+      args: "emulator --dev-wallet=true",
+      wait_ready: true
+    });
+
+    spinner.succeed(chalk.greenBright("Emulator started"));
+
+    spinner.info(
+      `Flow Emulator is running at: ${chalk.yellow("http://localhost:8080")}`
+    );
+    spinner.info(
+      `View log output: ${chalk.cyanBright("npx pm2 logs emulator")}${"\n"}`
+    );
+  }
+
+  // ------------------------------------------------------------
+  // ------------- TESTNET DEPLOYMENT --------------------------
+
+  if (process.env.CHAIN_ENV === "testnet") {
+    const USE_EXISTING = jetpack.exists(".env.testnet.local");
+    if (!USE_EXISTING) {
+      await createAccount();
+    } else {
+      let useExisting = await inquirer.prompt({
+        type: "confirm",
+        name: "confirm",
+        message: `Use existing tesnet credentials in ${chalk.greenBright(
+          "env.testnet.local"
+        )} ?`,
+        default: true
+      });
+
+      if (!useExisting) {
+        spinner.warn("Creating new testnet account credentials...");
+        await createAccount();
+      }
+    }
+  }
+
+  // ------------------------------------------------------------
+  // --------------------- START SERVICES -----------------------
+
+  dotenv.config({
+    path: requireEnv(process.env.CHAIN_ENV)
+  });
+
+  if (!process.env.ADMIN_ADDRESS) adminError();
+
+  spinner.start("Starting API server");
+  await runProcess({
+    name: "api",
+    cwd: "./api",
+    script: "npm",
+    args: "run dev",
+    watch: false,
+    wait_ready: true
+  });
+
+  spinner.succeed(chalk.greenBright("API server started"));
 
   spinner.info(
-    `${chalk.cyanBright(
-      "./cadence/transactions/nftStorefront/setup_account.cdc"
-    )} was executed successfully.`
+    `Kitty Items API is running at: ${chalk.yellow("http://localhost:3000")}`
   );
   spinner.info(
-    `${chalk.cyanBright(
-      "./cadence/transactions/kittyItems/setup_account.cdc"
-    )} was executed successfully.${"\n"}`
+    `View log output: ${chalk.cyanBright("npx pm2 logs api")}${"\n"}`
+  );
+
+  spinner.start("Starting storefront web app");
+
+  await runProcess({
+    name: "web",
+    cwd: "./web",
+    script: "npm",
+    args: "run dev",
+    watch: false,
+    wait_ready: true,
+    autorestart: false
+  });
+
+  spinner.succeed(chalk.greenBright("Storefront web app started"));
+
+  spinner.info(
+    `Kitty Items Web App is running at: ${chalk.yellow(
+      "http://localhost:3001"
+    )}`
+  );
+  spinner.info(
+    `View log output: ${chalk.cyanBright("npx pm2 logs web")}${"\n"}`
   );
 
   // ------------------------------------------------------------
-  // --------------------- OUTPUT -------------------------------
+  // --------------------- DONE -------------------------------
 
   const rainbow = chalkAnimation.rainbow("KITTY ITEMS HAS STARTED");
 

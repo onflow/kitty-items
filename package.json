@@ -24,7 +24,6 @@
   "scripts": {
     "dev:emulator": "cross-env CHAIN_ENV=emulator APP_ENV=local node startup.js",
     "dev:testnet": "cross-env CHAIN_ENV=testnet APP_ENV=local node startup.js",
-    "deploy:testnet": "cross-env CHAIN_ENV=testnet APP_ENV=deploy node startup.js",
     "dev:reset": "cross-env APP_ENV=local node reset.js",
     "postinstall": "npx lerna exec npm install"
   },
