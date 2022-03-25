@@ -22,8 +22,8 @@ If you'd like to deploy your own version, see the [deploy to Heroku](#optional-h
 
 ### 1. Install Dependencies
 
-_🛠 This project requires `NodeJS v14.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
-_🛠 This project requires `flow-cli v0.28.0` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
+_🛠 This project requires `NodeJS v16.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
+_🛠 This project requires `flow-cli v0.32.1` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
 
 ### 2. Clone the project
 
@@ -91,7 +91,6 @@ In the future you'll be able to add them to [Ethereum CryptoKitties](https://www
 - In the event of problems, you may want to start over. To reset the project, perform these steps: 
   - Run `pm2 delete all` to stop and delete all processes
   - Delete database files in `./api`. (`kitty-items-db-*.sqlite`)
- 
 #### Unblock ports
 - Kitty Items uses the following ports. Make sure they are not in use by another process
   - `8080` : Flow emulator
@@ -99,7 +98,8 @@ In the future you'll be able to add them to [Ethereum CryptoKitties](https://www
   - `3000` : Kitty Items API
   - `3001` : Kitty Items web app
   - `8701` : FCL dev-wallet
-
+#### Understanding the Marketplace
+- The Kitty Items Marketplace on testnet is universal. _Every instance of Kitty Items deployed on Testnet points to the same marketplace (`NFTStorefront`) contract_. So, you may see other listing s showing up in your Kitty items instance, but you will not see items in _your_ marketplace page that were added _before_ you deployed your instance of Kitty Items. 
 
 ---
 
