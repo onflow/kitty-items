@@ -28,7 +28,7 @@ _🛠 This project requires `flow-cli v0.32.1` or above._ See: [Flow CLI install
 ### 2. Clone the project
 
 ```sh
-git clone https://github.com/onflow/kitty-items.git
+git clone --depth=1 https://github.com/onflow/kitty-items.git
 ```
 ### 3. Install packages
 
