@@ -265,13 +265,6 @@ pm2.connect(true, async function (err) {
       wait_ready: true
     });
 
-    await runProcess({
-      name: "dev-wallet",
-      script: "flow",
-      args: "dev-wallet",
-      wait_ready: true
-    });
-
     spinner.succeed(chalk.greenBright("Emulator started"));
 
     spinner.info(
@@ -279,6 +272,21 @@ pm2.connect(true, async function (err) {
     );
     spinner.info(
       `View log output: ${chalk.cyanBright("npx pm2 logs emulator")}${"\n"}`
+    );
+    await runProcess({
+      name: "dev-wallet",
+      script: "flow",
+      args: "dev-wallet",
+      wait_ready: true
+    });
+
+    spinner.succeed(chalk.greenBright("FCL Dev Wallet started"));
+
+    spinner.info(
+      `FCL Dev Wallet running at: ${chalk.yellow("http://localhost:8701")}`
+    );
+    spinner.info(
+      `View log output: ${chalk.cyanBright("npx pm2 logs dev-wallet")}${"\n"}`
     );
   }
 
@@ -316,6 +324,7 @@ pm2.connect(true, async function (err) {
   if (!process.env.ADMIN_ADDRESS) adminError();
 
   spinner.start("Starting API server");
+
   await runProcess({
     name: "api",
     cwd: "./api",
