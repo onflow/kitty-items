@@ -63,7 +63,7 @@ function envErr() {
 function adminError() {
   throw new Error(
     `Unknown or missing ADMIN_ADRESS environment variable.
-      Please create a testnet account and add your credentials to .env.tenstnet.local`
+      Please create a testnet account and add your credentials to .env.tenstnet`
   );
 }
 
@@ -94,12 +94,14 @@ async function generateKeys() {
 function requireEnv(chainEnv) {
   switch (chainEnv) {
     case "emulator":
-      return ".env.local";
+      return ".env.emulator";
     case "testnet":
-      if (process.env.APP_ENV === "local") return ".env.testnet.local";
-      throw new Error(
-        "Testnet deployment config not created. See README.md for instructions."
-      );
+      if (!jetpack.exists(".env.testnet")) {
+        throw new Error(
+          "Testnet deployment config not created. See README.md for instructions."
+        );
+      }
+      return ".env.testnet";
     default:
       envErr();
   }
@@ -135,7 +137,7 @@ pm2.connect(true, async function (err) {
   // ------------------------------------------------------------
   // ------------- TESTNET ACCOUNT CREATION ---------------------
 
-  async function createAccount() {
+  async function bootstrapNewTestnetAccount() {
     console.log("Creating testnet new account keys...");
 
     const result = await generateKeys();
@@ -176,24 +178,24 @@ pm2.connect(true, async function (err) {
       FLOW_PUBLIC_KEY: result.public
     };
 
-    jetpack.file(".env.testnet.local", {
+    jetpack.file(".env.testnet", {
       content: `${convertToEnv({ ...parsed, ...env })}`
     });
 
     spinner.info(
-      `Testnet envronment config was written to: .env.testnet.local${"\n"}`
+      `Testnet envronment config was written to: .env.testnet${"\n"}`
     );
+
+    await deployAndInitialize();
+  }
+
+  async function deployAndInitialize() {
+    // -------------- Deploy Contracts --------------------------------
+    //
 
     spinner.start(
       `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
-
-    // -------------- Deploy Contracts --------------------------
-    //
-    // - All contracts are deployed to the admin account.
-    // - The contracts are located in ./cadence/contracts/
-    // - Details about which contracts are deployed per network
-    //   can be found in flow.json and flow.testnet.json
 
     const { stdout: out1, stderr: err1 } = await exec(
       `${deploy(process.env.CHAIN_ENV)}`,
@@ -256,6 +258,10 @@ pm2.connect(true, async function (err) {
   // ------------- EMULATOR DEPLOYMENT --------------------------
 
   if (process.env.CHAIN_ENV === "emulator") {
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV)
+    });
+
     spinner.start("Emulating Flow Network");
 
     await runProcess({
@@ -273,6 +279,9 @@ pm2.connect(true, async function (err) {
     spinner.info(
       `View log output: ${chalk.cyanBright("npx pm2 logs emulator")}${"\n"}`
     );
+
+    spinner.start("Starting FCL Developer Wallet");
+
     await runProcess({
       name: "dev-wallet",
       script: "flow",
@@ -280,7 +289,7 @@ pm2.connect(true, async function (err) {
       wait_ready: true
     });
 
-    spinner.succeed(chalk.greenBright("FCL Dev Wallet started"));
+    spinner.succeed(chalk.greenBright("Developer Wallet started"));
 
     spinner.info(
       `FCL Dev Wallet running at: ${chalk.yellow("http://localhost:8701")}`
@@ -288,38 +297,45 @@ pm2.connect(true, async function (err) {
     spinner.info(
       `View log output: ${chalk.cyanBright("npx pm2 logs dev-wallet")}${"\n"}`
     );
+
+    await deployAndInitialize();
   }
 
   // ------------------------------------------------------------
   // ------------- TESTNET DEPLOYMENT --------------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
-    const USE_EXISTING = jetpack.exists(".env.testnet.local");
+    const USE_EXISTING = jetpack.exists(".env.testnet");
     if (!USE_EXISTING) {
-      await createAccount();
+      await bootstrapNewTestnetAccount();
     } else {
       let useExisting = await inquirer.prompt({
         type: "confirm",
         name: "confirm",
         message: `Use existing tesnet credentials in ${chalk.greenBright(
-          "env.testnet.local"
+          "env.testnet"
         )} ?`,
         default: true
       });
 
+      dotenv.config({
+        path: requireEnv(process.env.CHAIN_ENV)
+      });
+
       if (!useExisting) {
         spinner.warn("Creating new testnet account credentials...");
-        await createAccount();
+
+        await bootstrapNewTestnetAccount();
+
+        dotenv.config({
+          path: requireEnv(process.env.CHAIN_ENV)
+        });
       }
     }
   }
 
   // ------------------------------------------------------------
   // --------------------- START SERVICES -----------------------
-
-  dotenv.config({
-    path: requireEnv(process.env.CHAIN_ENV)
-  });
 
   if (!process.env.ADMIN_ADDRESS) adminError();
 
