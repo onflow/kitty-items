@@ -261,7 +261,14 @@ pm2.connect(true, async function (err) {
     await runProcess({
       name: "emulator",
       script: "flow",
-      args: "emulator --dev-wallet=true",
+      args: "emulator",
+      wait_ready: true
+    });
+
+    await runProcess({
+      name: "dev-wallet",
+      script: "flow",
+      args: "dev-wallet",
       wait_ready: true
     });
 

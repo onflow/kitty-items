@@ -1,6 +1,5 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
-import {Console} from "console"
 import * as fs from "fs"
 import * as path from "path"
 import {Listing} from "../models/listing"
