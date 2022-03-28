@@ -136,6 +136,9 @@ pm2.connect(true, async function (err) {
   spinner.color = "green";
   let env = {};
 
+  // ------------------------------------------------------------
+  // ------------- CHECK FOR CORRECT NODE VERSION ---------------
+
   if (
     !process.version.split(".")[0].includes(pjson.engines.node.split(".")[0])
   ) {

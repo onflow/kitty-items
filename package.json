@@ -22,9 +22,10 @@
     "npm": "^8.5.5"
   },
   "scripts": {
-    "dev:emulator": "cross-env CHAIN_ENV=emulator node startup.js",
-    "dev:testnet": "cross-env CHAIN_ENV=testnet node startup.js",
-    "dev:reset": "cross-env node reset.js",
+    "preinstall": "node .ki-scripts/version-check.js",
+    "dev:emulator": "cross-env CHAIN_ENV=emulator node .ki-scripts/startup.js",
+    "dev:testnet": "cross-env CHAIN_ENV=testnet node .ki-scripts/startup.js",
+    "dev:reset": "cross-env node .ki-scripts/reset.js",
     "postinstall": "npx lerna exec npm install"
   },
   "repository": {
