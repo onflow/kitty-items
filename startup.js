@@ -138,8 +138,6 @@ pm2.connect(true, async function (err) {
   // ------------- TESTNET ACCOUNT CREATION ---------------------
 
   async function bootstrapNewTestnetAccount() {
-    console.log("Creating testnet new account keys...");
-
     const result = await generateKeys();
 
     console.log(`
@@ -186,13 +184,14 @@ pm2.connect(true, async function (err) {
       `Testnet envronment config was written to: .env.testnet${"\n"}`
     );
 
-    await deployAndInitialize();
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV)
+    });
   }
 
   async function deployAndInitialize() {
     // -------------- Deploy Contracts --------------------------------
     //
-
     spinner.start(
       `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
@@ -258,10 +257,6 @@ pm2.connect(true, async function (err) {
   // ------------- EMULATOR DEPLOYMENT --------------------------
 
   if (process.env.CHAIN_ENV === "emulator") {
-    dotenv.config({
-      path: requireEnv(process.env.CHAIN_ENV)
-    });
-
     spinner.start("Emulating Flow Network");
 
     await runProcess({
@@ -298,6 +293,10 @@ pm2.connect(true, async function (err) {
       `View log output: ${chalk.cyanBright("npx pm2 logs dev-wallet")}${"\n"}`
     );
 
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV)
+    });
+
     await deployAndInitialize();
   }
 
@@ -306,8 +305,10 @@ pm2.connect(true, async function (err) {
 
   if (process.env.CHAIN_ENV === "testnet") {
     const USE_EXISTING = jetpack.exists(".env.testnet");
+
     if (!USE_EXISTING) {
       await bootstrapNewTestnetAccount();
+      await deployAndInitialize();
     } else {
       let useExisting = await inquirer.prompt({
         type: "confirm",
@@ -318,15 +319,11 @@ pm2.connect(true, async function (err) {
         default: true
       });
 
-      dotenv.config({
-        path: requireEnv(process.env.CHAIN_ENV)
-      });
-
-      if (!useExisting) {
+      if (!useExisting.confirm) {
         spinner.warn("Creating new testnet account credentials...");
-
         await bootstrapNewTestnetAccount();
-
+        await deployAndInitialize();
+      } else {
         dotenv.config({
           path: requireEnv(process.env.CHAIN_ENV)
         });
