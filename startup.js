@@ -18,6 +18,8 @@ import chalkAnimation from "chalk-animation";
 
 const exec = util.promisify(exe);
 
+const pjson = jetpack.read("package.json", "json");
+
 //////////////////////////////////////////////////////////////////
 // ---------------------- FLOW COMMANDS --------------------------
 //////////////////////////////////////////////////////////////////
@@ -133,6 +135,18 @@ pm2.connect(true, async function (err) {
   spinner.spinner = "dots3";
   spinner.color = "green";
   let env = {};
+
+  if (
+    !process.version.split(".")[0].includes(pjson.engines.node.split(".")[0])
+  ) {
+    spinner.warn(
+      `This project requires Node version ${chalk.yellow(
+        "16.x"
+      )} or higher. Please install Node.js and try again.${"\n"}`
+    );
+    pm2.disconnect();
+    return;
+  }
 
   // ------------------------------------------------------------
   // ------------- TESTNET ACCOUNT CREATION ---------------------
