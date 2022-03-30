@@ -128,6 +128,7 @@ function runProcess(config, cb = () => {}) {
 pm2.connect(true, async function (err) {
   if (err) {
     console.error(err);
+    pm2.disconnect();
     process.exit(2);
   }
 
@@ -206,9 +207,10 @@ pm2.connect(true, async function (err) {
     });
   }
 
+  // ------------------------------------------------------------
+  // ---------------- CONTRACT DEPLOYMENT -----------------------
+
   async function deployAndInitialize() {
-    // -------------- Deploy Contracts --------------------------------
-    //
     spinner.start(
       `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
@@ -236,7 +238,7 @@ pm2.connect(true, async function (err) {
 
     // -------------- Initialize Kitty Items  --------------------------
 
-    const { stdout: out2, stderr: err2 } = await exec(
+    const { stderr: err2 } = await exec(
       initializeKittyItems(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
     );
@@ -247,7 +249,7 @@ pm2.connect(true, async function (err) {
 
     // -------------- Initialize NFTStorefront --------------------------
 
-    const { stdout: out3, stderr: err3 } = await exec(
+    const { stderr: err3 } = await exec(
       initializeStorefront(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
     );
@@ -271,7 +273,7 @@ pm2.connect(true, async function (err) {
   }
 
   // ------------------------------------------------------------
-  // ------------- EMULATOR DEPLOYMENT --------------------------
+  // ------------- EMULATOR ENVIRONMENT STARTUP -----------------
 
   if (process.env.CHAIN_ENV === "emulator") {
     spinner.start("Emulating Flow Network");
@@ -318,7 +320,7 @@ pm2.connect(true, async function (err) {
   }
 
   // ------------------------------------------------------------
-  // ------------- TESTNET DEPLOYMENT --------------------------
+  // ------------- TESTNET ENVIRONMENT STARTUP ------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
     const USE_EXISTING = jetpack.exists(".env.testnet");
@@ -349,7 +351,7 @@ pm2.connect(true, async function (err) {
   }
 
   // ------------------------------------------------------------
-  // --------------------- START SERVICES -----------------------
+  // --------------------- SERVICES STARTUP ---------------------
 
   if (!process.env.ADMIN_ADDRESS) adminError();
 
