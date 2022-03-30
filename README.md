@@ -34,6 +34,10 @@ git clone --depth=1 https://github.com/onflow/kitty-items.git
 
 - Run `npm install` in the root of the project.
 
+⚠️ **NOTE for Mac M1 users:** <br/>
+You'll need to run the following command in the web project: <br/>
+From the `./web` directory run `npm install -D @next/swc-darwin-arm64`
+
 ## Local development
 
 1)  Run `npm run dev:emulator` 
@@ -83,6 +87,10 @@ In the future you'll be able to add them to [Ethereum CryptoKitties](https://www
 
 ## Troubleshooting
 
+#### Non-Intel issues <br/>
+You'll need to run the following command in the web project: <br/>
+From the `./web` directory run `npm install -D @next/swc-darwin-arm64` <br/>
+If you're running on another non-intel based system, the issue and troubleshooting steps are detailed here: [https://github.com/vercel/next.js/discussions/30468](https://github.com/vercel/next.js/discussions/30468)
 #### Rebuild dependencies
 - The `api` and `web` projects depend on `sqlite3`. If you change `node` versions on your system, you'll need to cd into the `web` and `api` directory and run `npm rebuild` to rebuild you dependencies for the new version.
 #### Finding the logs
