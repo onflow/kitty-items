@@ -18,6 +18,7 @@
   "devDependencies": {
     "@types/node": "^14.14.37",
     "@types/yargs": "^16.0.1",
+    "dotenv-cli": "^5.1.0",
     "lerna": "^4.0.0",
     "npm": "^8.5.5"
   },
@@ -25,6 +26,8 @@
     "preinstall": "node .ki-scripts/version-check.js",
     "dev:emulator": "cross-env CHAIN_ENV=emulator node .ki-scripts/startup.js",
     "dev:testnet": "cross-env CHAIN_ENV=testnet node .ki-scripts/startup.js",
+    "update:emulator": "flow project deploy --update",
+    "update:testnet": "dotenv-cli -e .env.testnet -- flow project deploy --network=emulator  -f flow.json --update",
     "dev:reset": "cross-env node .ki-scripts/reset.js",
     "postinstall": "npx lerna exec npm install"
   },
