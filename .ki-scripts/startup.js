@@ -20,6 +20,10 @@ const exec = util.promisify(exe);
 
 const pjson = jetpack.read("package.json", "json");
 
+const spinner = ora();
+spinner.spinner = "dots3";
+spinner.color = "green";
+
 //////////////////////////////////////////////////////////////////
 // ---------------------- FLOW COMMANDS --------------------------
 //////////////////////////////////////////////////////////////////
@@ -121,6 +125,35 @@ function runProcess(config, cb = () => {}) {
   });
 }
 
+async function cleanupTestnetConfig() {
+  spinner.warn("Cleaning up old testnet config and database...");
+  const dbExists = jetpack.exists("./api/kitty-items-db-testnet.sqlite");
+  if (dbExists) {
+    spinner.info(
+      `We found an old testnet database. If you're starting a new testnet deployment, you can delete it.`
+    );
+    let removeDb = await inquirer.prompt({
+      type: "confirm",
+      name: "confirm",
+      message: `Are you sure you want to remove the testnet database?`,
+      default: true
+    });
+    if (removeDb.confirm) {
+      spinner.info(`Removing testnet database...`);
+      jetpack.remove("./api/kitty-items-db-testnet.sqlite");
+      spinner.info(`Removing .env.testnet file...`);
+      jetpack.remove(".env.testnet");
+    } else {
+      throw new Error(
+        "You must remove the testnet database before starting a new deployment."
+      );
+    }
+  }
+
+  jetpack.remove("./.env.testnet");
+  jetpack.remove("./api/kitty-items-db-testnet.sqlite");
+}
+
 //////////////////////////////////////////////////////////////////
 // ------------- PROCESS MANAGEMENT ENTRYPOINT -------------------
 //////////////////////////////////////////////////////////////////
@@ -132,9 +165,6 @@ pm2.connect(true, async function (err) {
     process.exit(2);
   }
 
-  const spinner = ora();
-  spinner.spinner = "dots3";
-  spinner.color = "green";
   let env = {};
 
   // ------------------------------------------------------------
@@ -312,6 +342,12 @@ pm2.connect(true, async function (err) {
       `View log output: ${chalk.cyanBright("npx pm2 logs dev-wallet")}${"\n"}`
     );
 
+    // NOTE: Emulator development does not persist chain state by default.
+    // If you add support for emulator persistence, you will need to remove this
+    // because your emaultor state would maintain the events that were
+    // emitted by the Kitty Items contract.
+    jetpack.remove("./api/kitty-items-db-emulator.sqlite");
+
     dotenv.config({
       path: requireEnv(process.env.CHAIN_ENV)
     });
@@ -326,6 +362,7 @@ pm2.connect(true, async function (err) {
     const USE_EXISTING = jetpack.exists(".env.testnet");
 
     if (!USE_EXISTING) {
+      await cleanupTestnetConfig();
       await bootstrapNewTestnetAccount();
       await deployAndInitialize();
     } else {
@@ -340,6 +377,7 @@ pm2.connect(true, async function (err) {
 
       if (!useExisting.confirm) {
         spinner.warn("Creating new testnet account credentials...");
+        await cleanupTestnetConfig();
         await bootstrapNewTestnetAccount();
         await deployAndInitialize();
       } else {
@@ -358,7 +396,7 @@ pm2.connect(true, async function (err) {
   spinner.start("Starting API server");
 
   await runProcess({
-    name: "api",
+    name: `api`,
     cwd: "./api",
     script: "npm",
     args: "run dev",
@@ -372,13 +410,15 @@ pm2.connect(true, async function (err) {
     `Kitty Items API is running at: ${chalk.yellow("http://localhost:3000")}`
   );
   spinner.info(
-    `View log output: ${chalk.cyanBright("npx pm2 logs api")}${"\n"}`
+    `View log output: ${chalk.cyanBright(
+      `npx pm2 logs ${process.env.APP_ENV}-api`
+    )}${"\n"}`
   );
 
   spinner.start("Starting storefront web app");
 
   await runProcess({
-    name: "web",
+    name: `web`,
     cwd: "./web",
     script: "npm",
     args: "run dev",
@@ -395,7 +435,9 @@ pm2.connect(true, async function (err) {
     )}`
   );
   spinner.info(
-    `View log output: ${chalk.cyanBright("npx pm2 logs web")}${"\n"}`
+    `View log output: ${chalk.cyanBright(
+      `npx pm2 logs  ${process.env.APP_ENV}-web`
+    )}${"\n"}`
   );
 
   // ------------------------------------------------------------
