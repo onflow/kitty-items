@@ -125,6 +125,16 @@ function runProcess(config, cb = () => {}) {
   });
 }
 
+function stopProcess(name, cb = () => {}) {
+  return new Promise((resolve, reject) => {
+    pm2.stop(name, function (err, result) {
+      pm2.delete(name, function () {
+        resolve();
+      });
+    });
+  });
+}
+
 async function cleanupTestnetConfig() {
   spinner.warn("Cleaning up old testnet config and database...");
   const dbExists = jetpack.exists("./api/kitty-items-db-testnet.sqlite");
@@ -166,6 +176,13 @@ pm2.connect(true, async function (err) {
   }
 
   let env = {};
+
+  spinner.info(`Stopping any running processes...${"\n"}`);
+
+  await stopProcess("api");
+  await stopProcess("web");
+  await stopProcess("dev-wallet");
+  await stopProcess("emulator");
 
   // ------------------------------------------------------------
   // ------------- CHECK FOR CORRECT NODE VERSION ---------------
