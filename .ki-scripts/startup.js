@@ -453,7 +453,7 @@ pm2.connect(true, async function (err) {
   );
   spinner.info(
     `View log output: ${chalk.cyanBright(
-      `npx pm2 logs  ${process.env.APP_ENV}-web`
+      `npx pm2 logs web`
     )}${"\n"}`
   );
 
