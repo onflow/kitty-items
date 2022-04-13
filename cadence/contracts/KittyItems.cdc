@@ -270,6 +270,18 @@ pub contract KittyItems: NonFungibleToken {
 
             KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
         }
+
+        // Update NFT images for new type
+        pub fun updateImages(from: AuthAccount, newImages: {Kind: {Rarity: String}}) {
+            let kindValue = KittyItems.images.containsKey(newImages.keys[0]) 
+            if(kindValue) {
+                KittyItems.images.insert(key: newImages.keys[0], newImages.values[0])
+            } else {
+                panic("Invalid Kind")
+            }
+           
+        }
+
     }
 
     // fetch
