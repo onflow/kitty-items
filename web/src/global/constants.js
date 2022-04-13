@@ -62,7 +62,8 @@ export const ITEM_KIND_MAP = {
   1: "Fish Hat",
   2: "Milkshake",
   3: "TukTuk",
-  4: "Skateboard"
+  4: "Skateboard",
+  5: "Shades",
 }
 
 export const ITEM_RARITY_MAP = {

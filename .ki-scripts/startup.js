@@ -8,13 +8,15 @@ import jetpack from "fs-jetpack";
 
 import dotenv from "dotenv";
 
-import { exec as exe } from "child_process";
+import { exec as exe, spawn } from "child_process";
 
 import ora from "ora";
 
 import chalk from "chalk";
 
 import chalkAnimation from "chalk-animation";
+
+import { killPortProcess } from "kill-port-process";
 
 const exec = util.promisify(exe);
 
@@ -125,10 +127,11 @@ function runProcess(config, cb = () => {}) {
   });
 }
 
-function stopProcess(name, cb = () => {}) {
+function stopProcess(name, port) {
   return new Promise((resolve, reject) => {
     pm2.stop(name, function (err, result) {
-      pm2.delete(name, function () {
+      pm2.delete(name, async function () {
+        await killPortProcess(port);
         resolve();
       });
     });
@@ -168,21 +171,23 @@ async function cleanupTestnetConfig() {
 // ------------- PROCESS MANAGEMENT ENTRYPOINT -------------------
 //////////////////////////////////////////////////////////////////
 
-pm2.connect(true, async function (err) {
+pm2.connect(false, async function (err) {
   if (err) {
     console.error(err);
     pm2.disconnect();
     process.exit(2);
   }
 
+  pm2.flush();
+
   let env = {};
 
-  spinner.info(`Stopping any running processes...${"\n"}`);
+  spinner.info(`Stopping previously launched processes...${"\n"}`);
 
-  await stopProcess("api");
-  await stopProcess("web");
-  await stopProcess("dev-wallet");
-  await stopProcess("emulator");
+  await stopProcess("api", [3000]);
+  await stopProcess("web", [3001]);
+  await stopProcess("dev-wallet", [8701]);
+  await stopProcess("emulator", [8080, 3569]);
 
   // ------------------------------------------------------------
   // ------------- CHECK FOR CORRECT NODE VERSION ---------------
@@ -456,9 +461,11 @@ pm2.connect(true, async function (err) {
   // ------------------------------------------------------------
   // --------------------- DONE -------------------------------
 
-  console.log("KITTY ITEMS HAS STARTED");
+  const rainbow = chalkAnimation.rainbow("KITTY ITEMS HAS STARTED");
 
-  setTimeout(() => {
+  setTimeout(async () => {
+    rainbow.stop();
+
     console.log("\n");
     console.log(`${chalk.cyanBright("Visit")}: http://localhost:3001`);
     console.log("\n");
@@ -479,7 +486,33 @@ pm2.connect(true, async function (err) {
         }\n`
       );
     }
-    pm2.disconnect();
+
+    let logs = await inquirer.prompt({
+      type: "confirm",
+      name: "confirm",
+      message: `Would you like to view the logs for all processes?`,
+      default: true
+    });
+
+    if (logs.confirm) {
+      console.log("\n");
+      const ps = spawn("npx", ["pm2", "logs", "--no-daemon"], {
+        detached: true
+      });
+      ps.stdout.on("data", (data) => {
+        console.log(data.toString().trim());
+      });
+    } else {
+      spinner.info(
+        `View log output for all processes: ${chalk.cyanBright(
+          `npx pm2 logs`
+        )}${"\n"}`
+      );
+      spinner.stop();
+      pm2.disconnect();
+    }
+
+    spinner.stop();
   }, 3000);
 
   //////////////////////////////////////////////////////////////////
