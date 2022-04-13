@@ -497,21 +497,23 @@ pm2.connect(false, async function (err) {
     if (logs.confirm) {
       console.log("\n");
       const ps = spawn("npx", ["pm2", "logs", "--no-daemon"], {
-        detached: true
+        shell: true,
+        stdio: "inherit"
       });
-      ps.stdout.on("data", (data) => {
+      ps.stdout?.on("data", (data) => {
         console.log(data.toString().trim());
       });
+      process.on("SIGINT", () => {
+        process.exit(0);
+      }); // CTRL+C
     } else {
       spinner.info(
         `View log output for all processes: ${chalk.cyanBright(
           `npx pm2 logs`
         )}${"\n"}`
       );
-      spinner.stop();
-      pm2.disconnect();
     }
-
+    pm2.disconnect();
     spinner.stop();
   }, 3000);
 
