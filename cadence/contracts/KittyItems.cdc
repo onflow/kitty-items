@@ -9,6 +9,7 @@ pub contract KittyItems: NonFungibleToken {
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
     pub event Minted(id: UInt64, kind: UInt8, rarity: UInt8)
+    pub event ImagesAddedForNewKind(kind: UInt8)
 
     // Named Paths
     //
@@ -274,10 +275,13 @@ pub contract KittyItems: NonFungibleToken {
         // Update NFT images for new type
         pub fun updateImages(from: AuthAccount, newImages: {Kind: {Rarity: String}}) {
             let kindValue = KittyItems.images.containsKey(newImages.keys[0]) 
-            if(kindValue) {
+            if(!kindValue) {
                 KittyItems.images.insert(key: newImages.keys[0], newImages.values[0])
+                emit ImagesAddedForNewKind(
+                    kind: newImages.keys[0],
+                )
             } else {
-                panic("Invalid Kind")
+                panic("No Rugs... Can't update existing NFT images.")
             }
            
         }
