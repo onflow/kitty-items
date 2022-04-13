@@ -427,9 +427,7 @@ pm2.connect(true, async function (err) {
     `Kitty Items API is running at: ${chalk.yellow("http://localhost:3000")}`
   );
   spinner.info(
-    `View log output: ${chalk.cyanBright(
-      `npx pm2 logs api`
-    )}${"\n"}`
+    `View log output: ${chalk.cyanBright(`npx pm2 logs api`)}${"\n"}`
   );
 
   spinner.start("Starting storefront web app");
@@ -452,18 +450,15 @@ pm2.connect(true, async function (err) {
     )}`
   );
   spinner.info(
-    `View log output: ${chalk.cyanBright(
-      `npx pm2 logs web`
-    )}${"\n"}`
+    `View log output: ${chalk.cyanBright(`npx pm2 logs web`)}${"\n"}`
   );
 
   // ------------------------------------------------------------
   // --------------------- DONE -------------------------------
 
-  const rainbow = chalkAnimation.rainbow("KITTY ITEMS HAS STARTED");
+  console.log("KITTY ITEMS HAS STARTED");
 
   setTimeout(() => {
-    rainbow.stop();
     console.log("\n");
     console.log(`${chalk.cyanBright("Visit")}: http://localhost:3001`);
     console.log("\n");
