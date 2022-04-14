@@ -19,7 +19,7 @@ transaction {
       }
     }
 
-    self.minter.updateImages(from: signer, newImages: NewImages);
+    self.minter.addNewImagesForKind(from: signer, newImages: NewImages);
   
   }
 
