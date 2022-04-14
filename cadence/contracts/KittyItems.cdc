@@ -278,14 +278,12 @@ pub contract KittyItems: NonFungibleToken {
             if(!kindValue) {
                 KittyItems.images.insert(key: newImages.keys[0], newImages.values[0])
                 emit ImagesAddedForNewKind(
-                    kind: newImages.keys[0],
+                    kind: newImages.keys[0].rawValue,
                 )
             } else {
                 panic("No Rugs... Can't update existing NFT images.")
             }
-           
         }
-
     }
 
     // fetch
