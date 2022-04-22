@@ -366,8 +366,9 @@ pm2.connect(false, async function (err) {
 
     // NOTE: Emulator development does not persist chain state by default.
     // If you add support for emulator persistence, you will need to remove this
-    // because your emaultor state would maintain the events that were
-    // emitted by the Kitty Items contract.
+    // because now your emulator will maintain all events from past runs, 
+    // emitted by the Kitty Items contract, and the sale offers will match
+    // with what is represented on-chain (what NFTs are for sale in which accounts).
     jetpack.remove("./api/kitty-items-db-emulator.sqlite");
 
     dotenv.config({
