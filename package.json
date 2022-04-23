@@ -31,7 +31,7 @@
     "update:testnet": "npx dotenv-cli -e .env.testnet -- flow project deploy --network=testnet -f flow.json -f flow.testnet.json --update",
     "dev:reset": "cross-env node .ki-scripts/reset.js",
     "postinstall": "npx lerna exec npm install",
-    "stop": "npx pm2 stop dev-wallet emulator api web"
+    "stop": "npx pm2 stop all"
   },
   "repository": {
     "type": "git",
