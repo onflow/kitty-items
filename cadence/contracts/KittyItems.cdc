@@ -163,7 +163,7 @@ pub contract KittyItems: NonFungibleToken {
     // Collection
     // A collection of KittyItem NFTs owned by an account
     //
-    pub resource Collection: KittyItemsCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic {
+    pub resource Collection: KittyItemsCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         //
@@ -224,6 +224,12 @@ pub contract KittyItems: NonFungibleToken {
             } else {
                 return nil
             }
+        }
+
+        pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
+            let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+            let kittyItem = nft as! &KittyItems.NFT
+            return kittyItem as &AnyResource{MetadataViews.Resolver}
         }
 
         // destructor
