@@ -1,5 +1,6 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
+import MetadataViews from "../../contracts/MetadataViews.cdc"
 
 // This transaction configures an account to hold Kitty Items.
 
@@ -15,7 +16,7 @@ transaction {
             signer.save(<-collection, to: KittyItems.CollectionStoragePath)
 
             // create a public capability for the collection
-            signer.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
+            signer.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic, MetadataViews.ResolverCollection}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
         }
     }
 }
