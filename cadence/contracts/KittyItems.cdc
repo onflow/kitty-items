@@ -122,7 +122,10 @@ pub contract KittyItems: NonFungibleToken {
 
         pub fun getViews(): [Type] {
             return [
-                Type<MetadataViews.Display>()
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.ExternalURL>(),
+                Type<MetadataViews.NFTCollectionData>(),
+                Type<MetadataViews.NFTCollectionDisplay>()
             ]
         }
 
@@ -136,6 +139,35 @@ pub contract KittyItems: NonFungibleToken {
                             cid: self.imageCID(), 
                             path: "sm.png"
                         )
+                    )
+                case Type<MetadataViews.ExternalURL>():
+                    return MetadataViews.ExternalURL("https://kitty-items.onflow.org")
+                case Type<MetadataViews.NFTCollectionData>():
+                    return MetadataViews.NFTCollectionData(
+                        storagePath: KittyItems.CollectionStoragePath,
+                        publicPath: KittyItems.CollectionPublicPath,
+                        providerPath: /private/kittyItemsCollectionV10,
+                        publicCollection: Type<&KittyItems.Collection{KittyItems.KittyItemsCollectionPublic}>(),
+                        publicLinkedType: Type<&KittyItems.Collection{KittyItems.KittyItemsCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
+                        providerLinkedType: Type<&KittyItems.Collection{KittyItems.KittyItemsCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
+                        createEmptyCollectionFunction: (fun (): @NonFungibleToken.Collection {
+                            return <-KittyItems.createEmptyCollection()
+                        })
+                    )
+                case Type<MetadataViews.NFTCollectionDisplay>():
+                    let media = MetadataViews.Media(
+                        file: MetadataViews.HTTPFile(
+                            url: "https://kitty-items.onflow.org/images/kitty-items-logo.svg"
+                        ),
+                        mediaType: "image/svg+xml"
+                    )
+                    return MetadataViews.NFTCollectionDisplay(
+                        name: "Kitty Items",
+                        description: "Items are hats for your cats, but under the hood they're non-fungible tokens (NFTs) stored on the Flow blockchain",
+                        externalURL: MetadataViews.ExternalURL("https://kitty-items.onflow.org"),
+                        squareImage: media,
+                        bannerImage: media,
+                        socials: {}
                     )
             }
 
