@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@jjordy/swr-devtools": "^2.0.7",
+    "@next/swc-darwin-arm64": "^12.1.0",
     "cypress": "^8.5.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
