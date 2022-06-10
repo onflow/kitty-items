@@ -21,7 +21,7 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
             ?? panic("Could not borrow a reference to the NFT minter")
 
          // We need a provider capability, but one is not provided by default so we create one if needed.
-        let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
+        let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProviderV11
 
         self.flowReceiver = signer.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
 

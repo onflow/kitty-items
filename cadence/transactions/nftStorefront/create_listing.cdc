@@ -28,7 +28,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
     prepare(account: AuthAccount) {
         // We need a provider capability, but one is not provided by default so we create one if needed.
-        let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProvider
+        let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProviderV11
 
         self.flowReceiver = account.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!
 
