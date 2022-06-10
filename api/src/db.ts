@@ -2,8 +2,23 @@ import {knex} from "knex"
 
 import {Model} from "objection"
 
+
+
 const initDB = config => {
-  const knexInstance = knex({
+
+  const DBConfig = process.env.NODE_ENV === 'production' ? {
+    client: "postgresql",
+    connection: {
+      connectionString: config.databaseUrl,
+      ssl:
+        process.env.NODE_ENV === "production"
+          ? { rejectUnauthorized: false }
+          : false,
+    },
+    migrations: {
+      directory: config.databaseMigrationPath,
+    },
+  } : {
     client: "better-sqlite3",
     useNullAsDefault: true,
     connection: {
@@ -12,7 +27,10 @@ const initDB = config => {
     migrations: {
       directory: config.databaseMigrationPath,
     },
-  })
+  }
+  
+
+  const knexInstance = knex(DBConfig)
 
   Model.knex(knexInstance)
 
