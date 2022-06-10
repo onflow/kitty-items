@@ -13,6 +13,7 @@
     "inquirer": "^8.2.0",
     "ora": "^6.1.0",
     "pm2": "^5.1.2",
+    "postgresql": "^0.0.1",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
