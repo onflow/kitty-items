@@ -29,4 +29,5 @@ export default function MyApp({Component, pageProps}) {
 
 MyApp.propTypes = {
   Component: PropTypes.elementType,
+  pageProps: PropTypes.any,
 }
