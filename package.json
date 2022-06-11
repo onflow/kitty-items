@@ -33,7 +33,8 @@
     "dev:reset": "cross-env node .ki-scripts/reset.js",
     "postinstall": "npx lerna exec npm install",
     "heroku-postbuild": "npx lerna exec npm run build",
-    "start": "node api/dist/index.js"
+    "start": "node api/dist/index.js",
+    "start:worker": "node api/dist/index.js --worker"
   },
   "repository": {
     "type": "git",
