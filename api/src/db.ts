@@ -5,7 +5,7 @@ import {Model} from "objection"
 
 
 const initDB = config => {
-
+  // Use a Postgres DB in production.
   const DBConfig = process.env.NODE_ENV === 'production' ? {
     client: "postgresql",
     connection: {
