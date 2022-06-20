@@ -16,8 +16,8 @@ jobs:
       uses: tj-actions/changed-files@v19
       with:
         files: |
-          **/*.md
-          **/*.mdx
+          docs/**/*.md
+          docs/**/*.mdx
 
     # --- Log all diff info --- 
     - name: Log the files commit SHA if any md/mdx files have diffs
