@@ -1,6 +1,13 @@
+/**
+ * Block Cursor Service
+ * 
+ * Service class used to query the block_cursor table to READ/INSERT/UPDATE block cursors for relative events.
+ *
+ */
 import { BlockCursor } from "../models/block-cursor";
 import { v4 } from 'uuid';
 class BlockCursorService {
+
   async findOrCreateLatestBlockCursor(
     latestBlockHeight: number,
     eventName: string

@@ -1,3 +1,10 @@
+/**
+ * Storefront Service
+ * 
+ * Service class used to execute scripts & transactions on the flow blockchain to buy & sell kitty items. 
+ * Also contains queries to interact with listings table to show Store/Marketplace listings on site.
+ *
+ */
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import * as fs from "fs"
@@ -172,28 +179,29 @@ class StorefrontService {
   addListing = async listingEvent => {
     const owner = listingEvent.data.storefrontAddress
     const listingResourceID = listingEvent.data.listingResourceID
-
-    const item = await this.getListingItem(owner, listingResourceID)
-    return Listing.transaction(async tx => {
-      return await Listing.query(tx)
-        .insert({
-          listing_resource_id: listingResourceID,
-          item_id: item.itemID,
-          item_kind: item.kind.rawValue,
-          item_rarity: item.rarity.rawValue,
-          name: item.name,
-          image: item.image,
-          owner: owner,
-          price: item.price,
-          transaction_id: listingEvent.transactionId,
-        })
-        .returning("transaction_id")
-        .onConflict("listing_resource_id")
-        .ignore()
-        .catch(e => {
-          console.log(e)
-        })
-    })
+    const item = await this.getListingItem(owner, listingResourceID);
+    if (item) {
+      return Listing.transaction(async tx => {
+        return await Listing.query(tx)
+          .insert({
+            listing_resource_id: listingResourceID,
+            item_id: item.itemID,
+            item_kind: item.kind.rawValue,
+            item_rarity: item.rarity.rawValue,
+            name: item.name,
+            image: item.image,
+            owner: owner,
+            price: item.price,
+            transaction_id: listingEvent.transactionId,
+          })
+          .returning("transaction_id")
+          .onConflict("listing_resource_id")
+          .ignore()
+          .catch(e => {
+            console.log(e)
+          })
+      })
+    }
   }
 
   removeListing = async listingEvent => {
