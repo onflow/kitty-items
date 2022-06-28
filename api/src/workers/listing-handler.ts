@@ -1,7 +1,7 @@
 /**
  * Listing Event Handler
  *
- * This worker extends BaseEventHandlr & listens for Listing events from flow.
+ * This worker extends Base Event Handler & listens for Listing events from Flow.
  * It will run callback functions to INSERT or DELETE entries from the listing table.
  *
  */

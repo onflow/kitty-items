@@ -1,3 +1,10 @@
+/**
+ * Kitty Items Router
+ * 
+ * Routerclass that defines API REST endpoints used for minting and moving Kitty Items.
+ * Endpoints call kitty-items service with request data.
+ *
+ */
 import express, {Request, Response, Router} from "express"
 import {body} from "express-validator"
 import {validateRequest} from "../middlewares/validate-request"

@@ -1,7 +1,7 @@
 /**
  * Storefront Service
  * 
- * Service class used to execute scripts & transactions on the flow blockchain to buy & sell kitty items. 
+ * Service class used to execute scripts & transactions on the Flow blockchain to buy & sell Kitty Items. 
  * Also contains queries to interact with listings table to show Store/Marketplace listings on site.
  *
  */

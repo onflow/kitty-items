@@ -1,5 +1,5 @@
 /**
- * BaseEventHandler
+ * Base Event Handler
  *
  * This will iterate through a range of block_heights and then run a callback to process any events we
  * are interested in. It also keeps a cursor in the database so we can resume from where we left off at any time.

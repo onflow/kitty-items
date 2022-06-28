@@ -8,7 +8,6 @@
     "chalk-animation": "^1.6.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
-    "flow": "^0.2.3",
     "fs-jetpack": "^4.3.1",
     "gradient-string": "^2.0.0",
     "inquirer": "^8.2.0",
