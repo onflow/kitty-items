@@ -1,7 +1,8 @@
 /**
  * Storefront Router
  * 
- * Router class that defines api REST endpoints and calls storefront service with request data.
+ * Router class that defines API REST endpoints used for buying & selling Kitty Items.
+ * Endpoints call storefront service with request data.
  *
  */
 import express, {Request, Response, Router} from "express"
