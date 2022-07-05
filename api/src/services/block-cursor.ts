@@ -9,12 +9,14 @@ import { v4 } from 'uuid';
 class BlockCursorService {
 
   async findOrCreateLatestBlockCursor(
-    latestBlockHeight: number,
-    eventName: string
+    eventName: string,
+    latestBlockHeight?: number,
   ) {
+    console.log(eventName);
     let blockCursor = await BlockCursor.query().findOne({
       event_name: eventName,
     });
+
     if (!blockCursor) {
       blockCursor = await BlockCursor.query().insertAndFetch({
         id: v4(),
@@ -22,6 +24,8 @@ class BlockCursorService {
         current_block_height: latestBlockHeight,
       });
     }
+    
+    console.log("sqlblock: " + JSON.stringify(blockCursor));
     return blockCursor;
   }
 
