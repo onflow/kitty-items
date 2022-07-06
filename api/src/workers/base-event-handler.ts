@@ -30,13 +30,16 @@ abstract class BaseEventHandler {
       // if blockCursor does not exist, create one with lastest block height
       let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(lastestBlockHeight);
       
-      // throw on DB Server error
       if (!blockCursor || !blockCursor.id) {
         throw new Error("Could not get block cursor from database.");
       }
 
+      // currentBlockHeight in the DB will equal the toBlock of the previous blockrange fcl query.
+      // increment fromBlock by 1 for next window.
       let fromBlock = blockCursor.currentBlockHeight + 1;
       let toBlock = await this.flowService.getLatestBlockHeight();
+
+      // on 1st iteration, fromBlock will be greater than toBlock due to newly inserted row.
       if (fromBlock > toBlock) {
         fromBlock = toBlock;
       }
