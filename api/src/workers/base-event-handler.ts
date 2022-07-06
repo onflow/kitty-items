@@ -6,6 +6,7 @@
  *
  */
 import * as fcl from "@onflow/fcl";
+import { json } from "stream/consumers";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 
@@ -21,111 +22,77 @@ abstract class BaseEventHandler {
   ) {}
 
   async run() {
-    console.log("fetching latest block height");
+    console.log("start event polling")
+    const poll = async () => {
+      console.log("fetching latest block height");
+      let lastestBlockHeight = await this.flowService.getLatestBlockHeight();
+      console.log("latestBlockHeight =", lastestBlockHeight);
 
-    let startingBlockHeight = await this.flowService.getLatestBlockHeight();
+      // if blockCursor does not exist, create one with lastest block height
+      let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(lastestBlockHeight);
+      
+      // throw on DB Server error
+      if (!blockCursor || !blockCursor.id) {
+        throw new Error("Could not get block cursor from database.");
+      }
 
-    // TODO: remove this once SDK fix is released: https://github.com/onflow/flow-js-sdk/pull/714
-    if (startingBlockHeight === 0) {
-      startingBlockHeight = 1;
-    }
+      let fromBlock = blockCursor.currentBlockHeight + 1;
+      let toBlock = await this.flowService.getLatestBlockHeight();
+      if (fromBlock > toBlock) {
+        fromBlock = toBlock;
+      }
+      console.log(`Checking Block range fromBlock=${fromBlock} toBlock=${toBlock}`);
 
-    console.log("latestBlockHeight =", startingBlockHeight);
-
-    const cursors = this.eventNames.map((eventName) => {
-      const cursor = this.blockCursorService.findOrCreateLatestBlockCursor(
-        eventName,
-        startingBlockHeight
-      );
-      return { cursor, eventName };
-    });
-
-    if (!cursors || !cursors.length) {
-      throw new Error("Could not get block cursor from database.");
-    }
-    // this async foreach is fetching blockcursors.
-    // the issue is that the listing available poll is checking blocks 19-20 for listing available events
-    // the listing completed event is on block 20
-    // the listing available event is on block 19
-    // need to update from block on both events
-
-    // todo maybe: put the cursors.foreach inside the poll method but keep it async.
-    // maybe? set a class var for from block that gets updated by both polls
-    // have 1 poll function that up
-      const poll = async () => {
-        for (const eventName of this.eventNames) {
-
-          let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(eventName);
-          let fromBlock, toBlock;
-          // console.log("blockcursor: " + JSON.stringify(blockCursor));
+      // iterate over eventNames and fetch events for block range
+      let events: any[] = [];
+      for (const eventName of this.eventNames) {
           try {
-            // Calculate block range to search
-            ({ fromBlock, toBlock } = await this.getBlockRange(
-              blockCursor,
-              startingBlockHeight
-            ));
-            console.log(
-              `Checking Block range for: ${eventName} fromBlock=${fromBlock} toBlock=${toBlock} latestBlock=${toBlock}`
-            );
+            const result = await fcl.send([
+              fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock)
+            ]);
+            const decoded: [] = await fcl.decode(result);
+            if (decoded.length > 0) {
+              events.push(...decoded);
+            } 
           } catch (e) {
-            console.warn("Error retrieving block range:", e);
+            console.error(
+              `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
+              e
+            );
           }
-  
-          if (fromBlock <= toBlock) {
-            try {
-              const result = await fcl.send([
-                fcl.getEventsAtBlockHeightRange(eventName, fromBlock, toBlock)
-              ]);
-              const decoded = await fcl.decode(result);
+      }
 
-              if (decoded.length) {
-                for (const event of decoded) {
-                  await this.onEvent(event);
-                }
-                // Record the last block that we saw an event for
-                blockCursor = await this.blockCursorService.updateBlockCursorById(
-                  blockCursor.id,
-                  toBlock
-                );
-              }
-            } catch (e) {
-              console.error(
-                `Error retrieving events for block range fromBlock=${fromBlock} toBlock=${toBlock}`,
-                e
-              );
-            }
-          }
+      if (events.length > 0) {
+        // sort events by blockHeight ascending
+        events = events.sort((event1, event2) => {
+          if (event1.blockHeight > event2.blockHeight) {
+            return 1;
+          } else if (event1.blockHeight < event2.blockHeight) {
+            return  -1;
+          } 
+          return 0;
+        });
+
+        for (const event of events) {
+          await this.onEvent(event);
         }
-        setTimeout(poll, this.stepTimeMs);
+      }
+
+      // Record the last block that queries events for
+      blockCursor = await this.blockCursorService.updateBlockCursorById(
+        blockCursor.id,
+        toBlock
+      );
+
+      // recursively call self to continue polling
+      setTimeout(poll, this.stepTimeMs);
     }
+    // begin polling method. 
     poll();
   };
 
   abstract onEvent(event: any): Promise<void>;
 
-  private async getBlockRange(blockCursor, startingBlockHeight) {
-
-    let fromBlock =
-      startingBlockHeight < blockCursor.currentBlockHeight
-        ? blockCursor.currentBlockHeight
-        : startingBlockHeight;
-
-    let toBlock = await this.flowService.getLatestBlockHeight();
-
-    if (toBlock - fromBlock > this.stepSize) {
-      fromBlock = toBlock - 1;
-      toBlock = await this.flowService.getLatestBlockHeight();
-    }
-
-    if (fromBlock > toBlock) {
-      fromBlock = toBlock;
-      toBlock = blockCursor.currentBlockHeight;
-    }
-
-
-
-    return Object.assign({}, { fromBlock, toBlock });
-  }
 }
 
 export { BaseEventHandler };
