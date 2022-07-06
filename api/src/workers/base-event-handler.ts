@@ -22,16 +22,15 @@ abstract class BaseEventHandler {
 
   async run() {
     console.log("start event polling")
-    const poll = async () => {
-      console.log("fetching latest block height");
-      let lastestBlockHeight = await this.flowService.getLatestBlockHeight();
-      console.log("latestBlockHeight =", lastestBlockHeight);
 
-      // if blockCursor does not exist, create one with lastest block height
+    const poll = async () => {
+
+      let lastestBlockHeight = await this.flowService.getLatestBlockHeight();
+      // if blockCursor does not exist in DB (1st instantiation of application), create one with lastest block height
       let blockCursor = await this.blockCursorService.findOrCreateLatestBlockCursor(lastestBlockHeight);
       
       if (!blockCursor || !blockCursor.id) {
-        throw new Error("Could not get block cursor from database.");
+        throw new Error("Could not get block cursor due to database error.");
       }
 
       // currentBlockHeight in the DB will equal the toBlock of the previous blockrange fcl query.
@@ -89,7 +88,8 @@ abstract class BaseEventHandler {
       // recursively call self to continue polling
       setTimeout(poll, this.stepTimeMs);
     }
-    // begin polling method. 
+
+    // execute polling method.
     poll();
   };
 
