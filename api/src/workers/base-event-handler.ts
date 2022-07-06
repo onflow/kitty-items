@@ -6,7 +6,6 @@
  *
  */
 import * as fcl from "@onflow/fcl";
-import { json } from "stream/consumers";
 import { BlockCursorService } from "../services/block-cursor";
 import { FlowService } from "../services/flow";
 
