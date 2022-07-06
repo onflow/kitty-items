@@ -65,8 +65,8 @@ abstract class BaseEventHandler {
       }
 
       if (events.length > 0) {
-        // sort events by blockHeight ascending
-        events = events.sort((event1, event2) => {
+        // make sure events are sorted by blockHeight ascending
+        events.sort((event1, event2) => {
           if (event1.blockHeight > event2.blockHeight) {
             return 1;
           } else if (event1.blockHeight < event2.blockHeight) {
@@ -80,7 +80,7 @@ abstract class BaseEventHandler {
         }
       }
 
-      // Record the last block that queries events for
+      // Record the last block queried
       blockCursor = await this.blockCursorService.updateBlockCursorById(
         blockCursor.id,
         toBlock
