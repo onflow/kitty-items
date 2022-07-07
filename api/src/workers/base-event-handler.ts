@@ -11,7 +11,6 @@ import { FlowService } from "../services/flow";
 
 
 abstract class BaseEventHandler {
-  private stepSize: number = 200;
   private stepTimeMs: number = 1000;
 
   protected constructor(
@@ -42,7 +41,7 @@ abstract class BaseEventHandler {
       if (fromBlock > toBlock) {
         fromBlock = toBlock;
       }
-      console.log(`Checking Block range fromBlock=${fromBlock} toBlock=${toBlock}`);
+      console.log(`Checking block range: fromBlock=${fromBlock} toBlock=${toBlock}`);
 
       // iterate over eventNames and fetch events for block range
       let events: any[] = [];
@@ -64,16 +63,25 @@ abstract class BaseEventHandler {
       }
 
       if (events.length > 0) {
-        // make sure events are sorted by blockHeight ascending
         events.sort((event1, event2) => {
+          // order events by block height ascending
           if (event1.blockHeight > event2.blockHeight) {
             return 1;
           } else if (event1.blockHeight < event2.blockHeight) {
             return  -1;
-          } 
+          }
+
+          // if events are on the same block, order by transaction index
+          if (event1.transactionIndex > event2.transactionIndex) {
+            return 1;
+          } else if (event1.transactionIndex < event2.transactionIndex) {
+            return -1;
+          }
+
           return 0;
         });
 
+        // update database in order of events
         for (const event of events) {
           await this.onEvent(event);
         }

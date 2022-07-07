@@ -180,27 +180,26 @@ class StorefrontService {
     const owner = listingEvent.data.storefrontAddress
     const listingResourceID = listingEvent.data.listingResourceID
     const item = await this.getListingItem(owner, listingResourceID);
-      return Listing.transaction(async tx => {
-        return await Listing.query(tx)
-          .insert({
-            listing_resource_id: listingResourceID,
-            item_id: item.itemID,
-            item_kind: item.kind.rawValue,
-            item_rarity: item.rarity.rawValue,
-            name: item.name,
-            image: item.image,
-            owner: owner,
-            price: item.price,
-            transaction_id: listingEvent.transactionId,
-          })
-          .returning("transaction_id")
-          .onConflict("listing_resource_id")
-          .ignore()
-          .catch(e => {
-            console.log(e)
-          })
-      })
-    
+    return Listing.transaction(async tx => {
+      return await Listing.query(tx)
+        .insert({
+          listing_resource_id: listingResourceID,
+          item_id: item.itemID,
+          item_kind: item.kind.rawValue,
+          item_rarity: item.rarity.rawValue,
+          name: item.name,
+          image: item.image,
+          owner: owner,
+          price: item.price,
+          transaction_id: listingEvent.transactionId,
+        })
+        .returning("transaction_id")
+        .onConflict("listing_resource_id")
+        .ignore()
+        .catch(e => {
+          console.log(e)
+        })
+    });
   }
 
   removeListing = async listingEvent => {
