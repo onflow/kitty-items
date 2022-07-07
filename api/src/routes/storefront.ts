@@ -1,3 +1,10 @@
+/**
+ * Storefront Router
+ * 
+ * Router class that defines API REST endpoints used for buying & selling Kitty Items.
+ * Endpoints call storefront service with request data.
+ *
+ */
 import express, {Request, Response, Router} from "express"
 import {body} from "express-validator"
 import {validateRequest} from "../middlewares/validate-request"

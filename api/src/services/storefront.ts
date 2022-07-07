@@ -1,3 +1,10 @@
+/**
+ * Storefront Service
+ * 
+ * Service class used to execute scripts & transactions on the Flow blockchain to buy & sell Kitty Items. 
+ * Also contains queries to interact with listings table to show Store/Marketplace listings on site.
+ *
+ */
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import * as fs from "fs"
@@ -172,8 +179,7 @@ class StorefrontService {
   addListing = async listingEvent => {
     const owner = listingEvent.data.storefrontAddress
     const listingResourceID = listingEvent.data.listingResourceID
-
-    const item = await this.getListingItem(owner, listingResourceID)
+    const item = await this.getListingItem(owner, listingResourceID);
     return Listing.transaction(async tx => {
       return await Listing.query(tx)
         .insert({
@@ -193,7 +199,7 @@ class StorefrontService {
         .catch(e => {
           console.log(e)
         })
-    })
+    });
   }
 
   removeListing = async listingEvent => {
