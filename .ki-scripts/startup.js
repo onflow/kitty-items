@@ -200,8 +200,9 @@ pm2.connect(false, async function (err) {
   }
 
   const processNodeVersion = parseVersion(process.version)
-  const engineNodeVersion = parseVersion(pjson.engines.node);
-  if (processNodeVersion < engineNodeVersion) {
+  const engineNodeRequirement = parseVersion(pjson.engines.node);
+
+  if (processNodeVersion < engineNodeRequirement) {
     spinner.warn(
       `This project requires Node version ${chalk.yellow(
         pjson.enginers.node

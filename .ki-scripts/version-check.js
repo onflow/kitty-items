@@ -12,9 +12,9 @@ const parseVersion = (nodeVersionString) => {
 }
 
 const processNodeVersion = parseVersion(process.version)
-const engineNodeVersion = parseVersion(pjson.engines.node);
+const engineNodeRequirement = parseVersion(pjson.engines.node);
 
-if (processNodeVersion < engineNodeVersion) {
+if (processNodeVersion < engineNodeRequirement) {
   console.log(
     `This project requires Node version ${chalk.yellow(
       pjson.engines.node
