@@ -205,7 +205,7 @@ pm2.connect(false, async function (err) {
   if (processNodeVersion < engineNodeRequirement) {
     spinner.warn(
       `This project requires Node version ${chalk.yellow(
-        pjson.enginers.node
+        pjson.engines.node
       )} or higher. Please install Node.js and try again.${"\n"}`
     );
     pm2.disconnect();
