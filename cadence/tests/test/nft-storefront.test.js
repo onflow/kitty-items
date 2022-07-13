@@ -6,7 +6,7 @@ import {
 	getAccountAddress,
 	shallPass,
 	mintFlow,
-} from "flow-js-testing";
+} from "@onflow/flow-js-testing";
 
 import { toUFix64 } from "../src/common";
 import { 
@@ -31,9 +31,8 @@ jest.setTimeout(500000);
 describe("NFT Storefront", () => {
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../");
-		const port = 7003;
-		await init(basePath, { port });
-		await emulator.start(port, false);
+		await init(basePath);
+		await emulator.start();
 		return await new Promise(r => setTimeout(r, 1000));
 	});
 

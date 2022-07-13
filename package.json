@@ -47,6 +47,6 @@
   },
   "homepage": "https://github.com/onflow/kitty-items#readme",
   "engines": {
-    "node": "16.x"
+    "node": ">=16.0.0"
   }
 }

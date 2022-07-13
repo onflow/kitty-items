@@ -7,7 +7,7 @@ import {
 	shallPass,
 	shallResolve,
 	shallRevert,
-} from "flow-js-testing";
+} from "@onflow/flow-js-testing";
 
 import { getKittyAdminAddress } from "../src/common";
 import {
@@ -28,9 +28,8 @@ describe("Kitty Items", () => {
 	// Instantiate emulator and path to Cadence files
 	beforeEach(async () => {
 		const basePath = path.resolve(__dirname, "../../");
-		const port = 7002;
-		await init(basePath, { port });
-		await emulator.start(port, false);
+		await init(basePath);
+		await emulator.start();
 		return await new Promise(r => setTimeout(r, 1000));
 	});
 

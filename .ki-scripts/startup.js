@@ -192,12 +192,20 @@ pm2.connect(false, async function (err) {
   // ------------------------------------------------------------
   // ------------- CHECK FOR CORRECT NODE VERSION ---------------
 
-  if (
-    !process.version.split(".")[0].includes(pjson.engines.node.split(".")[0])
-  ) {
+  const parseVersion = (nodeVersionString) => {
+    const majorVersion = nodeVersionString.split(".")[0];
+    const majorVersionIntOnly = majorVersion.replace(/[^0-9]/g,"");
+
+    return parseInt(majorVersionIntOnly);
+  }
+
+  const processNodeVersion = parseVersion(process.version)
+  const engineNodeRequirement = parseVersion(pjson.engines.node);
+
+  if (processNodeVersion < engineNodeRequirement) {
     spinner.warn(
       `This project requires Node version ${chalk.yellow(
-        "16.x"
+        pjson.engines.node
       )} or higher. Please install Node.js and try again.${"\n"}`
     );
     pm2.disconnect();

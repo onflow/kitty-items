@@ -1,4 +1,4 @@
-import { mintFlow, executeScript, sendTransaction, deployContractByName } from "flow-js-testing";
+import { mintFlow, executeScript, sendTransaction, deployContractByName } from "@onflow/flow-js-testing";
 import { getKittyAdminAddress } from "./common";
 
 export const types = {
