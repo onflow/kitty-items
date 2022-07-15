@@ -12,7 +12,7 @@ import { FlowService } from "../services/flow";
 
 abstract class BaseEventHandler {
   private stepTimeMs: number = 1000;
-  private stepSize: number =200;
+  private stepSize: number = 200;
 
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
