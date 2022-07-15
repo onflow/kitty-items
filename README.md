@@ -1,7 +1,7 @@
 <p align="center">
-    <a href="https://kitty-items.onflow.org/">
-        <img width="400" src="kitty-items-banner.png" />
-    </a>
+  <a href="https://kitty-items.onflow.org/">
+    <img width="400" src="assets/kitty-items-banner.png" />
+  </a>
 </p>
 
 👋 Welcome! This demo app is designed to help you learn to build on Flow.
@@ -12,7 +12,10 @@
 ## 🎬 Live Demo
 
 Check out the [live demo of Kitty Items](https://kitty-items.onflow.org/),
-deployed on the Flow Testnet.
+deployed on the Flow Testnet. The demo features 4 main views: homepage, marketplace, profile page, & admin view to mint your very own Kitty Items.
+<p align="center">
+  <img width="400" src="assets/kitty-items-homepage-view.png" />
+</p>
 
 ## ✨ Getting Started
 
@@ -43,7 +46,6 @@ From the `./web` directory run `npm install -D @next/swc-darwin-arm64`
 
     - Local development uses the [Flow Emulator](https://docs.onflow.org/emulator/) and the [FCL Development Wallet](https://github.com/onflow/fcl-dev-wallet) to simulate the blockchain and an FCL-compatible wallet.
 
-2.  In another terminal, from the root of the project run `flow dev-wallet`
 
 Thats it! 🏁
 
@@ -55,7 +57,7 @@ Run `npm run dev:testnet` and follow the prompt to begin developing on testnet.
 
 ## Project Overview
 
-![Project Overview](kitty-items-diagram.png)
+![Project Overview](/assets/kitty-items-diagram.png)
 
 ## 🔎 Legend
 

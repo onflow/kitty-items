@@ -44,6 +44,6 @@
     "ts-node-dev": "^1.1.1"
   },
   "engines": {
-    "node": "16.x"
+    "node": ">=16.x"
   }
 }
