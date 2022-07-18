@@ -152,8 +152,8 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(Number(kind), t.UInt8),
-        fcl.arg(Number(rarity), t.UInt8),
+        fcl.arg(kind, t.UInt8),
+        fcl.arg(rarity, t.UInt8),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -181,7 +181,7 @@ class KittyItemsService {
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(recipient, t.Address), fcl.arg(itemID, t.UInt64)],
+      args: [fcl.arg(recipient, t.Address), fcl.arg(String(itemID), t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,

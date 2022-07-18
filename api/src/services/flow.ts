@@ -16,6 +16,7 @@ class FlowService {
   authorizeMinter = () => {
     return async (account: any = {}) => {
       const user = await this.getAccount(this.minterFlowAddress);
+
       const key = user.keys[this.minterAccountIndex];
 
       const sign = this.signWithKey;
