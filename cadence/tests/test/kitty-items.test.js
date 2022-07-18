@@ -30,13 +30,11 @@ describe("Kitty Items", () => {
 		const basePath = path.resolve(__dirname, "../../");
 		await init(basePath);
 		await emulator.start();
-		return await new Promise(r => setTimeout(r, 1000));
 	});
 
 	// Stop emulator, so it could be restarted
 	afterEach(async () => {
 		await emulator.stop();
-		return await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it("should deploy KittyItems contract", async () => {
@@ -50,7 +48,7 @@ describe("Kitty Items", () => {
 		await shallPass(setupKittyItemsOnAccount(KittyAdmin));
 
 		const [supply] = await shallResolve(getKittyItemSupply())
-		expect(supply).toBe(0);
+		expect(supply).toBe("0");
 	});
 
 	it("should be able to mint a kitty item", async () => {
@@ -71,7 +69,7 @@ describe("Kitty Items", () => {
 
 		// shall be able te read Alice collection and ensure it's empty
 		const [itemCount] = await shallResolve(getKittyItemCount(Alice))
-		expect(itemCount).toBe(0);
+		expect(itemCount).toBe("0");
 	});
 
 	it("should not be able to withdraw an NFT that doesn't exist in a collection", async () => {
@@ -99,4 +97,8 @@ describe("Kitty Items", () => {
 		// Transfer transaction shall pass
 		await shallPass(transferKittyItem(Alice, Bob, 0));
 	});
+
+	it("misc test", async () => {
+
+	})
 });

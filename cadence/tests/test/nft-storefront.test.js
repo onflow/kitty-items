@@ -33,13 +33,11 @@ describe("NFT Storefront", () => {
 		const basePath = path.resolve(__dirname, "../../");
 		await init(basePath);
 		await emulator.start();
-		return await new Promise(r => setTimeout(r, 1000));
 	});
 
 	// Stop emulator, so it could be restarted
 	afterEach(async () => {
 		await emulator.stop();
-		return await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it("should deploy NFTStorefront contract", async () => {
@@ -90,13 +88,13 @@ describe("NFT Storefront", () => {
 		const listingAvailableEvent = sellItemTransactionResult.events[0];
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
-		await shallPass(purchaseListing(Bob, listingResourceID, Alice));
+		await shallPass(purchaseListing(Bob, parseInt(listingResourceID), Alice));
 
 		const [itemCount] = await getKittyItemCount(Bob);
-		expect(itemCount).toBe(1);
+		expect(itemCount).toBe("1");
 
 		const [listingCount] = await getListingCount(Alice);
-		expect(listingCount).toBe(0);
+		expect(listingCount).toBe("0");
 	});
 
 	it("should be able to remove a listing", async () => {
@@ -121,9 +119,9 @@ describe("NFT Storefront", () => {
 		const listingResourceID = listingAvailableEvent.data.listingResourceID;
 
 		// Alice shall be able to remove item from sale
-		await shallPass(removeListing(Alice, listingResourceID));
+		await shallPass(removeListing(Alice, parseInt(listingResourceID)));
 
 		const [listingCount] = await getListingCount(Alice);
-		expect(listingCount).toBe(0);
+		expect(listingCount).toBe("0");
 	});
 });
