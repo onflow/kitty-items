@@ -34,8 +34,7 @@
     "postinstall": "npx lerna exec npm install",
     "heroku-postbuild": "npx lerna exec npm run build",
     "start": "node api/dist/index.js",
-    "start:worker": "node api/dist/index.js --worker",
-    "stop": "npx pm2 stop all"
+    "start:worker": "node api/dist/index.js --worker"
   },
   "repository": {
     "type": "git",

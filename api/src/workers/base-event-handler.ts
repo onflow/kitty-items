@@ -12,7 +12,6 @@ import { FlowService } from "../services/flow";
 
 abstract class BaseEventHandler {
   private stepTimeMs: number = 1000;
-  private stepSize: number = 200;
 
   protected constructor(
     private readonly blockCursorService: BlockCursorService,
@@ -42,13 +41,6 @@ abstract class BaseEventHandler {
       if (fromBlock > toBlock) {
         fromBlock = toBlock;
       }
-
-      // getEventsAtBlockHeightRange() has a block limit of 250 blocks. 
-      // If the range exceeds the limit of 200 then hard cap the block search range
-      if (fromBlock + this.stepSize < toBlock) {
-        toBlock = fromBlock + this.stepSize;
-      }
-
       console.log(`Checking block range: fromBlock=${fromBlock} toBlock=${toBlock}`);
 
       // iterate over eventNames and fetch events for block range
