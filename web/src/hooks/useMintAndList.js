@@ -36,9 +36,9 @@ export default function useMintAndList() {
 
     const event = getKittyItemsEventByType(tx.events, EVENT_ITEM_MINTED)
 
-    if (!Number.isInteger(event?.data?.id))
+    if (typeof event?.data?.id !== "string")
       throw new Error("Minting error, missing itemID")
-    if (!Number.isInteger(event?.data?.kind))
+    if (typeof event?.data?.kind !== "string")
       throw new Error("Minting error, missing kind")
 
     // TODO: Poll api for listing presence before mutating the apiMarketItemsList

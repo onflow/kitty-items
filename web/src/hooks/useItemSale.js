@@ -1,5 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import CREATE_LISTING_TRANSACTION from "cadence/transactions/create_listing.cdc"
+import CREATE_LISTING_TEMPLATE from "templates/create_listing.template.json"
 import {useEffect, useState} from "react"
 import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
 import {isSuccessful} from "src/components/Transactions/utils"
@@ -54,7 +55,7 @@ export default function useItemSale(itemID) {
     if (!price) throw new Error("Missing price")
 
     const newTxId = await fcl.mutate({
-      cadence: CREATE_LISTING_TRANSACTION,
+      template: CREATE_LISTING_TEMPLATE,
       args: (arg, t) => [
         arg(Number(item.itemID), t.UInt64),
         arg(uFix64String(price), t.UFix64),

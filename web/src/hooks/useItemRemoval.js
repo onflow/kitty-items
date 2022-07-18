@@ -1,5 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import REMOVE_LISTING_TRANSACTION from "cadence/transactions/remove_listing.cdc"
+import REMOVE_LISTING_TEMPLATE from "templates/remove_listing.template.json"
 import {useEffect, useState} from "react"
 import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
 import {isSuccessful} from "src/components/Transactions/utils"
@@ -24,7 +25,7 @@ export default function useItemRemoval(itemID) {
     if (!listingResourceID) throw new Error("Missing listingResourceID")
 
     const newTxId = await fcl.mutate({
-      cadence: REMOVE_LISTING_TRANSACTION,
+      template: REMOVE_LISTING_TEMPLATE,
       args: (arg, t) => [arg(listingResourceID, t.UInt64)],
       limit: 1000,
     })

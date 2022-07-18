@@ -5,7 +5,7 @@ import useSWR from "swr"
 
 export function compFLOWBalanceKey(address) {
   if (typeof address === "undefined") return null
-  return `${address}/flow-balance`
+  return `${address}`
 }
 
 export function expandFLOWBalanceKey(key) {

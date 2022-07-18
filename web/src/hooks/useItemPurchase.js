@@ -1,5 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import PURCHASE_LISTING_TRANSACTION from "cadence/transactions/purchase_listing.cdc"
+import PURCHASE_LISTING_TEMPLATE from "templates/purchase_listing.template.json"
 import {useRouter} from "next/dist/client/router"
 import {useEffect, useState} from "react"
 import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
@@ -23,7 +24,7 @@ export default function useItemPurchase(itemID) {
     if (!ownerAddress) throw new Error("Missing ownerAddress")
 
     const newTxId = await fcl.mutate({
-      cadence: PURCHASE_LISTING_TRANSACTION,
+      template: PURCHASE_LISTING_TEMPLATE,
       args: (arg, t) => [
         arg(listingResourceID, t.UInt64),
         arg(ownerAddress, t.Address),
