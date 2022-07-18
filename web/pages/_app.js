@@ -8,6 +8,9 @@ import "styles/globals.css"
 import {SWRConfig} from "swr"
 import Router from "next/router"
 import analytics from "src/global/analytics"
+import * as fcl from "@onflow/fcl"
+
+global.fcl = fcl
 
 Router.events.on("routeChangeComplete", () => analytics.page())
 export default function MyApp({Component, pageProps}) {

@@ -1,0 +1,103 @@
+{
+  "f_type": "InteractionTemplate",
+  "f_vsn": "1.0.0",
+  "id": "c1438d5bb6e9df761357050b7626d76026a9d39d35356c0765e31e5a53f0c3d0",
+  "data": {
+    "type": "transaction",
+    "interface": "",
+    "messages": {
+      "title": {
+        "i18n": {
+          "en-US": "Purchase KittyItem"
+        }
+      },
+      "description": {
+        "i18n": {
+          "en-US": "Purchase KittyItem from the marketplace"
+        }
+      }
+    },
+    "cadence": "import FungibleToken from 0xFungibleToken\nimport NonFungibleToken from 0xNonFungibleToken\nimport FlowToken from 0xFlowToken\nimport KittyItems from 0xKittyItems\nimport NFTStorefront from 0xNFTStorefront\n\npub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonFungibleToken.Receiver} {\n  if let collectionRef = account.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) {\n    return collectionRef\n  }\n\n  // create a new empty collection\n  let collection <- KittyItems.createEmptyCollection() as! @KittyItems.Collection\n\n  let collectionRef = &collection as &KittyItems.Collection\n  \n  // save it to the account\n  account.save(<-collection, to: KittyItems.CollectionStoragePath)\n\n  // create a public capability for the collection\n  account.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)\n\n  return collectionRef\n}\n\ntransaction(listingResourceID: UInt64, storefrontAddress: Address) {\n  let paymentVault: @FungibleToken.Vault\n  let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}\n  let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}\n  let listing: &NFTStorefront.Listing{NFTStorefront.ListingPublic}\n\n  prepare(account: AuthAccount) {\n    self.storefront = getAccount(storefrontAddress)\n      .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(\n          NFTStorefront.StorefrontPublicPath\n      )!\n      .borrow()\n      ?? panic(\"Could not borrow Storefront from provided address\")\n\n    self.listing = self.storefront.borrowListing(listingResourceID: listingResourceID)\n      ?? panic(\"No Listing with that ID in Storefront\")\n      \n    let price = self.listing.getDetails().salePrice\n\n    let mainFLOWVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)\n      ?? panic(\"Cannot borrow FLOW vault from account storage\")\n      \n    self.paymentVault <- mainFLOWVault.withdraw(amount: price)\n\n    self.kittyItemsCollection = getOrCreateCollection(account: account)\n  }\n\n  execute {\n    let item <- self.listing.purchase(\n      payment: <-self.paymentVault\n    )\n\n    self.kittyItemsCollection.deposit(token: <-item)\n\n    self.storefront.cleanup(listingResourceID: listingResourceID)\n  }\n}",
+    "dependencies": {
+      "0xFungibleToken": {
+        "FungibleToken": {
+          "emulator": {
+            "address": "0xee82856bf20e2aa6",
+            "contract": "FungibleToken",
+            "fq_address": "A.0xee82856bf20e2aa6.FungibleToken",
+            "pin": "83c9e3d61d3b5ebf24356a9f17b5b57b12d6d56547abc73e05f820a0ae7d9cf5",
+            "pin_block_height": 26
+          }
+        }
+      },
+      "0xNonFungibleToken": {
+        "NonFungibleToken": {
+          "emulator": {
+            "address": "0xf8d6e0586b0a20c7",
+            "contract": "NonFungibleToken",
+            "fq_address": "A.0xf8d6e0586b0a20c7.NonFungibleToken",
+            "pin": "83c9e3d61d3b5ebf24356a9f17b5b57b12d6d56547abc73e05f820a0ae7d9cf5",
+            "pin_block_height": 26
+          }
+        }
+      },
+      "0xFlowToken": {
+        "FlowToken": {
+          "emulator": {
+            "address": "0x0ae53cb6e3f42a79",
+            "contract": "FlowToken",
+            "fq_address": "A.0x0ae53cb6e3f42a79.FlowToken",
+            "pin": "0326c320322c4e8dde768ba2975c384184fb7e41765c2c87e79a2040bfc71be8",
+            "pin_block_height": 26
+          }
+        }
+      },
+      "0xKittyItems": {
+        "KittyItems": {
+          "emulator": {
+            "address": "0xf8d6e0586b0a20c7",
+            "contract": "KittyItems",
+            "fq_address": "A.0xf8d6e0586b0a20c7.KittyItems",
+            "pin": "ba061d95016d5506e9f5d1afda15d82eb066aa8b0552e8b26dc7950fa5714d51",
+            "pin_block_height": 26
+          }
+        }
+      },
+      "0xNFTStorefront": {
+        "NFTStorefront": {
+          "emulator": {
+            "address": "0xf8d6e0586b0a20c7",
+            "contract": "NFTStorefront",
+            "fq_address": "A.0xf8d6e0586b0a20c7.NFTStorefront",
+            "pin": "ba061d95016d5506e9f5d1afda15d82eb066aa8b0552e8b26dc7950fa5714d51",
+            "pin_block_height": 26
+          }
+        }
+      }
+    },
+    "arguments": {
+      "listingResourceID": {
+        "index": 0,
+        "type": "UInt64",
+        "messages": {
+          "title": {
+            "i18n": {
+              "en-US": "ID of the KittyItem listing to purchase"
+            }
+          }
+        }
+      },
+      "storefrontAddress": {
+        "index": 1,
+        "type": "Address",
+        "messages": {
+          "title": {
+            "i18n": {
+              "en-US": "Address of the storefront to purchase from"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "f_type": "InteractionTemplate",
+  "f_vsn": "1.0.0",
+  "id": "027039e154e468c4e7ca6beca05a992b53d554701813417598e2666136438970",
+  "data": {
+    "type": "transaction",
+    "interface": "",
+    "messages": {
+      "title": {
+        "i18n": {
+          "en-US": "List KittyItem"
+        }
+      },
+      "description": {
+        "i18n": {
+          "en-US": "List KittyItem on the marketplace"
+        }
+      }
+    },
+    "cadence": "import FungibleToken from 0xFungibleToken\nimport NonFungibleToken from 0xNonFungibleToken\nimport FlowToken from 0xFlowToken\nimport KittyItems from 0xKittyItems\nimport NFTStorefront from 0xNFTStorefront\n\npub fun getOrCreateStorefront(account: AuthAccount): &NFTStorefront.Storefront {\n  if let storefrontRef = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) {\n    return storefrontRef\n  }\n\n  let storefront <- NFTStorefront.createStorefront()\n\n  let storefrontRef = &storefront as &NFTStorefront.Storefront\n\n  account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)\n\n  account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)\n\n  return storefrontRef\n}\n\ntransaction(saleItemID: UInt64, saleItemPrice: UFix64) {\n\n  let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>\n  let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>\n  let storefront: &NFTStorefront.Storefront\n\n  prepare(account: AuthAccount) {\n    // We need a provider capability, but one is not provided by default so we create one if needed.\n    let kittyItemsCollectionProviderPrivatePath = /private/kittyItemsCollectionProviderV14\n\n    self.flowReceiver = account.getCapability<&FlowToken.Vault{FungibleToken.Receiver}>(/public/flowTokenReceiver)!\n\n    assert(self.flowReceiver.borrow() != nil, message: \"Missing or mis-typed FLOW receiver\")\n\n    if !account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!.check() {\n      account.link<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath, target: KittyItems.CollectionStoragePath)\n    }\n\n    self.kittyItemsProvider = account.getCapability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>(kittyItemsCollectionProviderPrivatePath)!\n\n    assert(self.kittyItemsProvider.borrow() != nil, message: \"Missing or mis-typed KittyItems.Collection provider\")\n\n    self.storefront = getOrCreateStorefront(account: account)\n  }\n\n  execute {\n    let saleCut = NFTStorefront.SaleCut(\n      receiver: self.flowReceiver,\n      amount: saleItemPrice\n    )\n\n    self.storefront.createListing(\n      nftProviderCapability: self.kittyItemsProvider,\n      nftType: Type<@KittyItems.NFT>(),\n      nftID: saleItemID,\n      salePaymentVaultType: Type<@FlowToken.Vault>(),\n      saleCuts: [saleCut]\n    )\n  }\n}",
+    "dependencies": {
+      "0xFungibleToken": {
+        "FungibleToken": {
+          "emulator": {
+            "address": "0xee82856bf20e2aa6",
+            "contract": "FungibleToken",
+            "fq_address": "A.0xee82856bf20e2aa6.FungibleToken",
+            "pin": "83c9e3d61d3b5ebf24356a9f17b5b57b12d6d56547abc73e05f820a0ae7d9cf5",
+            "pin_block_height": 11
+          }
+        }
+      },
+      "0xNonFungibleToken": {
+        "NonFungibleToken": {
+          "emulator": {
+            "address": "0xf8d6e0586b0a20c7",
+            "contract": "NonFungibleToken",
+            "fq_address": "A.0xf8d6e0586b0a20c7.NonFungibleToken",
+            "pin": "83c9e3d61d3b5ebf24356a9f17b5b57b12d6d56547abc73e05f820a0ae7d9cf5",
+            "pin_block_height": 11
+          }
+        }
+      },
+      "0xFlowToken": {
+        "FlowToken": {
+          "emulator": {
+            "address": "0x0ae53cb6e3f42a79",
+            "contract": "FlowToken",
+            "fq_address": "A.0x0ae53cb6e3f42a79.FlowToken",
+            "pin": "0326c320322c4e8dde768ba2975c384184fb7e41765c2c87e79a2040bfc71be8",
+            "pin_block_height": 11
+          }
+        }
+      },
+      "0xKittyItems": {
+        "KittyItems": {
+          "emulator": {
+            "address": "0xf8d6e0586b0a20c7",
+            "contract": "KittyItems",
+            "fq_address": "A.0xf8d6e0586b0a20c7.KittyItems",
+            "pin": "ba061d95016d5506e9f5d1afda15d82eb066aa8b0552e8b26dc7950fa5714d51",
+            "pin_block_height": 11
+          }
+        }
+      },
+      "0xNFTStorefront": {
+        "NFTStorefront": {
+          "emulator": {
+            "address": "0xf8d6e0586b0a20c7",
+            "contract": "NFTStorefront",
+            "fq_address": "A.0xf8d6e0586b0a20c7.NFTStorefront",
+            "pin": "ba061d95016d5506e9f5d1afda15d82eb066aa8b0552e8b26dc7950fa5714d51",
+            "pin_block_height": 11
+          }
+        }
+      }
+    },
+    "arguments": {
+      "saleItemID": {
+        "index": 0,
+        "type": "UInt64",
+        "messages": {
+          "title": {
+            "i18n": {
+              "en-US": "ID of the KittyItem to list"
+            }
+          }
+        }
+      },
+      "saleItemPrice": {
+        "index": 1,
+        "type": "UFix64",
+        "messages": {
+          "title": {
+            "i18n": {
+              "en-US": "Price of the KittyItem to list"
+            }
+          }
+        }
+      }
+    }
+  }
+}
