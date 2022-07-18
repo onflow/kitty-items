@@ -1,8 +1,8 @@
 {
   "name": "kitty-items",
   "version": "1.0.0",
-  "description": "<p align=\"center\"><img width=\"400\" src=\"kitty-items-banner.png\" /></a> </p>",
   "type": "module",
+  "description": "<p align=\"center\"><img width=\"400\" src=\"kitty-items-banner.png\" /></a> </p>",
   "dependencies": {
     "chalk": "^5.0.0",
     "chalk-animation": "^1.6.0",
@@ -47,6 +47,6 @@
   },
   "homepage": "https://github.com/onflow/kitty-items#readme",
   "engines": {
-    "node": "16.x"
+    "node": "17.x"
   }
 }
