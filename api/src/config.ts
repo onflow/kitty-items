@@ -35,6 +35,7 @@ export function getConfig(env) {
   const flowTokenAddress = env.FLOW_TOKEN_ADDRESS!
 
   const dbPath = env.DATABASE_PATH!
+  const databaseUrl = env.DATABASE_URL  
 
   const databaseMigrationPath =
     process.env.MIGRATION_PATH || defaultMigrationPath
@@ -52,5 +53,6 @@ export function getConfig(env) {
     flowTokenAddress,
     dbPath,
     databaseMigrationPath,
+    databaseUrl
   }
 }

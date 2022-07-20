@@ -18,6 +18,24 @@ import chalkAnimation from "chalk-animation";
 
 import { killPortProcess } from "kill-port-process";
 
+import os from "os";
+
+import fs from "fs";
+
+import process from "process";
+
+// solve the issue that pm2 can not recognize the npm command in Windows
+let npmscript = "npm"
+if (os.platform == "win32") {
+  const npmpath = `C:\\Program\ Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js`
+  fs.stat(npmpath, (err, status) => {
+    if (err) {
+      throw("Please change `npmpath` in  `.ki-scripts/startup.js` to <npm-cli.js location in your Windows>, and retry.")
+    }
+    npmscript = npmpath
+  })
+}
+
 const exec = util.promisify(exe);
 
 const pjson = jetpack.read("package.json", "json");
@@ -192,12 +210,20 @@ pm2.connect(false, async function (err) {
   // ------------------------------------------------------------
   // ------------- CHECK FOR CORRECT NODE VERSION ---------------
 
-  if (
-    !process.version.split(".")[0].includes(pjson.engines.node.split(".")[0])
-  ) {
+  const parseVersion = (nodeVersionString) => {
+    const majorVersion = nodeVersionString.split(".")[0];
+    const majorVersionIntOnly = majorVersion.replace(/[^0-9]/g,"");
+
+    return parseInt(majorVersionIntOnly);
+  }
+
+  const processNodeVersion = parseVersion(process.version)
+  const engineNodeRequirement = parseVersion(pjson.engines.node);
+
+  if (processNodeVersion < engineNodeRequirement) {
     spinner.warn(
       `This project requires Node version ${chalk.yellow(
-        "16.x"
+        pjson.engines.node
       )} or higher. Please install Node.js and try again.${"\n"}`
     );
     pm2.disconnect();
@@ -366,8 +392,9 @@ pm2.connect(false, async function (err) {
 
     // NOTE: Emulator development does not persist chain state by default.
     // If you add support for emulator persistence, you will need to remove this
-    // because your emaultor state would maintain the events that were
-    // emitted by the Kitty Items contract.
+    // because now your emulator will maintain all events from past runs, 
+    // emitted by the Kitty Items contract, and the sale offers will match
+    // with what is represented on-chain (what NFTs are for sale in which accounts).
     jetpack.remove("./api/kitty-items-db-emulator.sqlite");
 
     dotenv.config({
@@ -420,7 +447,7 @@ pm2.connect(false, async function (err) {
   await runProcess({
     name: `api`,
     cwd: "./api",
-    script: "npm",
+    script: npmscript,
     args: "run dev",
     watch: false,
     wait_ready: true
@@ -437,15 +464,17 @@ pm2.connect(false, async function (err) {
 
   spinner.start("Starting storefront web app");
 
-  await runProcess({
-    name: `web`,
-    cwd: "./web",
-    script: "npm",
-    args: "run dev",
-    watch: false,
-    wait_ready: true,
-    autorestart: false
-  });
+    await runProcess({
+      name: `web`,
+      cwd: "./web",
+      script: npmscript,
+      args: "run dev",
+      watch: false,
+      wait_ready: true,
+      autorestart: false
+    });
+
+
 
   spinner.succeed(chalk.greenBright("Storefront web app started"));
 

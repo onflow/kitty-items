@@ -1,5 +1,4 @@
-import { getAccountAddress } from "flow-js-testing";
-import { deployContractByName, executeScript, sendTransaction } from "flow-js-testing";
+import { deployContractByName, executeScript, getAccountAddress, sendTransaction } from "@onflow/flow-js-testing";
 
 const UFIX64_PRECISION = 8;
 

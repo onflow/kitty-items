@@ -163,7 +163,7 @@ pub contract KittyItems: NonFungibleToken {
     // Collection
     // A collection of KittyItem NFTs owned by an account
     //
-    pub resource Collection: KittyItemsCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic {
+    pub resource Collection: KittyItemsCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
         // dictionary of NFT conforming tokens
         // NFT is a resource type with an `UInt64` ID field
         //
@@ -209,7 +209,7 @@ pub contract KittyItems: NonFungibleToken {
         // so that the caller can read its metadata and call its methods
         //
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            return &self.ownedNFTs[id] as &NonFungibleToken.NFT
+            return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
 
         // borrowKittyItem
@@ -219,11 +219,17 @@ pub contract KittyItems: NonFungibleToken {
         //
         pub fun borrowKittyItem(id: UInt64): &KittyItems.NFT? {
             if self.ownedNFTs[id] != nil {
-                let ref = &self.ownedNFTs[id] as auth &NonFungibleToken.NFT
+                let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
                 return ref as! &KittyItems.NFT
             } else {
                 return nil
             }
+        }
+
+        pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
+            let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+            let kittyItem = nft as! &KittyItems.NFT
+            return kittyItem as &AnyResource{MetadataViews.Resolver}
         }
 
         // destructor
@@ -347,9 +353,9 @@ pub contract KittyItems: NonFungibleToken {
         }
 
         // Set our named paths
-        self.CollectionStoragePath = /storage/kittyItemsCollectionV10
-        self.CollectionPublicPath = /public/kittyItemsCollectionV10
-        self.MinterStoragePath = /storage/kittyItemsMinterV10
+        self.CollectionStoragePath = /storage/kittyItemsCollectionV14
+        self.CollectionPublicPath = /public/kittyItemsCollectionV14
+        self.MinterStoragePath = /storage/kittyItemsMinterV14
 
         // Initialize the total supply
         self.totalSupply = 0
