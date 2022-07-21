@@ -18,6 +18,24 @@ import chalkAnimation from "chalk-animation";
 
 import { killPortProcess } from "kill-port-process";
 
+import os from "os";
+
+import fs from "fs";
+
+import process from "process";
+
+// solve the issue that pm2 can not recognize the npm command in Windows
+let npmscript = "npm"
+if (os.platform == "win32") {
+  const npmpath = `C:\\Program\ Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js`
+  fs.stat(npmpath, (err, status) => {
+    if (err) {
+      throw("Please change `npmpath` in  `.ki-scripts/startup.js` to <npm-cli.js location in your Windows>, and retry.")
+    }
+    npmscript = npmpath
+  })
+}
+
 const exec = util.promisify(exe);
 
 const pjson = jetpack.read("package.json", "json");
@@ -429,7 +447,7 @@ pm2.connect(false, async function (err) {
   await runProcess({
     name: `api`,
     cwd: "./api",
-    script: "npm",
+    script: npmscript,
     args: "run dev",
     watch: false,
     wait_ready: true
@@ -446,15 +464,17 @@ pm2.connect(false, async function (err) {
 
   spinner.start("Starting storefront web app");
 
-  await runProcess({
-    name: `web`,
-    cwd: "./web",
-    script: "npm",
-    args: "run dev",
-    watch: false,
-    wait_ready: true,
-    autorestart: false
-  });
+    await runProcess({
+      name: `web`,
+      cwd: "./web",
+      script: npmscript,
+      args: "run dev",
+      watch: false,
+      wait_ready: true,
+      autorestart: false
+    });
+
+
 
   spinner.succeed(chalk.greenBright("Storefront web app started"));
 
