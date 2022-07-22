@@ -34,7 +34,7 @@ export default function Header() {
                 Kitty Items
               </div>
               <div className="text-sm sm:ml-3 text-gray-darkest">
-                Crypto Kitties Sample App
+                CryptoKitties Sample App
               </div>
             </div>
           </a>
