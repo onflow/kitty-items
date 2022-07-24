@@ -44,16 +44,6 @@ jobs:
       - name: Deploy Contracts
         run: flow project deploy --network=emulator --update
 
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v2
-        with:
-          install: false
-          start: npm run test
-          browser: chrome
-          headless: true
-          record: false
-          config: baseUrl=http://localhost:3001,chromeWebSecurity=false
-
       - name: Stop Containers
         if: always()
         run: docker-compose down
