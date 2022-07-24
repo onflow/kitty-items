@@ -39,7 +39,7 @@ jobs:
         working-directory: cadence/tests
 
       - name: Build & Run
-        run: npm run dev:emulator
+        run: npm run dev:emulator & sleep 30
 
       - name: Deploy Contracts
         run: flow project deploy --network=emulator
