@@ -42,7 +42,7 @@ jobs:
         run: npm run dev:emulator & sleep 30
 
       - name: Deploy Contracts
-        run: flow project deploy --network=emulator
+        run: flow project deploy --network=emulator --update
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v2
