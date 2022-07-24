@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - master
+  push:
+    branches:
       - gpavlov/update-github-actions-workflow
 
 jobs:
