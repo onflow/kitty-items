@@ -89,6 +89,15 @@ class FlowService {
     );
   }
 
+  async executeScriptAtBlockId(script, args, blockId) {
+    console.log(JSON.stringify(args));
+    return await fcl.send([
+      fcl.script(script), 
+      fcl.args(args), 
+      fcl.atBlockId(blockId)
+    ]).then(fcl.decode);
+  }
+
   async getLatestBlockHeight() {
     const block = await fcl.send([fcl.getBlock(true)]);
     const decoded = await fcl.decode(block);
