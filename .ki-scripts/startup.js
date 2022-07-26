@@ -148,6 +148,9 @@ function runProcess(config, cb = () => {}) {
 function stopProcess(name, port) {
   return new Promise((resolve, reject) => {
     pm2.stop(name, function (err, result) {
+      if (err) {
+        return resolve()
+      }
       pm2.delete(name, async function () {
         await killPortProcess(port);
         resolve();
