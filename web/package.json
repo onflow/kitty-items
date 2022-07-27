@@ -20,6 +20,7 @@
     "@onflow/util-actor": "^0.0.2",
     "@onflow/util-invariant": "^0.0.0",
     "@onflow/util-uid": "^0.0.1",
+    "@sentry/nextjs": "^7.7.0",
     "analytics": "^0.8.0",
     "api": "^4.2.0",
     "autoprefixer": "^10.4.2",

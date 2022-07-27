@@ -39,6 +39,15 @@ export default function HomeEmptyMessage() {
           <ButtonLink href={paths.githubRepo} target="_blank" color="outline">
             VIEW DOCUMENTATION & RESOURCES
           </ButtonLink>
+
+          <button
+            type="button"
+            onClick={() => {
+              throw new Error("Sentry Frontend Error");
+            }}
+          >
+            Throw error
+          </button>
         </div>
       </div>
     </div>
