@@ -12,7 +12,7 @@ jobs:
   vm-job:
     name: Kitty Items Integration Tests
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         go: ["1.16"]
