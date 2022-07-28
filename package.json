@@ -32,6 +32,7 @@
     "update:testnet": "npx dotenv-cli -e .env.testnet -- flow project deploy --network=testnet -f flow.json -f flow.testnet.json --update",
     "dev:reset": "cross-env node .ki-scripts/reset.js",
     "postinstall": "npx lerna exec npm install",
+    "stop": "npx pm2 stop all",
     "heroku-postbuild": "npx lerna exec npm run build",
     "start": "node api/dist/index.js",
     "start:worker": "node api/dist/index.js --worker"

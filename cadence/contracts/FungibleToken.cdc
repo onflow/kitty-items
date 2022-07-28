@@ -4,7 +4,7 @@
 
 ## `FungibleToken` contract interface
 
-The interface that all fungible token contracts would have to conform to.
+The interface that all Fungible Token contracts would have to conform to.
 If a users wants to deploy a new token contract, their contract
 would need to implement the FungibleToken interface.
 
@@ -32,7 +32,7 @@ these interfaces to do various things with the tokens.
 For example, a faucet can be implemented by conforming
 to the Provider interface.
 
-By using resources and interfaces, users of FungibleToken contracts
+By using resources and interfaces, users of Fungible Token contracts
 can send and receive tokens peer-to-peer, without having to interact
 with a central ledger smart contract. To send tokens to another user,
 a user would simply withdraw the tokens from their Vault, then call
@@ -42,7 +42,7 @@ the deposit function on another user's Vault to complete the transfer.
 
 /// FungibleToken
 ///
-/// The interface that fungible token contracts implement.
+/// The interface that Fungible Token contracts implement.
 ///
 pub contract interface FungibleToken {
 
