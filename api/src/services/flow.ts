@@ -90,7 +90,6 @@ class FlowService {
   }
 
   async executeScriptAtBlockId(script, args, blockId) {
-    console.log(JSON.stringify(args));
     return await fcl.send([
       fcl.script(script), 
       fcl.args(args), 
