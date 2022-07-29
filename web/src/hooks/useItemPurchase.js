@@ -25,7 +25,7 @@ export default function useItemPurchase(itemID) {
     const newTxId = await fcl.mutate({
       cadence: PURCHASE_LISTING_TRANSACTION,
       args: (arg, t) => [
-        arg(listingResourceID, t.UInt64),
+        arg(listingResourceID.toString(), t.UInt64),
         arg(ownerAddress, t.Address),
       ],
       limit: 1000,

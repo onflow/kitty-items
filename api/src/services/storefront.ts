@@ -67,7 +67,7 @@ class StorefrontService {
 
     return this.flowService.executeScript<any[]>({
       script,
-      args: [fcl.arg(account, t.Address), fcl.arg(itemID, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(itemID.toString(), t.UInt64)],
     })
   }
 
@@ -110,7 +110,7 @@ class StorefrontService {
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(itemID, t.UInt64), fcl.arg(account, t.Address)],
+      args: [fcl.arg(itemID.toString(), t.UInt64), fcl.arg(account, t.Address)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
@@ -140,7 +140,7 @@ class StorefrontService {
     return this.flowService.sendTx({
       transaction,
       args: [
-        fcl.arg(itemID, t.UInt64),
+        fcl.arg(itemID.toString(), t.UInt64),
         fcl.arg(price.toFixed(8).toString(), t.UFix64),
       ],
       authorizations: [authorization],
@@ -172,7 +172,7 @@ class StorefrontService {
 
     return this.flowService.executeScript<any>({
       script,
-      args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
+      args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID.toString(), t.UInt64)],
     })
   }
 
