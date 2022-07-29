@@ -7,9 +7,10 @@ on:
   push:
     branches:
       - gpavlov/update-github-actions-workflow
+      - gpavlov/setup-cypress
 
 jobs:
-  vm-job:
+  jest:
     name: Kitty Items Integration Tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -44,3 +45,37 @@ jobs:
       - name: Deploy Contracts
         run: flow project deploy --network=emulator --update
 
+  cypress:
+      name: Kitty Items Cypress End to End tests
+      timeout-minutes: 10
+      runs-on: ubuntu-latest
+      container: cypress/browsers:node16.14.2-slim-chrome103-ff102 #use arm64 arch on Apple M1 chips when running locally
+      steps:
+        - name: Install build dependencies (mostly for sqlite on ARM)
+          run: apt-get update -y && apt-get install build-essential -y 
+
+        - name: Install Flow CLI
+          # run: | 
+          #   sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
+          #   echo "/root/.local/bin" >> $GITHUB_PATH
+          run: | 
+            sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)" &&
+            echo "/root/.local/bin" >> $GITHUB_PATH
+
+        - name: Checkout
+          uses: actions/checkout@v3
+        
+        # - name: Install cypress deps
+        #   run: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
+        - name: Cypress run
+          uses: cypress-io/github-action@v4
+          with:
+            start: npm run dev:emulator #& npx wait-on http://localhost:3001
+            wait-on: http://localhost:3001
+
+  #     - name: Save build folder
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: build
+  #         if-no-files-found: error
+  #         path: build
