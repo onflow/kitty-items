@@ -65,6 +65,9 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v3
         
+        - name: Root NPM Install
+          run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
+          
         # - name: Install cypress deps
         #   run: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
         - name: Cypress run
