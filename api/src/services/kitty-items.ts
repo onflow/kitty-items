@@ -33,14 +33,14 @@ const randomKind = () => {
 
   const index = Math.floor(Math.random() * values.length)
 
-  return values[index].toString();
+  return values[index];
 }
 
 const ITEM_RARITY_PROBABILITIES = {
-  [Rarity.Gold]: "10",
-  [Rarity.Purple]: "20",
-  [Rarity.Green]: "30",
-  [Rarity.Blue]: "40",
+  [Rarity.Gold]: 10,
+  [Rarity.Purple]: 20,
+  [Rarity.Green]: 30,
+  [Rarity.Blue]: 40,
 }
 
 const randomRarity = () => {
@@ -152,8 +152,8 @@ class KittyItemsService {
       transaction,
       args: [
         fcl.arg(recipient, t.Address),
-        fcl.arg(kind, t.UInt8),
-        fcl.arg(rarity, t.UInt8),
+        fcl.arg(Number(kind), t.UInt8),
+        fcl.arg(Number(rarity), t.UInt8),
       ],
       authorizations: [authorization],
       payer: authorization,
@@ -181,7 +181,7 @@ class KittyItemsService {
 
     return this.flowService.sendTx({
       transaction,
-      args: [fcl.arg(recipient, t.Address), fcl.arg(itemID.toString(), t.UInt64)],
+      args: [fcl.arg(recipient, t.Address), fcl.arg(itemID, t.UInt64)],
       authorizations: [authorization],
       payer: authorization,
       proposer: authorization,
@@ -227,7 +227,7 @@ class KittyItemsService {
 
     return this.flowService.executeScript<number>({
       script,
-      args: [fcl.arg(address, t.Address), fcl.arg(itemID.toString(), t.UInt64)],
+      args: [fcl.arg(address, t.Address), fcl.arg(itemID, t.UInt64)],
     })
   }
 

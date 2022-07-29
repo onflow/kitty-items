@@ -33,10 +33,10 @@ export default function useMintAndList() {
       resetLoading()
       return
     }
-
+    console.log(tx.events);
     const event = getKittyItemsEventByType(tx.events, EVENT_ITEM_MINTED)
 
-    if (!event?.data?.id)
+    if (!event?.data?.id && event.data.id !== 0)
       throw new Error("Minting error, missing itemID")
     if (!event?.data?.kind)
       throw new Error("Minting error, missing kind")

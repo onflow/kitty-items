@@ -10,7 +10,7 @@ export function fetchListing(key) {
   return fcl
     .send([
       fcl.script(GET_LISTING_SCRIPT),
-      fcl.args([fcl.arg(address, t.Address), fcl.arg(id.toString(), t.UInt64)]),
+      fcl.args([fcl.arg(address, t.Address), fcl.arg(Number(id), t.UInt64)]),
     ])
     .then(fcl.decode)
 }

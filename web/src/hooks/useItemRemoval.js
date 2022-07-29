@@ -25,7 +25,7 @@ export default function useItemRemoval(itemID) {
 
     const newTxId = await fcl.mutate({
       cadence: REMOVE_LISTING_TRANSACTION,
-      args: (arg, t) => [arg(listingResourceID.toString(), t.UInt64)],
+      args: (arg, t) => [arg(listingResourceID, t.UInt64)],
       limit: 1000,
     })
 
