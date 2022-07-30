@@ -72,11 +72,11 @@ jobs:
         - name: chmod
           run: |
             pwd &&
-            ls -l /__w/kitty-items/kitty-items && 
-            chmod a+w /__w/kitty-items/kitty-items/api &&
-            chmod a+w /__w/kitty-items/kitty-items/web &&
-            chmod a+w /__w/kitty-items/kitty-items/cadence/tests &&
-            ls -l /__w/kitty-items/kitty-items
+            ls -l && 
+            chmod -R 777 api &&
+            chmod -R 777 web &&
+            chmod -R 777 cadence/tests &&
+            ls -l 
           
         - name: run lerna
           run: npx lerna exec npm install
