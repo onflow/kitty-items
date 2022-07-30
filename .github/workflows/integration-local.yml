@@ -75,7 +75,7 @@ jobs:
             ls -l /__w/kitty-items/kitty-items && 
             chmod a+w /__w/kitty-items/kitty-items/api &&
             chmod a+w /__w/kitty-items/kitty-items/web &&
-            chmod a+w /__w/kitty-items/kitty-items/cadence/tests/js &&
+            chmod a+w /__w/kitty-items/kitty-items/cadence/tests &&
             ls -l /__w/kitty-items/kitty-items
           
         - name: run lerna
