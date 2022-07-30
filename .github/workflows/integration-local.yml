@@ -57,19 +57,15 @@ jobs:
         - name: Install Flow CLI
           # run: | 
           #   sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
-          #   echo "/root/.local/bin" >> $GITHUB_PATH
+          #   echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH
           run: | 
             sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)" &&
-            echo "/root/.local/bin" >> $GITHUB_PATH
+            echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH
 
         - name: Checkout
           uses: actions/checkout@v3
         
-        - name: Root NPM Install
-          # run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
-          run: npm i 
-        
-        - name: chmod
+        - name: chmod subdirs to bypass lerna exec access permission issues
           run: |
             pwd &&
             ls -l && 
@@ -77,9 +73,13 @@ jobs:
             chmod -R 777 web &&
             chmod -R 777 cadence/tests &&
             ls -l 
+        
+        - name: Root NPM Install
+          # run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
+          run: npm i 
           
-        - name: run lerna
-          run: npx lerna exec npm install
+        # - name: run lerna
+        #   run: npx lerna exec npm install
 
         # - name: Install cypress deps
         #   run: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
