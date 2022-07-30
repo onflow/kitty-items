@@ -61,9 +61,10 @@ jobs:
           run: | 
             sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)" &&
             echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH &&
-            ls -l /github/home/.local/bin &&
-            chmod a+r /github/home/.local/bin/flow &&
-            ls -l /github/home/.local/bin
+            echo $HOME &&
+            ls -l $HOME/.local/bin &&
+            chmod a+r $HOME/.local/bin/flow &&
+            ls -l $HOME/.local/bin
 
         - name: Checkout
           uses: actions/checkout@v3
