@@ -207,8 +207,8 @@ pm2.connect(false, async function (err) {
   spinner.info(`Stopping previously launched processes...${"\n"}`);
 
 
-  console.log('exec `id`: ', execSync('id', { encoding: 'utf8' }));
-  console.log('exec `whoami`: ', execSync('whoami', { encoding: 'utf8' }));
+  console.log('exec `id`: ', execSync('id && id -nu 1001', { encoding: 'utf8' }));
+  // console.log('exec `whoami`: ', execSync('whoami', { encoding: 'utf8' }));
   console.log('exec `ls`: ', execSync('ls -l /github/home/.local/bin', { encoding: 'utf8' }));
   
   await stopProcess("api", [3000]);
