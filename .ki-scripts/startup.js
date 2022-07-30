@@ -205,6 +205,11 @@ pm2.connect(false, async function (err) {
 
   spinner.info(`Stopping previously launched processes...${"\n"}`);
 
+  const execSync = require('child_process').execSync;
+  console.log('exec `id`: ', execSync('id', { encoding: 'utf8' }));
+  console.log('exec `whoami`: ', execSync('whoami', { encoding: 'utf8' }));
+  console.log('exec `ls`: ', execSync('ls -l /github/home/.local/bin', { encoding: 'utf8' }));
+  
   await stopProcess("api", [3000]);
   await stopProcess("web", [3001]);
   await stopProcess("dev-wallet", [8701]);
