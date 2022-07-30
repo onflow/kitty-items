@@ -8,7 +8,7 @@ import jetpack from "fs-jetpack";
 
 import dotenv from "dotenv";
 
-import { exec as exe, spawn, execSync } from "child_process";
+import { exec as exe, spawn } from "child_process";
 
 import ora from "ora";
 
@@ -23,7 +23,6 @@ import os from "os";
 import fs from "fs";
 
 import process from "process";
-
 
 // solve the issue that pm2 can not recognize the npm command in Windows
 let npmscript = "npm"
@@ -206,16 +205,6 @@ pm2.connect(false, async function (err) {
 
   spinner.info(`Stopping previously launched processes...${"\n"}`);
 
-
-  console.log('exec `id`: ', execSync('id', { encoding: 'utf8' }));
-  try {
-    console.log('exec `id`: ', execSync('id -nu', { encoding: 'utf8' }));
-  } catch {
-
-  }
-  // console.log('exec `whoami`: ', execSync('whoami', { encoding: 'utf8' }));
-  console.log('exec `ls`: ', execSync('ls -l /github/home/.local/bin', { encoding: 'utf8' }));
-  
   await stopProcess("api", [3000]);
   await stopProcess("web", [3001]);
   await stopProcess("dev-wallet", [8701]);

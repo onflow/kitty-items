@@ -10,40 +10,40 @@ on:
       - gpavlov/setup-cypress
 
 jobs:
-  # jest:
-  #   name: Kitty Items Integration Tests
-  #   timeout-minutes: 10
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       go: ["1.16"]
-  #   steps:
-  #     - name: Install Node
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 16.x
+  jest:
+    name: Kitty Items Integration Tests
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: ["1.16"]
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
 
-  #     - name: Install Flow CLI
-  #       run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+      - name: Install Flow CLI
+        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
 
-  #     - name: Update PATH
-  #       run: echo "/root/.local/bin" >> $GITHUB_PATH
+      - name: Update PATH
+        run: echo "/root/.local/bin" >> $GITHUB_PATH
 
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  #     - name: Root NPM Install
-  #       run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
+      - name: Root NPM Install
+        run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
 
-  #     - name: Run JS Tests
-  #       run: npm i && npm run test
-  #       working-directory: cadence/tests
+      - name: Run JS Tests
+        run: npm i && npm run test
+        working-directory: cadence/tests
 
-  #     - name: Build & Run
-  #       run: npm run dev:emulator & sleep 30
+      - name: Build & Run
+        run: npm run dev:emulator & sleep 30
 
-  #     - name: Deploy Contracts
-  #       run: flow project deploy --network=emulator --update
+      - name: Deploy Contracts
+        run: flow project deploy --network=emulator --update
 
   cypress:
       name: Kitty Items Cypress End to End tests
@@ -77,19 +77,10 @@ jobs:
             chmod -R 777 cadence/tests &&
             ls -l 
         
-        - name: Root NPM Install
-          # run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
-          run: npm i 
-          
-        # - name: run lerna
-        #   run: npx lerna exec npm install
-
-        # - name: Install cypress deps
-        #   run: apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
         - name: Cypress run
           uses: cypress-io/github-action@v4
           with:
-            start: npm run dev:emulator #& npx wait-on http://localhost:3001
+            start: npm run dev:emulator
             wait-on: http://localhost:3001
 
   #     - name: Save build folder
