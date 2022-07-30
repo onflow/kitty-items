@@ -68,8 +68,9 @@ jobs:
         - name: Root NPM Install
           # run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
           run: npm i 
+        
         - name: lerna link
-          run: lerna link
+          run: npx lerna link
           
         - name: run lerna
           run: npx lerna exec npm install
