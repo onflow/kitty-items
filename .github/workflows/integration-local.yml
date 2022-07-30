@@ -69,8 +69,8 @@ jobs:
           # run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
           run: npm i 
         
-        - name: lerna link
-          run: npx lerna link --force-local
+        - name: chmod
+          run: ls -l /__w/kitty-items/kitty-items/api && chmod a+w /__w/kitty-items/kitty-items/api && ls -l /__w/kitty-items/kitty-items/api
           
         - name: run lerna
           run: npx lerna exec npm install
