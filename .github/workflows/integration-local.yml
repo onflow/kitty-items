@@ -70,7 +70,7 @@ jobs:
           run: npm i 
         
         - name: lerna link
-          run: npx lerna link
+          run: npx lerna link --force-local
           
         - name: run lerna
           run: npx lerna exec npm install
