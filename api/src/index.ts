@@ -1,5 +1,4 @@
 import * as fcl from "@onflow/fcl"
-import {send as grpcSend} from "@onflow/transport-grpc"
 import {hideBin} from "yargs/helpers"
 import yargs from "yargs/yargs"
 import initApp from "./app"
@@ -64,7 +63,6 @@ async function run() {
     .put("accessNode.api", config.accessApi)
     .put("decoder.Type", val => val.staticType)
     .put("decoder.Enum", val => Number(val.fields[0].value.value))
-    .put("sdk.transport", grpcSend)
 
   const startWorker = () => {
     console.log("Starting Flow event worker ....")
