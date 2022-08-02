@@ -36,7 +36,7 @@ describe('Emulator + dev-wallet tests', () => {
       // another string
       if ($body.text().includes('MINT YOUR FIRST KITTY ITEM')) {
         // yup found it
-        cy.contains('MINT YOUR FIRST KITTY ITEM')
+        cy.contains('MINT YOUR FIRST KITTY ITEM').click()
         cy.get("input[placeholder=\"Enter Password\"]").type('KittyItems')
         cy.get("button[type=\"submit\"]").click()
         cy.contains('Mint Item').click()
