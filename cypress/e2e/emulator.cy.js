@@ -16,7 +16,7 @@ describe('Emulator + dev-wallet tests', () => {
     // get the document
     return getIframeDocument()
     // automatically retries until body is loaded
-    .its('body').should('not.be.undefined')
+    .its('body').should('exist')
     // wraps "body" DOM element to allow
     // chaining more Cypress commands, like ".find(...)"
     .then(cy.wrap)
@@ -48,8 +48,6 @@ describe('Emulator + dev-wallet tests', () => {
   })
 
   it('Create new account', () => {
-    cy.visit('http://localhost:3001/')
-    
     cy.contains('Log In').click()
     // Dev wallet runs in iframe
     getIframeBody().contains('Create New Account').click()
