@@ -86,6 +86,8 @@ jobs:
           with:
             start: npm run dev:emulator
             wait-on: http://localhost:3001
+            wait-on-timeout: 180
+            browser: chrome
             
         - uses: actions/upload-artifact@v2
           if: failure()
