@@ -1,10 +1,10 @@
 # Kitty Items Web
 
-Kitty Items Web is a [Next.js](https://nextjs.org/) project bootstrapped to serve 4 main views to allow users to interface with the Flow blockhain. Users can mint Kitty Items through an admin view, purchase through an item page, browse the marketplace, & view their Kitty Items on their profile. Users can navigate between these pages through a navigation bar at the top of their screen.
+Kitty Items web app is a [Next.js](https://nextjs.org/) project bootstrapped to serve four main views and allow users to interface with the Flow blochain. Users can mint Kitty Items through an admin view, purchase through an item page, browse the marketplace, and view their Kitty Items on their profile. Users can navigate between these pages through a navigation bar at the top of their screen.
 
 ## [Homepage View](pages/index.jsx)
 ![Homepage](/assets/kitty-items-homepage-view.png)
-The homepage shows the most recent listings for both the Storefront and Marketplace.
+The homepage shows the most recent listings for both the storefront and marketplace.
 
 ## [Profile View](pages/profiles/[address].jsx)
 ![Profile](/assets/kitty-items-profile-view.png)
@@ -16,5 +16,4 @@ The marketplace view allows individuals to find Kitty Items listed for sale by o
 
 ## [Admin minter view](pages/admin/mint.jsx)
 ![Admin](/assets/kitty-items-admin-view.png)
-The admin view is where users can mint Kitty Items through the admin service account. Kitty Items minted here are automatically listed for purchase by the admin account. Unpurchased 
-Kitty Items will go to the Storefront.
+The admin view is where users can mint new NFTs through the Kitty Items minter account. It's open to anybody for demonstration purposes. Kitty Items minted here are automatically put up for sale on the storefront page.

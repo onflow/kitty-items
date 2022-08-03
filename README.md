@@ -42,13 +42,11 @@ From the `./web` directory run `npm install -D @next/swc-darwin-arm64`
 
 ## Local development
 
-1.  Run `npm run dev:emulator`
-
-    - Local development uses the [Flow Emulator](https://docs.onflow.org/emulator/) and the [FCL Development Wallet](https://github.com/onflow/fcl-dev-wallet) to simulate the blockchain and an FCL-compatible wallet.
-    - Running this npm script initializes your application by completing multiple important processes found [here](/.ki-scripts/README.md)
-
-
-Thats it! 🏁
+Run this command to start Kitty Items with the Flow local development suite:
+```
+npm run dev:emulator
+```
+Note: This script launches the [Flow Emulator](https://docs.onflow.org/emulator/) and [FCL Development Wallet](https://github.com/onflow/fcl-dev-wallet) to simulate the blockchain and an FCL-compatible wallet using the [initialization code in this repository](/.ki-scripts/README.md)
 
 ## Testnet development
 
