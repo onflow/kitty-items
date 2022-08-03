@@ -78,15 +78,14 @@ jobs:
             chmod -R 777 cadence/tests &&
             ls -l 
 
-        - name: Fix npm cache issue
-          run: npm ci
+        # - name: Fix npm cache issue
+        #   run: npm ci
 
         - name: Cypress run
           uses: cypress-io/github-action@v4
           with:
             start: npm run dev:emulator
             wait-on: http://localhost:3001
-            wait-on-timeout: 180
             browser: chrome
             
         - uses: actions/upload-artifact@v2
