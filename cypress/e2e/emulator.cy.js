@@ -48,6 +48,8 @@ describe('Emulator + dev-wallet tests', () => {
   })
 
   it('Create new account', () => {
+    cy.visit('http://localhost:3001/')
+    
     cy.contains('Log In').click()
     // Dev wallet runs in iframe
     getIframeBody().contains('Create New Account').click()
