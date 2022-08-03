@@ -14,7 +14,7 @@ export function normalizeApiListing(item) {
 
 export function normalizeListing(listing) {
   return {
-    itemID: listing.itemID,
+    itemID: Number(listing.itemID),
     kind: Number(listing.kind.rawValue),
     rarity: Number(listing.rarity.rawValue),
     owner: listing.owner,
@@ -28,7 +28,7 @@ export function normalizeListing(listing) {
 
 export function normalizeItem(accountItem, apiListing) {
   return {
-    itemID: accountItem.itemID,
+    itemID: Number(accountItem.itemID),
     kind: Number(accountItem.kind.rawValue),
     rarity: Number(accountItem.rarity.rawValue),
     owner: accountItem.owner,

@@ -25,7 +25,7 @@ const {enqueue} = batch("FETCH_ACCOUNT_ITEM", async px => {
       fcl.args([
         fcl.arg(keys, t.Array(t.String)),
         fcl.arg(addresses, t.Array(t.Address)),
-        fcl.arg(ids.map(Number), t.Array(t.UInt64)),
+        fcl.arg(ids, t.Array(t.UInt64)),
       ]),
     ])
     .then(fcl.decode)
@@ -34,7 +34,10 @@ const {enqueue} = batch("FETCH_ACCOUNT_ITEM", async px => {
 export async function fetchAccountItem(key) {
   const {address, id} = expandAccountItemKey(key)
 
+  // t.UInt64 fcl arg must be passed as string
+  let stringID = id.toString();
+
   if (!address) return Promise.resolve(null)
-  if (!Number.isInteger(id)) return Promise.resolve(null)
-  return enqueue(address, id)
+  if (!stringID) return Promise.resolve(null)
+  return enqueue(address, stringID)
 }
