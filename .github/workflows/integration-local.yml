@@ -79,7 +79,7 @@ jobs:
             ls -l 
 
         - name: Fix npm cache issue
-          run: sudo chown -R 1001:121 "/github/home/.npm"
+          run: chown -R 1001:121 "/github/home/.npm"
 
         - name: Cypress run
           uses: cypress-io/github-action@v4
