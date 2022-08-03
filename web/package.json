@@ -17,7 +17,7 @@
     "@onflow/fcl": "^1.2.0",
     "@onflow/types": "^1.0.2",
     "@onflow/util-actor": "^0.0.2",
-    "@onflow/util-invariant": "^0.0.0",
+    "@onflow/util-invariant": "^1.0.2",
     "@onflow/util-uid": "^0.0.1",
     "@sentry/nextjs": "^7.7.0",
     "analytics": "^0.8.0",
