@@ -71,6 +71,7 @@ abstract class BaseEventHandler {
       }
 
       if (events.length > 0) {
+        console.log(`Found ${events.length} events in block range`);
         events.sort((event1, event2) => {
           // order events by block height ascending
           if (event1.blockHeight > event2.blockHeight) {
