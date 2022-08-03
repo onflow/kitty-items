@@ -1,6 +1,7 @@
 import * as fcl from "@onflow/fcl"
 import * as t from "@onflow/types"
 import {batch} from "src/flow/util/batch"
+import {expandAccountItemKey} from "src/hooks/useAccountItem"
 import GET_ACCOUNT_ITEM_SCRIPT from "cadence/scripts/get_account_item.cdc"
 
 const collate = px => {
@@ -31,7 +32,7 @@ const {enqueue} = batch("FETCH_ACCOUNT_ITEM", async px => {
 })
 
 export async function fetchAccountItem(key) {
-  const [address, id] = key;
+  const {address, id} = expandAccountItemKey(key)
 
   // t.UInt64 fcl arg must be passed as string
   let stringID = id.toString();
