@@ -84,21 +84,21 @@ jobs:
             chmod -R 777 cadence/tests &&
             ls -l 
 
-        - name: Install dependencies
-          run: npm i && cd web && npm i && cat package-lock.json | grep swc
+        # - name: Install dependencies
+        #   run: npm i && cd web && npm i && cat package-lock.json | grep swc
 
-        - name: Start server
-          run: npm run dev:emulator & npm i wait-on && npx wait-on http://localhost:3001
+        # - name: Start server
+        #   run: npm run dev:emulator & npm i wait-on && npx wait-on http://localhost:3001
 
         - name: Cypress run
           uses: cypress-io/github-action@v4
           with:
-            # start: npm run dev:emulator
+            start: npm run dev:emulator
             wait-on: http://localhost:3001
 
-        - name: Print logs
-          if: always()
-          run: npx pm2 logs    
+        # - name: Print logs
+        #   if: always()
+        #   run: npx pm2 logs    
 
         - uses: actions/upload-artifact@v2
           if: failure()
