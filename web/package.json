@@ -15,6 +15,7 @@
     "@analytics/router-utils": "^0.1.1",
     "@headlessui/react": "^1.5.0",
     "@onflow/fcl": "^1.2.0",
+    "@onflow/fcl-wc": "^0.1.0",
     "@onflow/types": "^1.0.2",
     "@onflow/util-actor": "^0.0.2",
     "@onflow/util-invariant": "^1.0.2",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@jjordy/swr-devtools": "^2.0.7",
+    "@next/swc-darwin-arm64": "^12.1.0",
     "cypress": "^8.5.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
