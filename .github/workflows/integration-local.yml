@@ -79,8 +79,8 @@ jobs:
             chmod -R 777 cadence/tests &&
             ls -l 
 
-        # - name: Fix npm cache issue
-        #   run: npm ci
+        - name: Fix npm cache issue
+          run: npm ci
 
         - name: Cypress run
           uses: cypress-io/github-action@v4
