@@ -22,6 +22,7 @@ deployed on the Flow Testnet.
 
 _🛠 This project requires `NodeJS v16.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
 _🛠 This project requires `flow-cli v0.32.1` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli)
+_🛠 This project requires `Python v3.6` or above._ See: [Python installation instructions](https://www.python.org/downloads)
 
 ### 2. Clone the project
 
@@ -52,6 +53,15 @@ Thats it! 🏁
 Run `npm run dev:testnet` and follow the prompt to begin developing on testnet.
 
 ---
+
+## Cypress tests
+There are 3 ways tests can be run:
+1. dev environment - start the server with `npm run dev:emulator` and run cypress `npx cypress run --headed --browser chrome`
+2. Github actions locally - requires the use of `https://github.com/nektos/act`
+   On Apple M1 - `act -j cypress --container-architecture linux/arm64`
+   On Intel/AMD - `act -j cypress --container-architecture linux/amd64`
+3. Github actions - executed automatically when merged to master. Add your branch name to `integration-local.yml` after line 10 to trigger workflows for every push into your remote branch.
+
 
 ## Project Overview
 
