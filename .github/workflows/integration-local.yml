@@ -85,10 +85,10 @@ jobs:
             ls -l 
 
         - name: Install dependencies
-          run: npm i --force && cd web && npm i --force && cat package-lock.json | grep swc
+          run: npm i && cd web && npm i && cat package-lock.json | grep swc
 
         - name: Start server
-          run: npm run dev:emulator && npm i wait-on && npx wait-on http://localhost:3001
+          run: npm run dev:emulator & npm i wait-on && npx wait-on http://localhost:3001
 
         - name: Cypress run
           uses: cypress-io/github-action@v4
