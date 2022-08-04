@@ -55,17 +55,22 @@ jobs:
           run: apt-get update -y && apt-get install build-essential -y 
 
         - name: Install Flow CLI
-          # run: | 
-          #   sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
-          #   echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH
           run: | 
-            sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)" &&
-            echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH &&
+            sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
+            echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH
             echo $HOME &&
             ls -l $HOME/.local/bin &&
             chmod a+r $HOME/.local/bin/flow &&
             ls -l $HOME/.local/bin &&
             $HOME/.local/bin/flow version
+          # run: | 
+          #   sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)" &&
+          #   echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH &&
+          #   echo $HOME &&
+          #   ls -l $HOME/.local/bin &&
+          #   chmod a+r $HOME/.local/bin/flow &&
+          #   ls -l $HOME/.local/bin &&
+          #   $HOME/.local/bin/flow version
 
         - name: Checkout
           uses: actions/checkout@v3
@@ -82,10 +87,13 @@ jobs:
         - name: Fix npm cache issue
           run: npm ci
 
+        - name: Start server
+          run: npm run dev:emulator && npm i wait-on && npx wait-on http://localhost:3001
+
         - name: Cypress run
           uses: cypress-io/github-action@v4
           with:
-            start: npm run dev:emulator
+            # start: npm run dev:emulator
             wait-on: http://localhost:3001
             
         - uses: actions/upload-artifact@v2
