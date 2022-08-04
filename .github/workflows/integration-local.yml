@@ -64,7 +64,8 @@ jobs:
             echo $HOME &&
             ls -l $HOME/.local/bin &&
             chmod a+r $HOME/.local/bin/flow &&
-            ls -l $HOME/.local/bin
+            ls -l $HOME/.local/bin &&
+            $HOME/.local/bin/flow version
 
         - name: Checkout
           uses: actions/checkout@v3
@@ -86,7 +87,6 @@ jobs:
           with:
             start: npm run dev:emulator
             wait-on: http://localhost:3001
-            browser: chrome
             
         - uses: actions/upload-artifact@v2
           if: failure()
