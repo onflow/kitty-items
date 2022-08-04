@@ -95,7 +95,11 @@ jobs:
           with:
             # start: npm run dev:emulator
             wait-on: http://localhost:3001
-            
+
+        - name: Print logs
+          if: always()
+          run: npx pm2 logs    
+
         - uses: actions/upload-artifact@v2
           if: failure()
           with:
