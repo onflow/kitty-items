@@ -84,8 +84,8 @@ jobs:
             chmod -R 777 cadence/tests &&
             ls -l 
 
-        - name: Fix npm cache issue
-          run: npm ci
+        - name: Install dependencies
+          run: npm i --force && cd web && npm i --force && cat package-lock.json | grep swc
 
         - name: Start server
           run: npm run dev:emulator && npm i wait-on && npx wait-on http://localhost:3001
