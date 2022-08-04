@@ -519,15 +519,14 @@ pm2.connect(false, async function (err) {
       );
     }
 
-    // let logs = await inquirer.prompt({
-    //   type: "confirm",
-    //   name: "confirm",
-    //   message: `Would you like to view the logs for all processes?`,
-    //   default: true
-    // });
+    let logs = await inquirer.prompt({
+      type: "confirm",
+      name: "confirm",
+      message: `Would you like to view the logs for all processes?`,
+      default: true
+    });
 
-    // if (logs.confirm) {
-    if (true) {
+    if (logs.confirm) {
       console.log("\n");
       const ps = spawn("npx", ["pm2", "logs", "--no-daemon"], {
         shell: true,
