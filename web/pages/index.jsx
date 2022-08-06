@@ -5,6 +5,7 @@ import PageTitle from "src/components/PageTitle"
 import useApiListings from "src/hooks/useApiListings"
 import {useEffect} from "react"
 import {initWcAdapter} from "@onflow/fcl-wc"
+import {config} from "@onflow/fcl"
 
 export default function Home() {
   const {listings, isLoading} = useApiListings()
@@ -15,6 +16,7 @@ export default function Home() {
         projectId: "a94f744d745459d99b7e0f371663bce0",
       })
       console.log(wcAdapter)
+      config.put("wc.adapter", wcAdapter)
     }
     initWc()
   }, [])

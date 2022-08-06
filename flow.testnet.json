@@ -2,14 +2,18 @@
   "accounts": {
     "testnet-account": {
       "address": "${ADMIN_ADDRESS}",
-      "keys": "${FLOW_PRIVATE_KEY}"
+      "key": {
+        "type": "hex",
+        "index": 0,
+        "signatureAlgorithm": "ECDSA_P256",
+        "hashAlgorithm": "SHA3_256",
+        "privateKey": "${FLOW_PRIVATE_KEY}"
+      }
     }
   },
   "deployments": {
     "testnet": {
-      "testnet-account": [
-        "KittyItems"
-      ]
+      "testnet-account": ["KittyItems"]
     }
   }
 }
