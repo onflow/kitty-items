@@ -56,7 +56,7 @@ export default function useItemSale(itemID) {
     const newTxId = await fcl.mutate({
       cadence: CREATE_LISTING_TRANSACTION,
       args: (arg, t) => [
-        arg(Number(item.itemID), t.UInt64),
+        arg(item.itemID.toString(), t.UInt64),
         arg(uFix64String(price), t.UFix64),
       ],
       limit: 1000,

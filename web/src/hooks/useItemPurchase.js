@@ -7,7 +7,6 @@ import {isSealed, isSuccessful} from "src/components/Transactions/utils"
 import {paths} from "src/global/constants"
 import {useSWRConfig} from "swr"
 import useAppContext from "./useAppContext"
-import {compFLOWBalanceKey} from "./useFLOWBalance"
 import analytics from "src/global/analytics"
 
 export default function useItemPurchase(itemID) {
@@ -25,7 +24,7 @@ export default function useItemPurchase(itemID) {
     const newTxId = await fcl.mutate({
       cadence: PURCHASE_LISTING_TRANSACTION,
       args: (arg, t) => [
-        arg(listingResourceID, t.UInt64),
+        arg(listingResourceID.toString(), t.UInt64),
         arg(ownerAddress, t.Address),
       ],
       limit: 1000,
@@ -40,7 +39,7 @@ export default function useItemPurchase(itemID) {
   useEffect(() => {
     if (!!currentUser && isSuccessful(tx)) {
       analytics.track("kitty-items-item-sale-primary", {params: {itemID}})
-      mutate(compFLOWBalanceKey(currentUser.addr))
+      mutate(currentUser.addr)
       cache.delete(paths.apiListing(itemID))
       router.push(paths.profileItem(currentUser.addr, itemID))
     } else if (isSealed(tx)) {
