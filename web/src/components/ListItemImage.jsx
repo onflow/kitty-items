@@ -27,7 +27,7 @@ export default function ListItemImage({
   const imageSrc1X = getImageSrc(cid, size, false)
   const imageSrc2X = getImageSrc(cid, size, true)
   const imageSrcSet = `${imageSrc1X}, ${imageSrc2X} 2x`
-
+  
   return (
     <div
       className={`group relative ${itemGradientClass(
