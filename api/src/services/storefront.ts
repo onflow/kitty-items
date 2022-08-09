@@ -183,13 +183,14 @@ class StorefrontService {
     const blockId = listingEvent.blockId;
     const listingResourceID = listingEvent.data.listingResourceID;
     const item = await this.getListingItem(owner, listingResourceID, blockId);
+
     return Listing.transaction(async tx => {
       return await Listing.query(tx)
         .insert({
           listing_resource_id: listingResourceID,
           item_id: item.itemID,
-          item_kind: item.kind.rawValue,
-          item_rarity: item.rarity.rawValue,
+          item_kind: item.kind,
+          item_rarity: item.rarity,
           name: item.name,
           image: item.image,
           owner: owner,
