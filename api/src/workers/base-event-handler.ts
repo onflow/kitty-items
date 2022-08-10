@@ -87,6 +87,12 @@ abstract class BaseEventHandler {
             return -1;
           }
 
+          // if events are on the same transaction, order by event index
+          if (event1.eventIndex > event2.eventIndex) {
+            return 1;
+          } else if (event1.eventIndex < event2.eventIndex) {
+            return -1;
+          }
           return 0;
         });
 
