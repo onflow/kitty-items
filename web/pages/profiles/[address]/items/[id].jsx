@@ -6,13 +6,14 @@ import OwnerInfo from "src/components/OwnerInfo"
 import PageTitle from "src/components/PageTitle"
 import RarityScale from "src/components/RarityScale"
 import SellListItem from "src/components/SellListItem"
+import { flashMessages } from "src/global/constants"
 import useAccountItem from "src/hooks/useAccountItem"
 import useApiListing from "src/hooks/useApiListing"
 import useAppContext from "src/hooks/useAppContext"
 
 export default function KittyItem() {
   const router = useRouter()
-  const {currentUser} = useAppContext()
+  const {currentUser, setFlashMessage} = useAppContext()
   const {address, id} = router.query
   const {listing} = useApiListing(id)
   const {item} = useAccountItem(address, id, listing)
@@ -20,6 +21,9 @@ export default function KittyItem() {
     currentUser && item?.owner && item.owner === currentUser?.addr
   const isSellable = currentUserIsOwner && !listing
 
+  if (!item) {
+    setFlashMessage(flashMessages.kittyItemFetchFailure);
+  }
   return (
     <div className="main-container pt-12 pb-24 w-full">
       <PageTitle>{["Kitty Item", id].filter(Boolean).join(" ")}</PageTitle>

@@ -98,7 +98,11 @@ abstract class BaseEventHandler {
 
         // update database in order of events
         for (const event of events) {
-          await this.onEvent(event);
+          try {
+            await this.onEvent(event);
+          } catch (e) {
+            console.error(`Encountered Error processing event: ${JSON.stringify(event)}`, e);
+          }
         }
       }
 

@@ -152,8 +152,7 @@ class StorefrontService {
 
   getListingItem = async (
     account: string,
-    listingResourceID: string,
-    blockId: string
+    listingResourceID: string
   ): Promise<any> => {
     const script = fs
       .readFileSync(
@@ -171,18 +170,16 @@ class StorefrontService {
       .replace(kittyItemsPath, fcl.withPrefix(this.minterAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
-    return this.flowService.executeScriptAtBlockId(
-      script,
-      [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
-      blockId
-    )
+      return this.flowService.executeScript<any>({
+        script,
+        args: [fcl.arg(account, t.Address), fcl.arg(listingResourceID, t.UInt64)],
+      })
   }
 
   addListing = async listingEvent => {
     const owner = listingEvent.data.storefrontAddress;
-    const blockId = listingEvent.blockId;
     const listingResourceID = listingEvent.data.listingResourceID;
-    const item = await this.getListingItem(owner, listingResourceID, blockId);
+    const item = await this.getListingItem(owner, listingResourceID);
 
     return Listing.transaction(async tx => {
       return await Listing.query(tx)

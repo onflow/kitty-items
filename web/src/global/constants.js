@@ -55,6 +55,10 @@ export const flashMessages = {
     type: "success",
     message: "You have logged out.",
   },
+  kittyItemFetchFailure: {
+    type: "error",
+    message: "Unable to fetch Kitty Item due to error"
+  }
 }
 
 export const ITEM_KIND_MAP = {
