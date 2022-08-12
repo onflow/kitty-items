@@ -57,7 +57,7 @@ export const flashMessages = {
   },
   kittyItemFetchFailure: {
     type: "error",
-    message: "Unable to fetch Kitty Item due to error"
+    message: "Kitty Item not found."
   }
 }
 
