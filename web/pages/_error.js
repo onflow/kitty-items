@@ -15,10 +15,10 @@
  */
 
 import * as Sentry from '@sentry/nextjs';
+import NextErrorComponent from 'next/error';
 import ServerErrorMessage from '../src/components/ServerErrorMessage'
 
 const CustomErrorComponent = props => {
-
   return <ServerErrorMessage statusCode={props.statusCode} />;
 };
 
