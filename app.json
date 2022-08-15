@@ -22,12 +22,12 @@
       "value": ""
     },
     "ACCESS_API": {
-      "value": "https://access-testnet.onflow.org"
+      "value": "https://rest-testnet.onflow.org"
     },
     "API_URL": {
-      "value": "https://access-testnet.onflow.org"
+      "value": "https://rest-testnet.onflow.org"
     },
-    "WALLET_DISCOVERY" : {
+    "WALLET_DISCOVERY": {
       "value": "https://fcl-discovery.onflow.org/testnet/authn"
     },
     "FLOW_PRIVATE_KEY": {
@@ -45,27 +45,27 @@
     "DATABASE_PATH": {
       "value": "./kitty-items-db-testnet.sqlite"
     },
-    "EXT_FLOW_TOKEN_ADDRESS" : {
-        "value": "0x7e60df042a9c0868"
+    "EXT_FLOW_TOKEN_ADDRESS": {
+      "value": "0x7e60df042a9c0868"
     },
-    "EXT_FUNGIBLE_TOKEN_ADDRESS" : {
-        "value": "0x9a0766d93b6608b7"
+    "EXT_FUNGIBLE_TOKEN_ADDRESS": {
+      "value": "0x9a0766d93b6608b7"
     },
-    "EXT_NON_FUNGIBLE_TOKEN_ADDRESS" : {
-        "value": "0x631e88ae7f1d7c20"
-    },
-    "EXT_NFT_STOREFRONT_ADDRESS" : {
-        "value": "0x94b06cfca1d8a476"
-    },
-    "EXT_METADATA_VIEWS_ADDRESS" : {
+    "EXT_NON_FUNGIBLE_TOKEN_ADDRESS": {
       "value": "0x631e88ae7f1d7c20"
     },
-    "GA_TRACKING_ID" : {
+    "EXT_NFT_STOREFRONT_ADDRESS": {
+      "value": "0x94b06cfca1d8a476"
+    },
+    "EXT_METADATA_VIEWS_ADDRESS": {
+      "value": "0x631e88ae7f1d7c20"
+    },
+    "GA_TRACKING_ID": {
       "value": ""
     },
-    "MIXPANEL_TOKEN" : {
+    "MIXPANEL_TOKEN": {
       "value": ""
-    }    
+    }
   },
   "addons": [
     {
