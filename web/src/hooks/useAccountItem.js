@@ -19,7 +19,6 @@ export default function useAccountItem(address, id, listing) {
     compAccountItemKey(address, id),
     fetchAccountItem
   )
-
   const item = data ? normalizeItem(data, listing) : undefined
   return {item, error, isLoading: !data && !error}
 }

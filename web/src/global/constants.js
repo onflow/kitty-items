@@ -54,7 +54,7 @@ export const flashMessages = {
   loggedOutSuccess: {
     type: "success",
     message: "You have logged out.",
-  }
+  },
 }
 
 export const ITEM_KIND_MAP = {
