@@ -54,10 +54,6 @@ export const flashMessages = {
   loggedOutSuccess: {
     type: "success",
     message: "You have logged out.",
-  },
-  kittyItemFetchFailure: {
-    type: "error",
-    message: "Kitty Item not found."
   }
 }
 
