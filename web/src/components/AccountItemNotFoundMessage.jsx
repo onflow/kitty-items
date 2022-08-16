@@ -7,14 +7,10 @@ export default function AccountItemNotFoundMessage(args) {
   return (
     <div className="flex justify-center my-12 text-center">
       <div className="bg-white border border-gray-200 p-6 w-[32rem] rounded-md inline-flex flex-col justify-center">
-        <h1 className="text-3xl font-semibold mb-6">Error Encountered!</h1>
-
         <div className="bg-white border border-gray-200 p-6 rounded-md inline-flex flex-col justify-center">
           <b>{message}</b>
-
           <p className="text-gray-light mt-1">
-            The Kitty Item you are looking for may be owned by a different account or not yet minted! 
-            Check the Flow blockchain to confirm the status of this Kitty Item.
+            The Kitty Item you are looking for may be owned by a different account or not yet minted!
           </p>
 
           <hr className="mt-8 mb-6" />
