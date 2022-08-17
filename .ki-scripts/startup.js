@@ -265,7 +265,7 @@ pm2.connect(false, async function (err) {
       content: JSON.stringify(result)
     });
 
-    const testnetEnvFile = jetpack.read(".env.testnet.template");
+    const testnetEnvFile = jetpack.read(".env.testnet.example");
     const buf = Buffer.from(testnetEnvFile);
     const parsed = dotenv.parse(buf);
 
