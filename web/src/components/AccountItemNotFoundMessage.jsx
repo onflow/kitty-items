@@ -7,8 +7,10 @@ export default function AccountItemNotFoundMessage(args) {
   return (
     <div className="flex justify-center my-12 text-center">
       <div className="bg-white border border-gray-200 p-6 w-[32rem] rounded-md inline-flex flex-col justify-center">
+
         <div className="bg-white border border-gray-200 p-6 rounded-md inline-flex flex-col justify-center">
           <b>{message}</b>
+
           <p className="text-gray-light mt-1">
             The Kitty Item you are looking for may be owned by a different account or not yet minted!
           </p>
