@@ -4,7 +4,7 @@ import {itemGradientClass} from "src/util/classes"
 
 export default function RarityScale({highlightedRarity}) {
   return (
-    <div className="mb-10 text-gray-light text-sm">
+    <div className="mb-10 text-gray-light text-sm" data-cy="rarity scale">
       <div className="flex justify-between items-center uppercase font-bold text-xs pb-2 px-2">
         <div>Rarity Scale</div>
         <div>Minting Chance</div>
