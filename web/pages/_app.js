@@ -9,14 +9,14 @@ import {SWRConfig} from "swr"
 import Router from "next/router"
 import analytics from "src/global/analytics"
 import {useEffect} from "react"
-import {initWcAdapter} from "@onflow/fcl-wc"
+import {initFclWc} from "@onflow/fcl-wc"
 import {config} from "@onflow/fcl"
 
 Router.events.on("routeChangeComplete", () => analytics.page())
 export default function MyApp({Component, pageProps}) {
   useEffect(() => {
     const initWc = async () => {
-      const wcAdapter = await initWcAdapter({
+      const wcAdapter = await initFclWc({
         projectId: "a94f744d745459d99b7e0f371663bce0",
       })
       console.log(wcAdapter)
