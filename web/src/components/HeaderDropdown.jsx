@@ -26,7 +26,10 @@ export default function HeaderDropdown() {
   return (
     <div className="flex items-center">
       <Menu as="div" className="relative flex inline-block text-left">
-        <Menu.Button className="w-10 h-10 hover:opacity-80">
+        <Menu.Button
+          className="w-10 h-10 hover:opacity-80"
+          data-cy="btn user account"
+        >
           <Avatar address={address} />
         </Menu.Button>
         <button

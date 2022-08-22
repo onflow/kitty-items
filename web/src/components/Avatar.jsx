@@ -15,7 +15,10 @@ export default function Avatar({address}) {
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <div className="border border-gray-200 rounded-full w-full h-full">
+    <div
+      className="border border-gray-200 rounded-full w-full h-full"
+      data-cy="user avatar"
+    >
       {typeof address !== "undefined" && (
         <img
           src={avatarUrl(`${address}-${publicConfig.appTitle}`)}
