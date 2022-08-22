@@ -57,6 +57,7 @@ export default function Header() {
                 <button
                   onClick={logIn}
                   className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
+                  data-cy="btn log in"
                 >
                   Log In
                 </button>
