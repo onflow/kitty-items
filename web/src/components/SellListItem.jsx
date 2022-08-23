@@ -17,7 +17,7 @@ export default function SellListItem({item}) {
   }
 
   return (
-    <div>
+    <div data-cy="sell list item">
       <div className="text-gray mb-5">
         <div className="font-bold">
           Items of this rarity usually sell for{" "}

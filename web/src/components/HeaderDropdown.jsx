@@ -66,7 +66,11 @@ export default function HeaderDropdown() {
               </Menu.Item>
               <Menu.Item>
                 {({active}) => (
-                  <button onClick={signOut} className={menuItemClasses(active)}>
+                  <button
+                    onClick={signOut}
+                    className={menuItemClasses(active)}
+                    data-cy="btn sign out"
+                  >
                     Sign Out
                   </button>
                 )}

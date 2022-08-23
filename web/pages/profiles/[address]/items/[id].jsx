@@ -37,7 +37,10 @@ export default function KittyItem() {
           {!!item && (
             <div className="pt-20">
               <OwnerInfo address={item.owner} size="lg" />
-              <h1 className="text-5xl text-gray-darkest mt-10 mb-6">
+              <h1
+                className="text-5xl text-gray-darkest mt-10 mb-6"
+                data-cy="minted item name"
+              >
                 {item.name}
               </h1>
               {isSellable ? (
