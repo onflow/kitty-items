@@ -9,6 +9,7 @@ import SellListItem from "src/components/SellListItem"
 import useAccountItem from "src/hooks/useAccountItem"
 import useApiListing from "src/hooks/useApiListing"
 import useAppContext from "src/hooks/useAppContext"
+import AccountItemNotFoundMessage from "src/components/AccountItemNotFoundMessage"
 
 export default function KittyItem() {
   const router = useRouter()
@@ -24,17 +25,16 @@ export default function KittyItem() {
     <div className="main-container pt-12 pb-24 w-full">
       <PageTitle>{["Kitty Item", id].filter(Boolean).join(" ")}</PageTitle>
       <main>
-        <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-x-14">
-          <ListItemImage
-            name={item?.name}
-            rarity={item?.rarity}
-            cid={item?.image}
-            address={item?.owner}
-            id={item?.itemID}
-            size="lg"
-          />
-
-          {!!item && (
+        {!!item ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 md:gap-x-14">
+            <ListItemImage
+              name={item?.name}
+              rarity={item?.rarity}
+              cid={item?.image}
+              address={item?.owner}
+              id={item?.itemID}
+              size="lg"
+            />
             <div className="pt-20">
               <OwnerInfo address={item.owner} size="lg" />
               <h1
@@ -63,8 +63,10 @@ export default function KittyItem() {
                 </>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <AccountItemNotFoundMessage itemID={id} accountID={address} />
+        )}
       </main>
     </div>
   )

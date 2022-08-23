@@ -37,7 +37,7 @@ export default function HomeEmptyMessage() {
           </p>
 
           <ButtonLink href={paths.githubRepo} target="_blank" color="outline">
-            VIEW DOCUMENTATION & RESOURCES
+            VIEW DOCUMENTATION &amp; RESOURCES
           </ButtonLink>
         </div>
       </div>

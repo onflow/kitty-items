@@ -24,7 +24,7 @@ deployed on the Flow Testnet. The demo features 4 main views: homepage, marketpl
 ### 1. Install Dependencies
 
 _🛠 This project requires `NodeJS v16.x` or above._ See: [Node installation instructions](https://nodejs.org/en/) <br/>
-_🛠 This project requires `flow-cli v0.32.1` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli) <br/>
+_🛠 This project requires `flow-cli v0.39.1` or above._ See: [Flow CLI installation instructions](https://docs.onflow.org/flow-cli) <br/>
 _🛠 This project requires `Python v3.6` or above._ See: [Python installation instructions](https://www.python.org/downloads)
 
 ### 2. Clone the project

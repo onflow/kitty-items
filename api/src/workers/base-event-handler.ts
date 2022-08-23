@@ -87,12 +87,22 @@ abstract class BaseEventHandler {
             return -1;
           }
 
+          // if events are on the same transaction, order by event index
+          if (event1.eventIndex > event2.eventIndex) {
+            return 1;
+          } else if (event1.eventIndex < event2.eventIndex) {
+            return -1;
+          }
           return 0;
         });
 
         // update database in order of events
         for (const event of events) {
-          await this.onEvent(event);
+          try {
+            await this.onEvent(event);
+          } catch (e) {
+            console.error(`Encountered Error processing event: ${JSON.stringify(event)}`, e);
+          }
         }
       }
 

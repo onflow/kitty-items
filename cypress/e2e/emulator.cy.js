@@ -13,12 +13,7 @@ describe('Emulator + dev-wallet tests', () => {
     })
 
     it('logs in as admin', () => {
-      /*cy.get('[data-cy="btn user account"]').click()
-      cy.get('[data-cy="btn sign out"]').should('have.text', 'Sign Out')
-      cy.get('[data-cy="btn sign out"]').click()*/
-
       cy.visit('http://localhost:3001/admin/mint')
-      //cy.contains('Back to user view').click()
 
       cy.get('[data-cy="btn log in admin"]').click()
       cy.get("input[placeholder=\"Enter Password\"]").type('KittyItems')
@@ -29,7 +24,6 @@ describe('Emulator + dev-wallet tests', () => {
       cy.contains('Mint Item').should('exist')
     })
 
-    // List and remove item from as admin
     it('creates a new account', () => {
       cy.get('[data-cy="btn log in"]').click()
   
@@ -50,7 +44,6 @@ describe('Emulator + dev-wallet tests', () => {
     afterEach(()=> {
       // Sign out from any account
       cy.get('[data-cy="btn user account"]').click()
-      cy.wait(1000)
       cy.get('[data-cy="btn sign out"]').should('have.text', 'Sign Out')
       cy.get('[data-cy="btn sign out"]').click()
       cy.get('[data-cy="btn log in"]').should('have.text', 'Log In')
@@ -60,7 +53,7 @@ describe('Emulator + dev-wallet tests', () => {
       cy.contains('MINT YOUR FIRST KITTY ITEM').should('exist')
     })
 
-    it('mints first item as user then remove from store', () => {
+    it('mints first item from a service account + remove from store', () => {
       // Sign in to service account
       cy.get('[data-cy="btn log in"]').should('have.text', 'Log In')
       cy.get('[data-cy="btn log in"]').click()
@@ -81,7 +74,7 @@ describe('Emulator + dev-wallet tests', () => {
       cy.get('[data-cy="sell list item"]').should('exist')
     })
 
-    it('mints an item + funds an account + purchases item from the funded account', () => {
+    it('mints an item as a user + funds an account + purchases item from the funded account', () => {
       // Mints an item - alreay signed in with service account
       cy.contains('MINT YOUR FIRST KITTY ITEM').click()
       cy.get("input[placeholder=\"Enter Password\"]").type('KittyItems')
@@ -123,7 +116,7 @@ describe('Emulator + dev-wallet tests', () => {
         getIframeBody().contains('button', 'Approve').click()
         cy.get('[data-cy="sell list item"]').should('exist')
 
-        // Since a user bought a liste item, there is no need to remove from store as a part of cleanup. Note that we should ideally undo funding for Account A, but there is no way to do this with e2e capabilities
+        // Since a user bought a list item, there is no need to remove from store as a part of cleanup. Note that we should ideally undo funding for Account A, but there is no way to do this with e2e capabilities
       })
     })
   })
