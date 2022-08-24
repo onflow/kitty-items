@@ -7,9 +7,22 @@ const getIframeBody = () => {
 
 describe('Emulator + dev-wallet tests', () => {
 
-  describe('Scenarios that do not require user accounts', () => {
+  describe('Scenarios that do not interact with kitty items', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3001/')
+    })
+
+    it('visits header buttons', () => {
+      // Should be the same as homepage
+      cy.get('[data-cy="header right"]').contains('Store').click()
+      cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
+
+      cy.get('[data-cy="header right"]').contains('Marketplace').click()
+      cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
+
+      // Click back to the homepage
+      cy.get('[data-cy="header left"]').click()
+      cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
     })
 
     it('logs in as admin', () => {
@@ -36,7 +49,7 @@ describe('Emulator + dev-wallet tests', () => {
     })
   })
 
-  describe('Scenarios that require user accounts', () => {
+  describe('Scenarios that involve minting kitty items', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3001/')
     })

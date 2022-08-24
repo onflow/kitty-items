@@ -20,7 +20,7 @@ export default function Profile() {
   const {address} = router.query
 
   return (
-    <div className="main-container pt-12 pb-24">
+    <div className="main-container pt-12 pb-24" data-cy="profile">
       <PageTitle>{address}</PageTitle>
       <main>
         <div className="bg-white border border-gray-200 p-6 mb-12 rounded-md flex flex-col items-center justify-center relative">

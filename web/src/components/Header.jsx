@@ -20,7 +20,10 @@ export default function Header() {
       <HeaderMessage />
       <div className="flex justify-between py-4 main-container max-w-2">
         <Link href={paths.root} passHref>
-          <a className="flex items-center hover:opacity-80">
+          <a
+            className="flex items-center hover:opacity-80"
+            data-cy="header left"
+          >
             <div className="flex w-12 sm:w-auto">
               <img
                 src="/images/kitty-items-logo.svg"
@@ -39,7 +42,7 @@ export default function Header() {
             </div>
           </a>
         </Link>
-        <div className="flex items-center">
+        <div className="flex items-center" data-cy="header right">
           {!isAdminPath && (
             <>
               <div className="mr-2 md:mr-4">

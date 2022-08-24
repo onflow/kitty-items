@@ -24,7 +24,7 @@ export default function HeaderDropdown() {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center" data-cy="header user drop down">
       <Menu as="div" className="relative flex inline-block text-left">
         <Menu.Button
           className="w-10 h-10 hover:opacity-80"
