@@ -15,6 +15,8 @@ if (!appUrl) throw new Error("Missing NEXT_PUBLIC_APP_URL")
 const walletDiscovery = process.env.NEXT_PUBLIC_WALLET_DISCOVERY
 if (!walletDiscovery) throw new Error("Missing NEXT_PUBLIC_WALLET_DISCOVERY")
 
+const discoveryInclude = [process.env.NEXT_PUBLIC_DAPPER_WALLET_ADDRESS]
+
 const apiKittyItemMint = process.env.NEXT_PUBLIC_API_KITTY_ITEM_MINT
 if (!apiKittyItemMint)
   throw new Error("Missing NEXT_PUBLIC_API_KITTY_ITEM_MINT")
@@ -73,6 +75,7 @@ const publicConfig = {
   flowAccessApiUrl,
   appUrl,
   walletDiscovery,
+  discoveryInclude,
   apiKittyItemMint,
   apiMarketItemsList,
   apiKittyItemMintAndList,
