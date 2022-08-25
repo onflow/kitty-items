@@ -109,7 +109,7 @@ describe('Emulator + dev-wallet tests', () => {
 
         for (let n = 0; n < 5; n ++) {
           getIframeBody().contains('label', 'FLOW').next().next().click()
-          cy.wait(1000)
+          cy.wait(1000) // TODO: Add verification here instead of timer
         }
         getIframeBody().contains('label', 'FLOW').next().invoke('text').should('not.eq', '0').and('not.eq','0.001') 
         // The above line seems redundant, but the should condition ensures to retry until non-default values are loaded

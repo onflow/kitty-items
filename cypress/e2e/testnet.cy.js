@@ -7,7 +7,7 @@ const getIframeBody = () => {
 
 describe('Testnet tests', () => {
 
-  describe('Scenarios that do not require calling external apps', () => {
+  describe.skip('Scenarios that do not require calling external apps', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3001/')
     })
