@@ -13,7 +13,9 @@ export default function Mint() {
   if (!isLoggedInAsAdmin) {
     return (
       <div className="flex items-center justify-center mt-14">
-        <button onClick={onAdminLoginClick}>Log In to Admin View</button>
+        <button onClick={onAdminLoginClick} data-cy="btn-log-in-admin">
+          Log In to Admin View
+        </button>
       </div>
     )
   }

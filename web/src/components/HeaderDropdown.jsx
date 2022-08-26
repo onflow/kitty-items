@@ -24,9 +24,12 @@ export default function HeaderDropdown() {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center" data-cy="header user drop down">
       <Menu as="div" className="relative flex inline-block text-left">
-        <Menu.Button className="w-10 h-10 hover:opacity-80">
+        <Menu.Button
+          className="w-10 h-10 hover:opacity-80"
+          data-cy="btn-user-account"
+        >
           <Avatar address={address} />
         </Menu.Button>
         <button
@@ -63,7 +66,11 @@ export default function HeaderDropdown() {
               </Menu.Item>
               <Menu.Item>
                 {({active}) => (
-                  <button onClick={signOut} className={menuItemClasses(active)}>
+                  <button
+                    onClick={signOut}
+                    className={menuItemClasses(active)}
+                    data-cy="btn-sign-out"
+                  >
                     Sign Out
                   </button>
                 )}

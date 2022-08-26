@@ -8,7 +8,10 @@ export default function HeaderFLOWBalance() {
   const {data: flowBalance, isLoading} = useFLOWBalance(currentUser?.addr)
 
   return (
-    <div className="text-sm bg-gray-50 border-1 border-gray-200 border rounded-3xl h-10 flex items-center content-center justify-between px-4">
+    <div
+      className="text-sm bg-gray-50 border-1 border-gray-200 border rounded-3xl h-10 flex items-center content-center justify-between px-4"
+      data-cy="header-flow-balance"
+    >
       <div className="mr-10 text-gray">FLOW</div>
       <div className="font-mono">
         {!isLoading && formattedCurrency(flowBalance)}

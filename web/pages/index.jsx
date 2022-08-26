@@ -13,10 +13,10 @@ export default function Home() {
       <main>
         {!isLoading &&
           (listings && listings.length > 0 ? (
-            <>
+            <div data-cy="home">
               <LatestStoreItems items={listings} />
               <LatestMarketplaceItems items={listings} />
-            </>
+            </div>
           ) : (
             <HomeEmptyMessage />
           ))}
