@@ -82,6 +82,10 @@ jobs:
             start: npm run dev:emulator
             wait-on: http://localhost:3001
             spec: cypress/e2e/emulator.cy.js
+            record: true
+          env:
+            CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
+            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
         - uses: actions/upload-artifact@v3
           if: failure()
