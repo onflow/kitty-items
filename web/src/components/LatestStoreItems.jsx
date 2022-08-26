@@ -74,7 +74,7 @@ export default function LatestStoreItems({items}) {
   const nextPage = () => scrollToItem(firstVisibleItem + 1)
 
   return (
-    <div data-cy="latest store items">
+    <div data-cy="latest-store-items">
       <div className="main-container flex pt-10 flex-col sm:flex-row">
         <div>
           <h1 className="text-4xl text-gray-darkest mb-1">

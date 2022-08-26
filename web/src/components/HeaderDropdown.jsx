@@ -28,7 +28,7 @@ export default function HeaderDropdown() {
       <Menu as="div" className="relative flex inline-block text-left">
         <Menu.Button
           className="w-10 h-10 hover:opacity-80"
-          data-cy="btn user account"
+          data-cy="btn-user-account"
         >
           <Avatar address={address} />
         </Menu.Button>
@@ -69,7 +69,7 @@ export default function HeaderDropdown() {
                   <button
                     onClick={signOut}
                     className={menuItemClasses(active)}
-                    data-cy="btn sign out"
+                    data-cy="btn-sign-out"
                   >
                     Sign Out
                   </button>

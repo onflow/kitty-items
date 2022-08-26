@@ -17,7 +17,7 @@ export default function Avatar({address}) {
     // eslint-disable-next-line @next/next/no-img-element
     <div
       className="border border-gray-200 rounded-full w-full h-full"
-      data-cy="user avatar"
+      data-cy="user-avatar"
     >
       {typeof address !== "undefined" && (
         <img

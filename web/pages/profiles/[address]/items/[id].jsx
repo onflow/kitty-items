@@ -39,7 +39,7 @@ export default function KittyItem() {
               <OwnerInfo address={item.owner} size="lg" />
               <h1
                 className="text-5xl text-gray-darkest mt-10 mb-6"
-                data-cy="minted item name"
+                data-cy="minted-item-name"
               >
                 {item.name}
               </h1>

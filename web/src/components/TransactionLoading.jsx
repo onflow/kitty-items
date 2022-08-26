@@ -5,7 +5,7 @@ export default function TransactionLoading({status}) {
   return (
     <div
       className="flex flex-col items-center justify-center bg-white pt-12 pb-11 border border-gray-200 rounded-sm text-gray-lightest text-xs uppercase"
-      data-cy="tx loading"
+      data-cy="tx-loading"
     >
       <img src="/images/loading.svg" alt="Flow" width={70} height={70} />
       <div className="mt-4">

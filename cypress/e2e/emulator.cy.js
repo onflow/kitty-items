@@ -14,31 +14,31 @@ describe('Emulator + dev-wallet tests', () => {
 
     it('visits header buttons', () => {
       // Should be the same as homepage
-      cy.get('[data-cy="header right"]').contains('Store').click()
+      cy.get('[data-cy="header-right"]').contains('Store').click()
       cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
 
-      cy.get('[data-cy="header right"]').contains('Marketplace').click()
+      cy.get('[data-cy="header-right"]').contains('Marketplace').click()
       cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
 
       // Click back to the homepage
-      cy.get('[data-cy="header left"]').click()
+      cy.get('[data-cy="header-left"]').click()
       cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
     })
 
     it('logs in as admin', () => {
       cy.visit('http://localhost:3001/admin/mint')
 
-      cy.get('[data-cy="btn log in admin"]').click()
+      cy.get('[data-cy="btn-log-in-admin"]').click()
       cy.get("input[placeholder=\"Enter Password\"]").type('KittyItems')
       cy.get("button[type=\"submit\"]").click()
   
-      cy.get('[data-cy="header mint"]').should('exist')
-      cy.get('[data-cy="rarity scale"]').should('exist')
+      cy.get('[data-cy="header-mint"]').should('exist')
+      cy.get('[data-cy="rarity-scale"]').should('exist')
       cy.contains('Mint Item').should('exist')
     })
 
     it('creates a new account', () => {
-      cy.get('[data-cy="btn log in"]').click()
+      cy.get('[data-cy="btn-log-in"]').click()
   
       // Creates a new account
       // FCL wallet runs in iframe, and we can currently only access the elements by searching for its contents, rather
@@ -56,10 +56,10 @@ describe('Emulator + dev-wallet tests', () => {
 
     afterEach(()=> {
       // Sign out from any account
-      cy.get('[data-cy="btn user account"]').click()
-      cy.get('[data-cy="btn sign out"]').should('have.text', 'Sign Out')
-      cy.get('[data-cy="btn sign out"]').click()
-      cy.get('[data-cy="btn log in"]').should('have.text', 'Log In')
+      cy.get('[data-cy="btn-user-account"]').click()
+      cy.get('[data-cy="btn-sign-out"]').should('have.text', 'Sign Out')
+      cy.get('[data-cy="btn-sign-out"]').click()
+      cy.get('[data-cy="btn-log-in"]').should('have.text', 'Log In')
 
       // Check that the store is empty
       cy.visit('http://localhost:3001/')
@@ -68,8 +68,8 @@ describe('Emulator + dev-wallet tests', () => {
 
     it('mints first item from a service account + remove from store', () => {
       // Sign in to service account
-      cy.get('[data-cy="btn log in"]').should('have.text', 'Log In')
-      cy.get('[data-cy="btn log in"]').click()
+      cy.get('[data-cy="btn-log-in"]').should('have.text', 'Log In')
+      cy.get('[data-cy="btn-log-in"]').click()
       getIframeBody().contains('Service Account').click()
       cy.visit('http://localhost:3001/')
 
@@ -79,12 +79,12 @@ describe('Emulator + dev-wallet tests', () => {
 
       cy.contains('Mint Item').click()
 
-      cy.get('[data-cy="header mint"]').should('exist')
-      cy.get('[data-cy="rarity scale"]').should('exist')
+      cy.get('[data-cy="header-mint"]').should('exist')
+      cy.get('[data-cy="rarity-scale"]').should('exist')
       cy.contains('Remove From Store').click()
 
       getIframeBody().contains('Approve').click()
-      cy.get('[data-cy="sell list item"]').should('exist')
+      cy.get('[data-cy="sell-list-item"]').should('exist')
     })
 
     it.skip('mints an item as a user + funds an account + purchases item from the funded account', () => {
@@ -95,15 +95,15 @@ describe('Emulator + dev-wallet tests', () => {
 
       cy.contains('Mint Item').click()
 
-      cy.get('[data-cy="header mint"]').should('exist')
-      cy.get('[data-cy="rarity scale"]').should('exist')
+      cy.get('[data-cy="header-mint"]').should('exist')
+      cy.get('[data-cy="rarity-scale"]').should('exist')
       cy.contains('Purchase')
 
-      cy.get('[data-cy="minted item name"]').then(($item) => {
+      cy.get('[data-cy="minted-item-name"]').then(($item) => {
         const itemName = $item.text()
         
         // Funds Account A
-        cy.get('[data-cy="btn log in"]').click()
+        cy.get('[data-cy="btn-log-in"]').click()
     
         getIframeBody().contains('Account A').parent().contains('Manage').click()
 
@@ -127,7 +127,7 @@ describe('Emulator + dev-wallet tests', () => {
         cy.contains(itemName).click()
         cy.contains('Purchase').click()
         getIframeBody().contains('button', 'Approve').click()
-        cy.get('[data-cy="sell list item"]').should('exist')
+        cy.get('[data-cy="sell-list-item"]').should('exist')
 
         // Since a user bought a list item, there is no need to remove from store as a part of cleanup. Note that we should ideally undo funding for Account A, but there is no way to do this with e2e capabilities
       })

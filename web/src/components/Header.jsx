@@ -22,7 +22,7 @@ export default function Header() {
         <Link href={paths.root} passHref>
           <a
             className="flex items-center hover:opacity-80"
-            data-cy="header left"
+            data-cy="header-left"
           >
             <div className="flex w-12 sm:w-auto">
               <img
@@ -42,7 +42,7 @@ export default function Header() {
             </div>
           </a>
         </Link>
-        <div className="flex items-center" data-cy="header right">
+        <div className="flex items-center" data-cy="header-right">
           {!isAdminPath && (
             <>
               <div className="mr-2 md:mr-4">
@@ -60,7 +60,7 @@ export default function Header() {
                 <button
                   onClick={logIn}
                   className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
-                  data-cy="btn log in"
+                  data-cy="btn-log-in"
                 >
                   Log In
                 </button>
