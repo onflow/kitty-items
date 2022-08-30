@@ -121,6 +121,7 @@ function requireEnv(chainEnv) {
   switch (chainEnv) {
     case "emulator":
       return ".env.emulator";
+    case "testnet-cypress":
     case "testnet":
       if (!jetpack.exists(".env.testnet")) {
         throw new Error(
@@ -418,6 +419,7 @@ pm2.connect(false, async function (err) {
       await bootstrapNewTestnetAccount();
       await deployAndInitialize();
     } else {
+      // If testing on cypress, skip all inquirer prompt
       let useExisting = await inquirer.prompt({
         type: "confirm",
         name: "confirm",
@@ -438,6 +440,15 @@ pm2.connect(false, async function (err) {
         });
       }
     }
+  } else if (process.env.CHAIN_ENV === "testnet-cypress" ) {
+    const USE_EXISTING = jetpack.exists(".env.testnet");
+    if (!USE_EXISTING) {
+      throw new Error("testnet-cypress should always use an existing account");
+    }
+
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV)
+    });
   }
 
   // ------------------------------------------------------------
