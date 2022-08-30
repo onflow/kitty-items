@@ -295,7 +295,7 @@ pm2.connect(false, async function (err) {
 
   async function deployAndInitialize() {
     spinner.start(
-      `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
+      `Deploying contracts to: ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
 
     const { stdout: out1, stderr: err1 } = await exec(

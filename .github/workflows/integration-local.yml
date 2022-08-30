@@ -142,9 +142,9 @@ jobs:
           env:
             CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
             GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-            ADMIN_ADDRESS_E2E: ${{secrets.ADMIN_ADDRESS_E2E}}
-            FLOW_PRIVATE_KEY_E2E: ${{secrets.FLOW_PRIVATE_KEY_E2E}}
-            FLOW_PUBLIC_KEY_E2E: ${{secrets.FLOW_PUBLIC_KEY_E2E}}
+            ADMIN_ADDRESS: ${{secrets.ADMIN_ADDRESS_E2E}}
+            FLOW_PRIVATE_KEY: ${{secrets.FLOW_PRIVATE_KEY_E2E}}
+            FLOW_PUBLIC_KEY: ${{secrets.FLOW_PUBLIC_KEY_E2E}}
         - uses: actions/upload-artifact@v3
           if: failure()
           with:
