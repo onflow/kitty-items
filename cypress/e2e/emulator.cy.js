@@ -15,14 +15,14 @@ describe('Emulator + dev-wallet tests', () => {
     it('visits header buttons', () => {
       // Should be the same as homepage
       cy.get('[data-cy="header-right"]').contains('Store').click()
-      cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
+      cy.get('[data-cy="home-empty-message"]').contains('MINT YOUR FIRST KITTY ITEM')
 
       cy.get('[data-cy="header-right"]').contains('Marketplace').click()
       cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
 
       // Click back to the homepage
       cy.get('[data-cy="header-left"]').click()
-      cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
+      cy.get('[data-cy="home-empty-message"]').contains('MINT YOUR FIRST KITTY ITEM')
     })
 
     it('logs in as admin', () => {
@@ -78,6 +78,7 @@ describe('Emulator + dev-wallet tests', () => {
       cy.get("button[type=\"submit\"]").click()
 
       cy.contains('Mint Item').click()
+      cy.get('[data-cy="tx-loading"]').should('be.visible')
 
       cy.get('[data-cy="header-mint"]').should('exist')
       cy.get('[data-cy="rarity-scale"]').should('exist')
@@ -87,13 +88,14 @@ describe('Emulator + dev-wallet tests', () => {
       cy.get('[data-cy="sell-list-item"]').should('exist')
     })
 
-    it.skip('mints an item as a user + funds an account + purchases item from the funded account', () => {
+    it('mints an item as a user + funds an account + purchases item', () => {
       // Mints an item - alreay signed in with service account
       cy.contains('MINT YOUR FIRST KITTY ITEM').click()
       cy.get("input[placeholder=\"Enter Password\"]").type('KittyItems')
       cy.get("button[type=\"submit\"]").click()
 
       cy.contains('Mint Item').click()
+      cy.get('[data-cy="tx-loading"]').should('be.visible')
 
       cy.get('[data-cy="header-mint"]').should('exist')
       cy.get('[data-cy="rarity-scale"]').should('exist')

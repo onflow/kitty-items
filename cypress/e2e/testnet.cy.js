@@ -5,24 +5,53 @@ const getIframeBody = () => {
     .then(cy.wrap)
 }
 
+/* 
+Note on Cypress Testing on Testnet:
+If we have a test account with pre-minted items and funding, how do we ensure that this account state is managed? For instance, every time the test runs, a new item would be minted on this account, and there doesn't seem to be a way to remove the item from store. We were able to clean up minted items on the emulator with the admin account, but can we do something similar in testnet?
+*/
+
 describe('Testnet tests', () => {
 
-  describe.skip('Scenarios that do not require calling external apps', () => {
+  describe('Scenarios that do not require calling external apps', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3001/')
+    })
+
+    afterEach(() => {
+      cy.visit('http://localhost:3001/')
+      // Verify that the user is logged out
+      cy.get('[data-cy="btn-log-in"]').should('have.text', 'Log In')
+      cy.get('[data-cy="home"]').invoke('text')
+
+      // Verify that the the state is back to home page
+      cy.get('[data-cy="home"]').invoke('text').then(($text) => {
+        if ($text.includes('Latest Kitty Items')) {
+          // If the test account exists and has already minted several items, then the display should contain 
+          cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items').should('exist')
+        } else {
+          cy.get('[data-cy="home-empty-message"]').contains('MINT YOUR FIRST KITTY ITEM').should('exist')
+        }
+      })
     })
 
     it('visits header buttons', () => {
       // Should be the same as homepage
       cy.get('[data-cy="header-right"]').contains('Store').click()
-      cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
+      cy.get('[data-cy="home"]').invoke('text').then(($text) => {
+        if ($text.includes('Latest Kitty Items')) {
+          // If the test account exists and has already minted several items, then the display should contain 
+          cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items').should('exist')
+        } else {
+          cy.get('[data-cy="home-empty-message"]').contains('MINT YOUR FIRST KITTY ITEM').should('exist')
+        }
+      })
 
+      // Click to marketplace
       cy.get('[data-cy="header-right"]').contains('Marketplace').click()
       cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
 
       // Click back to the homepage
       cy.get('[data-cy="header-left"]').click()
-      cy.get('[data-cy="home"]').contains('MINT YOUR FIRST KITTY ITEM')
     })
 
     it('logs in as admin + mint an item', () => {
@@ -37,13 +66,13 @@ describe('Testnet tests', () => {
 
       // Mint an item as admin
       cy.contains('Mint Item').click()
-      cy.get('[data-cy="tx-loading"]').should('be.visible')
+      cy.get('[data-cy="tx-loading"]',).should('be.visible')
       // Transaction could take longer than timeout (default, 4 seconds)
-      cy.wait(15000)
-      cy.contains('Purchase').should('exist')
+      cy.get('[data-cy="minted-item-name"]', { timeout:25000 } ).should('exist')
+      // Purchase button doesn't exist because account is admin
     })
 
-    it('connects to Blocto wallet with testnet account', () => {
+    it.only('connects to Blocto wallet', () => {
       cy.get('[data-cy="btn-log-in"]').click()
   
       // Prepare Pop-up page handling with Blocto
@@ -53,12 +82,23 @@ describe('Testnet tests', () => {
         }).as('popup')
       })
 
-      // Connects to Blocto and triggers pop up
+      // Connects to Blocto and triggers pop up for logging in
       getIframeBody().contains('Blocto').parent().click()
       cy.get('@popup').should('be.called')
+      /*
+      cy.visit('https://flow-wallet-testnet.blocto.app/authn')
+      cy.contains('Sign in with Blocto').should('exist')
+      cy.contains('Confirm').click()
+      */
 
-      // The steps after this point involves FCL wallet apis (for blockto and lilico)
-      // TODO: Investigate whether this behaviour could be mocked for KI testing
+      // Assert that user is logged in
+      // cy.visit('http://localhost:3001/')
+      // cy.get('[data-cy="header-flow-balance"]').should('exist') 
+      // Assuming the testnet account is funded, this should exceed 1000
+
+      // Clean up and log out of account
+      // cy.get('[data-cy="btn-user-account"]').click()
+      // cy.get('[data-cy="btn-sign-out"]').should('have.text', 'Sign Out')
     })
   })
 })
