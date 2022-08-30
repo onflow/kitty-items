@@ -121,7 +121,6 @@ function requireEnv(chainEnv) {
   switch (chainEnv) {
     case "emulator":
       return ".env.emulator";
-    case "testnet-cypress":
     case "testnet":
       if (!jetpack.exists(".env.testnet")) {
         throw new Error(
@@ -129,6 +128,8 @@ function requireEnv(chainEnv) {
         );
       }
       return ".env.testnet";
+    case "testnet-e2e":
+      return ".env.testnet.example";
     default:
       envErr();
   }
@@ -232,12 +233,11 @@ pm2.connect(false, async function (err) {
     );
     pm2.disconnect();
     return;
-  }
-
+  } 
   // ------------------------------------------------------------
   // ------------- TESTNET ACCOUNT CREATION ---------------------
 
-  async function bootstrapNewTestnetAccount() {
+    async function bootstrapNewTestnetAccount() {
     const result = await generateKeys();
 
     console.log(`
@@ -419,7 +419,6 @@ pm2.connect(false, async function (err) {
       await bootstrapNewTestnetAccount();
       await deployAndInitialize();
     } else {
-      // If testing on cypress, skip all inquirer prompt
       let useExisting = await inquirer.prompt({
         type: "confirm",
         name: "confirm",
@@ -440,16 +439,21 @@ pm2.connect(false, async function (err) {
         });
       }
     }
-  } else if (process.env.CHAIN_ENV === "testnet-cypress" ) {
-    const USE_EXISTING = jetpack.exists(".env.testnet");
-    if (!USE_EXISTING) {
-      throw new Error("testnet-cypress should always use an existing account");
+  } 
+  // E2E test run is only for github actions when pushed
+  if (process.env.CHAIN_ENV === "testnet-e2e") { 
+      if (!useExisting.confirm) {
+        spinner.warn("Using existing testnet account credentials for e2e testing...");
+        await deployAndInitialize();
+      } else {
+        dotenv.config({
+          path: requireEnv(process.env.CHAIN_ENV)
+        });
+      }
     }
+  } 
 
-    dotenv.config({
-      path: requireEnv(process.env.CHAIN_ENV)
-    });
-  }
+  
 
   // ------------------------------------------------------------
   // --------------------- SERVICES STARTUP ---------------------

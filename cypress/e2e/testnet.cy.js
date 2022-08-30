@@ -72,7 +72,7 @@ describe('Testnet tests', () => {
       // Purchase button doesn't exist because account is admin
     })
 
-    it.only('connects to Blocto wallet', () => {
+    it('connects to Blocto wallet', () => {
       cy.get('[data-cy="btn-log-in"]').click()
   
       // Prepare Pop-up page handling with Blocto

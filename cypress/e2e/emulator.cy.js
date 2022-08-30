@@ -128,7 +128,8 @@ describe('Emulator + dev-wallet tests', () => {
         cy.visit('http://localhost:3001/')
         cy.contains(itemName).click()
         cy.contains('Purchase').click()
-        getIframeBody().contains('button', 'Approve').click()
+        getIframeBody().should('be.visible')
+        getIframeBody().contains('Approve').click()
         cy.get('[data-cy="sell-list-item"]').should('exist')
 
         // Since a user bought a list item, there is no need to remove from store as a part of cleanup. Note that we should ideally undo funding for Account A, but there is no way to do this with e2e capabilities
