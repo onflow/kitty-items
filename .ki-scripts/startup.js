@@ -442,14 +442,13 @@ pm2.connect(false, async function (err) {
   } 
   // E2E test run is only for github actions when pushed
   if (process.env.CHAIN_ENV === "testnet-e2e") { 
-      if (!useExisting.confirm) {
-        spinner.warn("Using existing testnet account credentials for e2e testing...");
-        await deployAndInitialize();
-      } else {
-        dotenv.config({
-          path: requireEnv(process.env.CHAIN_ENV)
-        });
-      }
+    if (!useExisting.confirm) {
+      spinner.warn("Using existing testnet account credentials for e2e testing...");
+      await deployAndInitialize();
+    } else {
+      dotenv.config({
+        path: requireEnv(process.env.CHAIN_ENV)
+      });
     }
   } 
 
