@@ -82,7 +82,7 @@ function convertToEnv(object) {
 function envErr() {
   throw new Error(
     `Unknown or missing CHAIN_ENV environment variable.
-         Please provide one of the following: "emulator", "testnet"`
+         Please provide one of the following: "emulator", "testnet", or "testnet-e2e"`
   );
 }
 
@@ -97,6 +97,7 @@ function deploy(chainEnv) {
   switch (chainEnv) {
     case "emulator":
       return EMULATOR_DEPLOYMENT;
+    case "testnet-e2e":
     case "testnet":
       return TESTNET_DEPLOYMENT;
     default:
