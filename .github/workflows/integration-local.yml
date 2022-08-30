@@ -100,7 +100,7 @@ jobs:
             name: cypress-videos
             path: cypress/videos
 
-  cypress-e2e-emulator:
+  cypress-e2e-testnet:
       name: Kitty Items E2E test on Testnet
       timeout-minutes: 10
       runs-on: ubuntu-latest
@@ -131,10 +131,10 @@ jobs:
             chmod -R 777 cadence/tests &&
             ls -l 
 
-        - name: Cypress run emulator
+        - name: Cypress run testnet
           uses: cypress-io/github-action@v4
           with:
-            start: npm run dev:testnet-emulator
+            start: npm run dev:testnet-cypress
             wait-on: http://localhost:3001
             spec: cypress/e2e/testnet.cy.js
             record: true
