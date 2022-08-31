@@ -113,7 +113,12 @@ jobs:
       E2E_TESTING: ${{secrets.E2E_TESTING}}
     steps:
       - name: Install build dependencies (mostly for sqlite on ARM)
-        run: apt-get update -y && apt-get install build-essential -y 
+        run: apt-get update -y && apt-get install build-essential -y
+      
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Install Flow CLI
         run: | 
