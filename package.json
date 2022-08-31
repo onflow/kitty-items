@@ -30,7 +30,6 @@
     "preinstall": "node .ki-scripts/version-check.js",
     "dev:emulator": "npx cross-env CHAIN_ENV=emulator node .ki-scripts/startup.js",
     "dev:testnet": "npx cross-env CHAIN_ENV=testnet node .ki-scripts/startup.js",
-    "dev:testnet-e2e": "npx cross-env CHAIN_ENV=testnet-e2e node .ki-scripts/startup.js",
     "update:emulator": "flow project deploy --update",
     "update:testnet": "npx dotenv-cli -e .env.testnet -- flow project deploy --network=testnet -f flow.json -f flow.testnet.json --update",
     "dev:reset": "cross-env node .ki-scripts/reset.js",

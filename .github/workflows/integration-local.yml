@@ -134,7 +134,7 @@ jobs:
         - name: Cypress run testnet
           uses: cypress-io/github-action@v4
           with:
-            start: npm run dev:testnet-e2e
+            start: npm run dev:testnet
             wait-on: http://localhost:3001
             spec: cypress/e2e/testnet.cy.js
             record: true
@@ -145,6 +145,7 @@ jobs:
             ADMIN_ADDRESS: ${{secrets.ADMIN_ADDRESS_E2E}}
             FLOW_PRIVATE_KEY: ${{secrets.FLOW_PRIVATE_KEY_E2E}}
             FLOW_PUBLIC_KEY: ${{secrets.FLOW_PUBLIC_KEY_E2E}}
+            E2E_TESTING: ${{secrets.E2E_TESTING}}
         - uses: actions/upload-artifact@v3
           if: failure()
           with:

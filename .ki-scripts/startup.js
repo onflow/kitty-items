@@ -82,14 +82,14 @@ function convertToEnv(object) {
 function envErr() {
   throw new Error(
     `Unknown or missing CHAIN_ENV environment variable.
-         Please provide one of the following: "emulator", "testnet", or "testnet-e2e"`
+         Please provide one of the following: "emulator", "testnet"`
   );
 }
 
 function adminError() {
   throw new Error(
     `Unknown or missing ADMIN_ADRESS environment variable.
-      Please create a testnet account and add your credentials to .env.tenstnet`
+      Please create a testnet account and add your credentials to .env.testnet`
   );
 }
 
@@ -97,7 +97,6 @@ function deploy(chainEnv) {
   switch (chainEnv) {
     case "emulator":
       return EMULATOR_DEPLOYMENT;
-    case "testnet-e2e":
     case "testnet":
       return TESTNET_DEPLOYMENT;
     default:
@@ -129,8 +128,6 @@ function requireEnv(chainEnv) {
         );
       }
       return ".env.testnet";
-    case "testnet-e2e":
-      return ".env.testnet.example";
     default:
       envErr();
   }
@@ -413,39 +410,40 @@ pm2.connect(false, async function (err) {
   // ------------- TESTNET ENVIRONMENT STARTUP ------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
-    const USE_EXISTING = jetpack.exists(".env.testnet");
-
-    if (!USE_EXISTING) {
-      await cleanupTestnetConfig();
-      await bootstrapNewTestnetAccount();
+    // E2E test run is only "for github actions when pushed
+    if (process.env.E2E_TESTING === "true") { 
+      spinner.warn("Using existing testnet account credentials for e2e testing...");
       await deployAndInitialize();
     } else {
-      let useExisting = await inquirer.prompt({
-        type: "confirm",
-        name: "confirm",
-        message: `Use existing tesnet credentials in ${chalk.greenBright(
-          "env.testnet"
-        )} ?`,
-        default: true
-      });
+      const USE_EXISTING = jetpack.exists(".env.testnet");
 
-      if (!useExisting.confirm) {
-        spinner.warn("Creating new testnet account credentials...");
+      if (!USE_EXISTING) {
         await cleanupTestnetConfig();
         await bootstrapNewTestnetAccount();
         await deployAndInitialize();
       } else {
-        dotenv.config({
-          path: requireEnv(process.env.CHAIN_ENV)
+        let useExisting = await inquirer.prompt({
+          type: "confirm",
+          name: "confirm",
+          message: `Use existing tesnet credentials in ${chalk.greenBright(
+            "env.testnet"
+          )} ?`,
+          default: true
         });
+
+        if (!useExisting.confirm) {
+          spinner.warn("Creating new testnet account credentials...");
+          await cleanupTestnetConfig();
+          await bootstrapNewTestnetAccount();
+          await deployAndInitialize();
+        } else {
+          dotenv.config({
+            path: requireEnv(process.env.CHAIN_ENV)
+          });
+        }
       }
     }
-  } 
-  // E2E test run is only for github actions when pushed
-  if (process.env.CHAIN_ENV === "testnet-e2e") { 
-      spinner.warn("Using existing testnet account credentials for e2e testing...");
-      await deployAndInitialize();
-  } 
+  }
 
   // ------------------------------------------------------------
   // --------------------- SERVICES STARTUP ---------------------
