@@ -21,43 +21,22 @@ describe('Testnet tests', () => {
       cy.visit('http://localhost:3001/')
       // Verify that the user is logged out
       cy.get('[data-cy="btn-log-in"]').should('have.text', 'Log In')
-      cy.get('[data-cy="home"]').invoke('text')
 
       // Verify that the the state is back to home page
-      cy.get('[data-cy="home"]').invoke('text').then(($text) => {
-        if ($text.includes('Latest Kitty Items')) {
-          // If the test account exists and has already minted several items, then the display should contain 
-          cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items').should('exist')
-        } else {
-          cy.get('[data-cy="home-empty-message"]').contains('MINT YOUR FIRST KITTY ITEM').should('exist')
-        }
-      })
+      cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items')
     })
 
-    it.skip("visits header buttons", () => {
+    it("visits header buttons", () => {
       // Should be the same as homepage
-      cy.get('[data-cy="header-right"]').contains("Store").click();
-      cy.get('[data-cy="home"]')
-        .invoke("text")
-        .then(($text) => {
-          if ($text.includes("Latest Kitty Items")) {
-            // If the test account exists and has already minted several items, then the display should contain
-            cy.get('[data-cy="latest-store-items"]')
-              .contains("Latest Kitty Items")
-              .should("exist");
-          } else {
-            cy.get('[data-cy="home-empty-message"]')
-              .contains("MINT YOUR FIRST KITTY ITEM")
-              .should("exist");
-          }
-        });
+      cy.get('[data-cy="header-right"]').contains('Store').click()
+      cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items')
 
-      // Click to marketplace
-      cy.get('[data-cy="header-right"]').contains("Marketplace").click();
-      cy.get('[data-cy="marketplace"]').contains("Marketplace").should("exist");
+      cy.get('[data-cy="header-right"]').contains('Marketplace').click()
+      cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
 
       // Click back to the homepage
-      cy.get('[data-cy="header-left"]').click();
+      cy.get('[data-cy="header-left"]').click()
+      cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items')
     });
 
     it('logs in as admin + mint an item', () => {
