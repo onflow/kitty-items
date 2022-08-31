@@ -410,9 +410,14 @@ pm2.connect(false, async function (err) {
   // ------------- TESTNET ENVIRONMENT STARTUP ------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
-    // E2E test run is only "for github actions when pushed
+    
     if (process.env.E2E_TESTING === "true") { 
+      // E2E test run is only for github actions when pushed
       spinner.warn("Using existing testnet account credentials for e2e testing...");
+
+      // For E2E testing, we only need to deploy and initialize account
+      // We don't need to run cleanup or set up new account because we are using a pre-existing
+      // testing account
       await deployAndInitialize();
     } else {
       const USE_EXISTING = jetpack.exists(".env.testnet");
