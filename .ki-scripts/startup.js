@@ -143,7 +143,7 @@ function requireEnv(chainEnv) {
     case "emulator":
       return ".env.emulator";
     case "testnet":
-      if (process.config.E2E_TESTING === "true") {
+      if (process.config.E2E_TESTING) {
         verifySetupTestnetE2E()
         return ".env.testnet.example"
       } else {
