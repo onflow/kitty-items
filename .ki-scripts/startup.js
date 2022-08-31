@@ -415,9 +415,14 @@ pm2.connect(false, async function (err) {
       // E2E test run is only for github actions when pushed
       spinner.warn("Using existing testnet account credentials for e2e testing...");
 
+      dotenv.config({
+        path: requireEnv(process.env.CHAIN_ENV)
+      });
+      
       // For E2E testing, we only need to deploy and initialize account
       // We don't need to run cleanup or set up new account because we are using a pre-existing
       // testing account
+
       await deployAndInitialize();
     } else {
       const USE_EXISTING = jetpack.exists(".env.testnet");
@@ -477,17 +482,15 @@ pm2.connect(false, async function (err) {
 
   spinner.start("Starting storefront web app");
 
-    await runProcess({
-      name: `web`,
-      cwd: "./web",
-      script: npmscript,
-      args: "run dev",
-      watch: false,
-      wait_ready: true,
-      autorestart: false
-    });
-
-
+  await runProcess({
+    name: `web`,
+    cwd: "./web",
+    script: npmscript,
+    args: "run dev",
+    watch: false,
+    wait_ready: true,
+    autorestart: false
+  });
 
   spinner.succeed(chalk.greenBright("Storefront web app started"));
 
