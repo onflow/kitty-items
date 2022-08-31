@@ -19,9 +19,9 @@ jobs:
         go: ["1.16"]
     steps:
       - name: Install Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 16
 
       - name: Install Flow CLI
         run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
