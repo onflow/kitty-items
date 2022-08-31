@@ -47,6 +47,7 @@ jobs:
 
   cypress-e2e-emulator:
       name: Kitty Items E2E test on emulator
+      needs: cypress-e2e-testnet # we don't want both jobs to run in parallel
       timeout-minutes: 10
       runs-on: ubuntu-latest
       container: cypress/browsers:node16.14.2-slim-chrome103-ff102 #use arm64 arch on Apple M1 chips when running locally
@@ -102,7 +103,6 @@ jobs:
 
   cypress-e2e-testnet:
       name: Kitty Items E2E test on Testnet
-      needs: cypress-e2e-emulator # we don't want both jobs to run in parallel
       timeout-minutes: 10
       runs-on: ubuntu-latest
       container: cypress/browsers:node16.14.2-slim-chrome103-ff102 #use arm64 arch on Apple M1 chips when running locally
