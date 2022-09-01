@@ -328,7 +328,7 @@ pm2.connect(false, async function (err) {
       throw new Error(err2);
     }
 
-    // -------------- Initialize NFTStorefront --------------------------
+    // -------------- Initialize NFTStorefrontV2 --------------------------
 
     const { stderr: err3 } = await exec(
       initializeStorefront(process.env.CHAIN_ENV),

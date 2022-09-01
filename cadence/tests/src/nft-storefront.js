@@ -3,7 +3,7 @@ import { getKittyAdminAddress } from "./common";
 import { deployKittyItems, setupKittyItemsOnAccount } from "./kitty-items";
 
 /*
- * Deploys KittyItems and NFTStorefront contracts to KittyAdmin.
+ * Deploys KittyItems and NFTStorefrontV2 contracts to KittyAdmin.
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<[{*} txResult, {error} error]>}
  * */
@@ -11,11 +11,11 @@ export const deployNFTStorefront = async () => {
 	const KittyAdmin = await getKittyAdminAddress();
 	await deployKittyItems();
 
-	return deployContractByName({ to: KittyAdmin, name: "NFTStorefront" });
+	return deployContractByName({ to: KittyAdmin, name: "NFTStorefrontV2" });
 };
 
 /*
- * Sets up NFTStorefront.Storefront on account and exposes public capability.
+ * Sets up NFTStorefrontV2.Storefront on account and exposes public capability.
  * @param {string} account - account address
  * @throws Will throw an error if transaction is reverted.
  * @returns {Promise<[{*} txResult, {error} error]>}
