@@ -64,6 +64,10 @@ const contractFlowToken = process.env.NEXT_PUBLIC_CONTRACT_FLOW_TOKEN
 if (!contractFlowToken)
   throw new Error("Missing NEXT_PUBLIC_CONTRACT_FLOW_TOKEN")
 
+const contractDapperUtilityCoin = process.env.NEXT_PUBLIC_CONTRACT_DAPPER_UTILITY_COIN
+if (!contractDapperUtilityCoin)
+  throw new Error("Missing NEXT_PUBLIC_CONTRACT_DAPPER_UTILITY_COIN")
+
 const gaTrackingId = process.env.NEXT_PUBLIC_GA_TRACKING_ID
 const mixpanelToken = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN
 
@@ -86,6 +90,7 @@ const publicConfig = {
   contractNonFungibleToken,
   contractMetadataViews,
   contractFlowToken,
+  contractDapperUtilityCoin,
   contractKittyItems,
   contractNftStorefront,
   gaTrackingId,

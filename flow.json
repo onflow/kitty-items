@@ -45,6 +45,12 @@
         "emulator": "0x0ae53cb6e3f42a79",
         "testnet": "0x7e60df042a9c0868"
       }
+    },
+    "DapperUtilityCoin": {
+      "source": "./cadence/contracts/DapperUtilityCoin.cdc",
+      "aliases": {
+        "testnet": "0x82ec283f88a62e65"
+      }
     }
   },
   "networks": {
@@ -63,7 +69,8 @@
         "KittyItems",
         "NFTStorefront",
         "NonFungibleToken",
-        "MetadataViews"
+        "MetadataViews",
+        "DapperUtilityCoin"
       ]
     }
   }
