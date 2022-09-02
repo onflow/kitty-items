@@ -34,6 +34,10 @@ export function getConfig(env) {
 
   const flowTokenAddress = env.FLOW_TOKEN_ADDRESS!
 
+  const dapperUtilityCoinAddress = env.DAPPER_UTILITY_COIN_ADDRESS!
+
+  const tokenForwardingAddress = env.TOKEN_FORWARDING_ADDRESS!
+
   const dbPath = env.DATABASE_PATH!
   const databaseUrl = env.DATABASE_URL  
 
@@ -51,6 +55,8 @@ export function getConfig(env) {
     metadataViewsAddress,
     storefrontAddress,
     flowTokenAddress,
+    dapperUtilityCoinAddress,
+    tokenForwardingAddress,
     dbPath,
     databaseMigrationPath,
     databaseUrl

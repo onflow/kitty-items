@@ -18,6 +18,8 @@ const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
+const dapperUtilityCoinPath = '"../../contracts/DapperUtilityCoin.cdc"'
+const tokenForwardingPath = '"../../contracts/TokenForwarding.cdc"'
 
 const PER_PAGE = 12
 
@@ -29,7 +31,9 @@ class StorefrontService {
     private readonly nonFungibleTokenAddress: string,
     private readonly metadataViewsAddress: string,
     public readonly storefrontAddress: string,
-    private readonly minterAddress: string
+    private readonly minterAddress: string,
+    public readonly dapperUtilityCoinAddress: string,
+    public readonly tokenForwardingAddress: string,
   ) {}
 
   setupAccount = () => {
@@ -44,6 +48,11 @@ class StorefrontService {
         "utf8"
       )
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
+      .replace(dapperUtilityCoinPath, fcl.withPrefix(this.dapperUtilityCoinAddress))
+      .replace(tokenForwardingPath, fcl.withPrefix(this.tokenForwardingAddress))
+    
+    console.log('storefrontPath =======', storefrontPath)
+    console.log('transaction ========', transaction)
 
     return this.flowService.sendTx({
       transaction,

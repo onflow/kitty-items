@@ -51,6 +51,12 @@
       "aliases": {
         "testnet": "0x82ec283f88a62e65"
       }
+    },
+    "TokenForwarding": {
+      "source": "./cadence/contracts/TokenForwarding.cdc",
+      "aliases": {
+        "testnet": "0x51ea0e37c27a1f1a"
+      }
     }
   },
   "networks": {
@@ -70,7 +76,8 @@
         "NFTStorefront",
         "NonFungibleToken",
         "MetadataViews",
-        "DapperUtilityCoin"
+        "DapperUtilityCoin",
+        "TokenForwarding"
       ]
     }
   }

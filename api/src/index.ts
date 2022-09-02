@@ -54,7 +54,9 @@ async function run() {
     config.nonFungibleTokenAddress,
     config.metadataViewsAddress,
     config.storefrontAddress,
-    config.minterAddress
+    config.minterAddress,
+    config.dapperUtilityCoinAddress,
+    config.tokenForwardingAddress
   )
 
   // Make sure we're pointing to the correct Flow Access API.

@@ -10,6 +10,8 @@ const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
+const dapperUtilityCoinPath = '"../../contracts/DapperUtilityCoin.cdc"'
+const tokenForwardingPath = '"../../contracts/TokenForwarding.cdc"'
 
 enum Kind {
   Fishbowl = 0,
@@ -62,7 +64,9 @@ class KittyItemsService {
     private readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
-    private readonly storefrontAddress: string
+    private readonly storefrontAddress: string,
+    public readonly dapperUtilityCoinAddress: string,
+    public readonly tokenForwardingAddress: string
   ) {}
 
   setupAccount = async () => {
@@ -81,6 +85,9 @@ class KittyItemsService {
         fcl.withPrefix(this.nonFungibleTokenAddress)
       )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
+      .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
+      .replace(dapperUtilityCoinPath, fcl.withPrefix(this.dapperUtilityCoinAddress))
+      .replace(tokenForwardingPath, fcl.withPrefix(this.tokenForwardingAddress))
 
     return this.flowService.sendTx({
       transaction,
