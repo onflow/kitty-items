@@ -66,28 +66,6 @@ describe('Emulator + dev-wallet tests', () => {
       cy.contains('MINT YOUR FIRST KITTY ITEM').should('exist')
     })
 
-    it('mints first item from a service account + remove from store', () => {
-      // Sign in to service account
-      cy.get('[data-cy="btn-log-in"]').should('have.text', 'Log In')
-      cy.get('[data-cy="btn-log-in"]').click()
-      getIframeBody().contains('Service Account').click()
-      cy.visit('http://localhost:3001/')
-
-      cy.contains('MINT YOUR FIRST KITTY ITEM').click()
-      cy.get("input[placeholder=\"Enter Password\"]").type('KittyItems')
-      cy.get("button[type=\"submit\"]").click()
-
-      cy.contains('Mint Item').click()
-      cy.get('[data-cy="tx-loading"]').should('be.visible')
-
-      cy.get('[data-cy="header-mint"]').should('exist')
-      cy.get('[data-cy="rarity-scale"]').should('exist')
-      cy.contains('Remove From Store').click()
-
-      getIframeBody().contains('Approve').click()
-      cy.get('[data-cy="sell-list-item"]').should('exist')
-    })
-
     it('mints an item as a user + funds an account + purchases item', () => {
       // Mints an item - alreay signed in with service account
       cy.contains('MINT YOUR FIRST KITTY ITEM').click()
@@ -111,7 +89,7 @@ describe('Emulator + dev-wallet tests', () => {
 
         for (let n = 0; n < 5; n ++) {
           getIframeBody().contains('label', 'FLOW').next().next().click()
-          cy.wait(1000) // TODO: Add verification here instead of timer
+          cy.wait(1500) // TODO: Add verification here instead of timer
         }
         getIframeBody().contains('label', 'FLOW').next().invoke('text').should('not.eq', '0').and('not.eq','0.001') 
         // The above line seems redundant, but the should condition ensures to retry until non-default values are loaded
@@ -136,5 +114,27 @@ describe('Emulator + dev-wallet tests', () => {
         // Since a user bought a list item, there is no need to remove from store as a part of cleanup. Note that we should ideally undo funding for Account A, but there is no way to do this with e2e capabilities
       })
     })
+
+    it("mints first item from a service account + remove from store", () => {
+      // Sign in to service account
+      cy.get('[data-cy="btn-log-in"]').should("have.text", "Log In");
+      cy.get('[data-cy="btn-log-in"]').click();
+      getIframeBody().contains("Service Account").click();
+      cy.visit("http://localhost:3001/");
+
+      cy.contains("MINT YOUR FIRST KITTY ITEM").click();
+      cy.get('input[placeholder="Enter Password"]').type("KittyItems");
+      cy.get('button[type="submit"]').click();
+
+      cy.contains("Mint Item").click();
+      cy.get('[data-cy="tx-loading"]').should("be.visible");
+
+      cy.get('[data-cy="header-mint"]').should("exist");
+      cy.get('[data-cy="rarity-scale"]').should("exist");
+      cy.contains("Remove From Store").click();
+
+      getIframeBody().contains("Approve").click();
+      cy.get('[data-cy="sell-list-item"]').should("exist");
+    });
   })
 })
