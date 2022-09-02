@@ -458,7 +458,7 @@ pm2.connect(false, async function (err) {
         let useExisting = await inquirer.prompt({
           type: "confirm",
           name: "confirm",
-          message: `Use existing tesnet credentials in ${chalk.greenBright(
+          message: `Use existing testnet credentials in ${chalk.greenBright(
             "env.testnet"
           )} ?`,
           default: true,
