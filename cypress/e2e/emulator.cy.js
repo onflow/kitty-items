@@ -93,10 +93,18 @@ describe('Emulator + dev-wallet tests', () => {
         }
         getIframeBody().contains('label', 'FLOW').next().invoke('text').should('not.eq', '0').and('not.eq','0.001') 
         // The above line seems redundant, but the should condition ensures to retry until non-default values are loaded
-        getIframeBody().contains('label', 'FLOW').next().invoke('text').then($text => {
-          const funds = parseFloat($text.replace(',', ''))
-          expect(funds).to.be.greaterThan(500)
-        })
+        getIframeBody()
+          .debug()
+          .contains("label", "FLOW")
+          .next()
+          .invoke("text")
+          .then(($text) => {
+            const funds = parseFloat($text.replace(",", ""));
+            expect(funds).to.be.greaterThan(500);
+          });
+
+        cy.wait(1000);
+
         getIframeBody().contains('Save').click()
 
         // Sign in to Account A
@@ -105,6 +113,7 @@ describe('Emulator + dev-wallet tests', () => {
         // Purchases this item from store
         cy.visit('http://localhost:3001/')
         cy.contains(itemName).click()
+        cy.contains('Purchase').should('be.visible')
         cy.contains('Purchase').click().then(()=> {
           getIframeBody().should('be.visible')
           getIframeBody().contains('Approve').click()
