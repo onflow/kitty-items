@@ -87,7 +87,7 @@ describe('Emulator + dev-wallet tests', () => {
     
         getIframeBody().contains('Account A').parent().contains('Manage').click()
 
-        for (let n = 0; n < 5; n ++) {
+        for (let n = 0; n < 3; n ++) {
           getIframeBody().contains('label', 'FLOW').next().next().click()
           cy.wait(1500) // TODO: Add verification here instead of timer
         }
@@ -100,7 +100,7 @@ describe('Emulator + dev-wallet tests', () => {
           .invoke("text")
           .then(($text) => {
             const funds = parseFloat($text.replace(",", ""));
-            expect(funds).to.be.greaterThan(500);
+            expect(funds).to.be.greaterThan(300);
           });
 
         cy.wait(1000);
@@ -113,7 +113,8 @@ describe('Emulator + dev-wallet tests', () => {
         // Purchases this item from store
         cy.visit('http://localhost:3001/')
         cy.contains(itemName).click()
-        cy.contains('Purchase').should('be.visible')
+        cy.get('[data-cy="rarity-scale"]').should("exist");
+
         cy.contains('Purchase').click().then(()=> {
           getIframeBody().should('be.visible')
           getIframeBody().contains('Approve').click()
