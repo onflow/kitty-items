@@ -23,7 +23,7 @@ describe('Testnet tests', () => {
       cy.get('[data-cy="btn-log-in"]').should('have.text', 'Log In')
 
       // Verify that the the state is back to home page
-      cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items')
+      cy.get('[data-common="home"]').should('exist')
     })
 
     it("visits header buttons", () => {
