@@ -15,14 +15,14 @@ describe('Emulator + dev-wallet tests', () => {
     it('visits header buttons', () => {
       // Should be the same as homepage
       cy.get('[data-cy="header-right"]').contains('Store').click()
-      cy.get('[data-cy="home-empty-message"]').contains('MINT YOUR FIRST KITTY ITEM')
+      cy.get('[data-common="home"]').should('exist')
 
       cy.get('[data-cy="header-right"]').contains('Marketplace').click()
       cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
 
       // Click back to the homepage
       cy.get('[data-cy="header-left"]').click()
-      cy.get('[data-cy="home-empty-message"]').contains('MINT YOUR FIRST KITTY ITEM')
+      cy.get('[data-common="home"]').should('exist')
     })
 
     it('logs in as admin', () => {

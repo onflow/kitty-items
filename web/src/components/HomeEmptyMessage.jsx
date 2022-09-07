@@ -8,6 +8,7 @@ export default function HomeEmptyMessage() {
     <div
       className="flex justify-center my-12 text-center"
       data-cy="home-empty-message"
+      data-common="home"
     >
       <div className="bg-white border border-gray-200 p-6 w-[32rem] rounded-md inline-flex flex-col justify-center">
         <img

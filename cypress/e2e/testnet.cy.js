@@ -29,14 +29,14 @@ describe('Testnet tests', () => {
     it("visits header buttons", () => {
       // Should be the same as homepage
       cy.get('[data-cy="header-right"]').contains('Store').click()
-      cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items')
+      cy.get('[data-common="home"]').should('exist')
 
       cy.get('[data-cy="header-right"]').contains('Marketplace').click()
       cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
 
       // Click back to the homepage
       cy.get('[data-cy="header-left"]').click()
-      cy.get('[data-cy="latest-store-items"]').contains('Latest Kitty Items')
+      cy.get('[data-common="home"]').should('exist')
     });
 
     it('logs in as admin + mint an item', () => {
