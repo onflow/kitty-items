@@ -57,33 +57,35 @@ describe('Testnet tests', () => {
       // Purchase button doesn't exist because account is admin
     })
 
-    it('connects to Blocto wallet', () => {
+    it("connects to Blocto wallet", () => {
       cy.get('[data-cy="btn-log-in"]').click()
-  
+
       // Prepare Pop-up page handling with Blocto
       cy.window().then((win) => {
-        cy.stub(win, 'open', url => {
-          win.location.href = 'https://flow-wallet-testnet.blocto.app/authn';
-        }).as('popup')
-      })
+        cy.stub(win, "open").as("popup")
+      });
 
       // Connects to Blocto and triggers pop up for logging in
-      getIframeBody().contains('Blocto').parent().click()
-      cy.get('@popup').should('be.called')
-      /*
+      getIframeBody().contains("Blocto").parent().click()
+      // cy.get("@popup").should("be.called")
+
+      /* 
       cy.visit('https://flow-wallet-testnet.blocto.app/authn')
       cy.contains('Sign in with Blocto').should('exist')
       cy.contains('Confirm').click()
-      */
+      /*
 
       // Assert that user is logged in
-      // cy.visit('http://localhost:3001/')
-      // cy.get('[data-cy="header-flow-balance"]').should('exist') 
-      // Assuming the testnet account is funded, this should exceed 1000
+      /* 
+      cy.visit('http://localhost:3001/')
+      cy.get('[data-cy="header-flow-balance"]').should('exist')
+      */
 
       // Clean up and log out of account
-      // cy.get('[data-cy="btn-user-account"]').click()
-      // cy.get('[data-cy="btn-sign-out"]').should('have.text', 'Sign Out')
+      /*
+      cy.get('[data-cy="btn-user-account"]').click()
+      cy.get('[data-cy="btn-sign-out"]').should('have.text', 'Sign Out')
+      */
     })
   })
 })
