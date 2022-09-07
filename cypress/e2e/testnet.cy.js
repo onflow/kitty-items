@@ -67,25 +67,8 @@ describe('Testnet tests', () => {
 
       // Connects to Blocto and triggers pop up for logging in
       getIframeBody().contains("Blocto").parent().click()
-      // cy.get("@popup").should("be.called")
-
-      /* 
-      cy.visit('https://flow-wallet-testnet.blocto.app/authn')
-      cy.contains('Sign in with Blocto').should('exist')
-      cy.contains('Confirm').click()
-      /*
-
-      // Assert that user is logged in
-      /* 
-      cy.visit('http://localhost:3001/')
-      cy.get('[data-cy="header-flow-balance"]').should('exist')
-      */
-
-      // Clean up and log out of account
-      /*
-      cy.get('[data-cy="btn-user-account"]').click()
-      cy.get('[data-cy="btn-sign-out"]').should('have.text', 'Sign Out')
-      */
+      // TODO - Test that the popup shows up. The 'stub' method previously implemented was flaky (not passing on github actions) so more thorough debugging is required to test window popups. 
+      // TODO - We eventually want to add test cases for funding, purchasing, listing, etc. These actions are dependent on external services (mainly, faucet). 
     })
   })
 })
