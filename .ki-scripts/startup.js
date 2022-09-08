@@ -67,6 +67,15 @@ function initializeKittyItems(network) {
   }`;
 }
 
+function initializeDapperUtilityCoin(network) {
+  if (!network) return envErr();
+  // get file, replace, then send because dapper wont approve without
+  // or two files with process.env.CHAIN_ENV
+  return `flow transactions send -o json --network=${network} --signer ${network}-account ./cadence/transactions/dapperUtilityCoin/setup_account.${network}.cdc -f flow.json ${
+    network !== "emulator" ? `-f flow.${network}.json` : ""
+  }`;
+}
+
 //////////////////////////////////////////////////////////////////
 // ------------------- HELPER FUNCTIONS -----------------------
 //////////////////////////////////////////////////////////////////
@@ -339,6 +348,17 @@ pm2.connect(false, async function (err) {
       throw new Error(err3);
     }
 
+    // -------------- Initialize DapperUtilityCoin  --------------------------
+
+    const { stderr: err4 } = await exec(
+      initializeDapperUtilityCoin(process.env.CHAIN_ENV),
+      { cwd: process.cwd() }
+    );
+
+    if (err2) {
+      throw new Error(err2);
+    }
+
     spinner.succeed(chalk.greenBright("Admin account initialized"));
 
     spinner.info(
@@ -349,6 +369,11 @@ pm2.connect(false, async function (err) {
     spinner.info(
       `${chalk.cyanBright(
         "./cadence/transactions/kittyItems/setup_account.cdc"
+      )} was executed successfully.`
+    );
+    spinner.info(
+      `${chalk.cyanBright(
+        `./cadence/transactions/dapperUtilityCoin/setup_account.${process.env.CHAIN_ENV}.cdc`
       )} was executed successfully.${"\n"}`
     );
   }

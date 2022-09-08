@@ -64,9 +64,7 @@ class KittyItemsService {
     private readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
-    private readonly storefrontAddress: string,
-    public readonly dapperUtilityCoinAddress: string,
-    public readonly tokenForwardingAddress: string
+    private readonly storefrontAddress: string
   ) {}
 
   setupAccount = async () => {
