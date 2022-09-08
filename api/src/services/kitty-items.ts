@@ -84,8 +84,6 @@ class KittyItemsService {
       )
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
-      .replace(dapperUtilityCoinPath, fcl.withPrefix(this.dapperUtilityCoinAddress))
-      .replace(tokenForwardingPath, fcl.withPrefix(this.tokenForwardingAddress))
 
     return this.flowService.sendTx({
       transaction,

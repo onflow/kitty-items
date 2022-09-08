@@ -29,9 +29,7 @@ class StorefrontService {
     private readonly nonFungibleTokenAddress: string,
     private readonly metadataViewsAddress: string,
     public readonly storefrontAddress: string,
-    private readonly minterAddress: string,
-    public readonly dapperUtilityCoinAddress: string,
-    public readonly tokenForwardingAddress: string,
+    private readonly minterAddress: string
   ) {}
 
   setupAccount = () => {

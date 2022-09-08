@@ -54,9 +54,7 @@ async function run() {
     config.nonFungibleTokenAddress,
     config.metadataViewsAddress,
     config.storefrontAddress,
-    config.minterAddress,
-    config.dapperUtilityCoinAddress,
-    config.tokenForwardingAddress
+    config.minterAddress
   )
 
   // Make sure we're pointing to the correct Flow Access API.
@@ -88,9 +86,7 @@ async function run() {
       config.minterAddress,
       config.fungibleTokenAddress,
       config.flowTokenAddress,
-      config.storefrontAddress,
-      config.dapperUtilityCoinAddress,
-      config.tokenForwardingAddress
+      config.storefrontAddress
     )
 
     const app = initApp(kittyItemsService, storefrontService)
