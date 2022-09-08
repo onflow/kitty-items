@@ -23,20 +23,20 @@ describe('Testnet tests', () => {
       cy.get('[data-cy="btn-log-in"]').should('have.text', 'Log In')
 
       // Verify that the the state is back to home page
-      cy.get('[data-common="home"]').should('exist')
+      cy.get('[data-cy="home-common"]').should('exist')
     })
 
     it("visits header buttons", () => {
       // Should be the same as homepage
       cy.get('[data-cy="header-right"]').contains('Store').click()
-      cy.get('[data-common="home"]').should('exist')
+      cy.get('[data-cy="home-common"]').should('exist')
 
       cy.get('[data-cy="header-right"]').contains('Marketplace').click()
       cy.get('[data-cy="marketplace"]').contains('Marketplace').should('exist')
 
       // Click back to the homepage
       cy.get('[data-cy="header-left"]').click()
-      cy.get('[data-common="home"]').should('exist')
+      cy.get('[data-cy="home-common"]').should('exist')
     });
 
     it('logs in as admin + mint an item', () => {
@@ -60,13 +60,16 @@ describe('Testnet tests', () => {
     it("connects to Blocto wallet", () => {
       cy.get('[data-cy="btn-log-in"]').click()
 
+      // Connects to Blocto and triggers pop up for logging in
+      getIframeBody().contains("Blocto").parent().click()
+
       // Prepare Pop-up page handling with Blocto
+      /*
       cy.window().then((win) => {
         cy.stub(win, "open").as("popup")
       });
-
-      // Connects to Blocto and triggers pop up for logging in
-      getIframeBody().contains("Blocto").parent().click()
+      */
+      
       // TODO - Test that the popup shows up. The 'stub' method previously implemented was flaky (not passing on github actions) so more thorough debugging is required to test window popups. 
       // TODO - We eventually want to add test cases for funding, purchasing, listing, etc. These actions are dependent on external services (mainly, faucet). 
     })
