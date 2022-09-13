@@ -145,7 +145,7 @@ jobs:
       - name: Cypress run testnet
         uses: cypress-io/github-action@v4
         with:
-          start: npm run dev:testnet;
+          start: npm run dev:testnet
           wait-on: http://localhost:3001
           spec: cypress/e2e/testnet.cy.js
           record: true
