@@ -66,7 +66,7 @@ describe("Emulator + dev-wallet tests", () => {
       cy.contains("MINT YOUR FIRST KITTY ITEM").should("exist");
     });
 
-    it("mints an item as a user + funds an account + purchases item", () => {
+    it.only("mints an item as a user + funds an account + purchases item", () => {
       // Mints an item - alreay signed in with service account
       cy.contains("MINT YOUR FIRST KITTY ITEM").click();
       cy.get('input[placeholder="Enter Password"]').type("KittyItems");
@@ -79,8 +79,8 @@ describe("Emulator + dev-wallet tests", () => {
       cy.get('[data-cy="rarity-scale"]').should("exist");
       cy.contains("Purchase");
 
-      cy.get('[data-cy="minted-item-name"]').then(($item) => {
-        const itemName = $item.text();
+      cy.get('[data-cy="minted-item-name"]').then(($it) => {
+        let itemName = $it.text();
 
         // Funds Account A
         cy.get('[data-cy="btn-log-in"]').click();
@@ -90,39 +90,39 @@ describe("Emulator + dev-wallet tests", () => {
           .parent()
           .contains("Manage")
           .click();
-
-        let prevFund = 0.001;
-        for (let n = 0; n < 3; n++) {
-          let currFund = prevFund + 100;
-          getIframeBody().contains("label", "FLOW").next().next().click();
-          getIframeBody()
-            .contains("label", "FLOW")
-            .next()
-            .invoke("text")
-            .should("not.eq", "0")
-            .and("not.eq", prevFund.toString());
-          // The above line seems redundant, but the should condition ensures to retry until non-default values and non-previous values are loaded
-          
-          getIframeBody()
-            .debug()
-            .contains("label", "FLOW")
-            .next()
-            .invoke("text")
-            .then(($text) => {
-              const funds = parseFloat($text.replace(",", ""));
-              expect(funds).to.be.equal(currFund);
-            });
-          prevFund = currFund;
-        }
-
+        
         getIframeBody()
           .contains("label", "FLOW")
           .next()
           .invoke("text")
           .should("not.eq", "0")
-          .and("not.eq", "0.001");
-        // The above line seems redundant, but the should condition ensures to retry until non-default values are loaded
-
+          .then(($it) => {
+            let prevFund = parseFloat($it.replace(",", "")) // The first prevFund is initial fund e.g. 0.001
+            
+            for (let n = 0; n < 3; n++) {
+              let currFund = prevFund + 100;
+              getIframeBody().contains("label", "FLOW").next().next().click();
+              getIframeBody()
+                .contains("label", "FLOW")
+                .next()
+                .invoke("text")
+                .should("not.eq", "0")
+                .and("not.eq", prevFund.toString());
+              // The above line seems redundant, but the should condition ensures to retry until non-default values and non-previous values are loaded
+    
+              getIframeBody()
+                .debug()
+                .contains("label", "FLOW")
+                .next()
+                .invoke("text")
+                .then(($text) => {
+                  const funds = parseFloat($text.replace(",", ""));
+                  expect(funds).to.be.equal(currFund);
+                });
+              prevFund = currFund;
+            }
+            // We can exit the .then() blocks because we have finished using 'it' (prevFund)
+          })
         getIframeBody()
           .debug()
           .contains("label", "FLOW")
@@ -142,17 +142,18 @@ describe("Emulator + dev-wallet tests", () => {
         cy.visit("http://localhost:3001/");
         cy.contains(itemName).click();
         cy.get('[data-cy="rarity-scale"]').should("exist");
+        // We can exit the .then() blocks because we have finished using 'itemName'
+      })
 
-        cy.contains("Purchase")
-          .click()
-          .then(() => {
-            getIframeBody().should("be.visible");
-            getIframeBody().contains("Approve").click();
-          });
-        cy.get('[data-cy="sell-list-item"]').should("exist");
+      cy.contains("Purchase")
+        .click()
+        .then(() => {
+          getIframeBody().should("be.visible");
+          getIframeBody().contains("Approve").click();
+        });
+      cy.get('[data-cy="sell-list-item"]').should("exist");
 
-        // Since a user bought a list item, there is no need to remove from store as a part of cleanup. Note that we should ideally undo funding for Account A, but there is no way to do this with e2e capabilities
-      });
+      // Since a user bought a list item, there is no need to remove from store as a part of cleanup. Note that we should ideally undo funding for Account A, but there is no way to do this with e2e capabilities    
     });
 
     it("mints first item from a service account + remove from store", () => {
