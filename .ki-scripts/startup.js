@@ -143,7 +143,7 @@ function requireEnv(chainEnv) {
     case "emulator":
       return ".env.emulator";
     case "testnet":
-      if (process.env.E2E_TESTING) {
+      if (process.env.E2E_GITHUB_ACTIONS_JOB) {
         verifySetupTestnetE2E();
         return ".env.testnet.example";
       } else {
@@ -301,7 +301,7 @@ pm2.connect(false, async function (err) {
     });
 
     spinner.info(
-      `Testnet envronment config was written to: .env.testnet${"\n"}`
+      `Testnet environment config was written to: .env.testnet${"\n"}`
     );
 
     dotenv.config({
@@ -432,50 +432,40 @@ pm2.connect(false, async function (err) {
   // ------------- TESTNET ENVIRONMENT STARTUP ------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
-    if (process.env.E2E_TESTING === "true") {
-      // E2E test run is only for github actions when pushed
-      spinner.warn(
-        "Using existing testnet account credentials for e2e testing..."
-      );
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV),
+    });
 
-      dotenv.config({
-        path: requireEnv(process.env.CHAIN_ENV),
+    // Determine whether the user wants to reuse existing testnet accounts
+    let useExisting = false
+
+    // .env.testnet won't exist if the startup is run by github actions for e2e testing
+    if (jetpack.exists(".env.testnet")) { 
+      useExisting = true
+
+      var useExistingPromptResponse = await inquirer.prompt({
+        type: "confirm",
+        name: "confirm",
+        message: `Use existing testnet credentials in ${chalk.greenBright(
+          "env.testnet"
+        )} ?`,
+        default: true,
       });
 
-      // For E2E testing, we only need to deploy and initialize account
-      // We don't need to run cleanup or set up new account because we are using a pre-existing
-      // testing account
-
-      await deployAndInitialize();
-    } else {
-      const USE_EXISTING = jetpack.exists(".env.testnet");
-
-      if (!USE_EXISTING) {
-        await cleanupTestnetConfig();
-        await bootstrapNewTestnetAccount();
-        await deployAndInitialize();
-      } else {
-        let useExisting = await inquirer.prompt({
-          type: "confirm",
-          name: "confirm",
-          message: `Use existing testnet credentials in ${chalk.greenBright(
-            "env.testnet"
-          )} ?`,
-          default: true,
-        });
-
-        if (!useExisting.confirm) {
-          spinner.warn("Creating new testnet account credentials...");
-          await cleanupTestnetConfig();
-          await bootstrapNewTestnetAccount();
-          await deployAndInitialize();
-        } else {
-          dotenv.config({
-            path: requireEnv(process.env.CHAIN_ENV),
-          });
-        }
-      }
+      if (!useExistingPromptResponse.confirm) {
+        useExisting = false
+      } 
     }
+
+    // Cleanup and setup testnet account when prompted, and always skip this for github actions e2e tests
+    if (!useExisting && !process.env.E2E_GITHUB_ACTIONS_JOB) {
+      spinner.warn("Creating new testnet account credentials...");
+      await cleanupTestnetConfig();
+      await bootstrapNewTestnetAccount(); 
+    }
+
+    // Always redeploy and initialize account because the contracts may have been updated
+    await deployAndInitialize();
   }
 
   // ------------------------------------------------------------
