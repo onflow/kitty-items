@@ -340,6 +340,7 @@ pm2.connect(false, async function (err) {
 
     // -------------- Initialize Kitty Items  --------------------------
 
+    spinner.info(`Initializing Kitty Items`);
     const { stderr: err2 } = await exec(
       initializeKittyItems(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
@@ -351,6 +352,7 @@ pm2.connect(false, async function (err) {
 
     // -------------- Initialize NFTStorefront --------------------------
 
+    spinner.info(`Initializing NFTStorefront`);
     const { stderr: err3 } = await exec(
       initializeStorefront(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
