@@ -8,6 +8,7 @@ import {paths} from "src/global/constants"
 
 export const AppContext = createContext({
   currentUser: null,
+  isDapperWallet: false,
   isAccountInitialized: null,
   checkIsAccountInitialized: () => null,
   showAdminLoginDialog: false,
@@ -21,8 +22,9 @@ export const AppContext = createContext({
 
 export const AppContextProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(null)
+  const [isDapperWallet, setIsDapperWallet] = useState(false)
   const [isAccountInitStateLoading, setIsAccountInitStateLoading] =
-    useState(false)
+  useState(false)
   const [isAccountInitialized, setIsAccountInitialized] = useState(null)
   const [isLoggedInAsAdmin, setIsLoggedInAsAdmin] = useState(false)
   const [showAdminLoginDialog, setShowAdminLoginDialog] = useState(false)
@@ -44,6 +46,10 @@ export const AppContextProvider = ({children}) => {
     () =>
       fcl.currentUser().subscribe(newUser => {
         if (newUser?.loggedIn) {
+          console.log('newUsernewUsernewUser', newUser)
+          const isDW = newUser.services.find(s => s.type === 'authn').provider.address === "0x668b91e2995c2eba"
+          setIsDapperWallet(isDW)
+          console.log('is dapper wallet?', newUser.services.find(s => s.type === 'authn').provider.address === "0x668b91e2995c2eba")
           setCurrentUser(newUser)
           setFlashMessage(null)
         } else {
@@ -102,6 +108,7 @@ export const AppContextProvider = ({children}) => {
 
   const value = {
     currentUser,
+    isDapperWallet,
     isAccountInitStateLoading,
     isAccountInitialized,
     checkIsAccountInitialized,
