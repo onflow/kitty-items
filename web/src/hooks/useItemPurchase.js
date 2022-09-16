@@ -1,5 +1,6 @@
 import * as fcl from "@onflow/fcl"
 import PURCHASE_LISTING_TRANSACTION from "cadence/transactions/purchase_listing.cdc"
+import PURCHASE_LISTING_TRANSACTION_DW from "cadence/transactions/purchase_listing_dw.cdc"
 import {useRouter} from "next/dist/client/router"
 import {useEffect, useState} from "react"
 import useTransactionsContext from "src/components/Transactions/useTransactionsContext"
@@ -11,7 +12,7 @@ import analytics from "src/global/analytics"
 
 export default function useItemPurchase(itemID) {
   const router = useRouter()
-  const {currentUser} = useAppContext()
+  const {currentUser, isDapperWallet} = useAppContext()
   const {addTransaction, transactionsById} = useTransactionsContext()
   const {mutate, cache} = useSWRConfig()
   const [txId, setTxId] = useState()
@@ -22,7 +23,9 @@ export default function useItemPurchase(itemID) {
     if (!ownerAddress) throw new Error("Missing ownerAddress")
 
     const newTxId = await fcl.mutate({
-      cadence: PURCHASE_LISTING_TRANSACTION,
+      cadence: isDapperWallet ?
+                PURCHASE_LISTING_TRANSACTION_DW :
+                PURCHASE_LISTING_TRANSACTION,
       args: (arg, t) => [
         arg(listingResourceID.toString(), t.UInt64),
         arg(ownerAddress, t.Address),
