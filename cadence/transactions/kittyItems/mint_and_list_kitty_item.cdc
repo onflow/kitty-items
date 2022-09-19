@@ -78,3 +78,4 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
         )
     }
 }
+ 

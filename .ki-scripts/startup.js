@@ -25,15 +25,15 @@ import fs from "fs";
 import process from "process";
 
 // solve the issue that pm2 can not recognize the npm command in Windows
-let npmscript = "npm"
+let npmscript = "npm";
 if (os.platform == "win32") {
-  const npmpath = `C:\\Program\ Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js`
+  const npmpath = `C:\\Program\ Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js`;
   fs.stat(npmpath, (err, status) => {
     if (err) {
-      throw("Please change `npmpath` in  `.ki-scripts/startup.js` to <npm-cli.js location in your Windows>, and retry.")
+      throw "Please change `npmpath` in  `.ki-scripts/startup.js` to <npm-cli.js location in your Windows>, and retry.";
     }
-    npmscript = npmpath
-  })
+    npmscript = npmpath;
+  });
 }
 
 const exec = util.promisify(exe);
@@ -89,7 +89,7 @@ function envErr() {
 function adminError() {
   throw new Error(
     `Unknown or missing ADMIN_ADRESS environment variable.
-      Please create a testnet account and add your credentials to .env.tenstnet`
+      Please create a testnet account and add your credentials to .env.testnet`
   );
 }
 
@@ -117,17 +117,39 @@ async function generateKeys() {
   return JSON.parse(out);
 }
 
+function verifySetupTestnetE2E() {
+  if (!jetpack.exists(".env.testnet.example")) {
+    throw new Error(
+      "Testnet E2E deployment config is missing .env.testnet.example"
+    );
+  }
+  if (!(process.env.ADMIN_ADDRESS && process.env.FLOW_PRIVATE_KEY && process.env.FLOW_PUBLIC_KEY)) {
+    throw new Error(
+      "Testnet E2E deployment config is missing flow account secrets."
+    );
+  }
+}
+
+function verifySetupTestnet() {
+  if (!jetpack.exists(".env.testnet")) {
+    throw new Error(
+      "Testnet deployment config not created. See README.md for instructions."
+    );
+  }
+}
+
 function requireEnv(chainEnv) {
   switch (chainEnv) {
     case "emulator":
       return ".env.emulator";
     case "testnet":
-      if (!jetpack.exists(".env.testnet")) {
-        throw new Error(
-          "Testnet deployment config not created. See README.md for instructions."
-        );
+      if (process.env.E2E_GITHUB_ACTIONS_JOB) {
+        verifySetupTestnetE2E();
+        return ".env.testnet.example";
+      } else {
+        verifySetupTestnet();
+        return ".env.testnet";
       }
-      return ".env.testnet";
     default:
       envErr();
   }
@@ -149,7 +171,7 @@ function stopProcess(name, port) {
   return new Promise((resolve, reject) => {
     pm2.stop(name, function (err, result) {
       if (err) {
-        return resolve()
+        return resolve();
       }
       pm2.delete(name, async function () {
         await killPortProcess(port);
@@ -170,7 +192,7 @@ async function cleanupTestnetConfig() {
       type: "confirm",
       name: "confirm",
       message: `Are you sure you want to remove the testnet database?`,
-      default: true
+      default: true,
     });
     if (removeDb.confirm) {
       spinner.info(`Removing testnet database...`);
@@ -215,12 +237,12 @@ pm2.connect(false, async function (err) {
 
   const parseVersion = (nodeVersionString) => {
     const majorVersion = nodeVersionString.split(".")[0];
-    const majorVersionIntOnly = majorVersion.replace(/[^0-9]/g,"");
+    const majorVersionIntOnly = majorVersion.replace(/[^0-9]/g, "");
 
     return parseInt(majorVersionIntOnly);
-  }
+  };
 
-  const processNodeVersion = parseVersion(process.version)
+  const processNodeVersion = parseVersion(process.version);
   const engineNodeRequirement = parseVersion(pjson.engines.node);
 
   if (processNodeVersion < engineNodeRequirement) {
@@ -232,7 +254,6 @@ pm2.connect(false, async function (err) {
     pm2.disconnect();
     return;
   }
-
   // ------------------------------------------------------------
   // ------------- TESTNET ACCOUNT CREATION ---------------------
 
@@ -255,14 +276,14 @@ pm2.connect(false, async function (err) {
       {
         type: "input",
         name: "account",
-        message: "Paste your new testnet account address here:"
-      }
+        message: "Paste your new testnet account address here:",
+      },
     ]);
 
     result.account = testnet.account;
 
     jetpack.file(`testnet-credentials-${testnet.account}.json`, {
-      content: JSON.stringify(result)
+      content: JSON.stringify(result),
     });
 
     const testnetEnvFile = jetpack.read(".env.testnet.example");
@@ -272,19 +293,19 @@ pm2.connect(false, async function (err) {
     env = {
       ADMIN_ADDRESS: testnet.account,
       FLOW_PRIVATE_KEY: result.private,
-      FLOW_PUBLIC_KEY: result.public
+      FLOW_PUBLIC_KEY: result.public,
     };
 
     jetpack.file(".env.testnet", {
-      content: `${convertToEnv({ ...parsed, ...env })}`
+      content: `${convertToEnv({ ...parsed, ...env })}`,
     });
 
     spinner.info(
-      `Testnet envronment config was written to: .env.testnet${"\n"}`
+      `Testnet environment config was written to: .env.testnet${"\n"}`
     );
 
     dotenv.config({
-      path: requireEnv(process.env.CHAIN_ENV)
+      path: requireEnv(process.env.CHAIN_ENV),
     });
   }
 
@@ -293,7 +314,7 @@ pm2.connect(false, async function (err) {
 
   async function deployAndInitialize() {
     spinner.start(
-      `Deploying contracts to:  ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
+      `Deploying contracts to: ${process.env.ADMIN_ADDRESS} (${process.env.CHAIN_ENV})`
     );
 
     const { stdout: out1, stderr: err1 } = await exec(
@@ -319,6 +340,7 @@ pm2.connect(false, async function (err) {
 
     // -------------- Initialize Kitty Items  --------------------------
 
+    spinner.info(`Initializing Kitty Items`);
     const { stderr: err2 } = await exec(
       initializeKittyItems(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
@@ -330,6 +352,7 @@ pm2.connect(false, async function (err) {
 
     // -------------- Initialize NFTStorefrontV2 --------------------------
 
+    spinner.info(`Initializing NFTStorefront`);
     const { stderr: err3 } = await exec(
       initializeStorefront(process.env.CHAIN_ENV),
       { cwd: process.cwd() }
@@ -363,7 +386,7 @@ pm2.connect(false, async function (err) {
       name: "emulator",
       script: "flow",
       args: "emulator",
-      wait_ready: true
+      wait_ready: true,
     });
 
     spinner.succeed(chalk.greenBright("Emulator started"));
@@ -381,7 +404,7 @@ pm2.connect(false, async function (err) {
       name: "dev-wallet",
       script: "flow",
       args: "dev-wallet",
-      wait_ready: true
+      wait_ready: true,
     });
 
     spinner.succeed(chalk.greenBright("Developer Wallet started"));
@@ -395,13 +418,13 @@ pm2.connect(false, async function (err) {
 
     // NOTE: Emulator development does not persist chain state by default.
     // If you add support for emulator persistence, you will need to remove this
-    // because now your emulator will maintain all events from past runs, 
+    // because now your emulator will maintain all events from past runs,
     // emitted by the Kitty Items contract, and the sale offers will match
     // with what is represented on-chain (what NFTs are for sale in which accounts).
     jetpack.remove("./api/kitty-items-db-emulator.sqlite");
 
     dotenv.config({
-      path: requireEnv(process.env.CHAIN_ENV)
+      path: requireEnv(process.env.CHAIN_ENV),
     });
 
     await deployAndInitialize();
@@ -411,33 +434,40 @@ pm2.connect(false, async function (err) {
   // ------------- TESTNET ENVIRONMENT STARTUP ------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
-    const USE_EXISTING = jetpack.exists(".env.testnet");
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV),
+    });
 
-    if (!USE_EXISTING) {
-      await cleanupTestnetConfig();
-      await bootstrapNewTestnetAccount();
-      await deployAndInitialize();
-    } else {
-      let useExisting = await inquirer.prompt({
+    // Determine whether the user wants to reuse existing testnet accounts
+    let useExisting = false
+
+    // .env.testnet won't exist if the startup is run by github actions for e2e testing
+    if (jetpack.exists(".env.testnet")) { 
+      useExisting = true
+
+      var useExistingPromptResponse = await inquirer.prompt({
         type: "confirm",
         name: "confirm",
-        message: `Use existing tesnet credentials in ${chalk.greenBright(
+        message: `Use existing testnet credentials in ${chalk.greenBright(
           "env.testnet"
         )} ?`,
-        default: true
+        default: true,
       });
 
-      if (!useExisting.confirm) {
-        spinner.warn("Creating new testnet account credentials...");
-        await cleanupTestnetConfig();
-        await bootstrapNewTestnetAccount();
-        await deployAndInitialize();
-      } else {
-        dotenv.config({
-          path: requireEnv(process.env.CHAIN_ENV)
-        });
-      }
+      if (!useExistingPromptResponse.confirm) {
+        useExisting = false
+      } 
     }
+
+    // Cleanup and setup testnet account when prompted, and always skip this for github actions e2e tests
+    if (!useExisting && !process.env.E2E_GITHUB_ACTIONS_JOB) {
+      spinner.warn("Creating new testnet account credentials...");
+      await cleanupTestnetConfig();
+      await bootstrapNewTestnetAccount(); 
+    }
+
+    // Always redeploy and initialize account because the contracts may have been updated
+    await deployAndInitialize();
   }
 
   // ------------------------------------------------------------
@@ -453,7 +483,7 @@ pm2.connect(false, async function (err) {
     script: npmscript,
     args: "run dev",
     watch: false,
-    wait_ready: true
+    wait_ready: true,
   });
 
   spinner.succeed(chalk.greenBright("API server started"));
@@ -467,17 +497,15 @@ pm2.connect(false, async function (err) {
 
   spinner.start("Starting storefront web app");
 
-    await runProcess({
-      name: `web`,
-      cwd: "./web",
-      script: npmscript,
-      args: "run dev",
-      watch: false,
-      wait_ready: true,
-      autorestart: false
-    });
-
-
+  await runProcess({
+    name: `web`,
+    cwd: "./web",
+    script: npmscript,
+    args: "run dev",
+    watch: false,
+    wait_ready: true,
+    autorestart: false,
+  });
 
   spinner.succeed(chalk.greenBright("Storefront web app started"));
 
@@ -523,14 +551,14 @@ pm2.connect(false, async function (err) {
       type: "confirm",
       name: "confirm",
       message: `Would you like to view the logs for all processes?`,
-      default: true
+      default: true,
     });
 
     if (logs.confirm) {
       console.log("\n");
       const ps = spawn("npx", ["pm2", "logs", "--no-daemon"], {
         shell: true,
-        stdio: "inherit"
+        stdio: "inherit",
       });
       ps.stdout?.on("data", (data) => {
         console.log(data.toString().trim());
