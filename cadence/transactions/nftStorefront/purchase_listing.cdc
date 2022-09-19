@@ -58,6 +58,6 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
         )
 
         self.kittyItemsCollection.deposit(token: <-item)
-        self.storefront.removeListing(listingResourceID: listingResourceID)
+        self.storefront.cleanupPurchasedListings(listingResourceID: listingResourceID)
     }
 }

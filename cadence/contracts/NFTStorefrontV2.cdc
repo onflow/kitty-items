@@ -348,8 +348,8 @@ pub contract NFTStorefrontV2 {
 
             // Fetch the duplicate listing for the given NFT
             // Access the StoreFrontManager resource reference to remove the duplicate listings if purchase would happen successfully.
-            let storeFrontPublicRef = self.owner!.getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath).borrow() 
-                ?? panic("Unable to borrow the storeFrontManager resource")
+            let storeFrontPublicRef = self.owner!.getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath)
+                                        .borrow() ?? panic("Unable to borrow the storeFrontManager resource")
             let duplicateListings = storeFrontPublicRef.getDuplicateListingIDs(nftType: self.details.nftType, nftID: self.details.nftID, listingID: self.uuid)
 
             // Let's force removal of the listing in this storefront for the NFT that is being purchased. 
@@ -511,7 +511,8 @@ pub contract NFTStorefrontV2 {
         pub fun borrowListing(listingResourceID: UInt64): &Listing{ListingPublic}?
         pub fun cleanupExpiredListings(fromIndex: UInt64, toIndex: UInt64)
         access(contract) fun cleanup(listingResourceID: UInt64)
-        pub fun removeListing(listingResourceID: UInt64) 
+        pub fun getExistingListingIDs(nftType: Type, nftID: UInt64): [UInt64]
+        pub fun cleanupPurchasedListings(listingResourceID: UInt64)
    }
 
     /// Storefront
@@ -627,6 +628,7 @@ pub contract NFTStorefrontV2 {
         
         /// removeListing
         /// Remove a Listing that has not yet been purchased from the collection and destroy it.
+        /// It can only be executed by the StorefrontManager resource owner.
         ///
         pub fun removeListing(listingResourceID: UInt64) {
             let listing <- self.listings.remove(key: listingResourceID)
@@ -653,6 +655,21 @@ pub contract NFTStorefrontV2 {
             }
             var listingIDs = self.listedNFTs[nftType.identifier]![nftID]!
             return listingIDs
+        }
+
+        /// cleanupPurchasedListings
+        /// Allows anyone to remove already purchased listings.
+        ///
+        pub fun cleanupPurchasedListings(listingResourceID: UInt64) {
+            pre {
+                self.listings[listingResourceID] != nil: "could not find listing with given id"
+                self.borrowListing(listingResourceID: listingResourceID)!.getDetails().purchased == true: "listing not purchased yet"
+            }
+            let listing <- self.listings.remove(key: listingResourceID)!
+            let listingDetails = listing.getDetails()
+            self.removeDuplicateListing(nftIdentifier: listingDetails.nftType.identifier, nftID: listingDetails.nftID, listingResourceID: listingResourceID)
+
+            destroy listing
         }
 
         /// getDuplicateListingIDs

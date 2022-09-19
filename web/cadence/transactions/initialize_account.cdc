@@ -21,7 +21,9 @@ transaction {
       if acct.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) == nil {
         acct.save(<-KittyItems.createEmptyCollection(), to: KittyItems.CollectionStoragePath)
       }
+
       acct.unlink(KittyItems.CollectionPublicPath)
+
       acct.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
     }
 
@@ -29,7 +31,9 @@ transaction {
       if acct.borrow<&NFTStorefrontV2.Storefront>(from: NFTStorefrontV2.StorefrontStoragePath) == nil {
         acct.save(<-NFTStorefrontV2.createStorefront(), to: NFTStorefrontV2.StorefrontStoragePath)
       }
+
       acct.unlink(NFTStorefrontV2.StorefrontPublicPath)
+      
       acct.link<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath, target: NFTStorefrontV2.StorefrontStoragePath)
     }
   }
