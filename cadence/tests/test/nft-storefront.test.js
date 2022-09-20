@@ -40,7 +40,7 @@ describe("NFT Storefront", () => {
 		await emulator.stop();
 	});
 
-	it("should deploy NFTStorefront contract", async () => {
+	it("should deploy NFTStorefrontV2 contract", async () => {
 		await shallPass(deployNFTStorefront());
 	});
 

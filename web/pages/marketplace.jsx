@@ -44,7 +44,7 @@ const MainContent = ({queryState}) => {
   const onPageClick = (newPage, scroll) => updateQuery({page: newPage}, scroll)
 
   return (
-    <div className="main-container py-14">
+    <div className="main-container py-14" data-cy="marketplace">
       <div className="flex justify-between items-center mb-12">
         <h1 className="text-3xl text-gray-darkest">Marketplace</h1>
         {!!currentUser && (

@@ -2,7 +2,7 @@ import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import FlowToken from "../../contracts/FlowToken.cdc"
-import NFTStorefront from "../../contracts/NFTStorefront.cdc"
+import NFTStorefrontV2 from "../../contracts/NFTStorefrontV2.cdc"
 
 // This transction uses the NFTMinter resource to mint a new NFT.
 
@@ -12,7 +12,7 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
     let minter: &KittyItems.NFTMinter
     let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
     let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
-    let storefront: &NFTStorefront.Storefront
+    let storefront: &NFTStorefrontV2.Storefront
 
     prepare(signer: AuthAccount) {
 
@@ -35,8 +35,8 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
 
         assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed KittyItems.Collection provider")
 
-        self.storefront = signer.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
-            ?? panic("Missing or mis-typed NFTStorefront Storefront")
+        self.storefront = signer.borrow<&NFTStorefrontV2.Storefront>(from: NFTStorefrontV2.StorefrontStoragePath)
+            ?? panic("Missing or mis-typed NFTStorefrontV2 Storefront")
     }
 
     execute {
@@ -60,7 +60,7 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
             rarity: rarityValue,
         )
 
-        let saleCut = NFTStorefront.SaleCut(
+        let saleCut = NFTStorefrontV2.SaleCut(
             receiver: self.flowReceiver,
             amount: KittyItems.getItemPrice(rarity: rarityValue)
         )
@@ -70,7 +70,12 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
             nftType: Type<@KittyItems.NFT>(),
             nftID: KittyItems.totalSupply - 1,
             salePaymentVaultType: Type<@FlowToken.Vault>(),
-            saleCuts: [saleCut]
+            saleCuts: [saleCut],
+            marketplacesCapability: nil, // [Capability<&{FungibleToken.Receiver}>]?
+            customID: nil, // String?
+            commissionAmount: UFix64(0),
+            expiry: UInt64(getCurrentBlock().timestamp) + UInt64(500)
         )
     }
 }
+ 

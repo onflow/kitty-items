@@ -9,7 +9,7 @@ const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
 const fungibleTokenPath = '"../../contracts/FungibleToken.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
-const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
+const storefrontPath = '"../../contracts/NFTStorefrontV2.cdc"'
 const dapperUtilityCoinPath = '"../../contracts/DapperUtilityCoin.cdc"'
 const tokenForwardingPath = '"../../contracts/TokenForwarding.cdc"'
 

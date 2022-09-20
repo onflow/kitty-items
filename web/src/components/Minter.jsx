@@ -12,7 +12,9 @@ export default function Minter() {
       <MinterLoader isLoading={isLoading} />
 
       <div className="flex flex-col pr-4 mt-14 lg:mt-24 lg:pt-20 lg:pl-14">
-        <h1 className="mb-10 text-5xl text-gray-darkest">Mint a New Item</h1>
+        <h1 className="mb-10 text-5xl text-gray-darkest" data-cy="header-mint">
+          Mint a New Item
+        </h1>
         <RarityScale />
 
         {isLoading ? (

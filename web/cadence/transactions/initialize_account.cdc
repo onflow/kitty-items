@@ -1,7 +1,7 @@
 import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import KittyItems from 0xKittyItems
-import NFTStorefront from 0xNFTStorefront
+import NFTStorefrontV2 from 0xNFTStorefront
 
 pub fun hasItems(_ address: Address): Bool {
   return getAccount(address)
@@ -11,7 +11,7 @@ pub fun hasItems(_ address: Address): Bool {
 
 pub fun hasStorefront(_ address: Address): Bool {
   return getAccount(address)
-    .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath)
+    .getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath)
     .check()
 }
 
@@ -21,16 +21,20 @@ transaction {
       if acct.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) == nil {
         acct.save(<-KittyItems.createEmptyCollection(), to: KittyItems.CollectionStoragePath)
       }
+
       acct.unlink(KittyItems.CollectionPublicPath)
+
       acct.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic}>(KittyItems.CollectionPublicPath, target: KittyItems.CollectionStoragePath)
     }
 
     if !hasStorefront(acct.address) {
-      if acct.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) == nil {
-        acct.save(<-NFTStorefront.createStorefront(), to: NFTStorefront.StorefrontStoragePath)
+      if acct.borrow<&NFTStorefrontV2.Storefront>(from: NFTStorefrontV2.StorefrontStoragePath) == nil {
+        acct.save(<-NFTStorefrontV2.createStorefront(), to: NFTStorefrontV2.StorefrontStoragePath)
       }
-      acct.unlink(NFTStorefront.StorefrontPublicPath)
-      acct.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+
+      acct.unlink(NFTStorefrontV2.StorefrontPublicPath)
+      
+      acct.link<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath, target: NFTStorefrontV2.StorefrontStoragePath)
     }
   }
 }

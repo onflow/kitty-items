@@ -2,7 +2,7 @@ import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import FlowToken from 0xFlowToken
 import KittyItems from 0xKittyItems
-import NFTStorefront from 0xNFTStorefront
+import NFTStorefrontV2 from 0xNFTStorefront
 
 pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonFungibleToken.Receiver} {
   if let collectionRef = account.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) {
@@ -26,13 +26,13 @@ pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonF
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
   let paymentVault: @FungibleToken.Vault
   let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
-  let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}
-  let listing: &NFTStorefront.Listing{NFTStorefront.ListingPublic}
+  let storefront: &NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}
+  let listing: &NFTStorefrontV2.Listing{NFTStorefrontV2.ListingPublic}
 
   prepare(account: AuthAccount) {
     self.storefront = getAccount(storefrontAddress)
-      .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(
-          NFTStorefront.StorefrontPublicPath
+      .getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(
+          NFTStorefrontV2.StorefrontPublicPath
       )!
       .borrow()
       ?? panic("Could not borrow Storefront from provided address")
@@ -52,11 +52,12 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
 
   execute {
     let item <- self.listing.purchase(
-      payment: <-self.paymentVault
+      payment: <-self.paymentVault,
+      commissionRecipient: nil
     )
 
     self.kittyItemsCollection.deposit(token: <-item)
-
-    self.storefront.cleanup(listingResourceID: listingResourceID)
+    
+    self.storefront.cleanupPurchasedListings(listingResourceID: listingResourceID)
   }
 }
