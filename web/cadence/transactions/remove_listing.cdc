@@ -1,11 +1,11 @@
-import NFTStorefront from 0xNFTStorefront
+import NFTStorefrontV2 from 0xNFTStorefront
 
 transaction(listingResourceID: UInt64) {
-  let storefront: &NFTStorefront.Storefront{NFTStorefront.StorefrontManager}
+  let storefront: &NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontManager}
 
   prepare(acct: AuthAccount) {
-    self.storefront = acct.borrow<&NFTStorefront.Storefront{NFTStorefront.StorefrontManager}>(from: NFTStorefront.StorefrontStoragePath)
-      ?? panic("Missing or mis-typed NFTStorefront.Storefront")
+    self.storefront = acct.borrow<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontManager}>(from: NFTStorefrontV2.StorefrontStoragePath)
+      ?? panic("Missing or mis-typed NFTStorefrontV2.Storefront")
   }
 
   execute {

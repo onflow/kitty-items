@@ -350,7 +350,7 @@ pm2.connect(false, async function (err) {
       throw new Error(err2);
     }
 
-    // -------------- Initialize NFTStorefront --------------------------
+    // -------------- Initialize NFTStorefrontV2 --------------------------
 
     spinner.info(`Initializing NFTStorefront`);
     const { stderr: err3 } = await exec(

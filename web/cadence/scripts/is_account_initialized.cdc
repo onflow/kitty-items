@@ -1,7 +1,7 @@
 import FungibleToken from 0xFungibleToken
 import NonFungibleToken from 0xNonFungibleToken
 import KittyItems from 0xKittyItems
-import NFTStorefront from 0xNFTStorefront
+import NFTStorefrontV2 from 0xNFTStorefront
 
 pub fun hasItems(_ address: Address): Bool {
   return getAccount(address)
@@ -11,7 +11,7 @@ pub fun hasItems(_ address: Address): Bool {
 
 pub fun hasStorefront(_ address: Address): Bool {
   return getAccount(address)
-    .getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath)
+    .getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath)
     .check()
 }
 

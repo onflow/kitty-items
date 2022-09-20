@@ -2,20 +2,20 @@ import FungibleToken from "../../contracts/FungibleToken.cdc"
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import FlowToken from "../../contracts/FlowToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
-import NFTStorefront from "../../contracts/NFTStorefront.cdc"
+import NFTStorefrontV2 from "../../contracts/NFTStorefrontV2.cdc"
 
-pub fun getOrCreateStorefront(account: AuthAccount): &NFTStorefront.Storefront {
-    if let storefrontRef = account.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath) {
+pub fun getOrCreateStorefront(account: AuthAccount): &NFTStorefrontV2.Storefront {
+    if let storefrontRef = account.borrow<&NFTStorefrontV2.Storefront>(from: NFTStorefrontV2.StorefrontStoragePath) {
         return storefrontRef
     }
 
-    let storefront <- NFTStorefront.createStorefront()
+    let storefront <- NFTStorefrontV2.createStorefront()
 
-    let storefrontRef = &storefront as &NFTStorefront.Storefront
+    let storefrontRef = &storefront as &NFTStorefrontV2.Storefront
 
-    account.save(<-storefront, to: NFTStorefront.StorefrontStoragePath)
+    account.save(<-storefront, to: NFTStorefrontV2.StorefrontStoragePath)
 
-    account.link<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath, target: NFTStorefront.StorefrontStoragePath)
+    account.link<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath, target: NFTStorefrontV2.StorefrontStoragePath)
 
     return storefrontRef
 }
@@ -24,7 +24,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
 
     let flowReceiver: Capability<&FlowToken.Vault{FungibleToken.Receiver}>
     let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
-    let storefront: &NFTStorefront.Storefront
+    let storefront: &NFTStorefrontV2.Storefront
 
     prepare(account: AuthAccount) {
         // We need a provider capability, but one is not provided by default so we create one if needed.
@@ -46,7 +46,7 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
     }
 
     execute {
-        let saleCut = NFTStorefront.SaleCut(
+        let saleCut = NFTStorefrontV2.SaleCut(
             receiver: self.flowReceiver,
             amount: saleItemPrice
         )
@@ -55,7 +55,11 @@ transaction(saleItemID: UInt64, saleItemPrice: UFix64) {
             nftType: Type<@KittyItems.NFT>(),
             nftID: saleItemID,
             salePaymentVaultType: Type<@FlowToken.Vault>(),
-            saleCuts: [saleCut]
+            saleCuts: [saleCut],
+            marketplacesCapability: nil, // [Capability<&{FungibleToken.Receiver}>]?
+            customID: nil, // String?
+            commissionAmount: UFix64(0),
+            expiry: UInt64(getCurrentBlock().timestamp) + UInt64(500)
         )
     }
 }

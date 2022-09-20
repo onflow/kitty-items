@@ -24,11 +24,11 @@ class ListingHandler extends BaseEventHandler {
 
     this.eventListingAvailable = `A.${fcl.sansPrefix(
       storefrontService.storefrontAddress
-    )}.NFTStorefront.ListingAvailable`;
+    )}.NFTStorefrontV2.ListingAvailable`;
 
     this.eventListingCompleted = `A.${fcl.sansPrefix(
       storefrontService.storefrontAddress
-    )}.NFTStorefront.ListingCompleted`;
+    )}.NFTStorefrontV2.ListingCompleted`;
 
     this.eventNames = [
       this.eventListingAvailable,

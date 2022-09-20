@@ -24,7 +24,7 @@ This section defines the function that begins the process of deploying the requi
 
 - **Initialize Kitty Items**: This step executes the [setup_account.cdc](/cadence/transactions/kittyItems/setup_account.cdc) transaction and initializes the admin service account with the resources required to mint & transfer Kitty Items.
 
-- **Initialize NFTStorefront**: This step executes the [setup_account.cdc](/cadence/transactions/nftStorefront/setup_account.cdc) transaction and initializes the admin service account with the resources required to create Kitty Item listings on the marketplace.
+- **Initialize NFTStorefrontV2**: This step executes the [setup_account.cdc](/cadence/transactions/nftStorefront/setup_account.cdc) transaction and initializes the admin service account with the resources required to create Kitty Item listings on the marketplace.
 
 ### Emulator environment startup
 This process initializes the Flow emulator which starts a local instance of the Flow blockchain protocol to develop against. The emulator will also initialize an instance of the [FCL Dev Wallet](https://github.com/onflow/fcl-dev-wallet). Once the processes are running, the script will execute the `Contract deployment` steps to set up the admin service account.

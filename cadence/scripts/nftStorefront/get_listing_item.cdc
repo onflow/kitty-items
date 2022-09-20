@@ -1,6 +1,6 @@
 import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import MetadataViews from "../../contracts/MetadataViews.cdc"
-import NFTStorefront from "../../contracts/NFTStorefront.cdc"
+import NFTStorefrontV2 from "../../contracts/NFTStorefrontV2.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 
 pub struct ListingItem {
@@ -57,7 +57,7 @@ pub fun dwebURL(_ file: MetadataViews.IPFSFile): String {
 pub fun main(address: Address, listingResourceID: UInt64): ListingItem? {
     let account = getAccount(address)
 
-    if let storefrontRef = account.getCapability<&NFTStorefront.Storefront{NFTStorefront.StorefrontPublic}>(NFTStorefront.StorefrontPublicPath).borrow() {
+    if let storefrontRef = account.getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath).borrow() {
 
         if let listing = storefrontRef.borrowListing(listingResourceID: listingResourceID) {
 

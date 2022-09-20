@@ -17,7 +17,7 @@ const nonFungibleTokenPath = '"../../contracts/NonFungibleToken.cdc"'
 const metadataViewsPath = '"../../contracts/MetadataViews.cdc"'
 const flowTokenPath = '"../../contracts/FlowToken.cdc"'
 const kittyItemsPath = '"../../contracts/KittyItems.cdc"'
-const storefrontPath = '"../../contracts/NFTStorefront.cdc"'
+const storefrontPath = '"../../contracts/NFTStorefrontV2.cdc"'
 
 const PER_PAGE = 12
 

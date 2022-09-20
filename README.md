@@ -131,7 +131,7 @@ If you're running on another non-intel based system, the issue and troubleshooti
 
 #### Understanding the Marketplace
 
-- The Kitty Items Marketplace on testnet is universal. _Every instance of Kitty Items deployed on Testnet points to the same marketplace (`NFTStorefront`) contract_. So, you may see other listing s showing up in your Kitty items instance, but you will not see items in _your_ marketplace page that were added _before_ you deployed your instance of Kitty Items.
+- The Kitty Items Marketplace on testnet is universal. _Every instance of Kitty Items deployed on Testnet points to the same marketplace (`NFTStorefrontV2`) contract_. So, you may see other listing s showing up in your Kitty items instance, but you will not see items in _your_ marketplace page that were added _before_ you deployed your instance of Kitty Items.
 
 ---
 

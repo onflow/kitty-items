@@ -13,10 +13,10 @@
   },
   "contracts": {
     "KittyItems": "./cadence/contracts/KittyItems.cdc",
-    "NFTStorefront": {
-      "source": "./cadence/contracts/NFTStorefront.cdc",
+    "NFTStorefrontV2": {
+      "source": "./cadence/contracts/NFTStorefrontV2.cdc",
       "aliases": {
-        "testnet": "0x94b06cfca1d8a476"
+        "testnet": "0x2d55b98eb200daef"
       }
     },
     "NonFungibleToken": {
@@ -59,12 +59,7 @@
   },
   "deployments": {
     "emulator": {
-      "emulator-account": [
-        "KittyItems",
-        "NFTStorefront",
-        "NonFungibleToken",
-        "MetadataViews"
-      ]
+      "emulator-account": ["KittyItems", "NFTStorefrontV2", "NonFungibleToken", "MetadataViews"]
     }
   }
 }

@@ -1,0 +1,83 @@
+{
+  "name": "Kitty Items",
+  "description": "A CryptoKitties Sample App. Learn how to create an NFT marketplace on Flow.",
+  "repository": "https://github.com/onflow/kitty-items",
+  "logo": "https://user-images.githubusercontent.com/2547035/113519867-d8592380-9543-11eb-9bb3-c45e51360ccf.png",
+  "keywords": ["Cadence", "Flow", "NFT", "Marketplace"],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "env": {
+    "ADMIN_ADDRESS": {
+      "value": ""
+    },
+    "APP_DOMAIN": {
+      "value": ""
+    },
+    "ACCESS_API": {
+      "value": "https://rest-testnet.onflow.org"
+    },
+    "API_URL": {
+      "value": "https://rest-testnet.onflow.org"
+    },
+    "WALLET_DISCOVERY": {
+      "value": "https://fcl-discovery.onflow.org/testnet/authn"
+    },
+    "FLOW_PRIVATE_KEY": {
+      "value": ""
+    },
+    "FLOW_PUBLIC_KEY": {
+      "value": ""
+    },
+    "CHAIN_ENV": {
+      "value": "testnet"
+    },
+    "FAUCET_ADDRESS": {
+      "value": "https://testnet-faucet.onflow.org/fund-account"
+    },
+    "DATABASE_PATH": {
+      "value": "./kitty-items-db-testnet.sqlite"
+    },
+    "EXT_FLOW_TOKEN_ADDRESS": {
+      "value": "0x7e60df042a9c0868"
+    },
+    "EXT_FUNGIBLE_TOKEN_ADDRESS": {
+      "value": "0x9a0766d93b6608b7"
+    },
+    "EXT_NON_FUNGIBLE_TOKEN_ADDRESS": {
+      "value": "0x631e88ae7f1d7c20"
+    },
+    "EXT_NFT_STOREFRONT_ADDRESS": {
+      "value": "0x2d55b98eb200daef"
+    },
+    "EXT_METADATA_VIEWS_ADDRESS": {
+      "value": "0x631e88ae7f1d7c20"
+    },
+    "GA_TRACKING_ID": {
+      "value": ""
+    },
+    "MIXPANEL_TOKEN": {
+      "value": ""
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "13"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest"
+    }
+  ]
+}

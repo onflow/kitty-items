@@ -66,7 +66,7 @@ describe("Emulator + dev-wallet tests", () => {
       cy.contains("MINT YOUR FIRST KITTY ITEM").should("exist");
     });
 
-    it.only("mints an item as a user + funds an account + purchases item", () => {
+    it("mints an item as a user + funds an account + purchases item", () => {
       // Mints an item - alreay signed in with service account
       cy.contains("MINT YOUR FIRST KITTY ITEM").click();
       cy.get('input[placeholder="Enter Password"]').type("KittyItems");
