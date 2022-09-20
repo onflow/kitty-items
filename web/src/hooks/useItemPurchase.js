@@ -22,16 +22,29 @@ export default function useItemPurchase(itemID) {
     if (!listingResourceID) throw new Error("Missing listingResourceID")
     if (!ownerAddress) throw new Error("Missing ownerAddress")
 
-    const newTxId = await fcl.mutate({
-      cadence: isDapperWallet ?
-                PURCHASE_LISTING_TRANSACTION_DW :
-                PURCHASE_LISTING_TRANSACTION,
-      args: (arg, t) => [
-        arg(listingResourceID.toString(), t.UInt64),
-        arg(ownerAddress, t.Address),
-      ],
-      limit: 1000,
-    })
+    let newTxId
+
+    if (isDapperWallet) {
+      newTxId = await fcl.mutate({
+        cadence: PURCHASE_LISTING_TRANSACTION_DW,
+        args: (arg, t) => [
+          arg(ownerAddress, t.Address), // storefrontAddress: the admin account that has the storefront contract
+          arg(listingResourceID.toString(), t.UInt64), // listingResourceID: listing ID
+          arg("100", t.UFix64) // expectedPrice: price listed on kitty items. Has to match to salesPrice // TODO: get after second DUC listing
+        ],
+        limit: 1000,
+      })
+    } else {
+      newTxId = await fcl.mutate({
+        cadence: PURCHASE_LISTING_TRANSACTION,
+        args: (arg, t) => [
+          arg(listingResourceID.toString(), t.UInt64),
+          arg(ownerAddress, t.Address),
+        ],
+        limit: 1000,
+      })
+    }
+
     setTxId(newTxId)
     addTransaction({
       id: newTxId,
