@@ -3,6 +3,11 @@ import MetadataViews from "./MetadataViews.cdc"
 
 pub contract KittyItems: NonFungibleToken {
 
+    // totalSupply
+    // The total number of KittyItems that have been minted
+    //
+    pub var totalSupply: UInt64
+
     // Events
     //
     pub event ContractInitialized()
@@ -16,11 +21,6 @@ pub contract KittyItems: NonFungibleToken {
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
     pub let MinterStoragePath: StoragePath
-
-    // totalSupply
-    // The total number of KittyItems that have been minted
-    //
-    pub var totalSupply: UInt64
 
     pub enum Rarity: UInt8 {
         pub case blue
@@ -95,10 +95,24 @@ pub contract KittyItems: NonFungibleToken {
         // The token rarity (e.g. Gold)
         pub let rarity: Rarity
 
-        init(id: UInt64, kind: Kind, rarity: Rarity) {
+        // The cut of the NFT sale sent to the author
+        access(self) let royalties: [MetadataViews.Royalty]
+
+        // The NFT metadata proposed in FLIP-0636
+        access(self) let metadata: {String: AnyStruct}
+
+        init(
+            id: UInt64, 
+            kind: Kind, 
+            rarity: Rarity, 
+            royalties: [MetadataViews.Royalty],
+            metadata: {String: AnyStruct}
+        ) {
             self.id = id
             self.kind = kind
             self.rarity = rarity
+            self.royalties = royalties
+            self.metadata = metadata
         }
 
         pub fun name(): String {
@@ -122,7 +136,11 @@ pub contract KittyItems: NonFungibleToken {
 
         pub fun getViews(): [Type] {
             return [
-                Type<MetadataViews.Display>()
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.Royalties>(),
+                Type<MetadataViews.ExternalURL>(),
+                Type<MetadataViews.NFTCollectionData>(),
+                Type<MetadataViews.NFTCollectionDisplay>(),
             ]
         }
 
@@ -136,6 +154,41 @@ pub contract KittyItems: NonFungibleToken {
                             cid: self.imageCID(), 
                             path: "sm.png"
                         )
+                    )
+                case Type<MetadataViews.Royalties>():
+                    return MetadataViews.Royalties(
+                        self.royalties
+                    )
+                case Type<MetadataViews.ExternalURL>():
+                    return MetadataViews.ExternalURL("https://example-nft.onflow.org/".concat(self.id.toString()))
+                case Type<MetadataViews.NFTCollectionData>():
+                    return MetadataViews.NFTCollectionData(
+                        storagePath: ExampleNFT.CollectionStoragePath,
+                        publicPath: ExampleNFT.CollectionPublicPath,
+                        providerPath: /private/exampleNFTCollection,
+                        publicCollection: Type<&ExampleNFT.Collection{ExampleNFT.ExampleNFTCollectionPublic}>(),
+                        publicLinkedType: Type<&ExampleNFT.Collection{ExampleNFT.ExampleNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
+                        providerLinkedType: Type<&ExampleNFT.Collection{ExampleNFT.ExampleNFTCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
+                        createEmptyCollectionFunction: (fun (): @NonFungibleToken.Collection {
+                            return <-ExampleNFT.createEmptyCollection()
+                        })
+                    )
+                case Type<MetadataViews.NFTCollectionDisplay>():
+                    let media = MetadataViews.Media(
+                        file: MetadataViews.HTTPFile(
+                            url: "https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg"
+                        ),
+                        mediaType: "image/svg+xml"
+                    )
+                    return MetadataViews.NFTCollectionDisplay(
+                        name: "The Example Collection",
+                        description: "This collection is used as an example to help you develop your next Flow NFT.",
+                        externalURL: MetadataViews.ExternalURL("https://example-nft.onflow.org"),
+                        squareImage: media,
+                        bannerImage: media,
+                        socials: {
+                            "twitter": MetadataViews.ExternalURL("https://twitter.com/flow_blockchain")
+                        }
                     )
             }
 
@@ -265,9 +318,24 @@ pub contract KittyItems: NonFungibleToken {
             recipient: &{NonFungibleToken.CollectionPublic}, 
             kind: Kind, 
             rarity: Rarity,
+            royalties: [MetadataViews.Royalty]
         ) {
+            let metadata: {String: AnyStruct} = {}
+            let currentBlock = getCurrentBlock()
+            metadata["mintedBlock"] = currentBlock.height
+            metadata["mintedTime"] = currentBlock.timestamp
+            metadata["minter"] = recipient.owner!.address
+            
+            // create a new NFT
+            var newNFT <- create KittyItems.NFT(
+              id: KittyItems.totalSupply, 
+              kind: kind, 
+              rarity: rarity, 
+              metadata: metadata, 
+              royalties: royalties)
+            
             // deposit it in the recipient's account using their reference
-            recipient.deposit(token: <-create KittyItems.NFT(id: KittyItems.totalSupply, kind: kind, rarity: rarity))
+            recipient.deposit(token: newNFT)
 
             emit Minted(
                 id: KittyItems.totalSupply,
