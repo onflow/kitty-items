@@ -434,10 +434,6 @@ pm2.connect(false, async function (err) {
   // ------------- TESTNET ENVIRONMENT STARTUP ------------------
 
   if (process.env.CHAIN_ENV === "testnet") {
-    dotenv.config({
-      path: requireEnv(process.env.CHAIN_ENV),
-    });
-
     // Determine whether the user wants to reuse existing testnet accounts
     let useExisting = false
 
@@ -467,6 +463,9 @@ pm2.connect(false, async function (err) {
     }
 
     // Always redeploy and initialize account because the contracts may have been updated
+    dotenv.config({
+      path: requireEnv(process.env.CHAIN_ENV),
+    });
     await deployAndInitialize();
   }
 
