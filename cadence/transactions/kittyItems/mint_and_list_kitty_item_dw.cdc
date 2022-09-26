@@ -2,7 +2,7 @@ import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import DapperUtilityCoin from "../../contracts/DapperUtilityCoin.cdc"
-import NFTStorefront from "../../contracts/NFTStorefront.cdc"
+import NFTStorefrontV2 from "../../contracts/NFTStorefrontV2.cdc"
 
 // This transction uses the NFTMinter resource to mint a new NFT.
 
@@ -12,7 +12,7 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
     let minter: &KittyItems.NFTMinter
     let ducReceiver: Capability<&DapperUtilityCoin.Vault{FungibleToken.Receiver}>
     let kittyItemsProvider: Capability<&KittyItems.Collection{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
-    let storefront: &NFTStorefront.Storefront
+    let storefront: &NFTStorefrontV2.Storefront
 
     prepare(signer: AuthAccount) {
 
@@ -35,8 +35,8 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
 
         assert(self.kittyItemsProvider.borrow() != nil, message: "Missing or mis-typed KittyItems.Collection provider")
 
-        self.storefront = signer.borrow<&NFTStorefront.Storefront>(from: NFTStorefront.StorefrontStoragePath)
-            ?? panic("Missing or mis-typed NFTStorefront Storefront")
+        self.storefront = signer.borrow<&NFTStorefrontV2.Storefront>(from: NFTStorefrontV2.StorefrontStoragePath)
+            ?? panic("Missing or mis-typed NFTStorefrontV2 Storefront")
     }
 
     execute {
@@ -60,7 +60,7 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
             rarity: rarityValue,
         )
 
-        let saleCut = NFTStorefront.SaleCut(
+        let saleCut = NFTStorefrontV2.SaleCut(
             receiver: self.ducReceiver,
             amount: KittyItems.getItemPrice(rarity: rarityValue)
         )
