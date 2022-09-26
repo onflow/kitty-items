@@ -30,7 +30,7 @@ export default function useItemPurchase(itemID) {
         args: (arg, t) => [
           arg(ownerAddress, t.Address), // storefrontAddress: the admin account that has the storefront contract
           arg(listingResourceID.toString(), t.UInt64), // listingResourceID: listing ID
-          arg("100", t.UFix64) // expectedPrice: price listed on kitty items. Has to match to salesPrice // TODO: get after second DUC listing
+          arg("125.00", t.UFix64) // expectedPrice: price listed on kitty items. Has to match to salesPrice // TODO: get after second DUC listing
         ],
         limit: 1000,
       })
