@@ -12,7 +12,7 @@ import TransactionLoading from "./TransactionLoading"
 export default function ListItemPageButtons({item}) {
   const router = useRouter()
   const {address, id} = router.query
-  const {currentUser} = useAppContext()
+  const {currentUser, isDapperWallet} = useAppContext()
   const {data: flowBalance} = useFLOWBalance(currentUser?.addr)
 
   const [purchase, purchaseTx] = useItemPurchase(id)
@@ -27,8 +27,9 @@ export default function ListItemPageButtons({item}) {
   const isRemovable = currentUserIsOwner && hasListing
 
   // TODO: Use a library that supports UFix64 precision to avoid comparing rounded numbers
-  const userHasEnoughFunds =
-    hasListing && parseFloat(item.price) <= parseFloat(flowBalance)
+  const userHasEnoughFunds = 
+    (hasListing && isDapperWallet) ||
+    (hasListing && parseFloat(item.price) <= parseFloat(flowBalance))
 
   if (isBuyable) {
     return (
