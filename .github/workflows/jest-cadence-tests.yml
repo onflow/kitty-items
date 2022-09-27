@@ -13,11 +13,11 @@ on:
 jobs:
   jest:
     name: Build on Emulator and Test Cadence
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest] #windows-latest
+        os: [ubuntu-latest, windows-latest]
         go: ["1.16"]
     steps:
       - name: Install Node
