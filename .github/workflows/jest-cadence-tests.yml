@@ -13,11 +13,10 @@ on:
 jobs:
   jest:
     name: Build on Emulator and Test Cadence
-    timeout-minutes: 20
-    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
         go: ["1.16"]
     steps:
       - name: Install Node
@@ -40,6 +39,37 @@ jobs:
       - name: Run JS Tests
         run: npm i && npm run test
         working-directory: cadence/tests
+
+      - name: Build & Run
+        run: npm run dev:emulator & sleep 30
+
+      - name: Deploy Contracts
+        run: flow project deploy --network=emulator --update
+
+  windows-build:
+    name: Build on Windows
+    timeout-minutes: 10
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        go: ["1.16"]
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Flow CLI
+        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+
+      - name: Update PATH
+        run: echo "/root/.local/bin" >> $GITHUB_PATH
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Root NPM Install
+        run: npm i fs-jetpack chalk && npm i && npx lerna exec npm install
 
       - name: Build & Run
         run: npm run dev:emulator & sleep 30
