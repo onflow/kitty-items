@@ -14,9 +14,10 @@ jobs:
   jest:
     name: Kitty Items Integration Tests
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         go: ["1.16"]
     steps:
       - name: Install Node
