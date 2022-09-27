@@ -60,7 +60,7 @@ jobs:
           node-version: 16
 
       - name: Install Flow CLI
-        run: sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)"
+        run: iex "& { $(irm 'https://storage.googleapis.com/flow-cli/install.ps1') }"
 
       - name: Update PATH
         run: echo "/root/.local/bin" >> $GITHUB_PATH
