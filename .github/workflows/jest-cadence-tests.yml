@@ -63,7 +63,7 @@ jobs:
         run: iex "& { $(irm 'https://storage.googleapis.com/flow-cli/install.ps1') }"
 
       - name: Update PATH
-        run: echo "/root/.local/bin" >> $GITHUB_PATH
+        run: echo "/root/.local/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Checkout
         uses: actions/checkout@v2
