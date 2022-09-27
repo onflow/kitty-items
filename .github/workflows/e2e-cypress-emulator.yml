@@ -1,0 +1,66 @@
+name: KI E2E Testing Emulator
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+      - gpavlov/update-github-actions-workflow
+      - gpavlov/setup-cypress
+
+jobs:
+  cypress-e2e-emulator-ubuntu:
+    name: Cypress Emulator Tests on Ubuntu
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node16.14.2-slim-chrome103-ff102
+    steps:
+      - name: Install build dependencies (mostly for sqlite on ARM)
+        run: apt-get update -y && apt-get install build-essential -y 
+
+      - name: Install Flow CLI
+        run: | 
+          sh -ci "$(curl -fsSL https://storage.googleapis.com/flow-cli/install.sh)" &&
+          echo "/root/.local/bin:/github/home/.local/bin" >> $GITHUB_PATH
+          echo $HOME &&
+          ls -l $HOME/.local/bin &&
+          chmod a+r $HOME/.local/bin/flow &&
+          ls -l $HOME/.local/bin &&
+          $HOME/.local/bin/flow version
+
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: chmod subdirs to bypass lerna exec access permission issues
+        run: |
+          pwd &&
+          ls -l && 
+          chmod -R 777 api &&
+          chmod -R 777 web &&
+          chmod -R 777 cadence/tests &&
+          ls -l 
+
+      - name: Cypress run emulator
+        uses: cypress-io/github-action@v4
+        with:
+          start: npm run dev:emulator
+          wait-on: http://localhost:3001
+          spec: cypress/e2e/emulator.cy.js
+          record: true
+          browser: chrome
+        env:
+          CYPRESS_RECORD_KEY: ${{secrets.CYPRESS_RECORD_KEY}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
