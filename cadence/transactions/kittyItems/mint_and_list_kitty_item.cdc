@@ -2,11 +2,12 @@ import NonFungibleToken from "../../contracts/NonFungibleToken.cdc"
 import KittyItems from "../../contracts/KittyItems.cdc"
 import FungibleToken from "../../contracts/FungibleToken.cdc"
 import FlowToken from "../../contracts/FlowToken.cdc"
+import DapperUtilityCoin from "../../contracts/DapperUtilityCoin.cdc"
 import NFTStorefrontV2 from "../../contracts/NFTStorefrontV2.cdc"
 
 // This transction uses the NFTMinter resource to mint a new NFT.
 
-transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
+transaction(recipient: Address, kind: UInt8, rarity: UInt8, sellerAddress: Address) {
 
     // local variable for storing the minter reference
     let minter: &KittyItems.NFTMinter
@@ -73,6 +74,27 @@ transaction(recipient: Address, kind: UInt8, rarity: UInt8) {
             saleCuts: [saleCut],
             marketplacesCapability: nil, // [Capability<&{FungibleToken.Receiver}>]?
             customID: nil, // String?
+            commissionAmount: UFix64(0),
+            expiry: UInt64(getCurrentBlock().timestamp) + UInt64(500)
+        )
+
+        // Create a separate listing for Dapper Wallet since Dapper Utility Coin is required
+        let ducReceiver: Capability<&{FungibleToken.Receiver}> = getAccount(sellerAddress).getCapability<&{FungibleToken.Receiver}>(/public/dapperUtilityCoinReceiver)
+        assert(ducReceiver.borrow() != nil, message: "Missing or mis-typed DapperUtilityCoin receiver")
+        
+        let saleCutDW = NFTStorefrontV2.SaleCut(
+            receiver: ducReceiver,
+            amount: KittyItems.getItemPrice(rarity: rarityValue)
+        )
+        
+        self.storefront.createListing(
+            nftProviderCapability: self.kittyItemsProvider,
+            nftType: Type<@KittyItems.NFT>(),
+            nftID: KittyItems.totalSupply - 1,
+            salePaymentVaultType: Type<@DapperUtilityCoin.Vault>(),
+            saleCuts: [saleCutDW],
+            marketplacesCapability: nil,
+            customID: nil,
             commissionAmount: UFix64(0),
             expiry: UInt64(getCurrentBlock().timestamp) + UInt64(500)
         )
