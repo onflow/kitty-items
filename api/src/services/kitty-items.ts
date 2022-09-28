@@ -64,7 +64,9 @@ class KittyItemsService {
     private readonly kittyItemsAddress: string,
     private readonly fungibleTokenAddress: string,
     private readonly flowTokenAddress: string,
-    private readonly storefrontAddress: string
+    private readonly dapperUtilityCoinAddress: string,
+    private readonly storefrontAddress: string,
+    private readonly dapperAdminAccountAddress: string
   ) {}
 
   setupAccount = async () => {
@@ -149,6 +151,7 @@ class KittyItemsService {
       .replace(kittyItemsPath, fcl.withPrefix(this.kittyItemsAddress))
       .replace(fungibleTokenPath, fcl.withPrefix(this.fungibleTokenAddress))
       .replace(flowTokenPath, fcl.withPrefix(this.flowTokenAddress))
+      .replace(dapperUtilityCoinPath, fcl.withPrefix(this.dapperUtilityCoinAddress))
       .replace(storefrontPath, fcl.withPrefix(this.storefrontAddress))
 
     return this.flowService.sendTx({
@@ -157,6 +160,7 @@ class KittyItemsService {
         fcl.arg(recipient, t.Address),
         fcl.arg(kind, t.UInt8),
         fcl.arg(rarity, t.UInt8),
+        fcl.arg(this.dapperAdminAccountAddress, t.Address)
       ],
       authorizations: [authorization],
       payer: authorization,

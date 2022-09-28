@@ -86,7 +86,9 @@ async function run() {
       config.minterAddress,
       config.fungibleTokenAddress,
       config.flowTokenAddress,
-      config.storefrontAddress
+      config.dapperUtilityCoinAddress,
+      config.storefrontAddress,
+      process.env.DAPPER_WALLET_ADDRESS || ''
     )
 
     const app = initApp(kittyItemsService, storefrontService)
