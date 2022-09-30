@@ -22,7 +22,7 @@ pub struct PurchaseData {
 
 // IMPORTANT: Parameter list below should match the parameter list passed to the associated purchase txn
 // Please also make sure that the argument order list should be same as that of the associated purchase txn
-pub fun main(address: Address, listingResourceID: UInt64,  expectedPrice: UFix64, commissionRecipient: Address?): PurchaseData {
+pub fun main(merchantAddress: Address, address: Address, listingResourceID: UInt64,  expectedPrice: UFix64, commissionRecipient: Address?): PurchaseData {
 
     let account = getAccount(address)
     let marketCollectionRef = account
