@@ -59,11 +59,11 @@ export const getKittyItemSupply = async () => {
  * @param {string} recipient - recipient account address
  * @returns {Promise<[{*} result, {error} error]>}
  * */
-export const mintKittyItem = async (recipient, itemType, itemRarity) => {
+export const mintKittyItem = async (recipient, itemType, itemRarity, cuts = [], royaltyDescriptions = [], royaltyBeneficiaries = []) => {
 	const KittyAdmin = await getKittyAdminAddress();
 
 	const name = "kittyItems/mint_kitty_item";
-	const args = [recipient, itemType, itemRarity];
+	const args = [recipient, itemType, itemRarity, cuts, royaltyDescriptions, royaltyBeneficiaries];
 	const signers = [KittyAdmin];
 
 	return sendTransaction({ name, args, signers });
