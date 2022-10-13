@@ -4,7 +4,6 @@ import FlowToken from 0xFlowToken
 import KittyItems from 0xKittyItems
 import NFTStorefrontV2 from 0xNFTStorefront
 
-/*
 pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonFungibleToken.Receiver} {
   if let collectionRef = account.borrow<&KittyItems.Collection>(from: KittyItems.CollectionStoragePath) {
     return collectionRef
@@ -23,7 +22,6 @@ pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonF
 
   return collectionRef
 }
-*/
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
   let paymentVault: @FungibleToken.Vault
@@ -47,17 +45,8 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
     // Access the vault of the buyer to pay the sale price of the listing.
     let mainFlowVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault) ?? panic("Cannot borrow FlowToken vault from account storage")
     self.paymentVault <- mainFlowVault.withdraw(amount: price)
-
-    // Create an empty collection resource and save it to collection storage path
-    let collection <- create KittyItems.Collection.createEmptyCollection()
-    account.save(<-collection, to: KittyItems.CollectionStoragePath)
-
-    let collectionReceiver = account.borrow<&KittyItems.Collection>(
-      from: KittyItems.CollectionStoragePath
-    ) ?? panic("Cannot borrow NFT collection receiver from account")
-
-    self.kittyItemsCollection = collectionReceiver
-    //self.kittyItemsCollection = getOrCreateCollection(account: account)
+    
+    self.kittyItemsCollection = getOrCreateCollection(account: account)
   }
 
   execute {
