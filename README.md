@@ -53,6 +53,9 @@ Note: This script launches the [Flow Emulator](https://docs.onflow.org/emulator/
 
 Run `npm run dev:testnet` and follow the prompt to begin developing on testnet.
 
+If this is your first time interacting with KI or Flow, you will need to create a wallet account (Blocto) using an email. 
+***If you created a wallet (Blocto) account before July 7th, the user should create a new account with Blocto. This is because the account storage paths have changed, and the older accounts may result in conflicting paths during minting/purchasing.***
+
 ---
 
 ## Cypress tests
