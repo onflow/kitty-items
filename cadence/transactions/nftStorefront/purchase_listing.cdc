@@ -24,13 +24,13 @@ pub fun getOrCreateCollection(account: AuthAccount): &KittyItems.Collection{NonF
 }
 
 transaction(listingResourceID: UInt64, storefrontAddress: Address) {
-
     let paymentVault: @FungibleToken.Vault
     let kittyItemsCollection: &KittyItems.Collection{NonFungibleToken.Receiver}
     let storefront: &NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}
     let listing: &NFTStorefrontV2.Listing{NFTStorefrontV2.ListingPublic}
 
     prepare(account: AuthAccount) {
+        // Access the storefront public resource of the seller to purchase the listing.
         self.storefront = getAccount(storefrontAddress)
             .getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(
                 NFTStorefrontV2.StorefrontPublicPath
@@ -38,15 +38,15 @@ transaction(listingResourceID: UInt64, storefrontAddress: Address) {
             .borrow()
             ?? panic("Could not borrow Storefront from provided address")
 
+        // Borrow the listing
         self.listing = self.storefront.borrowListing(listingResourceID: listingResourceID)
-            ?? panic("No Listing with that ID in Storefront")
-        
+                    ?? panic("No Offer with that ID in Storefront")
         let price = self.listing.getDetails().salePrice
 
-        let mainFLOWVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
-            ?? panic("Cannot borrow FLOW vault from account storage")
-        
-        self.paymentVault <- mainFLOWVault.withdraw(amount: price)
+        // Access the vault of the buyer to pay the sale price of the listing.
+        let mainFlowVault = account.borrow<&FlowToken.Vault>(from: /storage/flowTokenVault)
+            ?? panic("Cannot borrow FlowToken vault from account storage")
+        self.paymentVault <- mainFlowVault.withdraw(amount: price)
 
         self.kittyItemsCollection = getOrCreateCollection(account: account)
     }

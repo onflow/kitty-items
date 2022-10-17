@@ -3,6 +3,11 @@ import MetadataViews from "./MetadataViews.cdc"
 
 pub contract KittyItems: NonFungibleToken {
 
+    // totalSupply
+    // The total number of KittyItems that have been minted
+    //
+    pub var totalSupply: UInt64
+
     // Events
     //
     pub event ContractInitialized()
@@ -16,11 +21,6 @@ pub contract KittyItems: NonFungibleToken {
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath: PublicPath
     pub let MinterStoragePath: StoragePath
-
-    // totalSupply
-    // The total number of KittyItems that have been minted
-    //
-    pub var totalSupply: UInt64
 
     pub enum Rarity: UInt8 {
         pub case blue
@@ -86,27 +86,14 @@ pub contract KittyItems: NonFungibleToken {
     // A Kitty Item as an NFT
     //
     pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
-
         pub let id: UInt64
-
-        // The token kind (e.g. Fishbowl)
-        pub let kind: Kind
-
-        // The token rarity (e.g. Gold)
-        pub let rarity: Rarity
-
-        init(id: UInt64, kind: Kind, rarity: Rarity) {
-            self.id = id
-            self.kind = kind
-            self.rarity = rarity
-        }
 
         pub fun name(): String {
             return KittyItems.rarityToString(self.rarity)
                 .concat(" ")
                 .concat(KittyItems.kindToString(self.kind))
         }
-
+        
         pub fun description(): String {
             return "A "
                 .concat(KittyItems.rarityToString(self.rarity).toLower())
@@ -120,9 +107,43 @@ pub contract KittyItems: NonFungibleToken {
             return KittyItems.images[self.kind]![self.rarity]!
         }
 
+        pub fun thumbnail(): MetadataViews.IPFSFile {
+          return MetadataViews.IPFSFile(cid: self.imageCID(), path: "sm.png")
+        }
+
+        access(self) let royalties: [MetadataViews.Royalty]
+        access(self) let metadata: {String: AnyStruct}
+
+        // The token kind (e.g. Fishbowl)
+        pub let kind: Kind
+
+        // The token rarity (e.g. Gold)
+        pub let rarity: Rarity
+
+        init(
+            id: UInt64,
+            royalties: [MetadataViews.Royalty],
+            metadata: {String: AnyStruct},
+            kind: Kind, 
+            rarity: Rarity,      
+        ){
+            self.id = id
+            self.royalties = royalties
+            self.metadata = metadata
+            self.kind = kind
+            self.rarity = rarity
+        }
+
         pub fun getViews(): [Type] {
             return [
-                Type<MetadataViews.Display>()
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.Royalties>(),
+                Type<MetadataViews.Editions>(),
+                Type<MetadataViews.ExternalURL>(),
+                Type<MetadataViews.NFTCollectionData>(),
+                Type<MetadataViews.NFTCollectionDisplay>(),
+                Type<MetadataViews.Serial>(),
+                Type<MetadataViews.Traits>()
             ]
         }
 
@@ -132,14 +153,73 @@ pub contract KittyItems: NonFungibleToken {
                     return MetadataViews.Display(
                         name: self.name(),
                         description: self.description(),
-                        thumbnail: MetadataViews.IPFSFile(
-                            cid: self.imageCID(), 
-                            path: "sm.png"
-                        )
+                        thumbnail: self.thumbnail()
                     )
-            }
+                case Type<MetadataViews.Editions>():
+                    // There is no max number of NFTs that can be minted from this contract
+                    // so the max edition field value is set to nil
+                    let editionInfo = MetadataViews.Edition(name: "KittyItems NFT Edition", number: self.id, max: nil)
+                    let editionList: [MetadataViews.Edition] = [editionInfo]
+                    return MetadataViews.Editions(
+                        editionList
+                    )
+                case Type<MetadataViews.Serial>():
+                    return MetadataViews.Serial(
+                        self.id
+                    )
+                case Type<MetadataViews.Royalties>():
+                    return MetadataViews.Royalties(
+                        self.royalties
+                    )
+                case Type<MetadataViews.ExternalURL>():
+                    return MetadataViews.ExternalURL("https://kitty-items.flow.com/".concat(self.id.toString()))
+                case Type<MetadataViews.NFTCollectionData>():
+                    return MetadataViews.NFTCollectionData(
+                        storagePath: KittyItems.CollectionStoragePath,
+                        publicPath: KittyItems.CollectionPublicPath,
+                        providerPath: /private/KittyItemsCollection,
+                        publicCollection: Type<&KittyItems.Collection{KittyItems.KittyItemsCollectionPublic}>(),
+                        publicLinkedType: Type<&KittyItems.Collection{KittyItems.KittyItemsCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Receiver,MetadataViews.ResolverCollection}>(),
+                        providerLinkedType: Type<&KittyItems.Collection{KittyItems.KittyItemsCollectionPublic,NonFungibleToken.CollectionPublic,NonFungibleToken.Provider,MetadataViews.ResolverCollection}>(),
+                        createEmptyCollectionFunction: (fun (): @NonFungibleToken.Collection {
+                            return <-KittyItems.createEmptyCollection()
+                        })
+                    )
+                case Type<MetadataViews.NFTCollectionDisplay>():
+                    let media = MetadataViews.Media(
+                        file: MetadataViews.HTTPFile(
+                            url: "https://assets.website-files.com/5f6294c0c7a8cdd643b1c820/5f6294c0c7a8cda55cb1c936_Flow_Wordmark.svg"
+                        ),
+                        mediaType: "image/svg+xml"
+                    )
+                    return MetadataViews.NFTCollectionDisplay(
+                        name: "The KittyItems Collection",
+                        description: "This collection is used as an example to help you develop your next Flow NFT.",
+                        externalURL: MetadataViews.ExternalURL("https://kitty-items.flow.com/"),
+                        squareImage: media,
+                        bannerImage: media,
+                        socials: {
+                            "twitter": MetadataViews.ExternalURL("https://twitter.com/flow_blockchain")
+                        }
+                    )
+                case Type<MetadataViews.Traits>():
+                    // exclude mintedTime and foo to show other uses of Traits
+                    let excludedTraits = ["mintedTime", "foo"]
+                    let traitsView = MetadataViews.dictToTraits(dict: self.metadata, excludedNames: excludedTraits)
 
-            return nil
+                    // mintedTime is a unix timestamp, we should mark it with a displayType so platforms know how to show it.
+                    let mintedTimeTrait = MetadataViews.Trait(name: "mintedTime", value: self.metadata["mintedTime"]!, displayType: "Date", rarity: nil)
+                    traitsView.addTrait(mintedTimeTrait)
+
+                    // foo is a trait with its own rarity
+                    let fooTraitRarity = MetadataViews.Rarity(score: 10.0, max: 100.0, description: "Common")
+                    let fooTrait = MetadataViews.Trait(name: "foo", value: self.metadata["foo"], displayType: nil, rarity: fooTraitRarity)
+                    traitsView.addTrait(fooTrait)
+                    
+                    return traitsView
+
+            }
+            return nil    
         }
     }
 
@@ -169,9 +249,14 @@ pub contract KittyItems: NonFungibleToken {
         //
         pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
 
-        // withdraw
-        // Removes an NFT from the collection and moves it to the caller
+        // initializer
         //
+        init () {
+            self.ownedNFTs <- {}
+        }
+
+        // withdraw 
+        // removes an NFT from the collection and moves it to the caller
         pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
             let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("missing NFT")
 
@@ -180,10 +265,9 @@ pub contract KittyItems: NonFungibleToken {
             return <-token
         }
 
-        // deposit
-        // Takes a NFT and adds it to the collections dictionary
+        // deposit 
+        // takes a NFT and adds it to the collections dictionary
         // and adds the ID to the id array
-        //
         pub fun deposit(token: @NonFungibleToken.NFT) {
             let token <- token as! @KittyItems.NFT
 
@@ -197,17 +281,15 @@ pub contract KittyItems: NonFungibleToken {
             destroy oldToken
         }
 
-        // getIDs
-        // Returns an array of the IDs that are in the collection
-        //
+        // getIDs 
+        // returns an array of the IDs that are in the collection
         pub fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
         }
 
-        // borrowNFT
-        // Gets a reference to an NFT in the collection
+        // borrowNFT 
+        // gets a reference to an NFT in the collection
         // so that the caller can read its metadata and call its methods
-        //
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
             return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
@@ -219,11 +301,12 @@ pub contract KittyItems: NonFungibleToken {
         //
         pub fun borrowKittyItem(id: UInt64): &KittyItems.NFT? {
             if self.ownedNFTs[id] != nil {
+                // Create an authorized reference to allow downcasting
                 let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
                 return ref as! &KittyItems.NFT
             } else {
                 return nil
-            }
+            }    
         }
 
         pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
@@ -235,12 +318,6 @@ pub contract KittyItems: NonFungibleToken {
         // destructor
         destroy() {
             destroy self.ownedNFTs
-        }
-
-        // initializer
-        //
-        init () {
-            self.ownedNFTs <- {}
         }
     }
 
@@ -265,9 +342,28 @@ pub contract KittyItems: NonFungibleToken {
             recipient: &{NonFungibleToken.CollectionPublic}, 
             kind: Kind, 
             rarity: Rarity,
+            royalties: [MetadataViews.Royalty],
         ) {
+            let metadata: {String: AnyStruct} = {}
+            let currentBlock = getCurrentBlock()
+            metadata["mintedBlock"] = currentBlock.height
+            metadata["mintedTime"] = currentBlock.timestamp
+            metadata["minter"] = recipient.owner!.address
+
+            // this piece of metadata will be used to show embedding rarity into a trait
+            // metadata["foo"] = "bar"
+
+            // create a new NFT
+            var newNFT <- create KittyItems.NFT(
+                id: KittyItems.totalSupply,
+                royalties: royalties,
+                metadata: metadata,
+                kind: kind, 
+                rarity: rarity
+            )
+
             // deposit it in the recipient's account using their reference
-            recipient.deposit(token: <-create KittyItems.NFT(id: KittyItems.totalSupply, kind: kind, rarity: rarity))
+            recipient.deposit(token: <-newNFT)
 
             emit Minted(
                 id: KittyItems.totalSupply,
@@ -275,7 +371,7 @@ pub contract KittyItems: NonFungibleToken {
                 rarity: rarity.rawValue,
             )
 
-            KittyItems.totalSupply = KittyItems.totalSupply + (1 as UInt64)
+            KittyItems.totalSupply = KittyItems.totalSupply + UInt64(1)
         }
 
         // Update NFT images for new type
@@ -352,13 +448,23 @@ pub contract KittyItems: NonFungibleToken {
             }
         }
 
+        // Initialize the total supply
+        self.totalSupply = 0
+
         // Set our named paths
         self.CollectionStoragePath = /storage/kittyItemsCollectionV14
         self.CollectionPublicPath = /public/kittyItemsCollectionV14
         self.MinterStoragePath = /storage/kittyItemsMinterV14
 
-        // Initialize the total supply
-        self.totalSupply = 0
+        // Create a Collection resource and save it to storage
+        let collection <- create Collection()
+        self.account.save(<-collection, to: self.CollectionStoragePath)
+
+        // Create a public capability for the collection
+        self.account.link<&KittyItems.Collection{NonFungibleToken.CollectionPublic, KittyItems.KittyItemsCollectionPublic, MetadataViews.ResolverCollection}>(
+            self.CollectionPublicPath,
+            target: self.CollectionStoragePath
+        )
 
         // Create a Minter resource and save it to storage
         let minter <- create NFTMinter()
