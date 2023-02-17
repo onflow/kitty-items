@@ -6,6 +6,7 @@ import HeaderLink from "src/components/HeaderLink"
 import {paths} from "src/global/constants"
 import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
+import useSocialLogin from "src/hooks/useSocialLogin"
 import HeaderMessage from "./HeaderMessage"
 import TransactionsIndicator from "./Transactions"
 
@@ -13,6 +14,7 @@ export default function Header() {
   const {currentUser} = useAppContext()
   const router = useRouter()
   const logIn = useLogin()
+  const socialLogIn = useSocialLogin()
   const isAdminPath = router.pathname === paths.adminMint
 
   return (
@@ -57,13 +59,23 @@ export default function Header() {
               {currentUser ? (
                 <HeaderDropdown />
               ) : (
-                <button
-                  onClick={logIn}
-                  className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
-                  data-cy="btn-log-in"
-                >
-                  Log In
-                </button>
+                <>
+                  <button
+                    onClick={logIn}
+                    className="text-sm text-gray-700 sm:text-lg md:text-xl"
+                    data-cy="btn-log-in"
+                  >
+                    Log In
+                  </button>
+                  <div className="mx-2">/</div>
+                  <button
+                    onClick={socialLogIn}
+                    className="mr-2 text-sm text-red-700 sm:text-lg md:text-xl"
+                    data-cy="btn-log-in"
+                  >
+                    Social Log In
+                  </button>
+                </>
               )}
             </>
           )}
