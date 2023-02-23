@@ -8,6 +8,7 @@ import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
 import HeaderMessage from "./HeaderMessage"
 import TransactionsIndicator from "./Transactions"
+import SocialLogin from "./SocialLogin/SocialLogin"
 
 export default function Header() {
   const {currentUser} = useAppContext()
@@ -57,13 +58,16 @@ export default function Header() {
               {currentUser ? (
                 <HeaderDropdown />
               ) : (
-                <button
-                  onClick={logIn}
-                  className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
-                  data-cy="btn-log-in"
-                >
-                  Log In
-                </button>
+                <>
+                  <button
+                    onClick={logIn}
+                    className="text-sm text-gray-700 sm:text-lg md:text-xl"
+                    data-cy="btn-log-in"
+                  >
+                    Log In
+                  </button>
+                  <SocialLogin />
+                </>
               )}
             </>
           )}
