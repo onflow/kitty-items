@@ -36,7 +36,7 @@ export default function HeaderDropdown() {
           onClick={switchToAdminView}
           className="flex items-center justify-center h-10 px-5 ml-2 text-sm text-white bg-black rounded-full hover:opacity-80"
         >
-          Admin
+          Mint NFTs
           <img
             src="/images/sliders.svg"
             alt="Switch to Admin View"

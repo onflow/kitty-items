@@ -9,7 +9,7 @@ const PUBLIC_PASSWORD = "KittyItems"
 export const LOGGED_IN_ADMIN_ADDRESS_KEY = "kitty_items_logged_in_admin_address"
 
 export default function AdminLogInDialog() {
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState("KittyItems")
   const [passwordError, setPasswordError] = useState(false)
   const {showAdminLoginDialog, setShowAdminLoginDialog, logInAdmin} =
     useAppContext()
@@ -46,14 +46,15 @@ export default function AdminLogInDialog() {
           Kitty Items Admin
         </h1>
         <div className="text-center text-gray text-md mb-8">
-          Enter administrator password (PSST... KittyItems)
+          To mint NFTs we "pretend" to log you in as the administrator of Kitty
+          Items marketplace.
         </div>
         <form onSubmit={onSubmit}>
           <div className="mb-4">
             <TextInput
               value={password}
-              type="password"
-              label="Password"
+              type="text"
+              label="Password (KittyItems)"
               required={true}
               labelClasses="text-sm text-gray-darkest"
               onChange={setPassword}
