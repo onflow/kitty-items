@@ -1,7 +1,7 @@
 import {ec as EC} from "elliptic"
 import {mnemonicToSeed} from "bip39"
-import {getAccountInfo} from "./flowportApi"
 import {bip32} from "./bip32"
+import {getAccountAddress, ensureAccountIsCreatedOnChain} from "./flowportApi"
 
 const seedToKeyPair = rootSeed => {
   const secp256k1 = new EC("secp256k1")
@@ -21,14 +21,15 @@ const seedToKeyPair = rootSeed => {
 
 export const getAccountData = async mnemonic => {
   const seed = await mnemonicToSeed(mnemonic)
-  console.log(seed)
   const {publicKey, privateKey} = seedToKeyPair(
     Buffer.from(seed).toString("hex")
   )
 
+  ensureAccountIsCreatedOnChain(publicKey)
+
   return {
     publicKey,
     privateKey,
-    address: (await getAccountInfo(publicKey)).address ?? null,
+    address: (await getAccountAddress(publicKey)) ?? null,
   }
 }
