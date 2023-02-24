@@ -150,9 +150,8 @@ export default function SocialLogin() {
                   f_vsn: VERSION,
                   addr: accountData.address,
                   services: [
-                    // TODO: discuss & clarify
                     ...window.fcl_extensions.filter(
-                      s => s.endpoint === selectedService.endpoint
+                      s => s.endpoint !== selectedService.endpoint
                     ),
                     {
                       ...selectedService,
