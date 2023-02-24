@@ -31,9 +31,11 @@ export const getAccountAddress = async publicKey => {
   return parseFlowportAccountInfoResponse(await accountInfoResponse)
 }
 
+// TODO, this is very slow, without any
+// feedback for the user.
 const createAccount = async publicKey => {
   console.log("Creating Account")
-  const accountInfoResponse = request({
+  const accountInfoResponse = await request({
     url: `${FLOWPORT_API_URL}/accounts`,
     method: "POST",
     body: JSON.stringify({
@@ -43,7 +45,8 @@ const createAccount = async publicKey => {
     }),
     headers: {"Content-Type": "application/json"},
   })
-  return parseFlowportAccountInfoSuccessResponse(await accountInfoResponse)
+  console.log("Creating Account: response", accountInfoResponse)
+  return parseFlowportAccountInfoSuccessResponse(accountInfoResponse)
 }
 
 export const ensureAccountIsCreatedOnChain = async publicKey => {
