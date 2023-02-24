@@ -24,10 +24,10 @@ export const getAccountData = async mnemonic => {
   const {publicKey, privateKey} = seedToKeyPair(
     Buffer.from(seed).toString("hex")
   )
-  console.log({publicKey})
-  console.log({privateKey})
+  console.log("getAccountData:publicKey", {publicKey})
+  console.log("getAccountData:privateKey", {privateKey})
 
-  ensureAccountIsCreatedOnChain(publicKey)
+  await ensureAccountIsCreatedOnChain(publicKey)
 
   return {
     publicKey,
