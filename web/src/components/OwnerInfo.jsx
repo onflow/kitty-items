@@ -12,7 +12,9 @@ export default function OwnerInfo({address, size = "sm"}) {
         <div className={`relative ${size === "lg" ? "w-16 h-16" : "w-8 h-8"}`}>
           <Avatar address={address} />
         </div>
-        <div
+        <a
+          href={`https://flowscan.org/account/${currentUser.addr}`}
+          target="_blank"
           className={`ml-4 font-mono text-xs ${
             currentUser?.addr === address
               ? "text-green-dark"
@@ -20,7 +22,7 @@ export default function OwnerInfo({address, size = "sm"}) {
           }`}
         >
           {address}
-        </div>
+        </a>
       </a>
     </Link>
   )

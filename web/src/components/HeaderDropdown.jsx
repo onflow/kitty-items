@@ -53,9 +53,13 @@ export default function HeaderDropdown() {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items className="absolute right-0 z-50 mt-12 origin-top-right bg-white divide-y divide-gray-200 rounded-md w-44 ring-1 ring-black ring-opacity-10 focus:outline-none">
-            <div className="font-mono text-xs text-center font-bold text-gray-darkest p-1.5">
+            <a
+              href={`https://flowscan.org/account/${currentUser.addr}`}
+              target="_blank"
+              className="font-mono text-xs text-center font-bold text-gray-darkest p-1.5"
+            >
               {address}
-            </div>
+            </a>
             <div className="px-1 py-2">
               <Menu.Item>
                 {({active}) => (
