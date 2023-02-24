@@ -57,7 +57,7 @@ export default function SocialLogin() {
     if (Array.isArray(window.fcl_extensions)) {
       window.fcl_extensions.push(service)
     } else {
-      window.fcl_extensions = []
+      window.fcl_extensions = [service]
     }
 
     window.addEventListener("message", async e => {
@@ -88,7 +88,17 @@ export default function SocialLogin() {
                 f_type: "AuthnResponse",
                 f_vsn: VERSION,
                 addr: accountData.address,
-                services: window.fcl_extensions,
+                services: [
+                  ...window.fcl_extensions.filter(s => s.endpoint === ENDPOINT),
+                  {
+                    ...service,
+                    id: accountData.address,
+                    identity: {
+                      ...service.identity,
+                      address: accountData.address,
+                    },
+                  },
+                ],
               },
             }
           } catch (e) {
