@@ -37,7 +37,7 @@ export const request = async ({
   const responseText = await response.text()
 
   if (response.status >= 300) {
-    throw new HttpRequestError(
+    throw new Error(
       `${method} ${url} returned error: ${response.status} on payload: ${requestParams.body} with response: ${responseText}`,
       response.status,
       requestParams.headers,
