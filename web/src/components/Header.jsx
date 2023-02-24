@@ -55,6 +55,21 @@ export default function Header() {
                   <HeaderFLOWBalance />
                 </div>
               )}
+              {currentUser && (
+                <div style={{marginRight: 12}}>
+                  <div className={`ml-4 font-mono text-xs`}>My address:</div>
+                  <a
+                    href={`https://flowscan.org/account/${currentUser.addr}`}
+                    target="_blank"
+                  >
+                    <div
+                      className={`ml-4 font-mono text-xs cursor-pointer underline`}
+                    >
+                      {currentUser.addr}
+                    </div>
+                  </a>
+                </div>
+              )}
               {currentUser ? (
                 <HeaderDropdown />
               ) : (
