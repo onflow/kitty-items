@@ -49,11 +49,16 @@ const createAccount = async publicKey => {
   return parseFlowportAccountInfoSuccessResponse(accountInfoResponse)
 }
 
-export const ensureAccountIsCreatedOnChain = async publicKey => {
+export const ensureAccountIsCreatedOnChain = async (
+  publicKey,
+  {onCreateAccountStart, onCreateAccountEnd}
+) => {
   console.log("Ensuring Account Is Created On Chain")
   const address = await getAccountAddress(publicKey)
   console.log("Account Address: ", address)
   if (!address) {
+    onCreateAccountStart()
     await createAccount(publicKey)
+    onCreateAccountEnd()
   }
 }

@@ -19,7 +19,10 @@ const seedToKeyPair = rootSeed => {
   }
 }
 
-export const getAccountData = async mnemonic => {
+export const getAccountData = async (
+  mnemonic,
+  {onCreateAccountStart, onCreateAccountEnd}
+) => {
   const seed = await mnemonicToSeed(mnemonic)
   const {publicKey, privateKey} = seedToKeyPair(
     Buffer.from(seed).toString("hex")
@@ -27,7 +30,10 @@ export const getAccountData = async mnemonic => {
   console.log("getAccountData:publicKey", {publicKey})
   console.log("getAccountData:privateKey", {privateKey})
 
-  await ensureAccountIsCreatedOnChain(publicKey)
+  await ensureAccountIsCreatedOnChain(publicKey, {
+    onCreateAccountStart,
+    onCreateAccountEnd,
+  })
 
   return {
     publicKey,

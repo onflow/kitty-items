@@ -1,6 +1,8 @@
-import {useEffect} from "react"
+import {useEffect, useState} from "react"
 import {web3AuthConnection} from "./Web3Auth.js"
 import {getAccountData} from "./flowAccount.js"
+import Dialog from "../Dialog"
+import LoadingXsIcon from "../Transactions/Icons/LoadingXsIcon"
 
 const messageTypes = [
   "FCL:VIEW:READY",
@@ -107,6 +109,8 @@ const isExtensionServiceInitiationMessage = msg => {
 const isMessage = msg => messageTypes.includes(msg?.type)
 
 export default function SocialLogin() {
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
     if (Array.isArray(window.fcl_extensions)) {
       window.fcl_extensions.push(...services)
@@ -131,7 +135,10 @@ export default function SocialLogin() {
               //   "attitude state code amount spirit walnut legend pet window abstract swift basket tissue today topic"
               const {mnemonic} = web3AuthResponse
 
-              const accountData = await getAccountData(mnemonic)
+              const accountData = await getAccountData(mnemonic, {
+                onCreateAccountStart: () => setIsLoading(true),
+                onCreateAccountEnd: () => setIsLoading(false),
+              })
               console.log("getAccountData", {accountData})
 
               const selectedService = services.find(
@@ -182,5 +189,27 @@ export default function SocialLogin() {
     console.log("window.fcl_extensions", window.fcl_extensions)
   }, [])
 
-  return null
+  return isLoading ? (
+    <Dialog
+      title="Setting up wallet"
+      isOpen
+      close={() => {
+        // We just do not allow user to close.
+        // Though we can not get rid of the icon with this component.
+      }}
+    >
+      <h1 className="text-xl text-gray-darkest text-center mb-2">
+        Creating Flow account ...
+      </h1>
+      <div style={{marginBottom: 10}}>
+        <LoadingXsIcon green={true} />
+      </div>
+      <h2 className="text-gray-darkest text-center mb-2">
+        Please wait and do not refresh the app.
+      </h2>
+      <h2 className="text-gray-darkest text-center mb-2">
+        This may take few seconds.
+      </h2>
+    </Dialog>
+  ) : null
 }
