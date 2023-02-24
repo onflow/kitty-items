@@ -70,6 +70,8 @@ export default function SocialLogin() {
             // console.log({mnemonic})
             const mnemonic =
               "attitude state code amount spirit walnut legend pe…t window abstract swift basket tissue today topic"
+
+            console.log({mnemonic})
             const accountData = await getAccountData(mnemonic)
 
             console.log({accountData})

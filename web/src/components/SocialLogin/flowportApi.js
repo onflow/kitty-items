@@ -1,12 +1,11 @@
 import * as fcl from "@onflow/fcl"
-import {request} from "./request"
+import {HttpRequestError, request} from "./request"
 
 const FLOWPORT_API_URL =
   "https://hardware-wallet-api-testnet.staging.onflow.org"
 
-const parseFlowportAccountInfoSuccessResponse = accountInfoResponse => ({
-  address: fcl.withPrefix(accountInfoResponse.address),
-})
+const parseFlowportAccountInfoSuccessResponse = accountInfoResponse =>
+  fcl.withPrefix(accountInfoResponse.address)
 
 const parseFlowportAccountInfoResponse = accountInfoResponse => {
   if ("error" in accountInfoResponse) {
@@ -19,15 +18,39 @@ const parseFlowportAccountInfoResponse = accountInfoResponse => {
   return parseFlowportAccountInfoSuccessResponse(accountInfoResponse)
 }
 
-export const getAccountInfo = async publicKey => {
-  console.log("getAccountInfo")
+export const getAccountAddress = async publicKey => {
+  console.log("Getting Account Address")
   const accountInfoResponse = request({
     url: `${FLOWPORT_API_URL}/accounts?publicKey=${publicKey}`,
   }).catch(e => {
-    if (e && e?.httpStatus === 404) {
+    if (e instanceof HttpRequestError && e?.httpStatus === 404) {
       return JSON.parse(e.responseText)
     }
     throw e
   })
   return parseFlowportAccountInfoResponse(await accountInfoResponse)
+}
+
+const createAccount = async publicKey => {
+  console.log("Creating Account")
+  const accountInfoResponse = request({
+    url: `${FLOWPORT_API_URL}/accounts`,
+    method: "POST",
+    body: JSON.stringify({
+      publicKey,
+      signatureAlgorithm: "ECDSA_secp256k1",
+      hashAlgorithm: "SHA2_256",
+    }),
+    headers: {"Content-Type": "application/json"},
+  })
+  return parseFlowportAccountInfoSuccessResponse(await accountInfoResponse)
+}
+
+export const ensureAccountIsCreatedOnChain = async publicKey => {
+  console.log("Ensuring Account Is Created On Chain")
+  const address = await getAccountAddress(publicKey)
+  console.log("Account Address: ", address)
+  if (!address) {
+    await createAccount(publicKey)
+  }
 }

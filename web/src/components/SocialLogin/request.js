@@ -1,3 +1,14 @@
+export class HttpRequestError extends Error {
+  constructor(msg, httpStatus, headers, responseText, url, method) {
+    super(msg)
+    this.httpStatus = httpStatus
+    this.headers = headers
+    this.responseText = responseText
+    this.url = url
+    this.method = method
+  }
+}
+
 export const request = async ({
   url,
   method = "GET",
@@ -37,7 +48,7 @@ export const request = async ({
   const responseText = await response.text()
 
   if (response.status >= 300) {
-    throw new Error(
+    throw new HttpRequestError(
       `${method} ${url} returned error: ${response.status} on payload: ${requestParams.body} with response: ${responseText}`,
       response.status,
       requestParams.headers,
