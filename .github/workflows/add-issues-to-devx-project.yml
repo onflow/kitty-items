@@ -1,0 +1,16 @@
+name: Adds all issues to the DevEx project board.
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    name: Add issue to project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v0.4.1
+        with:
+          project-url: https://github.com/orgs/onflow/projects/13
+          github-token: ${{ secrets.GH_ACTION_FOR_PROJECTS }}
