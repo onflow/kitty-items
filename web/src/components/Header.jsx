@@ -8,12 +8,15 @@ import useAppContext from "src/hooks/useAppContext"
 import useLogin from "src/hooks/useLogin"
 import HeaderMessage from "./HeaderMessage"
 import TransactionsIndicator from "./Transactions"
+import {auth} from "fcl-web3auth-plugin"
+import * as fcl from "@onflow/fcl"
 
 export default function Header() {
   const {currentUser} = useAppContext()
   const router = useRouter()
   const logIn = useLogin()
   const isAdminPath = router.pathname === paths.adminMint
+  const isWeb3AuthLoggedIn = true
 
   return (
     <header className="bg-white border-b border-gray-200">
@@ -55,15 +58,43 @@ export default function Header() {
                 </div>
               )}
               {currentUser ? (
-                <HeaderDropdown />
+                isWeb3AuthLoggedIn ? (
+                  <>
+                    {/* <button
+                      onClick={linkAccount}
+                      className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
+                      data-cy="btn-log-in"
+                    >
+                      Link Wallet
+                    </button> */}
+                    <HeaderDropdown />
+                  </>
+                ) : (
+                  <HeaderDropdown />
+                )
               ) : (
-                <button
-                  onClick={logIn}
-                  className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
-                  data-cy="btn-log-in"
-                >
-                  Log In
-                </button>
+                <>
+                  <button
+                    onClick={() => {
+                      auth()
+                      // auth({loginProvider: "google"})
+                      // auth({loginProviderWhiteList: ["facebook"]})
+                    }}
+                    className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
+                    data-cy="btn-log-in"
+                  >
+                    Log in
+                  </button>
+                  <button
+                    onClick={() => {
+                      fcl.currentUser().snapshot().then(console.log)
+                    }}
+                    className="mr-2 text-sm text-gray-700 sm:text-lg md:text-xl"
+                    data-cy="btn-log-in"
+                  >
+                    Connect Wallet
+                  </button>
+                </>
               )}
             </>
           )}
