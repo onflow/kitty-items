@@ -4,7 +4,19 @@
   </a>
 </p>
 
-👋 Welcome! This demo app is designed to help you learn to build on Flow.
+# Important Message
+
+This repo is deprecated and archived. If you want to learn how
+to build on Flow with a demo app,
+please see the [Flow App Quickstart guide](https://developers.flow.com/build/guides/flow-app-quickstart).
+
+If you want an example of an NFT project on Flow,
+see the [Flow NFT Guide](https://developers.flow.com/build/guides/nft)
+or the [Flow NonFungibleToken repo](https://github.com/onflow/flow-nft).
+
+# Archived Content
+
+This demo app is designed to help you learn to build on Flow.
 
 - Kitty Items: CryptoKitties Sample App is a **complete NFT marketplace** built with [Cadence](https://docs.onflow.org/cadence), Flow's resource-oriented smart contract programming language.
 - Learn how to deploy contracts, mint NFTs, and integrate user wallets with the Flow Client Library (FCL).
